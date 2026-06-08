@@ -25,7 +25,7 @@ interface Slider {
         <div class="dashboardBackground d-flex">
             <div class="linearGradient d-flex justify-content-center align-items-center">
                 <div class="dashboardInfo">
-                    <img class="mb-4" src="" alt="لوجو" />
+                    <img class="mb-4" src="assets/img/title (2).png" alt="لوجو" />
 
                     <p>مشروع</p>
                     <p></p>
