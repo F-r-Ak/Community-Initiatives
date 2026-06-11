@@ -1,0 +1,17 @@
+<div class="d-flex flex-column h-100">
+    <app-prime-title-toolbar [pageTitle]="pageTitle"></app-prime-title-toolbar>
+    <div class="dataBox">
+
+        @if (tableOptions) {
+        <div class="mt-4">
+            <app-prime-data-table
+                (event)="handleEvent($event)"
+                [tableOptions]="tableOptions"
+                [data]="data"
+                [totalCount]="totalCount"
+                [pageSize]="dataTableService.opt.pageSize">
+            </app-prime-data-table>
+        </div>
+        }
+    </div>
+</div>

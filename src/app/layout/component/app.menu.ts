@@ -37,8 +37,8 @@ export class AppMenu {
     private buildModel(): void {
 
         this.model = [
-            this.authHelper.hasModule('ادمن')
-                ? {
+            // this.authHelper.hasModule('ادمن') ?
+                 {
                     label: 'الاعدادات',
                     icon: 'pi pi-fw pi-briefcase',
                     // routerLink: ['/pages'],
@@ -49,10 +49,10 @@ export class AppMenu {
                             routerLink: ['/pages/manage/sections']
                         },
                     ]
-                }
-                : { styleClass: 'v' },
-            this.authHelper.hasModule('ادمن')
-                ? {
+                },
+                 { styleClass: 'v' },
+            // this.authHelper.hasModule('ادمن') ?
+                 {
                     label: 'إدارة الصلاحيات',
                     icon: 'pi pi-fw pi-lock',
                     // routerLink: ['/pages'],
@@ -73,8 +73,8 @@ export class AppMenu {
                             routerLink: ['/pages/auth/modules']
                         }
                     ]
-                }
-                : { styleClass: 'v' }
+                },
+                 { styleClass: 'v' }
         ];
     }
 }
