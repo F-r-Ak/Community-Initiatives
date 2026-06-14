@@ -33,12 +33,12 @@ export class SectionsComponent extends BaseListComponent {
             inputUrl: {
                 getAll: 'v1/sections/getpaged',
                 getAllMethod: 'POST',
-                delete: 'v1/sections/delete'
+                delete: 'v1/sections/deletesoft'
             },
             inputCols: this.initializeTableColumns(),
             inputActions: this.initializeTableActions(),
             permissions: {
-                componentName: 'SYSTEM-MANAGEMENT-SMART-LOOKUPS-ACCIDENT-TYPES',
+                componentName: 'COMMUNITY-INITIATIVES-SETTINGS-SECTIONS',
                 allowAll: true,
                 listOfPermissions: []
             },

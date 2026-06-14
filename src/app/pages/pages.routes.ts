@@ -4,15 +4,43 @@ import { Empty } from './empty/empty';
 
 export default [
     {
-        path: 'manage',
+        path: 'settings',
         children: [
             {
-                path: 'tests',
-                loadChildren: () => import('./tests/tests.routes').then((m) => m.testsRoutes)
+                path: 'activity-types',
+                loadChildren: () => import('./setting/activity-types/activity-types.routes').then((m) => m.activityTypesRoutes)
             },
             {
-                path: 'sections',
-                loadChildren: () => import('./Lookup/sections/sections.routes').then((m) => m.sectionsRoutes)
+                path: 'execute-types',
+                loadChildren: () => import('./setting/execute-types/execute-types.routes').then((m) => m.executeTypesRoutes)
+            },
+            {
+                path: 'fields',
+                loadChildren: () => import('./setting/fields/fields.routes').then((m) => m.fieldsRoutes)
+            },
+            {
+                path: 'entities',
+                loadChildren: () => import('./setting/entities/entities.routes').then((m) => m.entitiesRoutes)
+            },
+            {
+                path: 'organizations',
+                loadChildren: () => import('./setting/vw-organizations/vw-organizations.routes').then((m) => m.vwOrganizationsRoutes)
+            },
+            {
+                path: 'beneficiary-groups',
+                loadChildren: () => import('./setting/beneficiary-groups/beneficiary-groups.routes').then((m) => m.beneficiaryGroupsRoutes)
+            },
+            {
+                path: 'team-members',
+                loadChildren: () => import('./setting/team-members/team-members.routes').then((m) => m.teamMembersRoutes)
+            },
+            {
+                path: 'cities',
+                loadChildren: () => import('./setting/cities/cities.routes').then((m) => m.citiesRoutes)
+            },
+            {
+                path: 'towns',
+                loadChildren: () => import('./setting/towns/towns.routes').then((m) => m.townsRoutes)
             }
         ]
     },

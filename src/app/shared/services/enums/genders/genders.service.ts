@@ -5,12 +5,12 @@ import { HttpService } from '../../../../core/services/http/http.service';
 @Injectable({
     providedIn: 'root'
 })
-export class LeadersService extends HttpService {
+export class GendersService extends HttpService {
     protected get baseUrl(): string {
-        return 'v1/leaders/';
+        return 'v1/genders/';
     }
 
-    get leaders() {
+    get genders() {
         return this.get<EnumDto[]>({ apiName: 'getAll' });
     }
 }
