@@ -45,6 +45,15 @@ export default [
         ]
     },
     {
+        path: 'social-initiatives',
+        children: [
+            {
+                path: 'initiatives',
+                loadChildren: () => import('./social-initiative/initiatives/initiatives.routes').then((m) => m.initiativesRoutes)
+            }
+        ]
+    },
+    {
         path: 'auth',
         children: [
             {
