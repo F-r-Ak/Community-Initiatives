@@ -1,11 +1,47 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
+import { TabsModule } from 'primeng/tabs';
+import { CardModule } from 'primeng/card';
+import { BaseComponent } from '../../../../../base/components/base-component';
+import { InitiativeTabs } from '../../../../../core/enums/initiative-tabs';
+import { AddEditInitiativeComponent } from '../add-edit-initiative/add-edit-initiative.component';
+import { ActivitiesComponent } from '../activities/activities.component';
+import { InitiativeTeamsComponent } from '../initiative-teams/initiative-teams.component';
 
 @Component({
-  selector: 'app-initiative-tabs',
-  imports: [],
-  templateUrl: './initiative-tabs.component.html',
-  styleUrl: './initiative-tabs.component.scss'
+    selector: 'app-initiative-tabs',
+    standalone: true,
+    imports: [
+        CommonModule,
+        TabsModule,
+        CardModule,
+        AddEditInitiativeComponent,
+        ActivitiesComponent,
+        InitiativeTeamsComponent
+    ],
+    templateUrl: './initiative-tabs.component.html',
+    styleUrl: './initiative-tabs.component.scss'
 })
-export class InitiativeTabsComponent {
+export class InitiativeTabsComponent extends BaseComponent implements OnInit {
+    InitiativeTabs = InitiativeTabs;
+    activeTab: string = InitiativeTabs.Main;
+    initiativeId: string = '';
 
+    constructor(protected override activatedRoute: ActivatedRoute) {
+        super(activatedRoute);
+    }
+
+    override ngOnInit(): void {
+        super.ngOnInit();
+        this.initiativeId = this.activatedRoute.snapshot.paramMap.get('id') || '';
+    }
+
+    get isEditMode(): boolean {
+        return !!this.initiativeId;
+    }
+
+    onTabChange(tab: string | number): void {
+        this.activeTab = tab as string;
+    }
 }
