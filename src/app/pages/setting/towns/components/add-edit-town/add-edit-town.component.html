@@ -1,1 +1,38 @@
-<p>add-edit-town works!</p>
+<div [ngClass]="this.dialogService.dialogComponentRefMap.size > 0 ? '' : 'card systemBackgroundDialog'">
+    <div class="card">
+        <div class="title-container">
+            @if (this.dialogService.dialogComponentRefMap.size == 0) {
+                <div class="mb-3">
+                    <h1 class="m-0 font-24 font-bold text-primary">{{ pageTitle }}</h1>
+                </div>
+            }
+
+            @if (form) {
+                <form method="post" class="row" [formGroup]="form">
+                    <div class="p-formgrid grid">
+                        <div class="field col">
+                            <label class="mb-2">{{ 'المركز' }}</label>
+                            <app-prime-autocomplete
+                                [field]="'nameAr'"
+                                controlName="cityId"
+                                [selectedOption]="selectedCity"
+                                [suggestions]="filteredCities"
+                                [formGroup]="form"
+                                (onSelect)="onCitySelect($event)"
+                                [getMethod]="getCities.bind(this)"
+                                (handleMethod)="getCities($event)"
+                                (onClear)="onCityClear()"
+                            ></app-prime-autocomplete>
+                        </div>
+                        <div class="field col">
+                            <app-prime-input-text [formGroup]="form" controlName="nameAr" validatorLanguageType="ar" [label]="'الاسم بالعربية'"> </app-prime-input-text>
+                        </div>
+                    </div>
+                </form>
+            }
+            @if (form) {
+                <app-submit-buttons class="mt-4" [isSubmitDisabled]="form.invalid" [submitButtonText]="pageType === 'add' ? 'ACTIONS.SUBMIT' : 'ACTIONS.SAVE'" (submit)="submit()" (cancel)="redirect()"> </app-submit-buttons>
+            }
+        </div>
+    </div>
+</div>

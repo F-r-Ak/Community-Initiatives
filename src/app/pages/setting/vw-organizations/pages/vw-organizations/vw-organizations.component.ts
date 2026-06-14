@@ -33,7 +33,7 @@ export class VwOrganizationsComponent extends BaseListComponent {
             inputUrl: {
                 getAll: 'v1/vw_organizations/getpaged',
                 getAllMethod: 'POST',
-                delete: 'v1/vw_organizations/delete'
+                delete: 'v1/vw_organizations/deletesoft'
             },
             inputCols: this.initializeTableColumns(),
             permissions: {

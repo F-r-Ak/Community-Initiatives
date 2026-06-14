@@ -35,46 +35,85 @@ export class AppMenu {
     }
 
     private buildModel(): void {
-
         this.model = [
             // this.authHelper.hasModule('ادمن') ?
-                 {
-                    label: 'الاعدادات',
-                    icon: 'pi pi-fw pi-briefcase',
-                    // routerLink: ['/pages'],
-                    items: [
-                        {
-                            label: 'القطاعات/الملفات',
-                            icon: 'pi pi-fw pi-cog',
-                            routerLink: ['/pages/manage/sections']
-                        },
-                    ]
-                },
-                 { styleClass: 'v' },
+            {
+                label: 'الاعدادات',
+                icon: 'pi pi-fw pi-briefcase',
+                // routerLink: ['/pages'],
+                items: [
+                    {
+                        label: 'أنواع النشاط',
+                        icon: 'pi pi-fw pi-cog',
+                        routerLink: ['/pages/settings/activity-types']
+                    },
+                    {
+                        label: 'أنواع التنفيذ',
+                        icon: 'pi pi-fw pi-cog',
+                        routerLink: ['/pages/settings/execute-types']
+                    },
+                    {
+                        label: 'المجالات',
+                        icon: 'pi pi-fw pi-cog',
+                        routerLink: ['/pages/settings/fields']
+                    },
+                    {
+                        label: 'المديريات',
+                        icon: 'pi pi-fw pi-cog',
+                        routerLink: ['/pages/settings/entities']
+                    },
+                    {
+                        label: 'الجمعيات',
+                        icon: 'pi pi-fw pi-cog',
+                        routerLink: ['/pages/settings/organizations']
+                    },
+                    {
+                        label: 'فئة المستهدفين',
+                        icon: 'pi pi-fw pi-cog',
+                        routerLink: ['/pages/settings/beneficiary-groups']
+                    },
+                    {
+                        label: 'أعضاء الفريق',
+                        icon: 'pi pi-fw pi-cog',
+                        routerLink: ['/pages/settings/team-members']
+                    },
+                    {
+                        label: 'المراكز',
+                        icon: 'pi pi-fw pi-cog',
+                        routerLink: ['/pages/settings/cities']
+                    },
+                    {
+                        label: 'المدن',
+                        icon: 'pi pi-fw pi-cog',
+                        routerLink: ['/pages/settings/towns']
+                    }
+                ]
+            },
+            { styleClass: 'v' },
             // this.authHelper.hasModule('ادمن') ?
-                 {
-                    label: 'إدارة الصلاحيات',
-                    icon: 'pi pi-fw pi-lock',
-                    // routerLink: ['/pages'],
-                    items: [
-                        {
-                            label: 'المستخدمين',
-                            icon: 'pi pi-fw pi-user',
-                            routerLink: ['/pages/auth/users']
-                        },
-                        {
-                            label: 'الصلاحيات',
-                            icon: 'pi pi-fw pi-lock',
-                            routerLink: ['/pages/auth/roles']
-                        },
-                        {
-                            label: 'الإدارات',
-                            icon: 'pi pi-fw pi-sitemap',
-                            routerLink: ['/pages/auth/modules']
-                        }
-                    ]
-                },
-                 { styleClass: 'v' }
+            {
+                label: 'إدارة الصلاحيات',
+                icon: 'pi pi-fw pi-lock',
+                // routerLink: ['/pages'],
+                items: [
+                    {
+                        label: 'المستخدمين',
+                        icon: 'pi pi-fw pi-user',
+                        routerLink: ['/pages/auth/users']
+                    },
+                    {
+                        label: 'الصلاحيات',
+                        icon: 'pi pi-fw pi-lock',
+                        routerLink: ['/pages/auth/roles']
+                    },
+                    {
+                        label: 'الإدارات',
+                        icon: 'pi pi-fw pi-sitemap',
+                        routerLink: ['/pages/auth/modules']
+                    }
+                ]
+            },
+            { styleClass: 'v' }
         ];
     }
 }

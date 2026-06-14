@@ -1,3 +1,3 @@
 export enum AppCodes {
-  AppCode = 'HUMAN-RESOURCES-SYSTEM'
+  AppCode = 'COMMUNITY-INITIATIVES-SYSTEM'
 }

@@ -1,11 +1,103 @@
-import { Component } from '@angular/core';
-
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { BaseListComponent } from '../../../../../base/components/base-list-component';
+import { CardModule } from 'primeng/card';
+import { PrimeDataTableComponent, PrimeTitleToolBarComponent, CitiesService, TableOptions } from '../../../../../shared';
+import { AddEditCityComponent } from '../../components/add-edit-city/add-edit-city.component';
+import { AuthHelper } from '../../../../../core';
 @Component({
-  selector: 'app-cities',
-  imports: [],
-  templateUrl: './cities.component.html',
-  styleUrl: './cities.component.scss'
+    selector: 'app-cities',
+    imports: [RouterModule, FormsModule, ReactiveFormsModule, CardModule, PrimeDataTableComponent, PrimeTitleToolBarComponent],
+    templateUrl: './cities.component.html',
+    styleUrl: './cities.component.scss'
 })
-export class CitiesComponent {
+export class CitiesComponent extends BaseListComponent {
+    tableOptions!: TableOptions;
+    service = inject(CitiesService);
+    authHelper = inject(AuthHelper);
+    formBuilder: FormBuilder = inject(FormBuilder);
+    constructor(activatedRoute: ActivatedRoute) {
+        super(activatedRoute);
+    }
 
+    override ngOnInit(): void {
+        super.ngOnInit();
+        this.initializeTableOptions();
+    }
+
+    initializeTableOptions() {
+        this.tableOptions = {
+            inputUrl: {
+                getAll: 'v1/city/getpaged',
+                getAllMethod: 'POST',
+                delete: 'v1/city/deletesoft'
+            },
+            inputCols: this.initializeTableColumns(),
+            inputActions: this.initializeTableActions(),
+            permissions: {
+                componentName: 'COMMUNITY-INITIATIVES-SETTINGS-CITIES',
+                allowAll: true,
+                listOfPermissions: []
+            },
+            bodyOptions: {
+                filter: {}
+            },
+            responsiveDisplayedProperties: ['nameAr']
+        };
+    }
+
+    initializeTableColumns(): TableOptions['inputCols'] {
+        return [
+            {
+                field: 'nameAr',
+                header: 'المركز',
+                filter: true,
+                filterMode: 'text'
+            }
+        ];
+    }
+
+    initializeTableActions(): TableOptions['inputActions'] {
+        return [
+            {
+                name: 'EDIT',
+                icon: 'pi pi-file-edit',
+                color: 'text-middle',
+                isCallBack: true,
+                call: (row) => {
+                    this.openEdit(row);
+                },
+                allowAll: true
+            },
+            {
+                name: 'DELETE',
+                icon: 'pi pi-trash',
+                color: 'text-error',
+                allowAll: true,
+                isDelete: true
+            }
+        ];
+    }
+
+    openAdd() {
+        this.openDialog(AddEditCityComponent, 'اضافة مركز ', {
+            pageType: 'add'
+        });
+    }
+
+    openEdit(rowData: any) {
+        this.openDialog(AddEditCityComponent, 'تعديل مركز ', {
+            pageType: 'edit',
+            row: { rowData }
+        });
+    }
+
+    /* when leaving the component */
+    override ngOnDestroy() {
+        //Called once, before the instance is destroyed.
+        //Add 'implements OnDestroy' to the class.
+        this.destroy$.next(true);
+        this.destroy$.unsubscribe();
+    }
 }

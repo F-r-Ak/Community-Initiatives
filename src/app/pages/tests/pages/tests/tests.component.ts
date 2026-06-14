@@ -32,12 +32,12 @@ export class TestsComponent extends BaseListComponent {
             inputUrl: {
                 getAll: 'v1/cities/getpaged',
                 getAllMethod: 'POST',
-                delete: 'v1/cities/delete'
+                delete: 'v1/cities/deletesoft'
             },
             inputCols: this.initializeTableColumns(),
             inputActions: this.initializeTableActions(),
             permissions: {
-                componentName: 'SYSTEM-MANAGEMENT-SMART-LOOKUPS-ACCIDENT-TYPES',
+                componentName: 'COMMUNITY-INITIATIVES-SETTINGS-TESTS',
                 allowAll: true,
                 listOfPermissions: []
             },
