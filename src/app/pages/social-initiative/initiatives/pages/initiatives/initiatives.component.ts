@@ -1,11 +1,86 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { BaseListComponent } from '../../../../../base/components/base-list-component';
+import { PrimeDataTableComponent, PrimeTitleToolBarComponent, TableOptions } from '../../../../../shared';
+import { InitiativesService } from '../../../../../shared/services/initiatives/initiatives.service';
 
 @Component({
-  selector: 'app-initiatives',
-  imports: [],
-  templateUrl: './initiatives.component.html',
-  styleUrl: './initiatives.component.scss'
+    selector: 'app-initiatives',
+    imports: [RouterModule, PrimeDataTableComponent, PrimeTitleToolBarComponent],
+    templateUrl: './initiatives.component.html',
+    styleUrl: './initiatives.component.scss'
 })
-export class InitiativesComponent {
+export class InitiativesComponent extends BaseListComponent {
+    tableOptions!: TableOptions;
+    service = inject(InitiativesService);
 
+    constructor(activatedRoute: ActivatedRoute) {
+        super(activatedRoute);
+    }
+
+    override ngOnInit(): void {
+        super.ngOnInit();
+        this.initializeTableOptions();
+    }
+
+    initializeTableOptions() {
+        this.tableOptions = {
+            inputUrl: {
+                getAll: 'v1/initiatives/getpaged',
+                getAllMethod: 'POST',
+                delete: 'v1/initiatives/delete'
+            },
+            inputCols: this.initializeTableColumns(),
+            inputActions: this.initializeTableActions(),
+            permissions: {
+                componentName: 'COMMUNITY-INITIATIVES-INITIATIVES',
+                allowAll: true,
+                listOfPermissions: []
+            },
+            bodyOptions: {
+                filter: {}
+            },
+            responsiveDisplayedProperties: ['name', 'fieldName', 'cityName', 'initiativeMangerName', 'createdDate']
+        };
+    }
+
+    initializeTableColumns(): TableOptions['inputCols'] {
+        return [
+            { field: 'name', header: 'اسم المبادرة', filter: true, filterMode: 'text' },
+            { field: 'fieldName', header: 'المجال', filter: true, filterMode: 'text' },
+            { field: 'cityName', header: 'المركز', filter: true, filterMode: 'text' },
+            { field: 'initiativeMangerName', header: 'المسئول', filter: true, filterMode: 'text' },
+            { field: 'createdDate', header: 'تاريخ الإضافة', filter: true, filterMode: 'date' },
+        ];
+    }
+
+    initializeTableActions(): TableOptions['inputActions'] {
+        return [
+            {
+                name: 'EDIT',
+                icon: 'pi pi-file-edit',
+                color: 'text-middle',
+                isCallBack: true,
+                call: (row) => this.navigateToEdit(row),
+                allowAll: true
+            },
+            {
+                name: 'DELETE',
+                icon: 'pi pi-trash',
+                color: 'text-error',
+                allowAll: true,
+                isDelete: true
+            }
+        ];
+    }
+
+    navigateToEdit(row: any) {
+        this.route.navigate([`social-initiatives/initiatives/edit/${row.id}`]);
+    }
+
+    override ngOnDestroy() {
+        this.destroy$.next(true);
+        this.destroy$.unsubscribe();
+    }
 }
