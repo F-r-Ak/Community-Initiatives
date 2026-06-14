@@ -40,7 +40,6 @@ export class AppMenu {
             {
                 label: 'الاعدادات',
                 icon: 'pi pi-fw pi-briefcase',
-                // routerLink: ['/pages'],
                 items: [
                     {
                         label: 'أنواع النشاط',
@@ -87,6 +86,17 @@ export class AppMenu {
                         icon: 'pi pi-fw pi-cog',
                         routerLink: ['/pages/settings/towns']
                     }
+                ]
+            },
+            {
+                label: 'المبادرات التنموية',
+                icon: 'pi pi-fw pi-briefcase',
+                items: [
+                    {
+                        label: 'المبادرات',
+                        icon: 'pi pi-fw pi-cog',
+                        routerLink: ['/pages/social-initiatives/initiatives']
+                    },
                 ]
             },
             { styleClass: 'v' },

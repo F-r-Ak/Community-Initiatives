@@ -6,3 +6,4 @@ export * from './test/test';
 export * from "./account/account";
 export * from "./employee/employee";
 export * from "./town/town";
+export * from "./initiative/initiative";

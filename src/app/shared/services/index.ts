@@ -28,3 +28,4 @@ export * from './settings/execute-types/execute-types.service';
 export * from './settings/fields/fields.service';
 export * from './settings/team-members/team-members.service';
 export * from './settings/towns/towns.service';
+export * from './initiatives/initiatives.service';
