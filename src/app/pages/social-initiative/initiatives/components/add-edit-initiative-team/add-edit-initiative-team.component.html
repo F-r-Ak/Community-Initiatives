@@ -1,1 +1,22 @@
-<p>add-edit-initiative-team works!</p>
+<div class="card">
+    @if (form) {
+        <form [formGroup]="form" class="row g-4">
+            <div class="col-12">
+                <label class="form-label">أعضاء الفريق</label>
+                <app-prime-autocomplete
+                    [formGroup]="form"
+                    controlName="teamMemberId"
+                    [getMethod]="getTeamMembers.bind(this)"
+                    [selectedOption]="selectedMembers"
+                    [field]="'nameAr'"
+                    [language]="language"
+                    [multiple]="true"
+                    (onSelect)="onMembersSelect($event)"
+                    (onClear)="onMembersSelect([])"
+                ></app-prime-autocomplete>
+            </div>
+
+            <app-submit-buttons [isSubmitDisabled]="form.invalid" [submitButtonText]="pageType === 'add' ? 'ACTIONS.SUBMIT' : 'ACTIONS.SAVE'" (submit)="submit()" (cancel)="redirect()"> </app-submit-buttons>
+        </form>
+    }
+</div>

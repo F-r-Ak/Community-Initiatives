@@ -36,9 +36,13 @@ export class AddEditInitiativeComponent extends BaseEditComponent implements OnI
     fieldsService = inject(FieldsService);
     teamMembersService = inject(TeamMembersService);
 
-    getCities = this.citiesService.getDropDown.bind(this.citiesService);
-    getFields = this.fieldsService.getDropDown.bind(this.fieldsService);
-    getTeamMembers = this.teamMembersService.getDropDown.bind(this.teamMembersService);
+    getCities = this.citiesService.getPaged.bind(this.citiesService);
+    getFields = this.fieldsService.getPaged.bind(this.fieldsService);
+    getTeamMembers = (body: any) =>
+        this.teamMembersService.getPaged({
+            ...body,
+            filter: { ...body?.filter, teamCategory: 'Manager' }
+        });
 
     selectedField: any = null;
     selectedCity: any = null;

@@ -50,7 +50,7 @@ export class AddEditTownComponent extends BaseEditComponent implements OnInit {
     }
 
     getCities(body: any) {
-        return this.citiesService.getDropDown(body);
+        return this.citiesService.getPaged(body);
     }
 
     onCitySelect(event: any) {

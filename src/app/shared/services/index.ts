@@ -29,3 +29,5 @@ export * from './settings/fields/fields.service';
 export * from './settings/team-members/team-members.service';
 export * from './settings/towns/towns.service';
 export * from './initiatives/initiatives.service';
+export * from './initiative-teams/initiative-teams.service';
+export * from './activities/activities.service';

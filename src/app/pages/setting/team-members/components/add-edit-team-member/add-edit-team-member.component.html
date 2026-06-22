@@ -14,10 +14,81 @@
                             <app-prime-input-text [formGroup]="form" controlName="nameAr" validatorLanguageType="ar" [label]="'الاسم بالعربية'"> </app-prime-input-text>
                         </div>
 
-                        <div class="field col"></div>
+                        <div class="field col">
+                            <app-prime-input-text [formGroup]="form" controlName="nationalID" [label]="'الرقم القومي'"> </app-prime-input-text>
+                        </div>
+                    </div>
+
+                    <div class="p-formgrid grid">
+                        <div class="field col">
+                            <app-prime-datepicker [formGroup]="form" controlName="birthDate" [mode]="'date'" [label]="'تاريخ الميلاد'"> </app-prime-datepicker>
+                        </div>
+
+                        <!-- Gender -->
+                        <div class="field col">
+                            <label class="text-middle font-14 font-bold mb-2">النوع</label>
+                            <app-prime-autocomplete
+                                [field]="'nameAr'"
+                                [selectedOption]="selectedGender"
+                                [suggestions]="filteredGenders"
+                                [formGroup]="form"
+                                (onSelect)="onGenderSelect($event)"
+                                [lazy]="false"
+                                (handleMethod)="getGenders($event)"
+                            ></app-prime-autocomplete>
+                        </div>
+                    </div>
+
+                    <div class="p-formgrid grid">
+                        <div class="field col">
+                            <app-prime-input-text [formGroup]="form" controlName="mobile" [label]="'رقم الهاتف'"> </app-prime-input-text>
+                        </div>
+                        <div class="field col">
+                            <app-prime-input-text [formGroup]="form" controlName="email" [label]="'البريد الإلكتروني'"> </app-prime-input-text>
+                        </div>
+                    </div>
+
+                    <div class="p-formgrid grid">
+                        <div class="field col">
+                            <label class="text-middle font-14 font-bold m-1">الحالة الوظيفية</label>
+
+                            <app-prime-autocomplete
+                                [field]="'nameAr'"
+                                [selectedOption]="selectedJobStatus"
+                                [suggestions]="filteredJobStatuses"
+                                [formGroup]="form"
+                                (onSelect)="onJobStatusSelect($event)"
+                                [lazy]="false"
+                                (handleMethod)="getJobStatuses($event)"
+                            ></app-prime-autocomplete>
+                        </div>
+
+                        <div class="field col">
+                            <app-prime-input-text [formGroup]="form" controlName="specailization" [label]="'التخصص'"> </app-prime-input-text>
+                        </div>
+                    </div>
+
+                    <div class="p-formgrid grid">
+                        <div class="field col">
+                            <app-prime-input-text [formGroup]="form" controlName="address" [label]="'العنوان'"> </app-prime-input-text>
+                        </div>
+                        <div class="field col">
+                            <label class="text-middle font-14 font-bold m-1">فئة العضوية</label>
+
+                            <app-prime-autocomplete
+                                [field]="'nameAr'"
+                                [selectedOption]="selectedTeamCategory"
+                                [suggestions]="filteredTeamCategories"
+                                [formGroup]="form"
+                                (onSelect)="onTeamCategorySelect($event)"
+                                [lazy]="false"
+                                (handleMethod)="getTeamCategories($event)"
+                            ></app-prime-autocomplete>
+                        </div>
                     </div>
                 </form>
             }
+
             @if (form) {
                 <app-submit-buttons class="mt-4" [isSubmitDisabled]="form.invalid" [submitButtonText]="pageType === 'add' ? 'ACTIONS.SUBMIT' : 'ACTIONS.SAVE'" (submit)="submit()" (cancel)="redirect()"> </app-submit-buttons>
             }

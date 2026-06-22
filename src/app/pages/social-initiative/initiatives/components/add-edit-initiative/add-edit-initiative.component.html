@@ -21,10 +21,10 @@
             <app-prime-autocomplete
                 [formGroup]="form"
                 controlName="initiativeMangerId"
-                [getMethod]="getTeamMembers"
                 [selectedOption]="selectedManager"
                 [field]="'nameAr'"
-                [language]="language"
+                [getMethod]="getTeamMembers.bind(this)"
+                (handleMethod)="getTeamMembers($event)"
                 (onSelect)="onManagerSelect($event)"
                 (onClear)="onManagerSelect(null)"
             >

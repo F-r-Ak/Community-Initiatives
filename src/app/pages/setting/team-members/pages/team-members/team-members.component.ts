@@ -43,7 +43,7 @@ export class TeamMembersComponent extends BaseListComponent {
             bodyOptions: {
                 filter: {}
             },
-            responsiveDisplayedProperties: ['nameAr']
+            responsiveDisplayedProperties: ['nameAr', 'mobile', 'jobStatusName.nameAr', 'teamCategoryName.nameAr']
         };
     }
 
@@ -51,7 +51,37 @@ export class TeamMembersComponent extends BaseListComponent {
         return [
             {
                 field: 'nameAr',
-                header: 'عضو الفريق',
+                header: 'الاسم',
+                filter: true,
+                filterMode: 'text'
+            },
+            {
+                field: 'mobile',
+                header: 'رقم الجوال',
+                filter: true,
+                filterMode: 'text'
+            },
+            {
+                field: 'email',
+                header: 'البريد الإلكتروني',
+                filter: true,
+                filterMode: 'text'
+            },
+            {
+                field: 'specailization',
+                header: 'التخصص',
+                filter: true,
+                filterMode: 'text'
+            },
+            {
+                field: 'jobStatusName.nameAr',
+                header: 'الحالة الوظيفية',
+                filter: true,
+                filterMode: 'text'
+            },
+            {
+                field: 'teamCategoryName.nameAr',
+                header: 'نوع العضوية',
                 filter: true,
                 filterMode: 'text'
             }
