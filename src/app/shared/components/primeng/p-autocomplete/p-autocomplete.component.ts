@@ -93,7 +93,7 @@ export class PrimeAutoCompleteComponent {
                 } else {
                     this.suggestions = [...this.suggestions, ...response.data];
                 }
-                if (this.selectedOption && this.suggestions.length > 0) {
+                if (!this.multiple && this.selectedOption && this.suggestions.length > 0) {
                     const selectedOptionId = this.selectedOption.id;
                     const selectedIndex = this.suggestions.findIndex((item) => item.id === selectedOptionId);
                     if (selectedIndex > -1 && selectedIndex !== 0) {

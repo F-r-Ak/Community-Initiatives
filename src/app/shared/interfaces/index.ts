@@ -6,4 +6,7 @@ export * from './test/test';
 export * from "./account/account";
 export * from "./employee/employee";
 export * from "./town/town";
+export * from "./team-member/team-member";
 export * from "./initiative/initiative";
+export * from "./initiative-team/initiative-team";
+export * from "./activity/activity";
