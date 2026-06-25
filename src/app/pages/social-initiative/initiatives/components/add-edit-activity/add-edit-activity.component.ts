@@ -10,6 +10,7 @@ import { PrimeDatepickerComponent } from '../../../../../shared/components/prime
 import { SubmitButtonsComponent } from '../../../../../shared/components/submit-buttons/submit-buttons.component';
 import { ActivitiesService } from '../../../../../shared/services/activities/activities.service';
 import { CitiesService } from '../../../../../shared/services/settings/cities/cities.service';
+import { TownsService } from '../../../../../shared/services/settings/towns/towns.service';
 import { ActivityTypesService } from '../../../../../shared/services/settings/activity-types/activity-types.service';
 import { ExecuteTypesService } from '../../../../../shared/services/settings/execute-types/execute-types.service';
 
@@ -31,6 +32,7 @@ import { ExecuteTypesService } from '../../../../../shared/services/settings/exe
 export class AddEditActivityComponent extends BaseEditComponent implements OnInit {
     activitiesService = inject(ActivitiesService);
     citiesService = inject(CitiesService);
+    townsService = inject(TownsService);
     activityTypesService = inject(ActivityTypesService);
     executeTypesService = inject(ExecuteTypesService);
     dialogRef = inject(DynamicDialogRef);
@@ -41,9 +43,18 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
     getExecuteTypes = this.executeTypesService.getDropDown.bind(this.executeTypesService);
 
     selectedCity: any = null;
+    selectedTown: any = null;
     selectedActivityType: any = null;
     selectedExecuteType: any = null;
     initiativeId: string = '';
+
+    getTowns = (body: any) => {
+        const cityId = this.form?.get('cityId')?.value;
+        return this.townsService.getPaged({
+            ...body,
+            filter: { ...body.filter, cityId: cityId }
+        });
+    };
 
     constructor(protected override activatedRoute: ActivatedRoute) {
         super(activatedRoute);
@@ -68,6 +79,7 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
             initiativeId: [this.initiativeId, Validators.required],
             name: ['', Validators.required],
             cityId: [null, Validators.required],
+            townId: [null, Validators.required],
             activityTypeId: [null, Validators.required],
             executeTypeId: [null],
             startDate: ['', Validators.required],
@@ -86,6 +98,9 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
             if (data.cityId) {
                 this.citiesService.getEditCity(data.cityId).subscribe((city) => (this.selectedCity = city));
             }
+            if (data.townId) {
+                this.townsService.getEditTown(data.townId).subscribe((town) => (this.selectedTown = town));
+            }
             if (data.activityTypeId) {
                 this.activityTypesService.getEditActivityType(data.activityTypeId).subscribe((type) => (this.selectedActivityType = type));
             }
@@ -98,6 +113,14 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
     onCitySelect(event: any) {
         this.selectedCity = event.value;
         this.form.get('cityId')?.setValue(this.selectedCity?.id ?? null);
+        // reset town when city changes
+        this.selectedTown = null;
+        this.form.get('townId')?.setValue(null);
+    }
+
+    onTownSelect(event: any) {
+        this.selectedTown = event.value;
+        this.form.get('townId')?.setValue(this.selectedTown?.id ?? null);
     }
 
     onActivityTypeSelect(event: any) {
@@ -116,7 +139,12 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
         const formData = new FormData();
         Object.entries(this.form.value).forEach(([key, value]) => {
             if (value !== null && value !== undefined) {
-                formData.append(key, value as any);
+                if (value instanceof Date) {
+                    const iso = value.toISOString().split('T')[0];
+                    formData.append(key, iso);
+                } else {
+                    formData.append(key, value as any);
+                }
             }
         });
 

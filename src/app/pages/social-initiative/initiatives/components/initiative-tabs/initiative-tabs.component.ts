@@ -8,7 +8,6 @@ import { InitiativeTabs } from '../../../../../core/enums/initiative-tabs';
 import { AddEditInitiativeComponent } from '../add-edit-initiative/add-edit-initiative.component';
 import { ActivitiesComponent } from '../activities/activities.component';
 import { InitiativeTeamsComponent } from '../initiative-teams/initiative-teams.component';
-import { ActivityBeneficiaryGroupsComponent } from '../activity-beneficiary-groups/activity-beneficiary-groups.component';
 
 @Component({
     selector: 'app-initiative-tabs',
@@ -20,7 +19,6 @@ import { ActivityBeneficiaryGroupsComponent } from '../activity-beneficiary-grou
         AddEditInitiativeComponent,
         ActivitiesComponent,
         InitiativeTeamsComponent,
-        ActivityBeneficiaryGroupsComponent
     ],
     templateUrl: './initiative-tabs.component.html',
     styleUrl: './initiative-tabs.component.scss'

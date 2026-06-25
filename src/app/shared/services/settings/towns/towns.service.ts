@@ -28,7 +28,7 @@ export class TownsService extends HttpService {
     }
 
     getPaged(body: GetPagedBody<any>): Observable<any> {
-        return this.post<any, any>({ apiName: `getpaged`, showAlert: true }, body);
+        return this.dropdownPost<any, any>({ apiName: `getpaged`, showAlert: true }, body);
     }
 
     add(body: AddTownDto) {
