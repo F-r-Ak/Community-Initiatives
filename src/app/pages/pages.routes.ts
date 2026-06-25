@@ -50,6 +50,10 @@ export default [
             {
                 path: 'initiatives',
                 loadChildren: () => import('./social-initiative/initiatives/initiatives.routes').then((m) => m.initiativesRoutes)
+            },
+            {
+                path: 'activities',
+                loadChildren: () => import('./social-initiative/activities/activities.routes').then((m) => m.activitiesRoutes)
             }
         ]
     },

@@ -97,6 +97,11 @@ export class AppMenu {
                         icon: 'pi pi-fw pi-cog',
                         routerLink: ['/pages/social-initiatives/initiatives']
                     },
+                    {
+                        label: 'الأنشطة',
+                        icon: 'pi pi-fw pi-calendar',
+                        routerLink: ['/pages/social-initiatives/activities']
+                    }
                 ]
             },
             { styleClass: 'v' },

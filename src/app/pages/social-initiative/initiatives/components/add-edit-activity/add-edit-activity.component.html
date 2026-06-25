@@ -13,8 +13,8 @@
                 <app-prime-input-text [formGroup]="form" controlName="numberOfBeneficiaries" [label]="'عدد المستفيدين'" contentType="number"> </app-prime-input-text>
             </div>
 
-            <div class="col-12 col-md-4">
-                <label class="form-label">المدينة</label>
+            <div class="col-12 col-md-3">
+                <label class="form-label">المركز</label>
                 <app-prime-autocomplete
                     [formGroup]="form"
                     controlName="cityId"
@@ -28,7 +28,23 @@
                 </app-prime-autocomplete>
             </div>
 
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-md-3">
+                <label class="form-label">المدينة</label>
+                <app-prime-autocomplete
+                    [formGroup]="form"
+                    controlName="townId"
+                    [getMethod]="getTowns"
+                    [selectedOption]="selectedTown"
+                    [field]="'nameAr'"
+                    [language]="language"
+                    [disabled]="!form.get('cityId')?.value"
+                    (onSelect)="onTownSelect($event)"
+                    (onClear)="onTownSelect({ value: null })"
+                >
+                </app-prime-autocomplete>
+            </div>
+
+            <div class="col-12 col-md-3">
                 <label class="form-label">نوع النشاط</label>
                 <app-prime-autocomplete
                     [formGroup]="form"
@@ -43,7 +59,7 @@
                 </app-prime-autocomplete>
             </div>
 
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-md-3">
                 <label class="form-label">نوع التنفيذ</label>
                 <app-prime-autocomplete
                     [formGroup]="form"
