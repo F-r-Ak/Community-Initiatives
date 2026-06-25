@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BaseListComponent } from '../../../../../base/components/base-list-component';
 import { PrimeDataTableComponent, TableOptions } from '../../../../../shared';
@@ -14,6 +14,7 @@ import { AddEditActivityComponent } from '../add-edit-activity/add-edit-activity
 })
 export class ActivitiesComponent extends BaseListComponent implements OnInit {
     @Input() initiativeId: string = '';
+    @Output() totalCountChange = new EventEmitter<number>();
 
     tableOptions!: TableOptions;
     service = inject(ActivitiesService);
@@ -75,6 +76,16 @@ export class ActivitiesComponent extends BaseListComponent implements OnInit {
             row ? 'تعديل نشاط' : 'اضافة نشاط',
             { id: row?.id ?? null, initiativeId: this.initiativeId }
         );
+    }
+
+    override loadDataFromServer(): void {
+        this.dataTableService.loadData(this.tableOptions.inputUrl.getAll).subscribe({
+            next: (res) => {
+                this.data = res.data;
+                this.totalCount = res.totalCount;
+                this.totalCountChange.emit(this.totalCount);
+            }
+        });
     }
 
     override ngOnDestroy() {

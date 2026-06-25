@@ -1,11 +1,19 @@
 <div class="card">
     @if (form) {
         <form [formGroup]="form" class="row g-4">
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-4">
                 <app-prime-input-text [formGroup]="form" controlName="name" [label]="'اسم النشاط'" validatorLanguageType="ar"> </app-prime-input-text>
             </div>
 
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-4">
+                <app-prime-input-text [formGroup]="form" controlName="numberOfVolunteers" [label]="'عدد المتطوعين'" contentType="number"> </app-prime-input-text>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <app-prime-input-text [formGroup]="form" controlName="numberOfBeneficiaries" [label]="'عدد المستفيدين'" contentType="number"> </app-prime-input-text>
+            </div>
+
+            <div class="col-12 col-md-4">
                 <label class="form-label">المدينة</label>
                 <app-prime-autocomplete
                     [formGroup]="form"
@@ -20,7 +28,7 @@
                 </app-prime-autocomplete>
             </div>
 
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-4">
                 <label class="form-label">نوع النشاط</label>
                 <app-prime-autocomplete
                     [formGroup]="form"
@@ -35,7 +43,7 @@
                 </app-prime-autocomplete>
             </div>
 
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-4">
                 <label class="form-label">نوع التنفيذ</label>
                 <app-prime-autocomplete
                     [formGroup]="form"
@@ -50,24 +58,16 @@
                 </app-prime-autocomplete>
             </div>
 
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-4">
                 <app-prime-datepicker [formGroup]="form" controlName="startDate" [label]="'تاريخ البدء'" [rangeMaxControlName]="'endDate'"> </app-prime-datepicker>
             </div>
 
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-4">
                 <app-prime-datepicker [formGroup]="form" controlName="endDate" [label]="'تاريخ الانتهاء'" [referenceControlName]="'startDate'"> </app-prime-datepicker>
             </div>
 
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-4">
                 <app-prime-datepicker [formGroup]="form" controlName="activityTime" [label]="'وقت النشاط'" [mode]="'time'"> </app-prime-datepicker>
-            </div>
-
-            <div class="col-12 col-md-6">
-                <app-prime-input-text [formGroup]="form" controlName="numberOfVolunteers" [label]="'عدد المتطوعين'" inputType="number"> </app-prime-input-text>
-            </div>
-
-            <div class="col-12 col-md-6">
-                <app-prime-input-text [formGroup]="form" controlName="numberOfBeneficiaries" [label]="'عدد المستفيدين'" inputType="number"> </app-prime-input-text>
             </div>
 
             <div class="col-12">

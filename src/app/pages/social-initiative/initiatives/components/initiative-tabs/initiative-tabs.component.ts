@@ -8,6 +8,7 @@ import { InitiativeTabs } from '../../../../../core/enums/initiative-tabs';
 import { AddEditInitiativeComponent } from '../add-edit-initiative/add-edit-initiative.component';
 import { ActivitiesComponent } from '../activities/activities.component';
 import { InitiativeTeamsComponent } from '../initiative-teams/initiative-teams.component';
+import { ActivityBeneficiaryGroupsComponent } from '../activity-beneficiary-groups/activity-beneficiary-groups.component';
 
 @Component({
     selector: 'app-initiative-tabs',
@@ -18,7 +19,8 @@ import { InitiativeTeamsComponent } from '../initiative-teams/initiative-teams.c
         CardModule,
         AddEditInitiativeComponent,
         ActivitiesComponent,
-        InitiativeTeamsComponent
+        InitiativeTeamsComponent,
+        ActivityBeneficiaryGroupsComponent
     ],
     templateUrl: './initiative-tabs.component.html',
     styleUrl: './initiative-tabs.component.scss'
@@ -27,6 +29,7 @@ export class InitiativeTabsComponent extends BaseComponent implements OnInit {
     InitiativeTabs = InitiativeTabs;
     activeTab: string = InitiativeTabs.Main;
     initiativeId: string = '';
+    hasActivities: boolean = false;
 
     constructor(protected override activatedRoute: ActivatedRoute) {
         super(activatedRoute);
@@ -41,7 +44,7 @@ export class InitiativeTabsComponent extends BaseComponent implements OnInit {
         return !!this.initiativeId;
     }
 
-    onTabChange(tab: string | number): void {
-        this.activeTab = tab as string;
+    onActivitiesCountChange(count: number): void {
+        this.hasActivities = count > 0;
     }
 }

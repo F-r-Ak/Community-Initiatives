@@ -6,13 +6,31 @@
 
         <div class="col-12 col-md-6">
             <label class="form-label">المجال</label>
-            <app-prime-autocomplete [formGroup]="form" controlName="fieldId" [getMethod]="getFields" [selectedOption]="selectedField" [field]="'nameAr'" [language]="language" (onSelect)="onFieldSelect($event)" (onClear)="onFieldSelect(null)">
+            <app-prime-autocomplete
+                [formGroup]="form"
+                controlName="fieldId"
+                [getMethod]="getFields.bind(this)"
+                [selectedOption]="selectedField"
+                [field]="'nameAr'"
+                [language]="language"
+                (onSelect)="onFieldSelect($event)"
+                (onClear)="onFieldSelect(null)"
+            >
             </app-prime-autocomplete>
         </div>
 
         <div class="col-12 col-md-6">
             <label class="form-label">المدينة</label>
-            <app-prime-autocomplete [formGroup]="form" controlName="cityId" [getMethod]="getCities" [selectedOption]="selectedCity" [field]="'nameAr'" [language]="language" (onSelect)="onCitySelect($event)" (onClear)="onCitySelect(null)">
+            <app-prime-autocomplete
+                [formGroup]="form"
+                controlName="cityId"
+                [getMethod]="getCities.bind(this)"
+                [selectedOption]="selectedCity"
+                [field]="'nameAr'"
+                [language]="language"
+                (onSelect)="onCitySelect($event)"
+                (onClear)="onCitySelect(null)"
+            >
             </app-prime-autocomplete>
         </div>
 
@@ -21,10 +39,10 @@
             <app-prime-autocomplete
                 [formGroup]="form"
                 controlName="initiativeMangerId"
+                [getMethod]="getManagers.bind(this)"
                 [selectedOption]="selectedManager"
                 [field]="'nameAr'"
-                [getMethod]="getTeamMembers.bind(this)"
-                (handleMethod)="getTeamMembers($event)"
+                [language]="language"
                 (onSelect)="onManagerSelect($event)"
                 (onClear)="onManagerSelect(null)"
             >

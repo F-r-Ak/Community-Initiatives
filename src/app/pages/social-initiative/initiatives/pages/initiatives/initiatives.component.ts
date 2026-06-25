@@ -50,8 +50,7 @@ export class InitiativesComponent extends BaseListComponent {
             { field: 'name', header: 'اسم المبادرة', filter: true, filterMode: 'text' },
             { field: 'fieldName', header: 'المجال', filter: true, filterMode: 'text' },
             { field: 'cityName', header: 'المركز', filter: true, filterMode: 'text' },
-            { field: 'initiativeMangerName', header: 'المسئول', filter: true, filterMode: 'text' },
-            { field: 'createdDate', header: 'تاريخ الإضافة', filter: true, filterMode: 'date' }
+            { field: 'initiativeMangerName', header: 'المسئول', filter: true, filterMode: 'text' }
         ];
     }
 
