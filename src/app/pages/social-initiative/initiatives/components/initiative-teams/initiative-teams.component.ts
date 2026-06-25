@@ -39,14 +39,6 @@ export class InitiativeTeamsComponent extends BaseListComponent implements OnIni
             ],
             inputActions: [
                 {
-                    name: 'EDIT',
-                    icon: 'pi pi-file-edit',
-                    color: 'text-middle',
-                    isCallBack: true,
-                    call: (row) => this.openAddEditDialog(row),
-                    allowAll: true
-                },
-                {
                     name: 'DELETE',
                     icon: 'pi pi-trash',
                     color: 'text-error',

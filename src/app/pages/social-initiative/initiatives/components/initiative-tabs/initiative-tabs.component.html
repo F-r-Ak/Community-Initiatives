@@ -1,8 +1,8 @@
-<p-tabs [value]="activeTab" (valueChange)="onTabChange($event)">
+<p-tabs [value]="activeTab" >
     <p-tablist>
         <p-tab [value]="InitiativeTabs.Main">البيانات الأساسية</p-tab>
-        <p-tab [value]="InitiativeTabs.Activity" [disabled]="!isEditMode">الأنشطة</p-tab>
         <p-tab [value]="InitiativeTabs.InitiativeTeams" [disabled]="!isEditMode">فريق المبادرة</p-tab>
+        <p-tab [value]="InitiativeTabs.Activity" [disabled]="!isEditMode">الأنشطة</p-tab>
     </p-tablist>
 
     <p-tabpanels>

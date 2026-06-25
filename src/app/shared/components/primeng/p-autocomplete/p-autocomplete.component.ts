@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { debounceTime, distinctUntilChanged, Observable, Subject } from 'rxjs';
@@ -69,6 +69,7 @@ export class PrimeAutoCompleteComponent {
     }
 
     onLazyLoad(event: any) {
+        if (!this.suggestions?.length) return;
         const currentLoaded = event.first + event.last;
         if (currentLoaded >= this.suggestions.length && this.suggestions.length < this.totalCount && !this.isFirstLoad) {
             this.loadData();
@@ -77,6 +78,7 @@ export class PrimeAutoCompleteComponent {
 
     loadData() {
         if (this.isLoading) return;
+        if (!this.getMethod) return;
 
         this.isLoading = true;
         const body = {
@@ -86,29 +88,36 @@ export class PrimeAutoCompleteComponent {
             orderByValue: [{ col: 'id', sort: 'asc' }]
         };
         if (this.getMethod) {
-            this.getMethod(body).subscribe((response: any) => {
-                this.totalCount = response.totalCount;
-                if (this.pageNumber === 1) {
-                    this.suggestions = response.data;
-                } else {
-                    this.suggestions = [...this.suggestions, ...response.data];
-                }
-                if (!this.multiple && this.selectedOption && this.suggestions.length > 0) {
-                    const selectedOptionId = this.selectedOption.id;
-                    const selectedIndex = this.suggestions.findIndex((item) => item.id === selectedOptionId);
-                    if (selectedIndex > -1 && selectedIndex !== 0) {
-                        const [selectedItem] = this.suggestions.splice(selectedIndex, 1);
-                        this.suggestions.unshift(selectedItem);
-                    } else if (selectedIndex === -1 && this.pageNumber === 1) {
-                        this.suggestions.unshift(this.selectedOption);
-                    }
-                }
+            this.getMethod(body).subscribe({
+                next: (response: any) => {
+                    this.totalCount = response?.totalCount || 0;
+                    const responseData = response?.data || [];
 
-                if (this.suggestions.length < this.totalCount) {
-                    this.pageNumber++;
+                    if (this.pageNumber === 1) {
+                        this.suggestions = responseData;
+                    } else {
+                        this.suggestions = [...this.suggestions, ...responseData];
+                    }
+                    if (!this.multiple && this.selectedOption && this.suggestions.length > 0) {
+                        const selectedOptionId = this.selectedOption.id;
+                        const selectedIndex = this.suggestions.findIndex((item) => item.id === selectedOptionId);
+                        if (selectedIndex > -1 && selectedIndex !== 0) {
+                            const [selectedItem] = this.suggestions.splice(selectedIndex, 1);
+                            this.suggestions.unshift(selectedItem);
+                        } else if (selectedIndex === -1 && this.pageNumber === 1) {
+                            this.suggestions.unshift(this.selectedOption);
+                        }
+                    }
+
+                    if (this.suggestions.length < this.totalCount) {
+                        this.pageNumber++;
+                    }
+                    this.isLoading = false;
+                    this.isFirstLoad = false;
+                },
+                error: () => {
+                    this.isLoading = false;
                 }
-                this.isLoading = false;
-                this.isFirstLoad = false;
             });
         }
     }

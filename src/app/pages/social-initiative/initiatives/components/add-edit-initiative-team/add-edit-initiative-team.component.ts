@@ -55,9 +55,12 @@ export class AddEditInitiativeTeamComponent extends BaseEditComponent implements
             teamMemberId: [[null], Validators.required]
         });
     }
-
+    
     getTeamMembers(body: any) {
-        return this.teamMembersService.getPaged(body);
+        return this.teamMembersService.getPaged({
+            ...body,
+            filter: { ...body.filter, teamCategory: 'Member' }
+        });
     }
 
     getEditRecord() {

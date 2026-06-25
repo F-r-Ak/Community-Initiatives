@@ -15,15 +15,7 @@ import { TeamMembersService } from '../../../../../shared/services/settings/team
 @Component({
     selector: 'app-add-edit-initiative',
     standalone: true,
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        CardModule,
-        PrimeInputTextComponent,
-        PrimeAutoCompleteComponent,
-        SubmitButtonsComponent
-    ],
+    imports: [CommonModule, FormsModule, ReactiveFormsModule, CardModule, PrimeInputTextComponent, PrimeAutoCompleteComponent, SubmitButtonsComponent],
     templateUrl: './add-edit-initiative.component.html',
     styleUrl: './add-edit-initiative.component.scss'
 })
@@ -36,14 +28,20 @@ export class AddEditInitiativeComponent extends BaseEditComponent implements OnI
     fieldsService = inject(FieldsService);
     teamMembersService = inject(TeamMembersService);
 
-    getCities = this.citiesService.getPaged.bind(this.citiesService);
-    getFields = this.fieldsService.getPaged.bind(this.fieldsService);
-    getTeamMembers = (body: any) =>
-        this.teamMembersService.getPaged({
-            ...body,
-            filter: { ...body?.filter, teamCategory: 'Manager' }
-        });
+    getCities(body: any) {
+        return this.citiesService.getPaged(body);
+    }
 
+    getFields(body: any) {
+        return this.fieldsService.getPaged(body);
+    }
+
+    getManagers(body: any) {
+        return this.teamMembersService.getPaged({
+            ...body,
+            filter: { ...body.filter, teamCategory: 'Manager' }
+        });
+    }
     selectedField: any = null;
     selectedCity: any = null;
     selectedManager: any = null;
@@ -94,18 +92,18 @@ export class AddEditInitiativeComponent extends BaseEditComponent implements OnI
     }
 
     onFieldSelect(event: any) {
-        this.selectedField = event.value;
-        this.form.get('fieldId')?.setValue(this.selectedField?.id);
+        this.selectedField = event?.value ?? null;
+        this.form.get('fieldId')?.setValue(this.selectedField?.id ?? null);
     }
 
     onCitySelect(event: any) {
-        this.selectedCity = event.value;
-        this.form.get('cityId')?.setValue(this.selectedCity?.id);
+        this.selectedCity = event?.value ?? null;
+        this.form.get('cityId')?.setValue(this.selectedCity?.id ?? null);
     }
 
     onManagerSelect(event: any) {
-        this.selectedManager = event.value;
-        this.form.get('initiativeMangerId')?.setValue(this.selectedManager?.id);
+        this.selectedManager = event?.value ?? null;
+        this.form.get('initiativeMangerId')?.setValue(this.selectedManager?.id ?? null);
     }
 
     submit() {
