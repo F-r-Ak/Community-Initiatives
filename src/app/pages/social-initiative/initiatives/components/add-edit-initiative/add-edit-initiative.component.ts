@@ -64,11 +64,11 @@ export class AddEditInitiativeComponent extends BaseEditComponent implements OnI
             id: [null],
             name: ['', Validators.required],
             description: ['', Validators.required],
-            suggestedSolution: [''],
-            beneficiaryGroup: [''],
-            problemDescription: [''],
-            expectedImpact: [''],
-            stepsExecution: [''],
+            suggestedSolution: ['', Validators.required],
+            beneficiaryGroup: ['', Validators.required],
+            problemDescription: ['', Validators.required],
+            expectedImpact: ['', Validators.required],
+            stepsExecution: ['', Validators.required],
             fieldId: [null, Validators.required],
             cityId: [null, Validators.required],
             initiativeMangerId: [null, Validators.required]
@@ -110,7 +110,7 @@ export class AddEditInitiativeComponent extends BaseEditComponent implements OnI
         if (this.form.invalid) return;
         if (this.pageType === 'add') {
             this.initiativesService.add(this.form.value).subscribe((res: any) => {
-                this.redirect(`social-initiatives/initiatives/edit/${res.id}`);
+                this.redirect(`social-initiatives/initiatives/edit/${res.data?.id}`);
             });
         } else {
             this.initiativesService.update({ id: this.id, ...this.form.value }).subscribe(() => {

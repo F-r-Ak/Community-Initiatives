@@ -81,12 +81,18 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
             cityId: [null, Validators.required],
             townId: [null, Validators.required],
             activityTypeId: [null, Validators.required],
-            executeTypeId: [null],
-            startDate: ['', Validators.required],
-            endDate: ['', Validators.required],
-            activityTime: [''],
+            executeTypeId: [null, Validators.required],
+            entityType: [null, Validators.required],
+            entityId: [null],
+            vw_OrganizationId: [null],
+            organizationName: [''],
+            startDate: [''],
+            endDate: [''],
+            activityTime: ['', Validators.required],
             numberOfVolunteers: [0],
             numberOfBeneficiaries: [0],
+            numberOfActivity: [0],
+            executionStatus: [null, Validators.required],
             notes: ['']
         });
     }
