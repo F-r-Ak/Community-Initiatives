@@ -6,25 +6,16 @@
             </div>
 
             <div class="col-12 col-md-4">
-                <app-prime-input-text [formGroup]="form" controlName="numberOfVolunteers" [label]="'عدد المتطوعين'" contentType="number"> </app-prime-input-text>
+                <app-prime-input-text [formGroup]="form" controlName="activityManager" [label]="'مسؤول النشاط'"> </app-prime-input-text>
             </div>
 
             <div class="col-12 col-md-4">
-                <app-prime-input-text [formGroup]="form" controlName="numberOfBeneficiaries" [label]="'عدد المستفيدين'" contentType="number"> </app-prime-input-text>
+                <app-prime-input-text [formGroup]="form" controlName="address" [label]="'العنوان'"> </app-prime-input-text>
             </div>
 
             <div class="col-12 col-md-3">
                 <label class="form-label">المركز</label>
-                <app-prime-autocomplete
-                    [formGroup]="form"
-                    controlName="cityId"
-                    [getMethod]="getCities"
-                    [selectedOption]="selectedCity"
-                    [field]="'nameAr'"
-                    [language]="language"
-                    (onSelect)="onCitySelect($event)"
-                    (onClear)="onCitySelect({ value: null })"
-                >
+                <app-prime-autocomplete [formGroup]="form" controlName="cityId" [getMethod]="getCities" [selectedOption]="selectedCity" [field]="'nameAr'" (onSelect)="onCitySelect($event)" (onClear)="onCitySelect({ value: null })">
                 </app-prime-autocomplete>
             </div>
 
@@ -36,7 +27,6 @@
                     [getMethod]="getTowns"
                     [selectedOption]="selectedTown"
                     [field]="'nameAr'"
-                    [language]="language"
                     [disabled]="!form.get('cityId')?.value"
                     (onSelect)="onTownSelect($event)"
                     (onClear)="onTownSelect({ value: null })"
@@ -48,11 +38,12 @@
                 <label class="form-label">نوع النشاط</label>
                 <app-prime-autocomplete
                     [formGroup]="form"
+                    [suggestions]="activityTypesList"
                     controlName="activityTypeId"
-                    [getMethod]="getActivityTypes"
+                    [lazy]="false"
+                    (handleMethod)="getActivityTypes($event)"
                     [selectedOption]="selectedActivityType"
                     [field]="'nameAr'"
-                    [language]="language"
                     (onSelect)="onActivityTypeSelect($event)"
                     (onClear)="onActivityTypeSelect({ value: null })"
                 >
@@ -64,12 +55,79 @@
                 <app-prime-autocomplete
                     [formGroup]="form"
                     controlName="executeTypeId"
-                    [getMethod]="getExecuteTypes"
+                    [suggestions]="executeTypesList"
+                    [lazy]="false"
+                    (handleMethod)="getExecuteTypes($event)"
                     [selectedOption]="selectedExecuteType"
                     [field]="'nameAr'"
-                    [language]="language"
                     (onSelect)="onExecuteTypeSelect($event)"
                     (onClear)="onExecuteTypeSelect({ value: null })"
+                >
+                </app-prime-autocomplete>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <label class="form-label">نوع جهة التنسيق</label>
+                <app-prime-autocomplete
+                    [formGroup]="form"
+                    controlName="entityType"
+                    [suggestions]="entityTypesList"
+                    [selectedOption]="selectedEntityType"
+                    [field]="'nameAr'"
+                    [lazy]="false"
+                    (handleMethod)="getEntityTypes($event)"
+                    (onSelect)="onEntityTypeSelect($event)"
+                    (onClear)="onEntityTypeSelect({ value: null })"
+                >
+                </app-prime-autocomplete>
+            </div>
+
+            @if (isDepartment) {
+                <div class="col-12 col-md-4">
+                    <label class="form-label">المديرية</label>
+                    <app-prime-autocomplete
+                        [formGroup]="form"
+                        controlName="entityId"
+                        [getMethod]="getEntities.bind(this)"
+                        (handleMethod)="getEntities($event)"
+                        [selectedOption]="selectedEntity"
+                        [field]="'nameAr'"
+                        (onSelect)="onEntitySelect($event)"
+                        (onClear)="onEntitySelect({ value: null })"
+                    >
+                    </app-prime-autocomplete>
+                </div>
+            }
+
+            @if (isOrganization) {
+                <div class="col-12 col-md-4">
+                    <label class="form-label">الجمعية</label>
+                    <app-prime-autocomplete
+                        [formGroup]="form"
+                        controlName="vw_OrganizationId"
+                        [getMethod]="getOrganizations.bind(this)"
+                        (handleMethod)="getOrganizations($event)"
+                        [selectedOption]="selectedOrganization"
+                        [field]="'nameAr'"
+                        (onSelect)="onOrganizationSelect($event)"
+                        (onClear)="onOrganizationSelect({ value: null })"
+                    >
+                    </app-prime-autocomplete>
+                </div>
+            }
+
+            <div class="col-12 col-md-4">
+                <label class="form-label">حالة التنفيذ</label>
+                <app-prime-autocomplete
+                    [formGroup]="form"
+                    controlName="executionStatus"
+                    [suggestions]="executionStatusList"
+                    [selectedOption]="selectedExecutionStatus"
+                    [field]="'nameAr'"
+                    [lazy]="false"
+                    (handleMethod)="getExecutionStatus($event)"
+                    (onSelect)="onExecutionStatusSelect($event)"
+                    (onClear)="onExecutionStatusSelect({ value: null })"
                 >
                 </app-prime-autocomplete>
             </div>
@@ -84,6 +142,62 @@
 
             <div class="col-12 col-md-4">
                 <app-prime-datepicker [formGroup]="form" controlName="activityTime" [label]="'وقت النشاط'" [mode]="'time'"> </app-prime-datepicker>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <app-prime-input-text [formGroup]="form" controlName="numberOfVolunteers" [label]="'عدد المتطوعين'" contentType="number"> </app-prime-input-text>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <app-prime-input-text [formGroup]="form" controlName="numberOfBeneficiaries" [label]="'عدد المستفيدين'" contentType="number"> </app-prime-input-text>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <app-prime-input-text [formGroup]="form" controlName="numberOfActivity" [label]="'عدد الأنشطة'" contentType="number"> </app-prime-input-text>
+            </div>
+
+            <!-- Attachments -->
+            <div class="col-12">
+                <label class="text-middle font-14 font-bold mb-2">المرفقات</label>
+
+                <div class="mb-2">
+                    <input #fileInput type="file" multiple accept="image/*,application/pdf,.doc,.docx,.xls,.xlsx" class="d-none" (change)="onFileChange($event)" />
+                    <button type="button" class="btn btn-outline-primary btn-sm" (click)="fileInput.click()"><i class="pi pi-paperclip me-1"></i> إضافة مرفق</button>
+                </div>
+
+                @if (existingAttachments.length > 0) {
+                    <div class="mb-2">
+                        <small class="text-muted d-block mb-1">الملفات الموجودة</small>
+                        @for (attachment of existingAttachments; track attachment.id) {
+                            <div class="d-flex align-items-center justify-content-between p-2 border rounded mb-1">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i [class]="getFileIcon(attachment.name)"></i>
+                                    <a [href]="attachment.path" target="_blank" class="text-decoration-none font-14">{{ attachment.name }}</a>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-outline-danger" (click)="removeExistingAttachment(attachment)">
+                                    <i class="pi pi-times"></i>
+                                </button>
+                            </div>
+                        }
+                    </div>
+                }
+
+                @if (selectedFiles.length > 0) {
+                    <div>
+                        <small class="text-muted d-block mb-1">الملفات المختارة</small>
+                        @for (file of selectedFiles; track file.name; let i = $index) {
+                            <div class="d-flex align-items-center justify-content-between p-2 border rounded mb-1">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i [class]="getFileIcon(file.name)"></i>
+                                    <span class="font-14">{{ file.name }}</span>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-outline-danger" (click)="removeNewFile(i)">
+                                    <i class="pi pi-times"></i>
+                                </button>
+                            </div>
+                        }
+                    </div>
+                }
             </div>
 
             <div class="col-12">
