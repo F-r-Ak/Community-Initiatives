@@ -15,5 +15,10 @@ export const initiativesRoutes: Routes = [
         path: 'edit/:id',
         loadComponent: () => import('./components/initiative-tabs/initiative-tabs.component').then((c) => c.InitiativeTabsComponent),
         data: { pageTitle: 'تعديل مبادرة', pageType: 'edit' }
+    },
+    {
+        path: 'dashboard',
+        loadComponent: () => import('./pages/initiatives-dashboard/initiatives-dashboard.component').then((c) => c.InitiativesDashboardComponent),
+        data: { pageTitle: 'إحصائيات المبادرات', pageType: 'dashboard' }
     }
 ];

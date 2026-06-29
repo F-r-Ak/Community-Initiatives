@@ -39,6 +39,14 @@ export class InitiativesService extends HttpService {
         return this.put({ apiName: 'update', showAlert: true }, body);
     }
 
+    getFieldsDashboardCounts(): Observable<any> {
+        return this.get<any>({ apiName: 'getcountbyfield' });
+    }
+
+    getCitiesDashboardCounts(): Observable<any> {
+        return this.get<any>({ apiName: 'getcountbycity' });
+    }
+
     remove(id: string) {
         return this.delete({ apiName: `delete/`, showAlert: true }, id);
     }
