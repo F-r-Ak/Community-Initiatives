@@ -15,7 +15,7 @@
 
             <div class="col-12 col-md-3">
                 <label class="form-label">المركز</label>
-                <app-prime-autocomplete [formGroup]="form" controlName="cityId" [getMethod]="getCities" [selectedOption]="selectedCity" [field]="'nameAr'" (onSelect)="onCitySelect($event)" (onClear)="onCitySelect({ value: null })">
+                <app-prime-autocomplete [formGroup]="form" controlName="cityId" [getMethod]="getCities" [selectedOption]="selectedCity" [field]="'nameAr'" (onSelect)="onCitySelect($event)" (onClear)="onCityClear()">
                 </app-prime-autocomplete>
             </div>
 

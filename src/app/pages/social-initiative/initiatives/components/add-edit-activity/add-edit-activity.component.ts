@@ -266,6 +266,13 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
         this.form.get('vw_OrganizationId')?.setValue(this.selectedOrganization?.id ?? null);
     }
 
+    onCityClear() {
+        this.selectedCity = null;
+        this.selectedTown = null;
+        this.form.get('cityId')?.reset();
+        this.form.get('townId')?.reset();
+    }
+
     get isDepartment(): boolean {
         return this.form.get('entityType')?.value === EntityTypes.Department;
     }

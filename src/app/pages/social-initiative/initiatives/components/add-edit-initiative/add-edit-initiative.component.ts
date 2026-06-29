@@ -110,16 +110,16 @@ export class AddEditInitiativeComponent extends BaseEditComponent implements OnI
         if (this.form.invalid) return;
         if (this.pageType === 'add') {
             this.initiativesService.add(this.form.value).subscribe((res: any) => {
-                this.redirect(`social-initiatives/initiatives/edit/${res.data?.id}`);
+                this.redirect(`/pages/social-initiatives/initiatives/edit/${res?.id}`);
             });
         } else {
             this.initiativesService.update({ id: this.id, ...this.form.value }).subscribe(() => {
-                this.redirect('social-initiatives/initiatives');
+                this.redirect('/pages/social-initiatives/initiatives');
             });
         }
     }
 
     override redirect(url?: string) {
-        this.route.navigate([url ?? 'social-initiatives/initiatives']);
+        this.route.navigate([url ?? '/pages/social-initiatives/initiatives']);
     }
 }

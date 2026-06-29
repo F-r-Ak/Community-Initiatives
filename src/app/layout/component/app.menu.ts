@@ -36,8 +36,18 @@ export class AppMenu {
 
     private buildModel(): void {
         this.model = [
-            // this.authHelper.hasModule('ادمن') ?
             {
+                label: 'الإحصائيات',
+                icon: 'pi pi-fw pi-briefcase',
+                // routerLink: ['/pages'],
+                items: [
+                    {
+                        label: 'إحصائيات المبادرات',
+                        icon: 'pi pi-fw pi-chart-bar',
+                        routerLink: ['/pages/social-initiatives/initiatives/dashboard']
+                    }
+                ]
+            },            {
                 label: 'الاعدادات',
                 icon: 'pi pi-fw pi-briefcase',
                 items: [
