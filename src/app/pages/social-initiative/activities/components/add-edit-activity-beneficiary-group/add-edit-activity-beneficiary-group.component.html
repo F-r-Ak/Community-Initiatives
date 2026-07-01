@@ -1,1 +1,27 @@
-<p>add-edit-activity-beneficiary-group works!</p>
+<div class="card">
+    @if (form) {
+        <form [formGroup]="form" class="row g-4">
+            <div class="col-12">
+                <label class="form-label">مجموعات المستفيدين</label>
+                <app-prime-autocomplete
+                    [formGroup]="form"
+                    controlName="beneficiaryGroupId"
+                    [getMethod]="beneficiaryGroupsService.getDropDown.bind(beneficiaryGroupsService)"
+                    [selectedOption]="selectedGroups"
+                    [field]="'nameAr'"
+                    [language]="language"
+                    [multiple]="true"
+                    (onSelect)="onGroupsSelect($event)"
+                    (onClear)="onGroupsSelect([])"
+                ></app-prime-autocomplete>
+            </div>
+
+            <app-submit-buttons
+                [isSubmitDisabled]="form.invalid"
+                [submitButtonText]="pageType === 'add' ? 'ACTIONS.SUBMIT' : 'ACTIONS.SAVE'"
+                (submit)="submit()"
+                (cancel)="redirect()"
+            ></app-submit-buttons>
+        </form>
+    }
+</div>
