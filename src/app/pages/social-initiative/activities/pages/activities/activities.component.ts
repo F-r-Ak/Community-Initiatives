@@ -1,14 +1,13 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BaseListComponent } from '../../../../../base/components/base-list-component';
-import { PrimeDataTableComponent, TableOptions } from '../../../../../shared';
+import { PrimeDataTableComponent, TableOptions, PrimeTitleToolBarComponent } from '../../../../../shared';
 import { ActivitiesService } from '../../../../../shared/services/activities/activities.service';
-import { ActivityBeneficiaryGroupsComponent } from '../../components/activity-beneficiary-groups/activity-beneficiary-groups.component';
 
 @Component({
     selector: 'app-activities',
     standalone: true,
-    imports: [PrimeDataTableComponent],
+    imports: [PrimeDataTableComponent, PrimeTitleToolBarComponent],
     templateUrl: './activities.component.html',
     styleUrl: './activities.component.scss'
 })
@@ -62,11 +61,7 @@ export class ActivitiesComponent extends BaseListComponent implements OnInit {
     }
 
     openActivityBeneficiaryGroups(row?: any) {
-        this.openDialog(
-            ActivityBeneficiaryGroupsComponent,
-            'فئة المستفيدين',
-            { activityId: row?.id ?? null }
-        );
+        this.route.navigate([`pages/social-initiatives/activities/beneficiary-groups/${row?.id}`]);
     }
 
     override ngOnDestroy() {

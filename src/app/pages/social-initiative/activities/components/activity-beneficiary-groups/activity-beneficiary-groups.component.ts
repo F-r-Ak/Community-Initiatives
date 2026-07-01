@@ -1,22 +1,19 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { BaseListComponent } from '../../../../../base/components/base-list-component';
-import { PrimeDataTableComponent, TableOptions } from '../../../../../shared';
-import { ActivityBeneficiaryGroupsService } from '../../../../../shared/services/activity-beneficiary-groups/activity-beneficiary-groups.service';
+import { PrimeDataTableComponent, TableOptions, ActivityBeneficiaryGroupsService, PrimeTitleToolBarComponent } from '../../../../../shared';
 import { AddEditActivityBeneficiaryGroupComponent } from '../add-edit-activity-beneficiary-group/add-edit-activity-beneficiary-group.component';
 
 @Component({
     selector: 'app-activity-beneficiary-groups',
     standalone: true,
-    imports: [PrimeDataTableComponent],
+    imports: [PrimeDataTableComponent, PrimeTitleToolBarComponent],
     templateUrl: './activity-beneficiary-groups.component.html',
     styleUrl: './activity-beneficiary-groups.component.scss'
 })
 export class ActivityBeneficiaryGroupsComponent extends BaseListComponent implements OnInit {
     tableOptions!: TableOptions;
     service = inject(ActivityBeneficiaryGroupsService);
-    dialogConfig = inject(DynamicDialogConfig);
 
     activityId: string = '';
 
@@ -25,7 +22,7 @@ export class ActivityBeneficiaryGroupsComponent extends BaseListComponent implem
     }
 
     override ngOnInit(): void {
-        this.activityId = this.dialogConfig.data?.activityId ?? '';
+        this.activityId = this.activatedRoute.snapshot.params['activityId'] ?? '';
         super.ngOnInit();
         this.initializeTableOptions();
     }
@@ -38,17 +35,12 @@ export class ActivityBeneficiaryGroupsComponent extends BaseListComponent implem
                 delete: 'v1/activity_beneficiarygroups/delete'
             },
             inputCols: [
-                { field: 'nameAr', header: 'مجموعة المستفيدين', filter: true, filterMode: 'text' }
+                { field: 'initiativeName', header: 'المباردة', filter: true, filterMode: 'text' },
+                { field: 'beneficiaryGroupName', header: 'المستفيد', filter: true, filterMode: 'text' },
+                { field: 'activityName', header: 'النشاط', filter: true, filterMode: 'text' },
+                { field: 'activityTypeName', header: 'نوع النشاط', filter: true, filterMode: 'text' }
             ],
             inputActions: [
-                {
-                    name: 'EDIT',
-                    icon: 'pi pi-pencil',
-                    color: 'text-warning',
-                    isCallBack: true,
-                    call: (row) => this.openAddEditDialog(row),
-                    allowAll: true
-                },
                 {
                     name: 'DELETE',
                     icon: 'pi pi-trash',

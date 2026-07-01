@@ -32,3 +32,4 @@ export * from './initiatives/initiatives.service';
 export * from './initiative-teams/initiative-teams.service';
 export * from './activities/activities.service';
 export * from './activity-beneficiary-groups/activity-beneficiary-groups.service';
+export * from './settings/beneficiary-groups/beneficiary-groups.service';
