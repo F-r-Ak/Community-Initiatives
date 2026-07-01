@@ -19,6 +19,6 @@ export const initiativesRoutes: Routes = [
     {
         path: 'dashboard',
         loadComponent: () => import('./pages/initiatives-dashboard/initiatives-dashboard.component').then((c) => c.InitiativesDashboardComponent),
-        data: { pageTitle: 'إحصائيات المبادرات', pageType: 'dashboard' }
+        data: { pageTitle: 'الإحصائيات', pageType: 'dashboard' }
     }
 ];
