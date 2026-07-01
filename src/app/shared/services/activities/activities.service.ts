@@ -35,6 +35,10 @@ export class ActivitiesService extends HttpService {
         return this.dropdownPost<any, any>({ apiName: `getpaged`, showAlert: true }, body);
     }
 
+    getExecutionStatusDashboardCounts(): Observable<any> {
+        return this.get<any>({ apiName: 'getcountbyexecutionstatus' });
+    }
+
     add(body: FormData) {
         return this.post<FormData, ActivityDto>({ apiName: 'add', showAlert: true }, body);
     }

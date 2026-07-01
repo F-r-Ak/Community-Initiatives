@@ -1,0 +1,38 @@
+<div class="d-flex flex-column h-100">
+    <app-prime-title-toolbar [pageTitle]="pageTitle"></app-prime-title-toolbar>
+
+    <div class="p-3">
+        <div class="row g-3">
+            <!-- Fields Chart -->
+            <div class="col-12 col-md-6">
+                <p-card header="الأنشطة حسب حالة التنفيذ">
+                    <div style="height: 300px; position: relative">
+                        <p-chart type="doughnut" [data]="executionStatusChartData" [options]="chartOptions" height="300" />
+                    </div>
+                </p-card>
+            </div>
+
+            <!-- Cities Chart -->
+            <div class="col-12 col-md-6">
+                <p-card header="المبادرات حسب المركز">
+                    <div style="height: 300px; position: relative">
+                        <p-chart type="bar" [data]="citiesChartData" [options]="chartOptions" height="300" />
+                    </div>
+                </p-card>
+            </div>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="row g-3 mt-2 justify-content-between">
+            <h4 class="text-blue">المبادرات حسب المركز</h4>
+            @for (item of citiesChartData?.labels; track item; let i = $index) {
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="summary-card" [style.--card-color]="cardColors[i % cardColors.length]">
+                        <div class="summary-card__count">{{ citiesChartData.datasets[0].data[i] }}</div>
+                        <div class="summary-card__label">{{ item }}</div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
