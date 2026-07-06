@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { BaseListComponent } from '../../../../../base/components/base-list-component';
 import { PrimeDataTableComponent, TableOptions, PrimeTitleToolBarComponent } from '../../../../../shared';
 import { ActivitiesService } from '../../../../../shared/services/activities/activities.service';
+import { RoleCodes } from '../../../../../core/enums/role';
+import { AuthHelper } from '../../../../../core';
 
 @Component({
     selector: 'app-activities',
@@ -12,10 +14,12 @@ import { ActivitiesService } from '../../../../../shared/services/activities/act
     styleUrl: './activities.component.scss'
 })
 export class ActivitiesComponent extends BaseListComponent implements OnInit {
-
+    authHelper = inject(AuthHelper);
     tableOptions!: TableOptions;
     service = inject(ActivitiesService);
-
+         get rolesEnum() {
+            return RoleCodes;
+        }
     constructor(activatedRoute: ActivatedRoute) {
         super(activatedRoute);
     }
@@ -55,7 +59,9 @@ export class ActivitiesComponent extends BaseListComponent implements OnInit {
                 listOfPermissions: []
             },
             bodyOptions: {
-                filter: {  }
+                filter: this.authHelper.hasRole(this.rolesEnum.Employee)
+                    ? { createdById: this.authHelper.getUserId() }
+                    : {}
             }
         };
     }

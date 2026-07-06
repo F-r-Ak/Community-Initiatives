@@ -9,7 +9,7 @@ import { UrlConfig } from '../../../core/interface/http/UrlConfig';
 })
 export class AccountService extends HttpService {
     protected get baseUrl(): string {
-        return 'accounts/';
+        return 'v1/accounts/';
     }
 
     register(body: RegisterDto) {

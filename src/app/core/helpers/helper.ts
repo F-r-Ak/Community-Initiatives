@@ -48,17 +48,7 @@ export class AuthHelper {
     }
   }
 
-  /**
-   * Check if user has a specific module
-   */
-  hasModule(moduleLabel: string): boolean {
-    console.log('Checking module for:', this.userData?.modules.map((m: Module) => m.name));
-    if (!this.userData?.modules || !Array.isArray(this.userData.modules)) {
-      return false;
-    }
 
-    return this.userData.modules.some((module: Module) => module.name === moduleLabel);
-  }
 getName(namelabel: string): string {
   console.log('Getting name:', this.userData?.name);
   return this.userData?.name === namelabel ? this.userData?.name : '';
@@ -108,41 +98,13 @@ getName(namelabel: string): string {
     return this.userData.permissions.some((permission: Permission) => permission.name === permissionName);
   }
 
-  hasModuleWithPermission(moduleLabel: string): boolean {
-    return this.hasModule(moduleLabel) && this.hasPermission(moduleLabel);
-  }
-
-  /**
-   * Return the list of actions a user may perform on a page (Add,Edit,View,etc).
-   * This is a small wrapper around `getAllPermissions(pageName)` that always
-   * returns a string array.
-   */
+ 
   getPageActions(pageName: string): string[] {
     const perms = this.getAllPermissions(pageName);
     return Array.isArray(perms) ? perms as string[] : [];
   }
+ 
 
-  /**
-   * Convenience check for a specific action on a page.  Usage:
-   *   authHelper.hasPageAction('المراسلات', 'Add');
-   */
-  hasPageAction(pageName: string, action: 'Add' | 'Edit' | 'View' | 'Delete'): boolean {
-    const actions = this.getPageActions(pageName);
-    console.log(`Checking page action for page "${pageName}":`, actions);
-    return actions.includes(action);
-  }
-
-  /**
-   * Legacy compatibility helper.  Some components still call
-   * `hasModuleItem`; this simply delegates to `hasModulePage`.
-   */
-  hasModuleItem(moduleLabel: string, pageLabel: string): boolean {
-    return this.hasModulePage(moduleLabel, pageLabel);
-  }
-
-  getAllModules(): Module[] {
-    return this.userData?.modules || [];
-  }
 
   /**
    * Return complete permissions list (raw objects) or, if a page name
@@ -192,32 +154,40 @@ getName(namelabel: string): string {
     return module.pages || module.items || [];
   }
 
-  // keep old name around for compatibility until callers are updated
-  getModuleItems(moduleLabel: string): ModulePage[] {
-    return this.getModulePages(moduleLabel);
-  }
 
-  hasAnyModule(moduleLabels: string[]): boolean {
-    return moduleLabels.some(label => this.hasModule(label));
+getUserRole(): string | null {
+  const role = this.userData?.role;
+  
+  // If it's an array, return the first element
+  if (Array.isArray(role) && role.length > 0) {
+    return role[0];
   }
-
-  hasAllModules(moduleLabels: string[]): boolean {
-    return moduleLabels.every(label => this.hasModule(label));
+  
+  // If it's a string, return as is
+  if (typeof role === 'string') {
+    return role;
   }
+  
+  return null;
+}
 
-  getLeaderOrg(): string | null {
-    return this.userData?.isLeaderOrganization
-    
+hasRole(role: string): boolean {
+  const userRole = this.userData?.role;
+  
+  if (!userRole) {
+    return false;
   }
-
-  getUserRole(): string | null {
-    return this.userData?.role || null;
+  
+  // Check if user has the role (supports array or string)
+  if (Array.isArray(userRole)) {
+    return userRole.includes(role);
   }
-
-  hasRole(role: string): boolean {
-    return this.getUserRole() === role;
-  }
-
+  
+  return userRole === role;
+}
+get  isAdmin(): boolean {
+  return  this.userData?.isAdmin;
+}
   
   getUserId(): string | null {
     return this.userData?.id || null;

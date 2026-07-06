@@ -6,6 +6,7 @@ import { CardModule } from 'primeng/card';
 import { TableOptions } from '../../../../../shared/interfaces';
 import { PagesService, PrimeDataTableComponent } from '../../../../../shared';
 import { AddEditPageComponent } from '../add-edit-page/add-edit-page.component';
+import { AuthHelper } from '../../../../../core';
 
 @Component({
     selector: 'app-pages',
@@ -17,6 +18,7 @@ import { AddEditPageComponent } from '../add-edit-page/add-edit-page.component';
 export class PagesComponent extends BaseListComponent {
     @Input() authModuleId: string | null = null;
     organizationId?: any;
+    authHelper = inject(AuthHelper);
     tableOptions!: TableOptions;
     service = inject(
         PagesService
@@ -41,7 +43,7 @@ export class PagesComponent extends BaseListComponent {
             inputCols: this.initializeTableColumns(),
             inputActions: this.initializeTableActions(),
             permissions: {
-                componentName: 'SYSTEM-MANAGEMENT-SMART-ASSIGNMENT-ORGS',
+                componentName: 'CITIZEN-SERVICES-ASSIGNMENT-ORGS',
                 allowAll: true,
                 listOfPermissions: []
             },
@@ -77,13 +79,14 @@ export class PagesComponent extends BaseListComponent {
                 },
                 allowAll: true
             },
+           this.authHelper.isAdmin?
             {
                 name: 'DELETE',
                 icon: 'pi pi-trash',
                 color: 'text-error',
                 allowAll: true,
                 isDelete: true
-            }
+            }:{  }
         ];
     }
 

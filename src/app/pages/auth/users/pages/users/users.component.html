@@ -3,7 +3,7 @@
     <div class="dataBox">
 
       <!-- open dialog -->
-      @if (authHelper.hasPageAction(pageTitle, 'Add') || authHelper.hasModule('ادمن')) {
+      <!-- @if (authHelper.hasPageAction(pageTitle, 'Add') || authHelper.hasModule('ادمن')) { -->
         @if (data) {
           <a class="addLink">
             <button
@@ -19,7 +19,8 @@
             </button>
           </a>
         }
-      }
+    
+      <!-- } -->
 
 
       @if (tableOptions) {

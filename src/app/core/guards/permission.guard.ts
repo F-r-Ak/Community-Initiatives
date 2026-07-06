@@ -26,7 +26,7 @@ export const permissionGuard: CanActivateFn = (route, state) => {
   }
 
   // Check if user has the required permission
-  const hasPermission = authHelper.hasPageAction(pageTitle, actionRequired as 'Add' | 'Edit' | 'View' | 'Delete');
+  const hasPermission = authHelper.hasRole('Admin');
 
   if (!hasPermission) {
     router.navigate(['/error/403']);

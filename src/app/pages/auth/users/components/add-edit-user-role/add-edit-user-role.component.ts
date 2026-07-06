@@ -8,7 +8,6 @@ import {
     PrimeAutoCompleteComponent,
     PrimeCheckBoxComponent,
     PrimeDatepickerComponent,
-    OrganizationsService,
     AccountService,
     RolesService,
 } from '../../../../../shared';
@@ -28,7 +27,6 @@ export class AddEditUserRoleComponent extends BaseEditComponent implements OnIni
      selectedRole: any;
     filteredRoles: any[] = [];
     rolesService= inject(RolesService);
-    organizationsService: OrganizationsService = inject(OrganizationsService);
     accountService = inject(AccountService);
     dialogService: DialogService = inject(DialogService);
     userId: any;

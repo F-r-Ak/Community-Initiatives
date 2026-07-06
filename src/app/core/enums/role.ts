@@ -1,4 +1,4 @@
 export enum RoleCodes {
-  Administrator = 'COMMUNITY-INITIATIVES-ADMINISTRATOR',
-  Employee = 'COMMUNITY-INITIATIVES-EMPLOYEE'
+  Administrator = 'Admin',
+  Employee = 'User'
 }

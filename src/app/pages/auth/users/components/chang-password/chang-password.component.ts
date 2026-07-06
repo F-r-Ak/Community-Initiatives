@@ -4,7 +4,7 @@ import { AbstractControl, FormsModule, ReactiveFormsModule, ValidationErrors, Va
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { DialogService } from 'primeng/dynamicdialog';
-import { PrimeInputTextComponent, AccountService, PrimeAutoCompleteComponent
+import { PrimeInputTextComponent, AccountService
 
     } from '../../../../../shared';
 import { ButtonModule } from 'primeng/button';
@@ -12,7 +12,7 @@ import { BaseEditComponent } from '../../../../../base/components/base-edit-comp
 
 @Component({
   selector: 'app-chang-password',
-  imports: [CardModule, CommonModule, FormsModule, ReactiveFormsModule, ButtonModule,PrimeAutoCompleteComponent,
+  imports: [CardModule, CommonModule, FormsModule, ReactiveFormsModule, ButtonModule,
           PrimeInputTextComponent, RouterModule],
    templateUrl: './chang-password.component.html',
   styleUrl: './chang-password.component.scss'

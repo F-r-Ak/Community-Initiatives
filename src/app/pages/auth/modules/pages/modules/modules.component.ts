@@ -7,6 +7,7 @@ import { TableOptions } from '../../../../../shared/interfaces';
 import { AccountService } from '../../../../../shared';
 import { PrimeDataTableComponent, PrimeDatepickerComponent, PrimeAutoCompleteComponent, PrimeTitleToolBarComponent } from '../../../../../shared';
 import { AddEditModuleComponent } from '../../components/add-edit-module/add-edit-module.component';
+import { AuthHelper } from '../../../../../core';
 @Component({
     selector: 'app-modules',
     imports: [RouterModule, FormsModule, ReactiveFormsModule, CardModule, PrimeDataTableComponent, PrimeTitleToolBarComponent],
@@ -16,6 +17,7 @@ import { AddEditModuleComponent } from '../../components/add-edit-module/add-edi
 export class ModulesComponent extends BaseListComponent {
     tableOptions!: TableOptions;
     service = inject(AccountService);
+    authHelper = inject(AuthHelper);
     formBuilder: FormBuilder = inject(FormBuilder);
     constructor(activatedRoute: ActivatedRoute) {
         super(activatedRoute);
@@ -36,7 +38,7 @@ export class ModulesComponent extends BaseListComponent {
             inputCols: this.initializeTableColumns(),
             inputActions: this.initializeTableActions(),
             permissions: {
-                componentName: 'SYSTEM-MANAGEMENT-SMART-LOOKUPS-ACCIDENT-TYPES',
+                componentName: 'CITIZEN-SERVICES-LOOKUPS-ACCIDENT-TYPES',
                 allowAll: true,
                 listOfPermissions: []
             },
@@ -71,13 +73,14 @@ export class ModulesComponent extends BaseListComponent {
                 },
                 allowAll: true
             },
+           this.authHelper.isAdmin?
             {
                 name: 'DELETE',
                 icon: 'pi pi-trash',
                 color: 'text-error',
                 allowAll: true,
                 isDelete: true
-            }
+            }:{  }
         ];
     }
 

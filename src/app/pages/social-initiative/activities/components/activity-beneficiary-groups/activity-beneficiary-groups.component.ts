@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { BaseListComponent } from '../../../../../base/components/base-list-component';
 import { PrimeDataTableComponent, TableOptions, ActivityBeneficiaryGroupsService, PrimeTitleToolBarComponent } from '../../../../../shared';
 import { AddEditActivityBeneficiaryGroupComponent } from '../add-edit-activity-beneficiary-group/add-edit-activity-beneficiary-group.component';
+import { RoleCodes } from '../../../../../core/enums/role';
+import { AuthHelper } from '../../../../../core';
 
 @Component({
     selector: 'app-activity-beneficiary-groups',
@@ -14,7 +16,11 @@ import { AddEditActivityBeneficiaryGroupComponent } from '../add-edit-activity-b
 export class ActivityBeneficiaryGroupsComponent extends BaseListComponent implements OnInit {
     tableOptions!: TableOptions;
     service = inject(ActivityBeneficiaryGroupsService);
+    authHelper = inject(AuthHelper);
 
+    get rolesEnum() {
+        return RoleCodes;
+    }
     activityId: string = '';
 
     constructor(activatedRoute: ActivatedRoute) {
@@ -54,8 +60,11 @@ export class ActivityBeneficiaryGroupsComponent extends BaseListComponent implem
                 allowAll: true,
                 listOfPermissions: []
             },
+
             bodyOptions: {
-                filter: { activityId: this.activityId }
+                filter: this.authHelper.hasRole(this.rolesEnum.Employee)
+                    ? { createdById: this.authHelper.getUserId(), activityId: this.activityId }
+                    : { activityId: this.activityId }
             }
         };
     }

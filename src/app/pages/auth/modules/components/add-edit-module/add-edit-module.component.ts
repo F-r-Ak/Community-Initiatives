@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { DialogService } from 'primeng/dynamicdialog';
-import { SubmitButtonsComponent, PrimeInputTextComponent, PrimeAutoCompleteComponent, EmployeeService, OrganizationsService, RolesService, ModulesService } from '../../../../../shared';
+import { SubmitButtonsComponent, PrimeInputTextComponent, PrimeAutoCompleteComponent, EmployeeService, RolesService, ModulesService } from '../../../../../shared';
 import { Lookup } from '../../../../../shared/interfaces';
 import { BaseEditComponent } from '../../../../../base/components/base-edit-component';
 import { TabsModule } from 'primeng/tabs';

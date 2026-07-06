@@ -4,23 +4,21 @@ import { AbstractControl, FormsModule, ReactiveFormsModule, ValidationErrors, Va
 import { ActivatedRoute } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { DialogService } from 'primeng/dynamicdialog';
-import { SubmitButtonsComponent, PrimeInputTextComponent, AccountService, PrimeAutoCompleteComponent, EmployeeService, OrganizationsService } from '../../../../../shared';
+import { SubmitButtonsComponent, PrimeInputTextComponent, AccountService, PrimeAutoCompleteComponent, EmployeeService, RolesService, PrimeCheckBoxComponent } from '../../../../../shared';
 import { BaseEditComponent } from '../../../../../base/components/base-edit-component';
 import { TabsModule } from 'primeng/tabs';
 import { UserTabs } from '../../../../../core/enums/user-tabs';
-import { UserRolesComponent } from '../user-roles/user-roles.component';
 
 @Component({
     selector: 'app-add-edit-user',
     standalone: true,
-    imports: [CardModule, CommonModule, FormsModule, ReactiveFormsModule, SubmitButtonsComponent, PrimeAutoCompleteComponent, TabsModule, PrimeInputTextComponent, UserRolesComponent],
+    imports: [CardModule, CommonModule, FormsModule, ReactiveFormsModule, SubmitButtonsComponent, PrimeAutoCompleteComponent, TabsModule, PrimeInputTextComponent,PrimeCheckBoxComponent],
     templateUrl: './add-edit-user.component.html',
     styleUrl: './add-edit-user.component.scss'
 })
 export class AddEditUserComponent extends BaseEditComponent implements OnInit {
     accountService: AccountService = inject(AccountService);
     employeeService = inject(EmployeeService);
-    organizationsService = inject(OrganizationsService);
     dialogService: DialogService = inject(DialogService);
     selectedEmployee: any;
     filteredEmployees: any[] = [];
@@ -28,6 +26,9 @@ export class AddEditUserComponent extends BaseEditComponent implements OnInit {
     filteredOrganizations: any[] = [];
     organizationId: any;
     userId: any;
+    selectedRole: any;
+    filteredRoles: any[] = [];
+    rolesService = inject(RolesService);
 
     private passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
         const newPassword = control.get('newPassword');
@@ -73,11 +74,12 @@ export class AddEditUserComponent extends BaseEditComponent implements OnInit {
                 userName: [],
                 password: [],
                 email: [],
-                organizationId: [],
                 employeeId: [],
                 oldPassword: [''],
                 newPassword: [''],
-                confirmPassword: ['']
+                confirmPassword: [''],
+                roleId:[null],
+                isAdmin:[false]
             },
             { validators: this.passwordMatchValidator }
         );
@@ -90,83 +92,58 @@ export class AddEditUserComponent extends BaseEditComponent implements OnInit {
         }
     }
 
+
+    getRoles(event: any) {
+        const query = event.query.toLowerCase();
+        this.rolesService.roles.subscribe({
+            next: (res) => {
+                this.filteredRoles = res.filter((role: any) => role.nameAr.toLowerCase().includes(query));
+            },
+            error: (err) => {
+                this.alert.error('خطأ فى جلب الصلاحيات');
+            }
+        });
+    }
+
+    onRoleSelect(event: any) {
+        this.selectedRole = event.value;
+        this.form.get('roleId')?.setValue(this.selectedRole?.id);
+
+    }
+
+ fetchRoleDetails(user: any) {
+    const selecuser=user.roles.id
+        this.rolesService.roles.subscribe((response: any) => {
+            this.filteredRoles = Array.isArray(response) ? response : response.data || [];
+            console.log("ddddddd",  this.filteredRoles)
+            this.selectedRole = this.filteredRoles.find((item: any) => item.id === selecuser);
+        });
+    }
+//    fetchRoleDetails(roleId: any) {
+//     this.rolesService.roles.subscribe((response: any) => {
+//         this.filteredRoles = Array.isArray(response) ? response : response.data || [];
+//         this.selectedRole = this.filteredRoles.find((role: any) => role.id === roleId);
+//         // Set the selected role in the form
+//         if (this.selectedRole) {
+//             this.form.get('roleId')?.setValue(this.selectedRole.id);
+//         }
+//     });
+// }
+
     getEditUser = () => {
         this.accountService.getEditUser(this.id).subscribe((user: any) => {
             this.initFormGroup();
             this.form.patchValue(user);
-            this.fetchOrganizationDetails(user?.organizationId);
-
-        });
-    };
-
-//   if (organizationId) {
-//             body.filter.organizationId = organizationId;
-//             return this.organizationsService.getPaged(body);
-//         }
-
-      getOrganizations(event: any) {
-    const query = event.query.toLowerCase();
-
-
-    this.organizationsService.Organizations.subscribe({
-        next: (res) => {
-
-
-
-            this.filteredOrganizations = res.filter((organizationId: any) =>
-                organizationId.nameAr.toLowerCase().includes(query)
-            );
-        },
-        error: (err) => {
-            this.alert.error('خطأ في جلب بيانات الجهات');
+           
+    
+            this.fetchRoleDetails(user);
         }
-    });
-}
+
+        );}
+   
 
 
-    onOrganizationSelect(event: any) {
-        this.selectedOrganization = event.value;
-        this.organizationId = this.selectedOrganization?.id;
-        this.form.get('organizationId')?.setValue(this.selectedOrganization?.id);
-        // this.disabledEmployee = false;
-    }
-    getEmployees(event: any) {
-        const query = event.query.toLowerCase();
- this.organizationId= this.form.get('organizationId')?.value;
-
-  console.log('Fetching employees for organization ID:', this.organizationId);
-  const body: any = { filter: { organizationId: this.organizationId, search: query }, pageNumber: 1,  pageSize: 10 };
-    this.employeeService.getPaged(body).subscribe({
-        next: (res) => {
-
-             this.filteredOrganizations = res.data;
-
-            this.filteredEmployees = res.data.filter((employee: any) =>
-                employee.nameAr.toLowerCase().includes(query)
-            );
-        },
-        error: (err) => {
-            this.alert.error('خطأ في جلب بيانات الموظفين');
-        }
-    });
-}
-
-
-    onEmployeeSelect(event: any) {
-        this.selectedEmployee = event.value;
-        this.form.get('employeeId')?.setValue(this.selectedEmployee?.id);
-    }
-    fetchOrganizationDetails(organizationId: any) {
-        this.organizationsService.getOrganization(organizationId).subscribe((organizationDetails: any) => {
-            this.selectedOrganization = organizationDetails?.data || organizationDetails;
-            this.form.patchValue({
-                organizationId: organizationDetails?.data?.id || organizationDetails?.id
-            });
-        });
-    }
-
-
-
+   
     get userEnum() {
         return UserTabs;
     }
@@ -183,15 +160,13 @@ export class AddEditUserComponent extends BaseEditComponent implements OnInit {
     }
 
 
- override redirect = () => {
+    override redirect = () => {
         if (this.dialogService.dialogComponentRefMap.size > 0) {
             this.closeDialog();
-        } else {
-            super.redirect('/pages/auth/users');
         }
     };
 
- closeDialog() {
+    closeDialog() {
         this.dialogService.dialogComponentRefMap.forEach((dialog) => {
             dialog.destroy();
         });

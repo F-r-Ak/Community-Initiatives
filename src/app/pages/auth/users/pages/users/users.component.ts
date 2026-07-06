@@ -31,14 +31,14 @@ export class UsersComponent extends BaseListComponent {
     initializeTableOptions() {
         this.tableOptions = {
             inputUrl: {
-                getAll: 'accounts/getpaged',
+                getAll: 'v1/accounts/getpaged',
                 getAllMethod: 'POST',
-                delete: 'accounts/delete'
+                delete: 'v1/accounts/delete'
             },
             inputCols: this.initializeTableColumns(),
             inputActions: this.initializeTableActions(),
             permissions: {
-                componentName: 'SYSTEM-MANAGEMENT-SMART-LOOKUPS-ACCIDENT-TYPES',
+                componentName: 'CITIZEN-SERVICES-LOOKUPS-ACCIDENT-TYPES',
                 allowAll: true,
                 listOfPermissions: []
             },
@@ -64,12 +64,12 @@ export class UsersComponent extends BaseListComponent {
                 filter: true,
                 filterMode: 'text'
             },
-            {
-                field: 'organization',
-                header: 'الجهة',
-                filter: true,
-                filterMode: 'text'
-            }
+            // {
+            //     field: 'organization',
+            //     header: 'الجهة',
+            //     filter: true,
+            //     filterMode: 'text'
+            // }
         ];
     }
 
@@ -79,17 +79,20 @@ export class UsersComponent extends BaseListComponent {
                 name: 'EDIT',
                 icon: 'pi pi-file-edit',
                 color: 'text-middle',
-                isEdit: true,
-                route: '/pages/auth/users/edit/',
+                isCallBack: true,
+                call: (row) => {
+                    this.openEdit(row);
+                },
                 allowAll: true
             },
+           this.authHelper.isAdmin?
             {
                 name: 'DELETE',
                 icon: 'pi pi-trash',
                 color: 'text-error',
                 allowAll: true,
                 isDelete: true
-            }
+            }:{  }
         ];
     }
 

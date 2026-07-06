@@ -40,28 +40,11 @@ clientRole: 'Adder' | 'Updater' | 'Both' = 'Both';
 
   async ngOnInit(): Promise<void> {
 
-    this.updateVisitorModuleFlags();
-    // initialize username from AuthHelper if available
-    try {
-      this.userName = (this.authHelper && (this.authHelper as any).getName) ? (this.authHelper as any).getName() : '';
-    } catch (e) {
-      this.userName = '';
-    }
+   
 
-    this.userSub = this.authHelper.userData$?.subscribe((user: any) => {
-      this.updateVisitorModuleFlags();
-      // prefer explicit user data, fallback to AuthHelper.getName()
-      this.userName = user?.name || user?.fullName || (this.authHelper && (this.authHelper as any).getName ? (this.authHelper as any).getName() : '') || '';
-    });
+  
     
-    // Determine client role based on user permissions or other logic
-    this.determineClientRole();
-    
-    // Set client type before initializing connection
-    await this.setClientTypeBasedOnRole();
-    
-    await this.initializeNotifications();
-    this.setupNotificationSubscription();
+   
   }
 
   ngOnDestroy(): void {
@@ -171,11 +154,7 @@ clientRole: 'Adder' | 'Updater' | 'Both' = 'Both';
     );
   }
 
-  private updateVisitorModuleFlags(): void {
-    this.userHasVisitorsModule = this.authHelper.hasModule('الزوار');
-    // use the new page-based check
-    this.hasVisitorsItem = this.authHelper.hasModulePage('الزوار', 'بحث الزوار');
-  }
+ 
 
   private updateUnreadCount(): void {
     const unreadCount = this.notifications.filter(n => !n.read).length;

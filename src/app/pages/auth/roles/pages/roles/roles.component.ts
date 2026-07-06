@@ -39,7 +39,7 @@ export class RolesComponent extends BaseListComponent {
             inputCols: this.initializeTableColumns(),
             inputActions: this.initializeTableActions(),
             permissions: {
-                componentName: 'SYSTEM-MANAGEMENT-SMART-LOOKUPS-ACCIDENT-TYPES',
+                componentName: 'CITIZEN-SERVICES-LOOKUPS-ACCIDENT-TYPES',
                 allowAll: true,
                 listOfPermissions: []
             },
@@ -58,12 +58,12 @@ export class RolesComponent extends BaseListComponent {
                 filter: true,
                 filterMode: 'text'
             },
-            {
-                field: 'moduleName',
-                header: 'اسم الإدارة',
-                filter: true,
-                filterMode: 'text'
-            }
+            // {
+            //     field: 'moduleName',
+            //     header: 'اسم الإدارة',
+            //     filter: true,
+            //     filterMode: 'text'
+            // }
         ];
     }
 
@@ -79,23 +79,25 @@ export class RolesComponent extends BaseListComponent {
                 },
                 allowAll: true
             },
-             {
-                name: 'Settings',
-                icon: 'pi pi-cog',
-                color: 'text-middle',
-                isCallBack: true,
-                call: (row) => {
-                    this.openRoleModule(row);
-                },
-                allowAll: true
-            },
+            //  {
+            //     name: 'Settings',
+            //     icon: 'pi pi-cog',
+            //     color: 'text-middle',
+            //     isCallBack: true,
+            //     call: (row) => {
+            //         this.openRoleModule(row);
+            //     },
+            //     allowAll: true
+            // },
+            this.authHelper.isAdmin?
+           this.authHelper.isAdmin?
             {
                 name: 'DELETE',
                 icon: 'pi pi-trash',
                 color: 'text-error',
                 allowAll: true,
                 isDelete: true
-            }
+            }:{  }:{  }
         ];
     }
 
@@ -111,7 +113,7 @@ export class RolesComponent extends BaseListComponent {
             row: { rowData }
         });
     }
-    
+
     openRoleModule(rowData: any) {
         this.router.navigate(['settings', rowData.id,rowData.moduleId], { relativeTo: this.activatedRoute });
 

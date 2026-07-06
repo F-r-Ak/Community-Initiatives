@@ -4,13 +4,13 @@ import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { DialogService } from 'primeng/dynamicdialog';
-import { SubmitButtonsComponent, PrimeInputTextComponent, SectionsService, RolesService, PrimeAutoCompleteComponent, ModulesService } from '../../../../../shared';
+import { SubmitButtonsComponent, PrimeInputTextComponent, SectionsService, RolesService, ModulesService } from '../../../../../shared';
 import { BaseEditComponent } from '../../../../../base/components/base-edit-component';
 
 @Component({
     selector: 'app-add-edit-role',
     standalone: true,
-    imports: [CardModule, CommonModule, FormsModule, ReactiveFormsModule, SubmitButtonsComponent, PrimeAutoCompleteComponent, PrimeInputTextComponent],
+    imports: [CardModule, CommonModule, FormsModule, ReactiveFormsModule, SubmitButtonsComponent, PrimeInputTextComponent],
     templateUrl: './add-edit-role.component.html',
     styleUrl: './add-edit-role.component.scss'
 })
@@ -45,7 +45,7 @@ export class AddEditRoleComponent extends BaseEditComponent implements OnInit {
             id: [],
             nameAr: ['', Validators.required],
             nameEn: ['', Validators.required],
-            moduleId: [null, Validators.required] 
+            // moduleId: [null, Validators.required] 
         });
     }
 

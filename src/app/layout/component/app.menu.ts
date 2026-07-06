@@ -5,6 +5,7 @@ import { MenuItem } from 'primeng/api';
 import { AppMenuitem } from './app.menuitem';
 import { AuthHelper } from '../../core';
 import { Subscription } from 'rxjs';
+import { RoleCodes } from '../../core/enums/role';
 
 @Component({
     selector: 'app-menu',
@@ -21,6 +22,9 @@ export class AppMenu {
     model: MenuItem[] = [];
     authHelper = inject(AuthHelper);
     private userSub?: Subscription;
+    get rolesEnum() {
+        return RoleCodes;
+    }
     ngOnInit() {
         // Build menu initially
         this.buildModel();
@@ -35,19 +39,23 @@ export class AppMenu {
     }
 
     private buildModel(): void {
+
         this.model = [
+            this.authHelper.hasRole(this.rolesEnum.Administrator) || this.authHelper.hasRole(this.rolesEnum.Employee) ?
+                {
+                    label: 'الإحصائيات',
+                    icon: 'pi pi-fw pi-briefcase',
+                    items: [
+                        {
+                            label: 'إحصائيات المبادرات',
+                            icon: 'pi pi-fw pi-chart-bar',
+                            routerLink: ['/pages/social-initiatives/initiatives/dashboard']
+                        }
+                    ]
+                }
+                : { styleClass: 'v' },
+
             {
-                label: 'الإحصائيات',
-                icon: 'pi pi-fw pi-briefcase',
-                // routerLink: ['/pages'],
-                items: [
-                    {
-                        label: 'إحصائيات المبادرات',
-                        icon: 'pi pi-fw pi-chart-bar',
-                        routerLink: ['/pages/social-initiatives/initiatives/dashboard']
-                    }
-                ]
-            },            {
                 label: 'الاعدادات',
                 icon: 'pi pi-fw pi-briefcase',
                 items: [
@@ -131,11 +139,7 @@ export class AppMenu {
                         icon: 'pi pi-fw pi-lock',
                         routerLink: ['/pages/auth/roles']
                     },
-                    {
-                        label: 'الإدارات',
-                        icon: 'pi pi-fw pi-sitemap',
-                        routerLink: ['/pages/auth/modules']
-                    }
+
                 ]
             },
             { styleClass: 'v' }
