@@ -264,6 +264,7 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
     onOrganizationSelect(event: any): void {
         this.selectedOrganization = event?.value ?? null;
         this.form.get('vw_OrganizationId')?.setValue(this.selectedOrganization?.id ?? null);
+        console.log ('gg',this.selectedOrganization)
     }
 
     onCityClear() {
