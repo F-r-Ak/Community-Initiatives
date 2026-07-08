@@ -50,4 +50,62 @@ export class InitiativesService extends HttpService {
     remove(id: string) {
         return this.delete({ apiName: `delete/`, showAlert: true }, id);
     }
+
+
+
+      generateReport(body: any): Observable<any> {
+        // Convert body to query parameters
+        const params = this.buildQueryParams(body);
+        return this.get<any>({ apiName: 'getreport', params });
+    }
+
+    downloadReport(body: any): Observable<Blob> {
+        // Convert body to query parameters and download as blob
+        const params = this.buildQueryParams(body);
+        const queryString = new URLSearchParams(params).toString();
+        return this.http.get(`${this.domainName}${this.baseUrl}getreport?${queryString}`, {
+            responseType: 'blob'
+        });
+    }
+
+    private buildQueryParams(body: any): any {
+        const params: any = {};
+
+        // Map form fields to API parameters
+        if (body.reportName) params.ReportName = body.reportName;
+        if (body.reportType) params.ReportType = body.reportType;
+        if (body.acceptLanguage) params.AcceptLanguage = body.acceptLanguage;
+       
+         if (body.name) params.name = body.name;
+        if (body.fieldNameId) {
+            if (body.fieldNameId.nameEn) {
+                params.fieldNameId = body.fieldNameId.nameEn;
+            } else if (typeof body.fieldNameId === 'string') {
+                params.fieldNameId = body.fieldNameId;
+            }
+        }
+        if (body.cityId) {
+            if (body.cityId.nameEn) {
+                params.City = body.cityId.nameEn;
+            } else if (typeof body.cityId === 'string') {
+                params.City = body.cityId;
+            }
+        }
+        if (body.InitiativeMangerName) {
+            if (body.InitiativeMangerName.name) {
+                params.InitiativeMangerName = body.InitiativeMangerName.name;
+            } else if (typeof body.InitiativeMangerName === 'string') {
+                params.InitiativeMangerName = body.InitiativeMangerName;
+            }
+        }
+        if (body.serviceTypeId) {
+            if (body.serviceTypeId.nameEn) {
+                params.ServiceType = body.serviceTypeId.nameEn;
+            } else if (typeof body.serviceTypeId === 'string') {
+                params.ServiceType = body.serviceTypeId;
+            }
+        }
+        return params;
+    }
+
 }

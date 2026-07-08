@@ -44,6 +44,13 @@ export default [
             }
         ]
     },
+     {
+      
+                path: 'report',
+                loadChildren: () => import('./report/reports.routes').then((m) => m.ReportRoutes)
+           
+     },
+   
     {
         path: 'social-initiatives',
         children: [

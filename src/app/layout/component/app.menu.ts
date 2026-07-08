@@ -122,6 +122,19 @@ export class AppMenu {
                     }
                 ]
             },
+             {
+                label: ' التقارير',
+                icon: 'pi pi-fw pi-briefcase',
+                items: [
+                    {
+                        label: 'تقرير',
+                        icon: 'pi pi-fw pi-cog',
+                        routerLink: ['/pages/report']
+                    },
+                    
+                ]
+            },
+            
             { styleClass: 'v' },
             // this.authHelper.hasModule('ادمن') ?
             {
