@@ -1,0 +1,174 @@
+@if (initiative) {
+    <div class="view-wrapper" dir="rtl">
+        <!-- Header card -->
+        <div class="card header-card mb-3">
+            <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                <!-- Title and badges -->
+                <div class="text-start">
+                    <div class="initiative-title mb-2">{{ initiative.name }}</div>
+                    <div class="d-flex gap-2 justify-content-end flex-wrap">
+                        <span class="badge-chip city"> <i class="pi pi-map-marker me-1"></i>{{ initiative.cityName }} </span>
+                        <span class="badge-chip field"> <i class="pi pi-tag me-1"></i>{{ initiative.fieldName }} </span>
+                    </div>
+                </div>
+
+                <!-- Action buttons -->
+                <div class="d-flex gap-2">
+                    <button pButton class="main-btn danger py-1 px-3" (click)="navigateBack()"><i class="pi pi-trash me-1"></i> عودة</button>
+                    <button pButton class="main-btn py-1 px-3" style="background: var(--datatable-header-color); color: #fff; border: none" (click)="navigateToEdit()"><i class="pi pi-file-edit me-1"></i> تعديل</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main content row -->
+        <div class="row g-3 mb-3">
+            <!-- Left column: Team + Extra details -->
+            <div class="col-12 col-lg-4 d-flex flex-column gap-3">
+                <!-- Team card -->
+                <div class="card p-3">
+                    <div class="section-header d-flex align-items-center justify-content-between mb-2">
+                        <span class="d-flex align-items-center gap-2">
+                            <i class="pi pi-users text-primary"></i>
+                            <strong>فريق العمل ({{ teamMembers.length }})</strong>
+                        </span>
+                    </div>
+
+                    <!-- Manager card -->
+                    @if (manager) {
+                        <div class="team-card manager-card">
+                            <div class="manager-badge mb-2"><i class="pi pi-star-fill me-1"></i> المسئول عن المبادرة</div>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="member-avatar manager-avatar">{{ getMemberInitial(manager.teamMemberName) }}</div>
+                                <div>
+                                    <div class="fw-bold">{{ manager.teamMemberName }}</div>
+                                    <span class="status-chip">{{ manager.jobStatusNameAr || manager.jobStatusName?.nameAr }}</span>
+                                </div>
+                            </div>
+                            <div class="member-details">
+                                @if (manager.nationalID) {
+                                    <div class="detail-row">
+                                        <span class="label">الهاتف:</span><span>{{ manager.nationalID }}</span>
+                                    </div>
+                                }
+                                <div class="detail-row">
+                                    <span class="label">الموقع:</span><span>{{ manager.cityName }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <!-- Regular members -->
+                    @for (member of regularMembers; track member.id) {
+                        <div class="team-card">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="member-avatar">{{ getMemberInitial(member.teamMemberName) }}</div>
+                                <div>
+                                    <div class="fw-bold">{{ member.teamMemberName }}</div>
+                                    <span class="status-chip">{{ member.jobStatusNameAr || member.jobStatusName?.nameAr }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <!-- Extra details card -->
+                <div class="card p-3 extra-details-card">
+                    <div class="section-header d-flex align-items-center gap-2 mb-3">
+                        <i class="pi pi-info-circle"></i>
+                        <strong>تفاصيل إضافية</strong>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">عدد الأنشطة:</span>
+                        <span>{{ activitiesCount }}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">إجمالي المخرجات:</span>
+                        <span>{{ outputsCount }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right column: Info cards -->
+            <div class="col-12 col-lg-8 d-flex flex-column gap-3">
+                <!-- Description -->
+                <div class="card p-3 info-card">
+                    <div class="info-card-title">نبذة عن المبادرة</div>
+                    <p>{{ initiative.description }}</p>
+                </div>
+
+                <!-- Problem + Suggested Solution -->
+                <div class="row g-3">
+                    <div class="col-12 col-md-6">
+                        <div class="card p-3 info-card h-100">
+                            <div class="info-card-title">المشكلة</div>
+                            <p>{{ initiative.problemDescription }}</p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="card p-3 info-card h-100">
+                            <div class="info-card-title">الحل المقترح</div>
+                            <p>{{ initiative.suggestedSolution }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Beneficiary + Expected Impact -->
+                <div class="row g-3">
+                    <div class="col-12 col-md-6">
+                        <div class="card p-3 info-card h-100">
+                            <div class="info-card-title">الفئة المستهدفة</div>
+                            <p>{{ initiative.beneficiaryGroup }}</p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="card p-3 info-card h-100">
+                            <div class="info-card-title">الأثر المتوقع</div>
+                            <p>{{ initiative.expectedImpact }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Execution steps -->
+                <div class="card p-3 info-card">
+                    <div class="info-card-title">خطوات التنفيذ</div>
+                    <p>{{ initiative.stepsExecution }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Activities log section -->
+        <div class="card p-3 mb-3">
+            <div class="section-header d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="pi pi-calendar" style="color: var(--datatable-header-color)"></i>
+                    <strong>سجل الأنشطة ({{ activitiesCount }})</strong>
+                </div>
+                <button class="toggle-btn" (click)="toggleActivities()">
+                    <i class="pi" [class.pi-chevron-up]="showActivities" [class.pi-chevron-down]="!showActivities"></i>
+                    {{ showActivities ? 'إخفاء' : 'إظهار' }}
+                </button>
+            </div>
+
+            @if (showActivities) {
+                @if (activities.length === 0) {
+                    <div class="empty-state mt-3">
+                        <p class="text-muted text-center">لا يوجد أنشطة مضافة لهذه المبادرة بعد</p>
+                    </div>
+                } @else {
+                    <div class="activities-list mt-3">
+                        @for (activity of activities; track activity.id) {
+                            <div class="activity-row d-flex justify-content-between align-items-center">
+                                <span>{{ activity.name }}</span>
+                                <span class="text-muted" style="font-size: 0.8rem">{{ activity.startDate | date: 'yyyy/M/d' }}</span>
+                            </div>
+                        }
+                    </div>
+                }
+            }
+        </div>
+    </div>
+} @else {
+    <div class="d-flex justify-content-center align-items-center p-5">
+        <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+    </div>
+}

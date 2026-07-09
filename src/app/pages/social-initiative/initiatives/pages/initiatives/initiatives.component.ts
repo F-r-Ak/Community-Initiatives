@@ -59,6 +59,14 @@ export class InitiativesComponent extends BaseListComponent {
     initializeTableActions(): TableOptions['inputActions'] {
         return [
             {
+                name: 'VIEW',
+                icon: 'pi pi-eye',
+                color: 'text-info',
+                isView: true,
+                route: '/pages/social-initiatives/initiatives/view/',
+                allowAll: true
+            },
+            {
                 name: 'EDIT',
                 icon: 'pi pi-file-edit',
                 color: 'text-middle',
@@ -79,6 +87,10 @@ export class InitiativesComponent extends BaseListComponent {
 
     navigateToEdit(row: any) {
         this.route.navigate([`social-initiatives/initiatives/edit/${row.id}`]);
+    }
+
+    navigateToView(row: any) {
+        this.route.navigate([`social-initiatives/initiatives/view/${row.id}`]);
     }
 
     override ngOnDestroy() {

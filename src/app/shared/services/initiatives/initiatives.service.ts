@@ -47,13 +47,15 @@ export class InitiativesService extends HttpService {
         return this.get<any>({ apiName: 'getcountbycity' });
     }
 
+    getInitiativesTotalCount(): Observable<any> {
+        return this.get<any>({ apiName: 'getinitiativestotalcount' });
+    }
+
     remove(id: string) {
         return this.delete({ apiName: `delete/`, showAlert: true }, id);
     }
 
-
-
-      generateReport(body: any): Observable<any> {
+    generateReport(body: any): Observable<any> {
         // Convert body to query parameters
         const params = this.buildQueryParams(body);
         return this.get<any>({ apiName: 'getreport', params });
@@ -75,8 +77,8 @@ export class InitiativesService extends HttpService {
         if (body.reportName) params.ReportName = body.reportName;
         if (body.reportType) params.ReportType = body.reportType;
         if (body.acceptLanguage) params.AcceptLanguage = body.acceptLanguage;
-       
-         if (body.name) params.name = body.name;
+
+        if (body.name) params.name = body.name;
         if (body.fieldNameId) {
             if (body.fieldNameId.nameEn) {
                 params.fieldNameId = body.fieldNameId.nameEn;
@@ -107,5 +109,4 @@ export class InitiativesService extends HttpService {
         }
         return params;
     }
-
 }

@@ -1,0 +1,219 @@
+:host {
+    display: block;
+    padding: 1rem;
+}
+
+.view-wrapper {
+    max-width: 1200px;
+}
+
+.header-card {
+    margin-bottom: 0;
+}
+
+.back-link {
+    font-size: 0.85rem;
+    color: #555;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+
+    &:hover { color: var(--primary-color); }
+}
+
+.empty-state {
+    padding: 1rem 0;
+}
+
+// Initiative header
+.initiative-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #1a3a5c;
+    direction: rtl;
+}
+
+// Badge chips (city / field)
+.badge-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+
+    &.city {
+        background: #e8f4fd;
+        color: #1a6496;
+        border: 1px solid #b8d9f0;
+    }
+
+    &.field {
+        background: #fff8e1;
+        color: #7c5c00;
+        border: 1px solid #ffe082;
+    }
+}
+
+// Action buttons
+.main-btn {
+    &.danger {
+        background: #e53935;
+        color: #fff;
+        border: none;
+
+        &:hover {
+            background: #c62828;
+        }
+    }
+}
+
+// Info cards (description, problem, etc.)
+.info-card {
+    .info-card-title {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: #1a3a5c;
+        border-right: 3px solid #2196f3;
+        padding-right: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    p {
+        color: #555;
+        font-size: 0.9rem;
+        line-height: 1.7;
+    }
+}
+
+// Team member card
+.team-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.75rem;
+    background: #fff;
+
+    &.manager-card {
+        border-color: #f0c040;
+        background: #fffdf0;
+    }
+}
+
+.manager-badge {
+    display: inline-flex;
+    align-items: center;
+    background: linear-gradient(135deg, #c9a227, #f0c040);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.2rem 0.7rem;
+    border-radius: 12px;
+    margin-bottom: 0.6rem;
+
+    i { font-size: 0.7rem; }
+}
+
+.member-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #e3f2fd;
+    color: #1565c0;
+    font-weight: 700;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    &.manager-avatar {
+        background: #fff3cd;
+        color: #856404;
+    }
+}
+
+.status-chip {
+    font-size: 0.72rem;
+    background: #f5f5f5;
+    color: #555;
+    border-radius: 10px;
+    padding: 0.1rem 0.5rem;
+    margin-top: 0.15rem;
+    display: inline-block;
+}
+
+.member-details {
+    border-top: 1px dashed #e0e0e0;
+    padding-top: 0.5rem;
+    margin-top: 0.5rem;
+    font-size: 0.82rem;
+}
+
+// Shared detail row
+.detail-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 0.3rem;
+    font-size: 0.85rem;
+    color: #444;
+
+    .label {
+        font-weight: 600;
+        color: #777;
+        flex-shrink: 0;
+    }
+}
+
+// Extra details card (dark blue)
+.extra-details-card {
+    background: #1a3a5c !important;
+    color: #fff;
+
+    .section-header span,
+    .section-header i {
+        color: #fff !important;
+    }
+
+    .detail-row {
+        color: rgba(255, 255, 255, 0.9);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 0.4rem;
+        margin-bottom: 0.4rem;
+
+        .label {
+            color: rgba(255, 255, 255, 0.65);
+        }
+    }
+}
+
+// Toggle button for collapsible sections
+.toggle-btn {
+    background: none;
+    border: none;
+    color: #555;
+    font-size: 0.83rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+
+    i { font-size: 0.75rem; }
+    &:hover { color: #1a3a5c; }
+}
+
+// Activity list rows
+.activities-list {
+    .activity-row {
+        padding: 0.4rem 0;
+        border-bottom: 1px solid #f0f0f0;
+        font-size: 0.88rem;
+
+        &:last-child { border-bottom: none; }
+    }
+}
+
+.section-header {
+    margin-bottom: 0.5rem;
+}

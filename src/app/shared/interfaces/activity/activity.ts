@@ -1,28 +1,37 @@
 import { Lookup, SharedProperties } from '../shared/shared';
 import { Attachment } from '../attachment/attachment';
+import { EnumDto } from '../..';
 
 export interface ActivityDto extends Lookup, Partial<SharedProperties> {
     id: string;
-    initiativeId: string;
     name: string;
+    initiativeId: string;
+    initiativeName: string;
+    fieldId: string;
+    fieldName: string;
     cityId: string;
+    cityName: string;
     townId: string;
+    townName: string;
     address: string;
     activityTypeId: string;
+    activityTypeName: string;
     executeTypeId: string;
+    executeTypeName: string;
     startDate: string;
     endDate: string;
     activityTime: string;
-    activityManager: string;
-    entityType: string;
+    activityManger: string;
+    entityType: EnumDto;
     entityId: string;
+    entityName: string;
     vw_OrganizationId: number;
     organizationName: string;
     numberOfVolunteers: number;
     numberOfBeneficiaries: number;
     numberOfActivity: number;
     notes: string;
-    executionStatus: string;
+    executionStatus: EnumDto;
     attachs: Attachment[];
 }
 

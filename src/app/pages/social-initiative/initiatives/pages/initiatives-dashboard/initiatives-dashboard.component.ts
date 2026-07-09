@@ -24,6 +24,9 @@ export class InitiativesDashboardComponent extends BaseComponent implements OnIn
     citiesChartData: any;
     chartOptions: any;
 
+    activitiesTotalCount: number = 0;
+    initiativesTotalCount: number = 0;
+
     readonly cardColors = ['#42A5F5', '#66BB6A', '#FFA726', '#AB47BC', '#EC407A', '#26C6DA'];
 
     constructor(protected override activatedRoute: ActivatedRoute) {
@@ -52,11 +55,15 @@ export class InitiativesDashboardComponent extends BaseComponent implements OnIn
     loadDashboardData() {
         forkJoin({
             executionStatus: this.activitiesService.getExecutionStatusDashboardCounts(),
-            cities: this.initiativesService.getCitiesDashboardCounts()
+            cities: this.activitiesService.getCitiesActivitiesDashboardCounts(),
+            activitiesTotal: this.activitiesService.getActivitiesTotalCount(),
+            initiativesTotal: this.initiativesService.getInitiativesTotalCount()
         }).subscribe({
-            next: ({ executionStatus, cities }) => {
+            next: ({ executionStatus, cities, activitiesTotal, initiativesTotal }) => {
                 this.buildExecutionStatusChart(executionStatus);
                 this.buildCitiesChart(cities);
+                this.activitiesTotalCount = activitiesTotal;
+                this.initiativesTotalCount = initiativesTotal;
             }
         });
     }
@@ -80,9 +87,10 @@ export class InitiativesDashboardComponent extends BaseComponent implements OnIn
             labels: data.map((d) => d.name),
             datasets: [
                 {
+                    label: 'عدد الأنشطة',
                     data: data.map((d) => d.count),
                     backgroundColor: ['#42A5F5', '#66BB6A', '#FFA726', '#AB47BC', '#EC407A'],
-                    hoverOffset: 6
+                    borderRadius: 6
                 }
             ]
         };

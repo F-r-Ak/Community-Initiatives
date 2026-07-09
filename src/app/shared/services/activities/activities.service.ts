@@ -39,6 +39,14 @@ export class ActivitiesService extends HttpService {
         return this.get<any>({ apiName: 'getcountbyexecutionstatus' });
     }
 
+    getCitiesActivitiesDashboardCounts(): Observable<any> {
+        return this.get<any>({ apiName: 'getcountactivitiesbycity' });
+    }
+
+    getActivitiesTotalCount(): Observable<any> {
+        return this.get<any>({ apiName: 'getactivitiestotalcount' });
+    }
+
     add(body: FormData) {
         return this.post<FormData, ActivityDto>({ apiName: 'add', showAlert: true }, body);
     }
