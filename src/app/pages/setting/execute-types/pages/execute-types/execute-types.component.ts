@@ -5,6 +5,7 @@ import { BaseListComponent } from '../../../../../base/components/base-list-comp
 import { CardModule } from 'primeng/card';
 import { PrimeDataTableComponent, PrimeTitleToolBarComponent, ExecuteTypesService, TableOptions } from '../../../../../shared';
 import { AddEditExecuteTypeComponent } from '../../components/add-edit-execute-type/add-edit-execute-type.component';
+import { ExecuteTypeComponent } from '../../components/execute-type/execute-type.component';
 import { AuthHelper } from '../../../../../core';
 @Component({
     selector: 'app-execute-types',
@@ -61,6 +62,16 @@ export class ExecuteTypesComponent extends BaseListComponent {
     initializeTableActions(): TableOptions['inputActions'] {
         return [
             {
+                name: 'VIEW',
+                icon: 'pi pi-eye',
+                color: 'text-info',
+                isCallBack: true,
+                call: (row) => {
+                    this.openView(row);
+                },
+                allowAll: true
+            },
+            {
                 name: 'EDIT',
                 icon: 'pi pi-file-edit',
                 color: 'text-middle',
@@ -84,6 +95,13 @@ export class ExecuteTypesComponent extends BaseListComponent {
     openAdd() {
         this.openDialog(AddEditExecuteTypeComponent, 'اضافة نوع التنفيذ ', {
             pageType: 'add'
+        });
+    }
+
+    openView(rowData: any) {
+        this.openDialog(ExecuteTypeComponent, 'عرض نوع التنفيذ', {
+            pageType: 'view',
+            row: { rowData }
         });
     }
 

@@ -5,6 +5,7 @@ import { BaseListComponent } from '../../../../../base/components/base-list-comp
 import { CardModule } from 'primeng/card';
 import { PrimeDataTableComponent, PrimeTitleToolBarComponent, BeneficiaryGroupsService, TableOptions } from '../../../../../shared';
 import { AddEditBeneficiaryGroupComponent } from '../../components/add-edit-beneficiary-group/add-edit-beneficiary-group.component';
+import { BeneficiaryGroupComponent } from '../../components/beneficiary-group/beneficiary-group.component';
 import { AuthHelper } from '../../../../../core';
 @Component({
     selector: 'app-beneficiary-groups',
@@ -61,6 +62,16 @@ export class BeneficiaryGroupsComponent extends BaseListComponent {
     initializeTableActions(): TableOptions['inputActions'] {
         return [
             {
+                name: 'VIEW',
+                icon: 'pi pi-eye',
+                color: 'text-info',
+                isCallBack: true,
+                call: (row) => {
+                    this.openView(row);
+                },
+                allowAll: true
+            },
+            {
                 name: 'EDIT',
                 icon: 'pi pi-file-edit',
                 color: 'text-middle',
@@ -84,6 +95,13 @@ export class BeneficiaryGroupsComponent extends BaseListComponent {
     openAdd() {
         this.openDialog(AddEditBeneficiaryGroupComponent, 'اضافة فئة مستفيدين ', {
             pageType: 'add'
+        });
+    }
+
+    openView(rowData: any) {
+        this.openDialog(BeneficiaryGroupComponent, 'عرض فئة مستفيدين', {
+            pageType: 'view',
+            row: { rowData }
         });
     }
 

@@ -5,6 +5,7 @@ import { BaseListComponent } from '../../../../../base/components/base-list-comp
 import { CardModule } from 'primeng/card';
 import { PrimeDataTableComponent, PrimeTitleToolBarComponent, EntitiesService, TableOptions } from '../../../../../shared';
 import { AddEditEntityComponent } from '../../components/add-edit-entity/add-edit-entity.component';
+import { EntityComponent } from '../../components/entity/entity.component';
 import { AuthHelper } from '../../../../../core';
 @Component({
     selector: 'app-entities',
@@ -61,6 +62,16 @@ export class EntitiesComponent extends BaseListComponent {
     initializeTableActions(): TableOptions['inputActions'] {
         return [
             {
+                name: 'VIEW',
+                icon: 'pi pi-eye',
+                color: 'text-info',
+                isCallBack: true,
+                call: (row) => {
+                    this.openView(row);
+                },
+                allowAll: true
+            },
+            {
                 name: 'EDIT',
                 icon: 'pi pi-file-edit',
                 color: 'text-middle',
@@ -84,6 +95,13 @@ export class EntitiesComponent extends BaseListComponent {
     openAdd() {
         this.openDialog(AddEditEntityComponent, 'اضافة مركز ', {
             pageType: 'add'
+        });
+    }
+
+    openView(rowData: any) {
+        this.openDialog(EntityComponent, 'عرض المركز', {
+            pageType: 'view',
+            row: { rowData }
         });
     }
 
