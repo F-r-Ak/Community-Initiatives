@@ -186,7 +186,7 @@ hasRole(role: string): boolean {
   return userRole === role;
 }
 get  isAdmin(): boolean {
-  return  this.userData?.isAdmin;
+  return  this.userData?.IsAdmin;
 }
   
   getUserId(): string | null {

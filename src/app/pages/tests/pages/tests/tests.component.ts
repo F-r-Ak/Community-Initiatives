@@ -83,7 +83,7 @@ export class TestsComponent extends BaseListComponent {
                 },
                 allowAll: true
             },
-            this.authHelper.isAdmin?
+           this.authHelper.isAdmin?
             {
                 name: 'DELETE',
                 icon: 'pi pi-trash',
