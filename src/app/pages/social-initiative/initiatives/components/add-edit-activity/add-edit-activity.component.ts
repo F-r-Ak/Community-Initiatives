@@ -105,7 +105,7 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
             startDate: [null],
             endDate: [null],
             activityTime: [null, Validators.required],
-            activityManager: [''],
+            activityManger: [''],
             entityType: [null, Validators.required],
             entityId: [null],
             vw_OrganizationId: [null],
@@ -142,7 +142,55 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
                 this.form.get('attachs')?.setValue(data.attachs);
             }
             this.form.patchValue({ ...data, attachs: data.attachs ?? [] });
-            this.loadSelectedOptions(data);
+
+            // Load enum lists first before setting selected options
+            this.loadEnumLists().then(() => {
+                this.loadSelectedOptions(data);
+            });
+        });
+    }
+
+    private loadEnumLists(): Promise<void> {
+        return new Promise((resolve) => {
+            let completed = 0;
+            const total = 4; // entityTypes, executionStatus, executeTypes, activityTypes
+
+            const checkComplete = () => {
+                completed++;
+                if (completed === total) resolve();
+            };
+
+            this.entityTypesService.entityTypes.subscribe({
+                next: (res) => {
+                    this.entityTypesList = res;
+                    checkComplete();
+                },
+                error: () => checkComplete()
+            });
+
+            this.executionStatusService.executionStatus.subscribe({
+                next: (res) => {
+                    this.executionStatusList = res;
+                    checkComplete();
+                },
+                error: () => checkComplete()
+            });
+
+            this.executeTypesService.executeTypes.subscribe({
+                next: (res) => {
+                    this.executeTypesList = res;
+                    checkComplete();
+                },
+                error: () => checkComplete()
+            });
+
+            this.activityTypesService.activityTypes.subscribe({
+                next: (res) => {
+                    this.activityTypesList = res;
+                    checkComplete();
+                },
+                error: () => checkComplete()
+            });
         });
     }
 
@@ -223,12 +271,18 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
 
     // Autocomplete get methods
     getCities = (body: any) => this.citiesService.getPaged(body);
-    getTowns = (body: any) => this.townsService.getPaged(body);
+    getTowns = (body: any) => {
+        const cityId = this.form.get('cityId')?.value;
+        return this.townsService.getPaged({ ...body, filter: { ...body.filter, cityId } });
+    };
 
     // Select handlers
     onCitySelect(event: any): void {
         this.selectedCity = event?.value ?? null;
         this.form.get('cityId')?.setValue(this.selectedCity?.id ?? null);
+        // Reset town when city changes
+        this.selectedTown = null;
+        this.form.get('townId')?.reset();
     }
 
     onTownSelect(event: any): void {

@@ -5,6 +5,7 @@ import { BaseListComponent } from '../../../../../base/components/base-list-comp
 import { CardModule } from 'primeng/card';
 import { PrimeDataTableComponent, PrimeTitleToolBarComponent, ActivityTypesService, TableOptions } from '../../../../../shared';
 import { AddEditActivityTypeComponent } from '../../components/add-edit-activity-type/add-edit-activity-type.component';
+import { ActivityTypeComponent } from '../../components/activity-type/activity-type.component';
 import { AuthHelper } from '../../../../../core';
 @Component({
     selector: 'app-activity-types',
@@ -61,6 +62,16 @@ export class ActivityTypesComponent extends BaseListComponent {
     initializeTableActions(): TableOptions['inputActions'] {
         return [
             {
+                name: 'VIEW',
+                icon: 'pi pi-eye',
+                color: 'text-info',
+                isCallBack: true,
+                call: (row) => {
+                    this.openView(row);
+                },
+                allowAll: true
+            },
+            {
                 name: 'EDIT',
                 icon: 'pi pi-file-edit',
                 color: 'text-middle',
@@ -84,6 +95,13 @@ export class ActivityTypesComponent extends BaseListComponent {
     openAdd() {
         this.openDialog(AddEditActivityTypeComponent, 'اضافة نوع نشاط ', {
             pageType: 'add'
+        });
+    }
+
+    openView(rowData: any) {
+        this.openDialog(ActivityTypeComponent, 'عرض نوع النشاط', {
+            pageType: 'view',
+            row: { rowData }
         });
     }
 
