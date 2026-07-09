@@ -77,18 +77,18 @@ export class InitiativesService extends HttpService {
         if (body.acceptLanguage) params.AcceptLanguage = body.acceptLanguage;
        
          if (body.name) params.name = body.name;
-        if (body.fieldNameId) {
-            if (body.fieldNameId.nameEn) {
-                params.fieldNameId = body.fieldNameId.nameEn;
-            } else if (typeof body.fieldNameId === 'string') {
-                params.fieldNameId = body.fieldNameId;
+        if (body.fieldId) {
+            if (body.fieldId.nameAr) {
+                params.fieldId = body.fieldId.nameAr;
+            } else if (typeof body.fieldId === 'string') {
+                params.fieldId = body.fieldId;
             }
         }
         if (body.cityId) {
-            if (body.cityId.nameEn) {
-                params.City = body.cityId.nameEn;
+            if (body.cityId.nameAr) {
+                params.cityId = body.cityId.nameAr;
             } else if (typeof body.cityId === 'string') {
-                params.City = body.cityId;
+                params.cityId = body.cityId;
             }
         }
         if (body.InitiativeMangerName) {

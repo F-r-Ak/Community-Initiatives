@@ -10,7 +10,7 @@ import { take } from 'rxjs/operators';
 import { animate } from '@angular/animations';
 @Component({
     selector: 'app-reports',
-    imports: [RouterModule, FormsModule, ReactiveFormsModule, CardModule, PrimeDataTableComponent, PrimeTitleToolBarComponent , PrimeAutoCompleteComponent, PrimeDatepickerComponent,PrimeInputTextComponent ,ButtonModule,],
+    imports: [RouterModule, FormsModule, ReactiveFormsModule, CardModule, PrimeAutoCompleteComponent, PrimeDatepickerComponent,PrimeInputTextComponent ,ButtonModule,],
   templateUrl: './reports.component.html',
   styleUrl: './reports.component.scss'
 })
@@ -37,6 +37,7 @@ export class ReportsComponent implements OnInit {
     filteredname: any[] = [];
 
     reportTypes: any[] = [];
+    reportNames: any[] = [];
     acceptLanguages: any[] = [];
     isGeneratingReport: boolean = false;
 
@@ -47,11 +48,13 @@ export class ReportsComponent implements OnInit {
 
     initFormGroup() {
         this.form = this.formBuilder.group({
-           fieldNameId :[''], 
+           fieldName :[''], 
             cityId: [''],   
             name: [''], 
             initiativeMangerName: [''],
-            initiativeDate :[null],
+            fieldId :[''],
+            initiativeStartDate :[null],
+            // initiativeEndDate :[null],
             reportName: ['InitiativeReport', [Validators.required, Validators.minLength(1)]],
             reportType: ['pdf', [Validators.required]],
             acceptLanguage: ['ar', [Validators.required]]
@@ -65,6 +68,8 @@ export class ReportsComponent implements OnInit {
         ];
     }
 
+
+    
    searchName(event: any) {
         const query = event.query?.toLowerCase() ?? '';
         this.initiativesService.initiatives.pipe(take(1)).subscribe((res: any[]) => {
@@ -92,29 +97,25 @@ searchInitiativeMangerName(event: any) {
     searchField(event: any) {
         const query = event.query?.toLowerCase() ?? '';
         this.fieldService.fields.pipe(take(1)).subscribe((res: any[]) => {
-            this.filteredfeild = res.filter((item: any) => item.nameAr?.toLowerCase().includes(query));
+            this.filteredfeild = res.filter((item: any) => item.id?.toLowerCase().includes(query));
         });
     }
 
 onFieldSelect(event: any) {
     this.form.patchValue({
-        fieldNameId: event.value?.nameEn // يخزن Male أو Female مباشرة
+        fieldId: event.value?.id 
     });
 } 
 
 onCitySelect(event: any) {
     this.form.patchValue({
-        cityId: event.value?.nameEn // يخزن اسم المدينة باللغة الإنجليزية مباشرة
+        cityId: event.value?.id 
     });
 }
-onRequestStatusSelect(event: any) {
-    this.form.patchValue({
-        requestStatusId: event.value?.nameEn // يخزن اسم الحالة باللغة الإنجليزية مباشرة
-    });
-}
+
 onServiceTypeSelect(event: any) {
     this.form.patchValue({
-        serviceTypeId: event.value?.nameEn // يخزن اسم نوع الخدمة باللغة الإنجليزية مباشرة
+        serviceTypeId: event.value?.nameEn 
     });
 }
 onReportTypeSelect(event: any) {
@@ -123,6 +124,16 @@ onReportTypeSelect(event: any) {
     
     this.form.get('reportType')?.setValue(selectedValue);
     this.form.get('reportType')?.updateValueAndValidity();
+}
+
+onReportNameSelect(event: any) {
+    // المكون يرسل الأوبجكت في الـ event مباشرة أو بداخل event.value
+    const selectedItem = event.value || event;
+    
+    // حفظ الاسم العربي في الفورم لتحديث الشاشة بالعربي دائماً
+    const displayName = selectedItem?.label || selectedItem;
+    this.form.get('reportName')?.setValue(displayName);
+    this.form.get('reportName')?.updateValueAndValidity();
 }
     // searchMaritalStatus(event: any) {
     //     const query = event.query?.toLowerCase() ?? '';
@@ -133,7 +144,7 @@ onReportTypeSelect(event: any) {
     searchCity(event: any) {
         const query = event.query?.toLowerCase() ?? '';
         this.citiesService.cities.pipe(take(1)).subscribe((res: any[]) => {
-            this.filteredCity = res.filter((item: any) => item.nameAr?.toLowerCase().includes(query));
+            this.filteredCity = res.filter((item: any) => item.id?.toLowerCase().includes(query));
         });
     }
    
@@ -148,6 +159,15 @@ onReportTypeSelect(event: any) {
         ].filter(item => item.label.toLowerCase().includes(query));
     }
 
+ searchReportNames(event: any) {
+        const query = event.query.toLowerCase();
+        this.reportNames = [
+            { label: 'مبادرات', value: 'InitiativeReport' }
+           
+        ].filter(item => item.label.toLowerCase().includes(query));
+    }
+
+
     onExecute() {
         // Validate that at least ServiceNameId or NationalId is provided
         // if (!this.form.get('ServiceNameId')?.value ) {
@@ -158,27 +178,33 @@ onReportTypeSelect(event: any) {
         if (this.form.valid) {
             this.isGeneratingReport = true;
             const formData = this.form.value;
+            const InitiativeStartDate = formData.InitiativeStartDate ? formData.InitiativeStartDate.toISOString() : null;
+            // const InitiativeEndDate = formData.InitiativeEndDate ? formData.InitiativeEndDate.toISOString() : null;
 
-            // Clean up the form data - remove empty values
-            const cleanedData = this.cleanFormData(formData);
+       
+            const dataToClean = {
+            ...formData,
+            InitiativeStartDate: InitiativeStartDate,
+            // InitiativeEndDate: InitiativeEndDate
+             };
 
             // Log detailed request information for debugging
             console.log('=== Report Generation Request ===');
             console.log('Form Data:', formData);
-            console.log('Cleaned Data:', cleanedData);
+            
          
-            console.log('Query Parameters:', this.buildQueryParamsDebug(cleanedData));
+            console.log('Query Parameters:', this.buildQueryParamsDebug(dataToClean));
             console.log('=================================');
 
             // Since the API returns the file directly, use downloadReport
-           this.initiativesService.downloadReport(cleanedData).subscribe({
+           this.initiativesService.downloadReport(dataToClean).subscribe({
     next: (blob: Blob) => {
         this.isGeneratingReport = false;
 
         let fileExtension = 'pdf';
         let mimeType = 'application/pdf';
 
-        if (cleanedData.reportType === 'excel') {
+        if (dataToClean.reportType === 'excel') {
             
             fileExtension = 'xls'; 
             mimeType = 'application/vnd.ms-excel'; 
@@ -187,7 +213,7 @@ onReportTypeSelect(event: any) {
         // إنشاء الـ Blob بالنوع المتوافق تماماً مع السيرفر
         const reportBlob = new Blob([blob], { type: mimeType });
 
-        const fileName = `${cleanedData.reportName}.${fileExtension}`;
+        const fileName = `${dataToClean.reportName}.${fileExtension}`;
         const url = window.URL.createObjectURL(reportBlob);
         
         const link = document.createElement('a');

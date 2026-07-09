@@ -8,7 +8,7 @@
                     <label class="text-middle font-14 font-bold mb-2">المجال </label>
                     <app-prime-autocomplete
                         [formGroup]="form"
-                        controlName="fieldNameId"
+                        controlName="fieldId"
                         [suggestions]="filteredfeild"
                         [lazy]="false"
                         (onSelect)="onFieldSelect($event)"
@@ -20,9 +20,11 @@
 
 
  <div class="col-6 md:col-6 lg:col-4">
-                <app-prime-datepicker [formGroup]="form" controlName="InitiativeDate" [label]="'تاريخ المبادرة'" > </app-prime-datepicker>
+                <app-prime-datepicker [formGroup]="form" controlName="initiativeStartDate" [label]="'تاريخ المبادرة'" > </app-prime-datepicker>
             </div>
-            
+            <!-- <div class="col-6 md:col-6 lg:col-4">
+                <app-prime-datepicker [formGroup]="form" controlName="initiativeEndDate" [label]="'تاريخ انتهاء المبادرة'" > </app-prime-datepicker>
+            </div> -->
             <div class="col-6 md:col-6 lg:col-4">
                 <div class="form-group d-flex flex-column mb-3">
                     <label class="text-middle font-14 font-bold mb-2">المدينة</label>
@@ -56,7 +58,7 @@
             
 
            
-<div class="col-6 md:col-6 lg:col-4">
+<!-- <div class="col-6 md:col-6 lg:col-4">
                 <div class="form-group d-flex flex-column mb-3">
                     <label class="text-middle font-14 font-bold mb-2"> المسئول</label>
                     <app-prime-autocomplete
@@ -69,11 +71,27 @@
                         field="nameAr"
                     />
                 </div>
-            </div>
+            </div> -->
             
 
 
            
+            <div class="col-6 md:col-6 lg:col-4">
+                <div class="form-group d-flex flex-column mb-3">
+                    <label class="text-middle font-14 font-bold mb-2">اسم التقرير</label>
+                    <app-prime-autocomplete
+                        [formGroup]="form"
+                        controlName="reportName"
+                        [suggestions]="reportNames"
+                        (handleMethod)="searchReportNames($event)"
+                            (onSelect)="onReportNameSelect($event)"
+                            
+                        field="label"
+                        
+                    />
+                </div>
+            </div>
+       
 
            
 
@@ -92,6 +110,8 @@
                 </div>
             </div>
         </div>
+
+
 
         <!-- Action Buttons -->
         <div class="flex justify-content-center gap-2 mt-4">
