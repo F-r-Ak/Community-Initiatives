@@ -1,3 +1,4 @@
+import { EnumDto } from '../..';
 import { Lookup, SharedProperties } from '../shared/shared';
 
 export interface InitiativeDto extends Lookup, Partial<SharedProperties> {
@@ -10,8 +11,15 @@ export interface InitiativeDto extends Lookup, Partial<SharedProperties> {
     expectedImpact: string;
     stepsExecution: string;
     fieldId: string;
+    fieldName: string;
     cityId: string;
+    cityName: string;
+    teamCategory: string;
+    teamCategoryName: EnumDto;
     initiativeMangerId: string;
+    initiativeMangerName: string;
+    initiativeStartDate: string;
+    initiativeEndDate: string;
 }
 
 export interface AddInitiativeDto extends Lookup, Partial<SharedProperties> {
