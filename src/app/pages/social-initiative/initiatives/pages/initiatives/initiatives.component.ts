@@ -71,7 +71,7 @@ export class InitiativesComponent extends BaseListComponent {
                 route: '/pages/social-initiatives/initiatives/edit/',
                 allowAll: true
             },
-            this.authHelper.isAdmin ?
+           this.authHelper.isAdmin ?
                 {
                     name: 'DELETE',
                     icon: 'pi pi-trash',
