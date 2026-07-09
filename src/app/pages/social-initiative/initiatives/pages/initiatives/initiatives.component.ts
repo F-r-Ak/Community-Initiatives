@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BaseListComponent } from '../../../../../base/components/base-list-component';
 import { PrimeDataTableComponent, PrimeTitleToolBarComponent, TableOptions } from '../../../../../shared';
 import { InitiativesService } from '../../../../../shared/services/initiatives/initiatives.service';
+import { AuthHelper } from '../../../../../core';
 
 @Component({
     selector: 'app-initiatives',
@@ -13,6 +14,7 @@ import { InitiativesService } from '../../../../../shared/services/initiatives/i
 })
 export class InitiativesComponent extends BaseListComponent {
     tableOptions!: TableOptions;
+    authHelper = inject(AuthHelper);
     service = inject(InitiativesService);
 
     constructor(activatedRoute: ActivatedRoute) {
@@ -57,6 +59,14 @@ export class InitiativesComponent extends BaseListComponent {
     initializeTableActions(): TableOptions['inputActions'] {
         return [
             {
+                name: 'VIEW',
+                icon: 'pi pi-eye',
+                color: 'text-info',
+                isView: true,
+                route: '/pages/social-initiatives/initiatives/view/',
+                allowAll: true
+            },
+            {
                 name: 'EDIT',
                 icon: 'pi pi-file-edit',
                 color: 'text-middle',
@@ -64,18 +74,23 @@ export class InitiativesComponent extends BaseListComponent {
                 route: '/pages/social-initiatives/initiatives/edit/',
                 allowAll: true
             },
+            this.authHelper.isAdmin?
             {
                 name: 'DELETE',
                 icon: 'pi pi-trash',
                 color: 'text-error',
                 allowAll: true,
                 isDelete: true
-            }
+            }:{  }
         ];
     }
 
     navigateToEdit(row: any) {
         this.route.navigate([`social-initiatives/initiatives/edit/${row.id}`]);
+    }
+
+    navigateToView(row: any) {
+        this.route.navigate([`social-initiatives/initiatives/view/${row.id}`]);
     }
 
     override ngOnDestroy() {

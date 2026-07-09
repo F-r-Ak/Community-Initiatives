@@ -41,7 +41,7 @@ export class AppMenu {
     private buildModel(): void {
 
         this.model = [
-            this.authHelper.hasRole(this.rolesEnum.Administrator) || this.authHelper.hasRole(this.rolesEnum.Employee) ?
+            this.authHelper.hasRole(this.rolesEnum.Administrator) ?
                 {
                     label: 'الإحصائيات',
                     icon: 'pi pi-fw pi-briefcase',
@@ -52,110 +52,112 @@ export class AppMenu {
                             routerLink: ['/pages/social-initiatives/initiatives/dashboard']
                         }
                     ]
-                }
-                : { styleClass: 'v' },
+                } : { styleClass: 'v' },
 
-            {
-                label: 'الاعدادات',
-                icon: 'pi pi-fw pi-briefcase',
-                items: [
-                    {
-                        label: 'أنواع النشاط',
-                        icon: 'pi pi-fw pi-cog',
-                        routerLink: ['/pages/settings/activity-types']
-                    },
-                    {
-                        label: 'أنواع التنفيذ',
-                        icon: 'pi pi-fw pi-cog',
-                        routerLink: ['/pages/settings/execute-types']
-                    },
-                    {
-                        label: 'المجالات',
-                        icon: 'pi pi-fw pi-cog',
-                        routerLink: ['/pages/settings/fields']
-                    },
-                    {
-                        label: 'المديريات',
-                        icon: 'pi pi-fw pi-cog',
-                        routerLink: ['/pages/settings/entities']
-                    },
-                    {
-                        label: 'الجمعيات',
-                        icon: 'pi pi-fw pi-cog',
-                        routerLink: ['/pages/settings/organizations']
-                    },
-                    {
-                        label: 'فئة المستهدفين',
-                        icon: 'pi pi-fw pi-cog',
-                        routerLink: ['/pages/settings/beneficiary-groups']
-                    },
-                    {
-                        label: 'أعضاء الفريق',
-                        icon: 'pi pi-fw pi-cog',
-                        routerLink: ['/pages/settings/team-members']
-                    },
-                    {
-                        label: 'المراكز',
-                        icon: 'pi pi-fw pi-cog',
-                        routerLink: ['/pages/settings/cities']
-                    },
-                    {
-                        label: 'المدن',
-                        icon: 'pi pi-fw pi-cog',
-                        routerLink: ['/pages/settings/towns']
-                    }
-                ]
-            },
-            {
-                label: 'المبادرات التنموية',
-                icon: 'pi pi-fw pi-briefcase',
-                items: [
-                    {
-                        label: 'المبادرات',
-                        icon: 'pi pi-fw pi-cog',
-                        routerLink: ['/pages/social-initiatives/initiatives']
-                    },
-                    {
-                        label: 'الأنشطة',
-                        icon: 'pi pi-fw pi-calendar',
-                        routerLink: ['/pages/social-initiatives/activities']
-                    }
-                ]
-            },
-             {
-                label: ' التقارير',
-                icon: 'pi pi-fw pi-briefcase',
-                items: [
-                    {
-                        label: 'تقرير',
-                        icon: 'pi pi-fw pi-cog',
-                        routerLink: ['/pages/report']
-                    },
-                    
-                ]
-            },
-            
-            { styleClass: 'v' },
-            // this.authHelper.hasModule('ادمن') ?
-            {
-                label: 'إدارة الصلاحيات',
-                icon: 'pi pi-fw pi-lock',
-                // routerLink: ['/pages'],
-                items: [
-                    {
-                        label: 'المستخدمين',
-                        icon: 'pi pi-fw pi-user',
-                        routerLink: ['/pages/auth/users']
-                    },
-                    {
-                        label: 'الصلاحيات',
-                        icon: 'pi pi-fw pi-lock',
-                        routerLink: ['/pages/auth/roles']
-                    },
+            this.authHelper.hasRole(this.rolesEnum.Administrator) ?
+                {
+                    label: 'الاعدادات',
+                    icon: 'pi pi-fw pi-briefcase',
+                    items: [
+                        {
+                            label: 'أنواع النشاط',
+                            icon: 'pi pi-fw pi-cog',
+                            routerLink: ['/pages/settings/activity-types']
+                        },
+                        {
+                            label: 'أنواع التنفيذ',
+                            icon: 'pi pi-fw pi-cog',
+                            routerLink: ['/pages/settings/execute-types']
+                        },
+                        {
+                            label: 'المجالات',
+                            icon: 'pi pi-fw pi-cog',
+                            routerLink: ['/pages/settings/fields']
+                        },
+                        {
+                            label: 'المديريات',
+                            icon: 'pi pi-fw pi-cog',
+                            routerLink: ['/pages/settings/entities']
+                        },
+                        {
+                            label: 'الجمعيات',
+                            icon: 'pi pi-fw pi-cog',
+                            routerLink: ['/pages/settings/organizations']
+                        },
+                        {
+                            label: 'فئة المستهدفين',
+                            icon: 'pi pi-fw pi-cog',
+                            routerLink: ['/pages/settings/beneficiary-groups']
+                        },
+                        {
+                            label: 'أعضاء الفريق',
+                            icon: 'pi pi-fw pi-cog',
+                            routerLink: ['/pages/settings/team-members']
+                        },
+                        {
+                            label: 'المراكز',
+                            icon: 'pi pi-fw pi-cog',
+                            routerLink: ['/pages/settings/cities']
+                        },
+                        {
+                            label: 'المدن',
+                            icon: 'pi pi-fw pi-cog',
+                            routerLink: ['/pages/settings/towns']
+                        }
+                    ]
+                } : { styleClass: 'v' },
 
-                ]
-            },
-            { styleClass: 'v' }
+            this.authHelper.hasRole(this.rolesEnum.Administrator) || this.authHelper.hasRole(this.rolesEnum.Employee) ?
+                {
+                    label: 'المبادرات التنموية',
+                    icon: 'pi pi-fw pi-briefcase',
+                    items: [
+                        {
+                            label: 'المبادرات',
+                            icon: 'pi pi-fw pi-cog',
+                            routerLink: ['/pages/social-initiatives/initiatives']
+                        },
+                        {
+                            label: 'الأنشطة',
+                            icon: 'pi pi-fw pi-calendar',
+                            routerLink: ['/pages/social-initiatives/activities']
+                        }
+                    ]
+                } : { styleClass: 'v' },
+            this.authHelper.hasRole(this.rolesEnum.Administrator) ?
+                {
+                    label: ' التقارير',
+                    icon: 'pi pi-fw pi-briefcase',
+                    items: [
+                        {
+                            label: 'تقرير',
+                            icon: 'pi pi-fw pi-cog',
+                            routerLink: ['/pages/report']
+                        },
+
+                    ]
+                } : { styleClass: 'v' },
+
+
+            this.authHelper.hasRole(this.rolesEnum.Administrator) ?
+                {
+                    label: 'إدارة الصلاحيات',
+                    icon: 'pi pi-fw pi-lock',
+                    // routerLink: ['/pages'],
+                    items: [
+                        {
+                            label: 'المستخدمين',
+                            icon: 'pi pi-fw pi-user',
+                            routerLink: ['/pages/auth/users']
+                        },
+                        {
+                            label: 'الصلاحيات',
+                            icon: 'pi pi-fw pi-lock',
+                            routerLink: ['/pages/auth/roles']
+                        },
+
+                    ]
+                } : { styleClass: 'v' }
         ];
     }
 }
