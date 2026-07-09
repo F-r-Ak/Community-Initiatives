@@ -5,6 +5,7 @@ import { BaseListComponent } from '../../../../../base/components/base-list-comp
 import { PrimeDataTableComponent, PrimeTitleToolBarComponent, TableOptions } from '../../../../../shared';
 import { InitiativesService } from '../../../../../shared/services/initiatives/initiatives.service';
 import { AuthHelper } from '../../../../../core';
+import { RoleCodes } from '../../../../../core/enums/role';
 
 @Component({
     selector: 'app-initiatives',
@@ -16,7 +17,9 @@ export class InitiativesComponent extends BaseListComponent {
     tableOptions!: TableOptions;
     authHelper = inject(AuthHelper);
     service = inject(InitiativesService);
-
+    get rolesEnum() {
+        return RoleCodes;
+    }
     constructor(activatedRoute: ActivatedRoute) {
         super(activatedRoute);
     }
@@ -41,7 +44,9 @@ export class InitiativesComponent extends BaseListComponent {
                 listOfPermissions: []
             },
             bodyOptions: {
-                filter: {}
+                filter: this.authHelper.hasRole(this.rolesEnum.Employee)
+                    ? { createdById: this.authHelper.getUserId() }
+                    : {}
             },
             responsiveDisplayedProperties: ['name', 'fieldName', 'cityName', 'initiativeMangerName', 'createdDate']
         };
@@ -74,14 +79,14 @@ export class InitiativesComponent extends BaseListComponent {
                 route: '/pages/social-initiatives/initiatives/edit/',
                 allowAll: true
             },
-            this.authHelper.isAdmin?
-            {
-                name: 'DELETE',
-                icon: 'pi pi-trash',
-                color: 'text-error',
-                allowAll: true,
-                isDelete: true
-            }:{  }
+           this.authHelper.isAdmin ?
+                {
+                    name: 'DELETE',
+                    icon: 'pi pi-trash',
+                    color: 'text-error',
+                    allowAll: true,
+                    isDelete: true
+                } : {}
         ];
     }
 
