@@ -4,6 +4,8 @@ import { BaseListComponent } from '../../../../../base/components/base-list-comp
 import { PrimeDataTableComponent, TableOptions } from '../../../../../shared';
 import { InitiativeTeamsService } from '../../../../../shared/services/initiative-teams/initiative-teams.service';
 import { AddEditInitiativeTeamComponent } from '../add-edit-initiative-team/add-edit-initiative-team.component';
+import { AuthHelper } from '../../../../../core';
+import { RoleCodes } from '../../../../../core/enums/role';
 
 @Component({
     selector: 'app-initiative-teams',
@@ -16,8 +18,11 @@ export class InitiativeTeamsComponent extends BaseListComponent implements OnIni
     @Input() initiativeId: string = '';
 
     tableOptions!: TableOptions;
+    authHelper = inject(AuthHelper);
     service = inject(InitiativeTeamsService);
-
+    get rolesEnum() {
+        return RoleCodes;
+    }
     constructor(activatedRoute: ActivatedRoute) {
         super(activatedRoute);
     }
@@ -26,6 +31,7 @@ export class InitiativeTeamsComponent extends BaseListComponent implements OnIni
         super.ngOnInit();
         this.initializeTableOptions();
     }
+
 
     initializeTableOptions() {
         this.tableOptions = {
@@ -52,7 +58,10 @@ export class InitiativeTeamsComponent extends BaseListComponent implements OnIni
                 listOfPermissions: []
             },
             bodyOptions: {
-                filter: { initiativeId: this.initiativeId }
+
+                filter: this.authHelper.hasRole(this.rolesEnum.Employee)
+                    ? { createdById: this.authHelper.getUserId(), initiativeId: this.initiativeId }
+                    : { initiativeId: this.initiativeId }
             }
         };
     }

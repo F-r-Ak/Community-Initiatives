@@ -4,6 +4,8 @@ import { BaseListComponent } from '../../../../../base/components/base-list-comp
 import { PrimeDataTableComponent, TableOptions } from '../../../../../shared';
 import { ActivitiesService } from '../../../../../shared/services/activities/activities.service';
 import { AddEditActivityComponent } from '../add-edit-activity/add-edit-activity.component';
+import { AuthHelper } from '../../../../../core';
+import { RoleCodes } from '../../../../../core/enums/role';
 
 @Component({
     selector: 'app-activities',
@@ -15,7 +17,10 @@ import { AddEditActivityComponent } from '../add-edit-activity/add-edit-activity
 export class ActivitiesComponent extends BaseListComponent implements OnInit {
     @Input() initiativeId: string = '';
     @Output() totalCountChange = new EventEmitter<number>();
-
+    authHelper = inject(AuthHelper);
+     get rolesEnum() {
+                return RoleCodes;
+            }
     tableOptions!: TableOptions;
     service = inject(ActivitiesService);
 
@@ -65,7 +70,9 @@ export class ActivitiesComponent extends BaseListComponent implements OnInit {
                 listOfPermissions: []
             },
             bodyOptions: {
-                filter: { initiativeId: this.initiativeId }
+                filter: this.authHelper.hasRole(this.rolesEnum.Employee)
+                    ? { createdById: this.authHelper.getUserId(),initiativeId: this.initiativeId  }
+                    : {initiativeId: this.initiativeId }  
             }
         };
     }
