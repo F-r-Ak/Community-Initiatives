@@ -15,23 +15,24 @@ export interface ActivityDto extends Lookup, Partial<SharedProperties> {
     townName: string;
     address: string;
     activityTypeId: string;
-    activityTypeName: string;
     executeTypeId: string;
-    executeTypeName: string;
     startDate: string;
     endDate: string;
     activityTime: string;
     activityManger: string;
-    entityType: EnumDto;
+    entityType: string;
+    entityTypeName: EnumDto;
+    entityTypeNameAr: string;
     entityId: string;
-    entityName: string;
     vw_OrganizationId: number;
     organizationName: string;
     numberOfVolunteers: number;
     numberOfBeneficiaries: number;
     numberOfActivity: number;
     notes: string;
-    executionStatus: EnumDto;
+    executionStatus: string;
+    executionStatusName: EnumDto;
+    executionStatusNameAr: string;
     attachs: Attachment[];
 }
 
@@ -47,7 +48,7 @@ export interface AddActivityDto extends Lookup, Partial<SharedProperties> {
     startDate: string;
     endDate: string;
     activityTime: string;
-    activityManager: string;
+    activityManger: string;
     entityType: string;
     entityId: string;
     vw_OrganizationId: number;
@@ -72,7 +73,7 @@ export interface UpdateActivityDto extends Lookup, Partial<SharedProperties> {
     startDate: string;
     endDate: string;
     activityTime: string;
-    activityManager: string;
+    activityManger: string;
     entityType: string;
     entityId: string;
     vw_OrganizationId: number;
