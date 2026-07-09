@@ -5,6 +5,7 @@ import { BaseListComponent } from '../../../../../base/components/base-list-comp
 import { CardModule } from 'primeng/card';
 import { PrimeDataTableComponent, PrimeTitleToolBarComponent, TownsService, TableOptions } from '../../../../../shared';
 import { AddEditTownComponent } from '../../components/add-edit-town/add-edit-town.component';
+import { TownComponent } from '../../components/town/town.component';
 import { AuthHelper } from '../../../../../core';
 @Component({
     selector: 'app-towns',
@@ -67,6 +68,16 @@ export class TownsComponent extends BaseListComponent {
     initializeTableActions(): TableOptions['inputActions'] {
         return [
             {
+                name: 'VIEW',
+                icon: 'pi pi-eye',
+                color: 'text-info',
+                isCallBack: true,
+                call: (row) => {
+                    this.openView(row);
+                },
+                allowAll: true
+            },
+            {
                 name: 'EDIT',
                 icon: 'pi pi-file-edit',
                 color: 'text-middle',
@@ -90,6 +101,13 @@ export class TownsComponent extends BaseListComponent {
     openAdd() {
         this.openDialog(AddEditTownComponent, 'اضافة مدينة ', {
             pageType: 'add'
+        });
+    }
+
+    openView(rowData: any) {
+        this.openDialog(TownComponent, 'عرض المدينة', {
+            pageType: 'view',
+            row: { rowData }
         });
     }
 

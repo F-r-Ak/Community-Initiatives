@@ -5,6 +5,7 @@ import { BaseListComponent } from '../../../../../base/components/base-list-comp
 import { CardModule } from 'primeng/card';
 import { PrimeDataTableComponent, PrimeTitleToolBarComponent, CitiesService, TableOptions } from '../../../../../shared';
 import { AddEditCityComponent } from '../../components/add-edit-city/add-edit-city.component';
+import { CityComponent } from '../../components/city/city.component';
 import { AuthHelper } from '../../../../../core';
 @Component({
     selector: 'app-cities',
@@ -61,6 +62,16 @@ export class CitiesComponent extends BaseListComponent {
     initializeTableActions(): TableOptions['inputActions'] {
         return [
             {
+                name: 'VIEW',
+                icon: 'pi pi-eye',
+                color: 'text-info',
+                isCallBack: true,
+                call: (row) => {
+                    this.openView(row);
+                },
+                allowAll: true
+            },
+            {
                 name: 'EDIT',
                 icon: 'pi pi-file-edit',
                 color: 'text-middle',
@@ -84,6 +95,13 @@ export class CitiesComponent extends BaseListComponent {
     openAdd() {
         this.openDialog(AddEditCityComponent, 'اضافة مركز ', {
             pageType: 'add'
+        });
+    }
+
+    openView(rowData: any) {
+        this.openDialog(CityComponent, 'عرض المركز', {
+            pageType: 'view',
+            row: { rowData }
         });
     }
 

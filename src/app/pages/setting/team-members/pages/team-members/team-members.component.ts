@@ -5,6 +5,7 @@ import { BaseListComponent } from '../../../../../base/components/base-list-comp
 import { CardModule } from 'primeng/card';
 import { PrimeDataTableComponent, PrimeTitleToolBarComponent, TeamMembersService, TableOptions } from '../../../../../shared';
 import { AddEditTeamMemberComponent } from '../../components/add-edit-team-member/add-edit-team-member.component';
+import { TeamMemberComponent } from '../../components/team-member/team-member.component';
 import { AuthHelper } from '../../../../../core';
 @Component({
     selector: 'app-team-members',
@@ -91,6 +92,16 @@ export class TeamMembersComponent extends BaseListComponent {
     initializeTableActions(): TableOptions['inputActions'] {
         return [
             {
+                name: 'VIEW',
+                icon: 'pi pi-eye',
+                color: 'text-info',
+                isCallBack: true,
+                call: (row) => {
+                    this.openView(row);
+                },
+                allowAll: true
+            },
+            {
                 name: 'EDIT',
                 icon: 'pi pi-file-edit',
                 color: 'text-middle',
@@ -114,6 +125,13 @@ export class TeamMembersComponent extends BaseListComponent {
     openAdd() {
         this.openDialog(AddEditTeamMemberComponent, 'اضافة عضو فريق ', {
             pageType: 'add'
+        });
+    }
+
+    openView(rowData: any) {
+        this.openDialog(TeamMemberComponent, 'عرض عضو فريق', {
+            pageType: 'view',
+            row: { rowData }
         });
     }
 
