@@ -56,13 +56,14 @@ export class ActivitiesComponent extends BaseListComponent implements OnInit {
                     call: (row) => this.openAddEditDialog(row),
                     allowAll: true
                 },
+                this.authHelper.isAdmin ?
                 {
                     name: 'DELETE',
                     icon: 'pi pi-trash',
                     color: 'text-error',
                     allowAll: true,
                     isDelete: true
-                }
+                }: {}
             ],
             permissions: {
                 componentName: 'COMMUNITY-INITIATIVES-ACTIVITIES',

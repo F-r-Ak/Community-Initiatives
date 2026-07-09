@@ -34,6 +34,7 @@ export class ActivityBeneficiaryGroupsComponent extends BaseListComponent implem
     }
 
     initializeTableOptions() {
+
         this.tableOptions = {
             inputUrl: {
                 getAll: 'v1/activity_beneficiarygroups/getpaged',
@@ -47,14 +48,17 @@ export class ActivityBeneficiaryGroupsComponent extends BaseListComponent implem
                 { field: 'activityTypeName', header: 'نوع النشاط', filter: true, filterMode: 'text' }
             ],
             inputActions: [
-                {
-                    name: 'DELETE',
-                    icon: 'pi pi-trash',
-                    color: 'text-error',
-                    allowAll: true,
-                    isDelete: true
-                }
+                this.authHelper.isAdmin ?
+                    {
+                        name: 'DELETE',
+                        icon: 'pi pi-trash',
+                        color: 'text-error',
+                        allowAll: true,
+                        isDelete: true
+                    } : {}
             ],
+
+
             permissions: {
                 componentName: 'COMMUNITY-INITIATIVES-ACTIVITY-BENEFICIARY-GROUPS',
                 allowAll: true,
