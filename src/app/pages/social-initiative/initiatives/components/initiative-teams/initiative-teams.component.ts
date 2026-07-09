@@ -43,14 +43,16 @@ export class InitiativeTeamsComponent extends BaseListComponent implements OnIni
             inputCols: [
                 { field: 'teamMemberName', header: 'اسم العضو', filter: true, filterMode: 'text' }
             ],
+
             inputActions: [
+                this.authHelper.isAdmin?
                 {
                     name: 'DELETE',
                     icon: 'pi pi-trash',
                     color: 'text-error',
                     allowAll: true,
                     isDelete: true
-                }
+                }: {}
             ],
             permissions: {
                 componentName: 'COMMUNITY-INITIATIVES-INITIATIVE-TEAMS',
