@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BaseListComponent } from '../../../../../base/components/base-list-component';
 import { PrimeDataTableComponent, PrimeTitleToolBarComponent, TableOptions } from '../../../../../shared';
 import { InitiativesService } from '../../../../../shared/services/initiatives/initiatives.service';
+import { AuthHelper } from '../../../../../core';
 
 @Component({
     selector: 'app-initiatives',
@@ -13,6 +14,7 @@ import { InitiativesService } from '../../../../../shared/services/initiatives/i
 })
 export class InitiativesComponent extends BaseListComponent {
     tableOptions!: TableOptions;
+    authHelper = inject(AuthHelper);
     service = inject(InitiativesService);
 
     constructor(activatedRoute: ActivatedRoute) {
@@ -64,13 +66,14 @@ export class InitiativesComponent extends BaseListComponent {
                 route: '/pages/social-initiatives/initiatives/edit/',
                 allowAll: true
             },
+            this.authHelper.isAdmin?
             {
                 name: 'DELETE',
                 icon: 'pi pi-trash',
                 color: 'text-error',
                 allowAll: true,
                 isDelete: true
-            }
+            }:{  }
         ];
     }
 
