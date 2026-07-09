@@ -128,12 +128,10 @@ onReportTypeSelect(event: any) {
 
 onReportNameSelect(event: any) {
     // المكون يرسل الأوبجكت في الـ event مباشرة أو بداخل event.value
-    const selectedItem = event.value || event;
+    const selectedValue = event.value?.value || event.value || event;
     
-    // حفظ الاسم العربي في الفورم لتحديث الشاشة بالعربي دائماً
-    const displayName = selectedItem?.label || selectedItem;
-    this.form.get('reportName')?.setValue(displayName);
-    this.form.get('reportName')?.updateValueAndValidity();
+    this.form.get('reportType')?.setValue(selectedValue);
+    this.form.get('reportType')?.updateValueAndValidity();
 }
     // searchMaritalStatus(event: any) {
     //     const query = event.query?.toLowerCase() ?? '';
