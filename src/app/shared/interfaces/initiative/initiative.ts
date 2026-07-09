@@ -34,6 +34,8 @@ export interface AddInitiativeDto extends Lookup, Partial<SharedProperties> {
     fieldId: string;
     cityId: string;
     initiativeMangerId: string;
+    initiativeStartDate: string;
+    initiativeEndDate: string;
 }
 
 export interface UpdateInitiativeDto extends Lookup, Partial<SharedProperties> {
@@ -48,4 +50,6 @@ export interface UpdateInitiativeDto extends Lookup, Partial<SharedProperties> {
     fieldId: string;
     cityId: string;
     initiativeMangerId: string;
+    initiativeStartDate: string;
+    initiativeEndDate: string;
 }

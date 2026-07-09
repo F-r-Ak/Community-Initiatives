@@ -5,6 +5,7 @@ import { BaseListComponent } from '../../../../../base/components/base-list-comp
 import { CardModule } from 'primeng/card';
 import { PrimeDataTableComponent, PrimeTitleToolBarComponent, FieldsService, TableOptions } from '../../../../../shared';
 import { AddEditFieldComponent } from '../../components/add-edit-field/add-edit-field.component';
+import { FieldComponent } from '../../components/field/field.component';
 import { AuthHelper } from '../../../../../core';
 @Component({
     selector: 'app-fields',
@@ -61,6 +62,16 @@ export class FieldsComponent extends BaseListComponent {
     initializeTableActions(): TableOptions['inputActions'] {
         return [
             {
+                name: 'VIEW',
+                icon: 'pi pi-eye',
+                color: 'text-info',
+                isCallBack: true,
+                call: (row) => {
+                    this.openView(row);
+                },
+                allowAll: true
+            },
+            {
                 name: 'EDIT',
                 icon: 'pi pi-file-edit',
                 color: 'text-middle',
@@ -84,6 +95,13 @@ export class FieldsComponent extends BaseListComponent {
     openAdd() {
         this.openDialog(AddEditFieldComponent, 'اضافة مجال ', {
             pageType: 'add'
+        });
+    }
+
+    openView(rowData: any) {
+        this.openDialog(FieldComponent, 'عرض المجال', {
+            pageType: 'view',
+            row: { rowData }
         });
     }
 
