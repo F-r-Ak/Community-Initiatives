@@ -1,5 +1,5 @@
 export enum EntityTypes {
     Department = 'Department',
-    Organization = 'Organization'
-    
+    Organization = 'Organization',
+    Other = 'Other'
 }

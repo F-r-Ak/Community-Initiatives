@@ -10,6 +10,7 @@ export * from './storage/storage.service';
 export * from './modules/modules.service';
 export * from './pages/pages.service';
 export * from './enums/attachTypes/attachTypes.service';
+export * from './enums/initiative-categories/initiative-categories.service'
 export * from './enums/entity-types/entity-types.service'
 export * from './enums/execution-status/execution-status.service'
 export * from './enums/genders/genders.service'
@@ -33,3 +34,4 @@ export * from './initiative-teams/initiative-teams.service';
 export * from './activities/activities.service';
 export * from './activity-beneficiary-groups/activity-beneficiary-groups.service';
 export * from './settings/beneficiary-groups/beneficiary-groups.service';
+

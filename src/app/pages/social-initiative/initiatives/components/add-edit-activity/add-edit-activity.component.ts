@@ -25,15 +25,7 @@ import { Attachment } from '../../../../../shared/interfaces/attachment/attachme
 @Component({
     selector: 'app-add-edit-activity',
     standalone: true,
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        PrimeInputTextComponent,
-        PrimeAutoCompleteComponent,
-        PrimeDatepickerComponent,
-        SubmitButtonsComponent
-    ],
+    imports: [CommonModule, FormsModule, ReactiveFormsModule, PrimeInputTextComponent, PrimeAutoCompleteComponent, PrimeDatepickerComponent, SubmitButtonsComponent],
     templateUrl: './add-edit-activity.component.html',
     styleUrl: './add-edit-activity.component.scss'
 })
@@ -74,7 +66,6 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
     existingAttachments: Attachment[] = [];
     filesToDelete: string[] = [];
 
-
     constructor(protected override activatedRoute: ActivatedRoute) {
         super(activatedRoute);
     }
@@ -108,10 +99,13 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
             activityManger: [''],
             entityType: [null, Validators.required],
             entityId: [null],
-            vw_OrganizationId: [null],
+            organizationId: [null],
             organizationName: [''],
+            otherEntityName: [''],
             numberOfVolunteers: [0],
-            numberOfBeneficiaries: [0],
+            numberOfBeneficiaries: [0, Validators.required],
+            numberOfFemaleBeneficiaries: [0, Validators.required],
+            numberOfMaleBeneficiaries: [0, Validators.required],
             numberOfActivity: [0],
             executionStatus: [null, Validators.required],
             notes: [''],
@@ -121,11 +115,23 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
         // Reset entity fields when entityType changes
         this.form.get('entityType')?.valueChanges.subscribe(() => {
             this.form.get('entityId')?.setValue(null);
-            this.form.get('vw_OrganizationId')?.setValue(null);
+            this.form.get('organizationId')?.setValue(null);
             this.selectedEntity = null;
             this.selectedOrganization = null;
         });
+
+        // Auto-calculate numberOfBeneficiaries and disable it
+        const updateBeneficiaries = () => {
+            const female = this.form.get('numberOfFemaleBeneficiaries')?.value ?? 0;
+            const male = this.form.get('numberOfMaleBeneficiaries')?.value ?? 0;
+            this.form.get('numberOfBeneficiaries')?.setValue(+female + +male, { emitEvent: false });
+        };
+
+        this.form.get('numberOfFemaleBeneficiaries')?.valueChanges.subscribe(updateBeneficiaries);
+        this.form.get('numberOfMaleBeneficiaries')?.valueChanges.subscribe(updateBeneficiaries);
+        this.form.get('numberOfBeneficiaries')?.disable();
     }
+
     getEntities(body: any) {
         return this.entitiesService.getPaged(body);
     }
@@ -216,8 +222,8 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
         if (data.entityId) {
             this.entitiesService.getEditEntity(data.entityId).subscribe((entity) => (this.selectedEntity = entity));
         }
-        if (data.vw_OrganizationId) {
-            this.organizationsService.getVwOrganization(data.vw_OrganizationId).subscribe((org) => (this.selectedOrganization = org));
+        if (data.organizationId) {
+            this.organizationsService.getVwOrganization(data.organizationId).subscribe((org) => (this.selectedOrganization = org));
         }
     }
 
@@ -317,8 +323,8 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
 
     onOrganizationSelect(event: any): void {
         this.selectedOrganization = event?.value ?? null;
-        this.form.get('vw_OrganizationId')?.setValue(this.selectedOrganization?.id ?? null);
-        console.log ('gg',this.selectedOrganization)
+        this.form.get('organizationId')?.setValue(this.selectedOrganization?.id ?? null);
+        this.form.get('organizationName')?.setValue(this.selectedOrganization?.name ?? null);
     }
 
     onCityClear() {
@@ -336,6 +342,10 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
         return this.form.get('entityType')?.value === EntityTypes.Organization;
     }
 
+    get isOther(): boolean {
+        return this.form.get('entityType')?.value === EntityTypes.Other;
+    }
+
     // --- Attachment methods ---
 
     onFileChange(event: Event): void {
@@ -351,12 +361,9 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
     }
 
     removeExistingAttachment(attachment: Attachment): void {
-        const idx = this.existingAttachments.findIndex((a) => a.id === attachment.id);
-        if (idx > -1) {
-            const attachId = this.existingAttachments[idx].attachId || this.existingAttachments[idx].id;
-            this.filesToDelete.push(attachId);
-            this.existingAttachments.splice(idx, 1);
-        }
+        const attachId = attachment.attachId;
+        this.filesToDelete.push(attachId);
+        this.existingAttachments = this.existingAttachments.filter((a) => a.id !== attachment.id);
     }
 
     getFileIcon(fileName: string): string {
@@ -373,7 +380,7 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
         if (this.form.invalid) return;
 
         const formData = new FormData();
-        Object.entries(this.form.value).forEach(([key, value]) => {
+        Object.entries(this.form.getRawValue()).forEach(([key, value]) => {
             if (key === 'attachs') return; // handled separately
             if (value !== null && value !== undefined) {
                 if (value instanceof Date) {
@@ -397,6 +404,11 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
         if (this.pageType === 'add') {
             this.activitiesService.add(formData).subscribe(() => this.dialogRef.close(true));
         } else {
+            if (this.filesToDelete.length > 0) {
+                this.activitiesService.deleteAttachments(this.filesToDelete).subscribe(() => {
+                    this.filesToDelete = [];
+                });
+            }
             this.activitiesService.update(formData).subscribe(() => this.dialogRef.close(true));
         }
     }

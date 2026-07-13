@@ -14,6 +14,8 @@ export interface InitiativeDto extends Lookup, Partial<SharedProperties> {
     fieldName: string;
     cityId: string;
     cityName: string;
+    initiativeCategory: string;
+    initiativeCategoryName: EnumDto;
     teamCategory: string;
     teamCategoryName: EnumDto;
     initiativeMangerId: string;
@@ -33,6 +35,7 @@ export interface AddInitiativeDto extends Lookup, Partial<SharedProperties> {
     stepsExecution: string;
     fieldId: string;
     cityId: string;
+    initiativeCategory: string;
     initiativeMangerId: string;
     initiativeStartDate: string;
     initiativeEndDate: string;
@@ -49,6 +52,7 @@ export interface UpdateInitiativeDto extends Lookup, Partial<SharedProperties> {
     stepsExecution: string;
     fieldId: string;
     cityId: string;
+    initiativeCategory: string;
     initiativeMangerId: string;
     initiativeStartDate: string;
     initiativeEndDate: string;

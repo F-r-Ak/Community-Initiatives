@@ -90,11 +90,6 @@ export class AppMenu {
                             routerLink: ['/pages/settings/beneficiary-groups']
                         },
                         {
-                            label: 'أعضاء الفريق',
-                            icon: 'pi pi-fw pi-cog',
-                            routerLink: ['/pages/settings/team-members']
-                        },
-                        {
                             label: 'المراكز',
                             icon: 'pi pi-fw pi-cog',
                             routerLink: ['/pages/settings/cities']
@@ -109,9 +104,14 @@ export class AppMenu {
 
             this.authHelper.hasRole(this.rolesEnum.Administrator) || this.authHelper.hasRole(this.rolesEnum.Employee) ?
                 {
-                    label: 'المبادرات التنموية',
+                    label: 'المبادرات التنموية والمجتمعية',
                     icon: 'pi pi-fw pi-briefcase',
                     items: [
+                        {
+                            label: 'أعضاء الفريق',
+                            icon: 'pi pi-fw pi-cog',
+                            routerLink: ['/pages/social-initiatives/team-members']
+                        },
                         {
                             label: 'المبادرات',
                             icon: 'pi pi-fw pi-cog',
