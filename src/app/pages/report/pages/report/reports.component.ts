@@ -128,19 +128,11 @@ onReportTypeSelect(event: any) {
 
 onReportNameSelect(event: any) {
     // المكون يرسل الأوبجكت في الـ event مباشرة أو بداخل event.value
-    const selectedItem = event.value || event;
-    
-    // حفظ الاسم العربي في الفورم لتحديث الشاشة بالعربي دائماً
-    const displayName = selectedItem?.label || selectedItem;
-    this.form.get('reportName')?.setValue(displayName);
+    const selectedValue = event.value?.value || event.value || event;
+     this.form.get('reportName')?.setValue(selectedValue);
     this.form.get('reportName')?.updateValueAndValidity();
 }
-    // searchMaritalStatus(event: any) {
-    //     const query = event.query?.toLowerCase() ?? '';
-    //     this.maritalStatusesService.maritalStatuses.pipe(take(1)).subscribe((res: any[]) => {
-    //         this.filteredMaritalStatus = res.filter((item: any) => item.nameAr?.toLowerCase().includes(query));
-    //     });
-    // }
+   
     searchCity(event: any) {
         const query = event.query?.toLowerCase() ?? '';
         this.citiesService.cities.pipe(take(1)).subscribe((res: any[]) => {
