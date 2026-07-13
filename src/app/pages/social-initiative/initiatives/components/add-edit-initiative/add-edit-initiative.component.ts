@@ -4,18 +4,12 @@ import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { BaseEditComponent } from '../../../../../base/components/base-edit-component';
-import { PrimeInputTextComponent } from '../../../../../shared/components/primeng/p-input-text/p-input-text.component';
-import { PrimeAutoCompleteComponent } from '../../../../../shared/components/primeng/p-autocomplete/p-autocomplete.component';
-import { SubmitButtonsComponent } from '../../../../../shared/components/submit-buttons/submit-buttons.component';
-import { InitiativesService } from '../../../../../shared/services/initiatives/initiatives.service';
-import { CitiesService } from '../../../../../shared/services/settings/cities/cities.service';
-import { FieldsService } from '../../../../../shared/services/settings/fields/fields.service';
-import { TeamMembersService } from '../../../../../shared/services/settings/team-members/team-members.service';
+import { PrimeInputTextComponent, PrimeDatepickerComponent, PrimeAutoCompleteComponent, SubmitButtonsComponent, InitiativesService, CitiesService, FieldsService, TeamMembersService } from '../../../../../shared';
 
 @Component({
     selector: 'app-add-edit-initiative',
     standalone: true,
-    imports: [CommonModule, FormsModule, ReactiveFormsModule, CardModule, PrimeInputTextComponent, PrimeAutoCompleteComponent, SubmitButtonsComponent],
+    imports: [CommonModule, FormsModule, ReactiveFormsModule, CardModule, PrimeInputTextComponent, PrimeDatepickerComponent, PrimeAutoCompleteComponent, SubmitButtonsComponent],
     templateUrl: './add-edit-initiative.component.html',
     styleUrl: './add-edit-initiative.component.scss'
 })
@@ -69,9 +63,12 @@ export class AddEditInitiativeComponent extends BaseEditComponent implements OnI
             problemDescription: ['', Validators.required],
             expectedImpact: ['', Validators.required],
             stepsExecution: ['', Validators.required],
+            initiativeStartDate: ['', Validators.required],
+            initiativeEndDate: ['', Validators.required],
             fieldId: [null, Validators.required],
             cityId: [null, Validators.required],
-            initiativeMangerId: [null, Validators.required]
+            initiativeMangerId: [null, Validators.required],
+            initiativeCategory: ['Community', Validators.required]
         });
     }
 
@@ -106,14 +103,29 @@ export class AddEditInitiativeComponent extends BaseEditComponent implements OnI
         this.form.get('initiativeMangerId')?.setValue(this.selectedManager?.id ?? null);
     }
 
+    private toDateOnly(value: any): string | null {
+        if (!value) return null;
+        const d = new Date(value);
+        if (isNaN(d.getTime())) return null;
+        const yyyy = d.getUTCFullYear();
+        const mm = String(d.getUTCMonth() + 1).padStart(2, '0');
+        const dd = String(d.getUTCDate()).padStart(2, '0');
+        return `${yyyy}-${mm}-${dd}`;
+    }
+
     submit() {
         if (this.form.invalid) return;
+        const value = {
+            ...this.form.value,
+            initiativeStartDate: this.toDateOnly(this.form.value.initiativeStartDate),
+            initiativeEndDate: this.toDateOnly(this.form.value.initiativeEndDate)
+        };
         if (this.pageType === 'add') {
-            this.initiativesService.add(this.form.value).subscribe((res: any) => {
+            this.initiativesService.add(value).subscribe((res: any) => {
                 this.redirect(`/pages/social-initiatives/initiatives/edit/${res?.id}`);
             });
         } else {
-            this.initiativesService.update({ id: this.id, ...this.form.value }).subscribe(() => {
+            this.initiativesService.update({ id: this.id, ...value }).subscribe(() => {
                 this.redirect('/pages/social-initiatives/initiatives');
             });
         }

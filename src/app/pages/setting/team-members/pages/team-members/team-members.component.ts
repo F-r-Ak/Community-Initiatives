@@ -111,14 +111,15 @@ export class TeamMembersComponent extends BaseListComponent {
                 },
                 allowAll: true
             },
-           this.authHelper.isAdmin?
-            {
-                name: 'DELETE',
-                icon: 'pi pi-trash',
-                color: 'text-error',
-                allowAll: true,
-                isDelete: true
-            }:{  }
+            this.authHelper.isAdmin
+                ? {
+                      name: 'DELETE',
+                      icon: 'pi pi-trash',
+                      color: 'text-error',
+                      allowAll: true,
+                      isDelete: true
+                  }
+                : {}
         ];
     }
 

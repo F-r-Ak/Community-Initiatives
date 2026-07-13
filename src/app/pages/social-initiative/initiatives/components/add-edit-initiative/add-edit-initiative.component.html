@@ -1,10 +1,10 @@
 @if (form) {
     <form [formGroup]="form" class="row g-4">
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-4">
             <app-prime-input-text [formGroup]="form" controlName="name" [label]="'اسم المبادرة'" validatorLanguageType="ar"> </app-prime-input-text>
         </div>
 
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-4">
             <label class="form-label">المجال</label>
             <app-prime-autocomplete
                 [formGroup]="form"
@@ -19,22 +19,13 @@
             </app-prime-autocomplete>
         </div>
 
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-4">
             <label class="form-label">المركز</label>
-            <app-prime-autocomplete
-                [formGroup]="form"
-                controlName="cityId"
-                [getMethod]="getCities.bind(this)"
-                [selectedOption]="selectedCity"
-                [field]="'nameAr'"
-                [language]="language"
-                (onSelect)="onCitySelect($event)"
-                (onClear)="onCitySelect(null)"
-            >
+            <app-prime-autocomplete [formGroup]="form" controlName="cityId" [getMethod]="getCities.bind(this)" [selectedOption]="selectedCity" [field]="'nameAr'" [language]="language" (onSelect)="onCitySelect($event)" (onClear)="onCitySelect(null)">
             </app-prime-autocomplete>
         </div>
 
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-4">
             <label class="form-label">المسئول</label>
             <app-prime-autocomplete
                 [formGroup]="form"
@@ -47,6 +38,14 @@
                 (onClear)="onManagerSelect(null)"
             >
             </app-prime-autocomplete>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <app-prime-datepicker [formGroup]="form" controlName="initiativeStartDate" [mode]="'date'" [label]="'تاريخ بداية المبادرة'"> </app-prime-datepicker>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <app-prime-datepicker [formGroup]="form" controlName="initiativeEndDate" [mode]="'date'" [label]="'تاريخ نهاية المبادرة'" [referenceControlName]="'initiativeStartDate'"> </app-prime-datepicker>
         </div>
 
         <div class="col-12">

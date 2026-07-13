@@ -1,22 +1,37 @@
 <div class="card">
     @if (form) {
         <form [formGroup]="form" class="row g-4">
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-md-3">
                 <app-prime-input-text [formGroup]="form" controlName="name" [label]="'اسم النشاط'" validatorLanguageType="ar"> </app-prime-input-text>
             </div>
 
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-md-3">
                 <app-prime-input-text [formGroup]="form" controlName="activityManger" [label]="'مسؤول النشاط'"> </app-prime-input-text>
             </div>
 
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-md-3">
                 <app-prime-input-text [formGroup]="form" controlName="address" [label]="'العنوان'"> </app-prime-input-text>
             </div>
 
             <div class="col-12 col-md-3">
-                <label class="form-label">المركز</label>
-                <app-prime-autocomplete [formGroup]="form" controlName="cityId" [getMethod]="getCities" [selectedOption]="selectedCity" [field]="'nameAr'" (onSelect)="onCitySelect($event)" (onClear)="onCityClear()">
+                <label class="form-label">حالة التنفيذ</label>
+                <app-prime-autocomplete
+                    [formGroup]="form"
+                    controlName="executionStatus"
+                    [suggestions]="executionStatusList"
+                    [selectedOption]="selectedExecutionStatus"
+                    [field]="'nameAr'"
+                    [lazy]="false"
+                    (handleMethod)="getExecutionStatus($event)"
+                    (onSelect)="onExecutionStatusSelect($event)"
+                    (onClear)="onExecutionStatusSelect({ value: null })"
+                >
                 </app-prime-autocomplete>
+            </div>
+
+            <div class="col-12 col-md-3">
+                <label class="form-label">المركز</label>
+                <app-prime-autocomplete [formGroup]="form" controlName="cityId" [getMethod]="getCities" [selectedOption]="selectedCity" [field]="'nameAr'" (onSelect)="onCitySelect($event)" (onClear)="onCityClear()"> </app-prime-autocomplete>
             </div>
 
             <div class="col-12 col-md-3">
@@ -66,7 +81,39 @@
                 </app-prime-autocomplete>
             </div>
 
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-md-3">
+                <app-prime-datepicker [formGroup]="form" controlName="startDate" [label]="'تاريخ البدء'" [rangeMaxControlName]="'endDate'"> </app-prime-datepicker>
+            </div>
+
+            <div class="col-12 col-md-3">
+                <app-prime-datepicker [formGroup]="form" controlName="endDate" [label]="'تاريخ الانتهاء'" [referenceControlName]="'startDate'"> </app-prime-datepicker>
+            </div>
+
+            <div class="col-12 col-md-3">
+                <app-prime-datepicker [formGroup]="form" controlName="activityTime" [label]="'وقت النشاط'" [mode]="'time'"> </app-prime-datepicker>
+            </div>
+
+            <div class="col-12 col-md-3">
+                <app-prime-input-text [formGroup]="form" controlName="numberOfVolunteers" [label]="'عدد المتطوعين'" contentType="number"> </app-prime-input-text>
+            </div>
+
+            <div class="col-12 col-md-3">
+                <app-prime-input-text [formGroup]="form" controlName="numberOfFemaleBeneficiaries" [label]="'عدد المستفيدين (الإناث)'" contentType="number"> </app-prime-input-text>
+            </div>
+
+            <div class="col-12 col-md-3">
+                <app-prime-input-text [formGroup]="form" controlName="numberOfMaleBeneficiaries" [label]="'عدد المستفيدين (الذكور)'" contentType="number"> </app-prime-input-text>
+            </div>
+
+            <div class="col-12 col-md-3">
+                <app-prime-input-text [formGroup]="form" controlName="numberOfBeneficiaries" [label]="'عدد المستفيدين'" contentType="number"> </app-prime-input-text>
+            </div>
+
+            <div class="col-12 col-md-3">
+                <app-prime-input-text [formGroup]="form" controlName="numberOfActivity" [label]="'عدد الأنشطة'" contentType="number"> </app-prime-input-text>
+            </div>
+
+            <div class="col-12 col-md-3">
                 <label class="form-label">نوع جهة التنسيق</label>
                 <app-prime-autocomplete
                     [formGroup]="form"
@@ -83,7 +130,7 @@
             </div>
 
             @if (isDepartment) {
-                <div class="col-12 col-md-4">
+                <div class="col-12 col-md-3">
                     <label class="form-label">المديرية</label>
                     <app-prime-autocomplete
                         [formGroup]="form"
@@ -100,11 +147,11 @@
             }
 
             @if (isOrganization) {
-                <div class="col-12 col-md-4">
+                <div class="col-12 col-md-3">
                     <label class="form-label">الجمعية</label>
                     <app-prime-autocomplete
                         [formGroup]="form"
-                        controlName="vw_OrganizationId"
+                        controlName="organizationId"
                         [getMethod]="getOrganizations.bind(this)"
                         (handleMethod)="getOrganizations($event)"
                         [selectedOption]="selectedOrganization"
@@ -116,45 +163,11 @@
                 </div>
             }
 
-            <div class="col-12 col-md-4">
-                <label class="form-label">حالة التنفيذ</label>
-                <app-prime-autocomplete
-                    [formGroup]="form"
-                    controlName="executionStatus"
-                    [suggestions]="executionStatusList"
-                    [selectedOption]="selectedExecutionStatus"
-                    [field]="'nameAr'"
-                    [lazy]="false"
-                    (handleMethod)="getExecutionStatus($event)"
-                    (onSelect)="onExecutionStatusSelect($event)"
-                    (onClear)="onExecutionStatusSelect({ value: null })"
-                >
-                </app-prime-autocomplete>
-            </div>
-
-            <div class="col-12 col-md-4">
-                <app-prime-datepicker [formGroup]="form" controlName="startDate" [label]="'تاريخ البدء'" [rangeMaxControlName]="'endDate'"> </app-prime-datepicker>
-            </div>
-
-            <div class="col-12 col-md-4">
-                <app-prime-datepicker [formGroup]="form" controlName="endDate" [label]="'تاريخ الانتهاء'" [referenceControlName]="'startDate'"> </app-prime-datepicker>
-            </div>
-
-            <div class="col-12 col-md-4">
-                <app-prime-datepicker [formGroup]="form" controlName="activityTime" [label]="'وقت النشاط'" [mode]="'time'"> </app-prime-datepicker>
-            </div>
-
-            <div class="col-12 col-md-4">
-                <app-prime-input-text [formGroup]="form" controlName="numberOfVolunteers" [label]="'عدد المتطوعين'" contentType="number"> </app-prime-input-text>
-            </div>
-
-            <div class="col-12 col-md-4">
-                <app-prime-input-text [formGroup]="form" controlName="numberOfBeneficiaries" [label]="'عدد المستفيدين'" contentType="number"> </app-prime-input-text>
-            </div>
-
-            <div class="col-12 col-md-4">
-                <app-prime-input-text [formGroup]="form" controlName="numberOfActivity" [label]="'عدد الأنشطة'" contentType="number"> </app-prime-input-text>
-            </div>
+            @if (isOther) {
+                <div class="col-12 col-md-3">
+                    <app-prime-input-text [formGroup]="form" controlName="otherEntityName" [label]="'اسم جهة التنسيق'"> </app-prime-input-text>
+                </div>
+            }
 
             <!-- Attachments -->
             <div class="col-12">
@@ -171,8 +184,8 @@
                         @for (attachment of existingAttachments; track attachment.id) {
                             <div class="d-flex align-items-center justify-content-between p-2 border rounded mb-1">
                                 <div class="d-flex align-items-center gap-2">
-                                    <i [class]="getFileIcon(attachment.name)"></i>
-                                    <a [href]="attachment.path" target="_blank" class="text-decoration-none font-14">{{ attachment.name }}</a>
+                                    <i [class]="getFileIcon(attachment.fileName)"></i>
+                                    <a [href]="attachment.path" target="_blank" class="text-decoration-none font-14">{{ attachment.fileName }}</a>
                                 </div>
                                 <button type="button" class="btn btn-sm btn-outline-danger" (click)="removeExistingAttachment(attachment)">
                                     <i class="pi pi-times"></i>

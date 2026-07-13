@@ -31,10 +31,6 @@ export default [
                 loadChildren: () => import('./setting/beneficiary-groups/beneficiary-groups.routes').then((m) => m.beneficiaryGroupsRoutes)
             },
             {
-                path: 'team-members',
-                loadChildren: () => import('./setting/team-members/team-members.routes').then((m) => m.teamMembersRoutes)
-            },
-            {
                 path: 'cities',
                 loadChildren: () => import('./setting/cities/cities.routes').then((m) => m.citiesRoutes)
             },
@@ -44,16 +40,18 @@ export default [
             }
         ]
     },
-     {
-      
-                path: 'report',
-                loadChildren: () => import('./report/reports.routes').then((m) => m.ReportRoutes)
-           
-     },
-   
+    {
+        path: 'report',
+        loadChildren: () => import('./report/reports.routes').then((m) => m.ReportRoutes)
+    },
+
     {
         path: 'social-initiatives',
         children: [
+            {
+                path: 'team-members',
+                loadChildren: () => import('./setting/team-members/team-members.routes').then((m) => m.teamMembersRoutes)
+            },
             {
                 path: 'initiatives',
                 loadChildren: () => import('./social-initiative/initiatives/initiatives.routes').then((m) => m.initiativesRoutes)
