@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { BaseEditComponent } from '../../../../../base/components/base-edit-component';
 import { PrimeInputTextComponent, PrimeDatepickerComponent, PrimeAutoCompleteComponent, SubmitButtonsComponent, InitiativesService, CitiesService, FieldsService, TeamMembersService } from '../../../../../shared';
+import { AuthHelper } from '../../../../../core';
 
 @Component({
     selector: 'app-add-edit-initiative',
@@ -21,6 +22,7 @@ export class AddEditInitiativeComponent extends BaseEditComponent implements OnI
     citiesService = inject(CitiesService);
     fieldsService = inject(FieldsService);
     teamMembersService = inject(TeamMembersService);
+    authHelper = inject(AuthHelper);
 
     getCities(body: any) {
         return this.citiesService.getPaged(body);
@@ -33,7 +35,9 @@ export class AddEditInitiativeComponent extends BaseEditComponent implements OnI
     getManagers(body: any) {
         return this.teamMembersService.getPaged({
             ...body,
-            filter: { ...body.filter, teamCategory: 'Manager' }
+            filter: { ...body.filter, teamCategory: 'Manager',
+                createdById: this.authHelper.getUserId()
+             }
         });
     }
     selectedField: any = null;

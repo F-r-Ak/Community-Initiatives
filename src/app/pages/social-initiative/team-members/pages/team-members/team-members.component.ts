@@ -42,7 +42,9 @@ export class TeamMembersComponent extends BaseListComponent {
                 listOfPermissions: []
             },
             bodyOptions: {
-                filter: {}
+                filter: {
+                    createdById: this.authHelper.hasRole('User') ? this.authHelper.getUserId() : null,
+                }
             },
             responsiveDisplayedProperties: ['nameAr', 'mobile', 'jobStatusName.nameAr', 'teamCategoryName.nameAr']
         };

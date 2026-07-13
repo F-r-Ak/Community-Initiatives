@@ -47,6 +47,14 @@ export class ActivitiesService extends HttpService {
         return this.get<any>({ apiName: 'getactivitiestotalcount' });
     }
 
+    getBeneficiariesStatistics(): Observable<any> {
+        return this.get<any>({ apiName: 'beneficiaries-statistics' });
+    }
+
+    getTotalBeneficiaries(): Observable<any> {
+        return this.get<any>({ apiName: 'initiatives/total-beneficiaries' });
+    }
+
     add(body: FormData) {
         return this.post<FormData, ActivityDto>({ apiName: 'add', showAlert: true }, body);
     }

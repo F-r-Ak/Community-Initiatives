@@ -4,31 +4,42 @@
     <div class="p-3">
         <!-- Total Count Cards -->
         <div class="row g-3 mb-3">
-            <div class="col-12 col-md-6">
-                <div class="summary-card" style="--card-color: #42A5F5">
-                    <div class="summary-card__count">{{ activitiesTotalCount }}</div>
-                    <div class="summary-card__label">إجمالي الأنشطة</div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6">
-                <div class="summary-card" style="--card-color: #66BB6A">
-                    <div class="summary-card__count">{{ initiativesTotalCount }}</div>
-                    <div class="summary-card__label">إجمالي المبادرات</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Summary Cards -->
-        <div class="row g-3 my-3 justify-content-between">
-            <h4 class="text-blue">المبادرات حسب المراكز</h4>
-            @for (item of citiesChartData?.labels; track item; let i = $index) {
-                <div class="col-6 col-md-4 col-lg-2">
-                    <div class="summary-card" [style.--card-color]="cardColors[i % cardColors.length]">
-                        <div class="summary-card__count">{{ citiesChartData.datasets[0].data[i] }}</div>
-                        <div class="summary-card__label">{{ item }}</div>
+            <div class="col-12">
+                <p-card header="الإجماليات">
+                    <div class="row g-2 my-3 justify-content-between">
+                        <div class="col-12 col-md-2">
+                            <div class="summary-card" style="--card-color: #42a5f5">
+                                <div class="summary-card__count">{{ activitiesTotalCount }}</div>
+                                <div class="summary-card__label">إجمالي الأنشطة</div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <div class="summary-card" style="--card-color: #66bb6a">
+                                <div class="summary-card__count">{{ initiativesTotalCount }}</div>
+                                <div class="summary-card__label">إجمالي المبادرات</div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <div class="summary-card" style="--card-color: #ffa726">
+                                <div class="summary-card__count">{{ beneficiariesStatistics.totalBeneficiaries }}</div>
+                                <div class="summary-card__label">إجمالي المستفيدين</div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <div class="summary-card" style="--card-color: #26c6da">
+                                <div class="summary-card__count">{{ beneficiariesStatistics.totalMaleBeneficiaries }}</div>
+                                <div class="summary-card__label">إجمالي المستفيدين (الذكور)</div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <div class="summary-card" style="--card-color: #ec407a">
+                                <div class="summary-card__count">{{ beneficiariesStatistics.totalFemaleBeneficiaries }}</div>
+                                <div class="summary-card__label">إجمالي المستفيدين (الإناث)</div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            }
+                </p-card>
+            </div>
         </div>
 
         <div class="row g-3">
@@ -49,6 +60,22 @@
                     </div>
                 </p-card>
             </div>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="row g-3 mt-3">
+            <p-card header="المبادرات حسب المراكز">
+                <div class="row g-3 my-3 justify-content-between">
+                    @for (item of citiesChartData?.labels; track item; let i = $index) {
+                        <div class="col-6 col-md-4 col-lg-2">
+                            <div class="summary-card" [style.--card-color]="cardColors[i % cardColors.length]">
+                                <div class="summary-card__count">{{ citiesChartData.datasets[0].data[i] }}</div>
+                                <div class="summary-card__label">{{ item }}</div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </p-card>
         </div>
     </div>
 </div>

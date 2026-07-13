@@ -4,10 +4,8 @@ import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { BaseEditComponent } from '../../../../../base/components/base-edit-component';
-import { PrimeAutoCompleteComponent } from '../../../../../shared/components/primeng/p-autocomplete/p-autocomplete.component';
-import { SubmitButtonsComponent } from '../../../../../shared/components/submit-buttons/submit-buttons.component';
-import { InitiativeTeamsService } from '../../../../../shared/services/initiative-teams/initiative-teams.service';
-import { TeamMembersService } from '../../../../../shared/services/settings/team-members/team-members.service';
+import { PrimeAutoCompleteComponent, SubmitButtonsComponent, InitiativeTeamsService, TeamMembersService } from '../../../../../shared';
+import { AuthHelper } from '../../../../../core';
 
 @Component({
     selector: 'app-add-edit-initiative-team',
@@ -25,6 +23,7 @@ import { TeamMembersService } from '../../../../../shared/services/settings/team
 export class AddEditInitiativeTeamComponent extends BaseEditComponent implements OnInit {
     initiativeTeamsService = inject(InitiativeTeamsService);
     teamMembersService = inject(TeamMembersService);
+    authHelper = inject(AuthHelper);
     dialogRef = inject(DynamicDialogRef);
     dialogConfig = inject(DynamicDialogConfig);
 
@@ -55,11 +54,11 @@ export class AddEditInitiativeTeamComponent extends BaseEditComponent implements
             teamMemberId: [[null], Validators.required]
         });
     }
-    
+
     getTeamMembers(body: any) {
         return this.teamMembersService.getPaged({
             ...body,
-            filter: { ...body.filter, teamCategory: 'Member' }
+            filter: { ...body.filter, teamCategory: 'Member', createdById: this.authHelper.getUserId() }
         });
     }
 

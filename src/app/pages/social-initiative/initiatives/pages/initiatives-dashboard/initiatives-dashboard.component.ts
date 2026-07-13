@@ -27,7 +27,10 @@ export class InitiativesDashboardComponent extends BaseComponent implements OnIn
     activitiesTotalCount: number = 0;
     initiativesTotalCount: number = 0;
 
-    readonly cardColors = ['#42A5F5', '#66BB6A', '#FFA726', '#AB47BC', '#EC407A', '#26C6DA'];
+    beneficiariesStatistics: any = null;
+    totalBeneficiaries: any = null;
+
+    readonly cardColors = ['#42A5F5', '#66BB6A', '#FFA726', '#26C6DA', '#EC407A', '#AB47BC'];
 
     constructor(protected override activatedRoute: ActivatedRoute) {
         super(activatedRoute);
@@ -57,13 +60,17 @@ export class InitiativesDashboardComponent extends BaseComponent implements OnIn
             executionStatus: this.activitiesService.getExecutionStatusDashboardCounts(),
             cities: this.activitiesService.getCitiesActivitiesDashboardCounts(),
             activitiesTotal: this.activitiesService.getActivitiesTotalCount(),
-            initiativesTotal: this.initiativesService.getInitiativesTotalCount()
+            initiativesTotal: this.initiativesService.getInitiativesTotalCount(),
+            beneficiariesStatistics: this.activitiesService.getBeneficiariesStatistics(),
+            totalBeneficiaries: this.activitiesService.getTotalBeneficiaries()
         }).subscribe({
-            next: ({ executionStatus, cities, activitiesTotal, initiativesTotal }) => {
+            next: ({ executionStatus, cities, activitiesTotal, initiativesTotal, beneficiariesStatistics, totalBeneficiaries }) => {
                 this.buildExecutionStatusChart(executionStatus);
                 this.buildCitiesChart(cities);
                 this.activitiesTotalCount = activitiesTotal;
                 this.initiativesTotalCount = initiativesTotal;
+                this.beneficiariesStatistics = beneficiariesStatistics?.data ?? beneficiariesStatistics;
+                this.totalBeneficiaries = totalBeneficiaries?.data ?? totalBeneficiaries;
             }
         });
     }
@@ -75,7 +82,7 @@ export class InitiativesDashboardComponent extends BaseComponent implements OnIn
                 {
                     label: 'عدد المبادرات',
                     data: data.map((d) => d.count),
-                    backgroundColor: ['#42A5F5', '#66BB6A', '#FFA726', '#AB47BC', '#EC407A'],
+                    backgroundColor: ['#42A5F5', '#66BB6A', '#FFA726', '#26C6DA', '#EC407A'],
                     borderRadius: 6
                 }
             ]
@@ -89,7 +96,7 @@ export class InitiativesDashboardComponent extends BaseComponent implements OnIn
                 {
                     label: 'عدد الأنشطة',
                     data: data.map((d) => d.count),
-                    backgroundColor: ['#42A5F5', '#66BB6A', '#FFA726', '#AB47BC', '#EC407A'],
+                    backgroundColor: ['#42A5F5', '#66BB6A', '#FFA726', '#26C6DA', '#EC407A'],
                     borderRadius: 6
                 }
             ]

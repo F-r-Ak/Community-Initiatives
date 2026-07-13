@@ -45,7 +45,7 @@ export class ActivitiesComponent extends BaseListComponent implements OnInit {
             ],
             inputActions: [
                 {
-                    name: 'مجموعات المستفيدين',
+                    name: 'مجموعة المستفيدين',
                     icon: 'pi pi-users',
                     color: 'text-middle',
                     isCallBack: true,
