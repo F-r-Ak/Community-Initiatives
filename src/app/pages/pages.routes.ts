@@ -50,7 +50,7 @@ export default [
         children: [
             {
                 path: 'team-members',
-                loadChildren: () => import('./setting/team-members/team-members.routes').then((m) => m.teamMembersRoutes)
+                loadChildren: () => import('./social-initiative/team-members/team-members.routes').then((m) => m.teamMembersRoutes)
             },
             {
                 path: 'initiatives',

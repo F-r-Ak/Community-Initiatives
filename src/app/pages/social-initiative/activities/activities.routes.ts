@@ -9,6 +9,6 @@ export const activitiesRoutes: Routes = [
     {
         path: 'beneficiary-groups/:activityId',
         loadComponent: () => import('./components/activity-beneficiary-groups/activity-beneficiary-groups.component').then((c) => c.ActivityBeneficiaryGroupsComponent),
-        data: { pageTitle: 'مجموعات المستفيدين', pageType: 'list' }
+        data: { pageTitle: 'مجموعة المستفيدين', pageType: 'list' }
     }
 ];
