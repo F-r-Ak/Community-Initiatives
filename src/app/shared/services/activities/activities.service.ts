@@ -40,7 +40,8 @@ export class ActivitiesService extends HttpService {
     }
 
     getCitiesActivitiesDashboardCounts(): Observable<any> {
-        return this.get<any>({ apiName: 'getcountactivitiesbycity' });
+        return this.get<any>({ apiName: 'getcountactivitiesbycity' })
+       
     }
 
     getActivitiesTotalCount(): Observable<any> {

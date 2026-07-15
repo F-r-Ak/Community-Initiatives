@@ -22,6 +22,7 @@ export class InitiativesDashboardComponent extends BaseComponent implements OnIn
 
     executionStatusChartData: any;
     citiesChartData: any;
+    citiesActivitiesChartData: any;
     chartOptions: any;
 
     activitiesTotalCount: number = 0;
@@ -58,21 +59,26 @@ export class InitiativesDashboardComponent extends BaseComponent implements OnIn
     loadDashboardData() {
         forkJoin({
             executionStatus: this.activitiesService.getExecutionStatusDashboardCounts(),
-            cities: this.activitiesService.getCitiesActivitiesDashboardCounts(),
+            cities: this.initiativesService.getCitiesDashboardCounts(),
+            citiesActivities: this.activitiesService.getCitiesActivitiesDashboardCounts(),
             activitiesTotal: this.activitiesService.getActivitiesTotalCount(),
             initiativesTotal: this.initiativesService.getInitiativesTotalCount(),
             beneficiariesStatistics: this.activitiesService.getBeneficiariesStatistics(),
             totalBeneficiaries: this.activitiesService.getTotalBeneficiaries()
         }).subscribe({
-            next: ({ executionStatus, cities, activitiesTotal, initiativesTotal, beneficiariesStatistics, totalBeneficiaries }) => {
+            next: ({ executionStatus, cities, citiesActivities, activitiesTotal, initiativesTotal, beneficiariesStatistics, totalBeneficiaries }) => {
                 this.buildExecutionStatusChart(executionStatus);
                 this.buildCitiesChart(cities);
                 this.activitiesTotalCount = activitiesTotal;
                 this.initiativesTotalCount = initiativesTotal;
                 this.beneficiariesStatistics = beneficiariesStatistics?.data ?? beneficiariesStatistics;
                 this.totalBeneficiaries = totalBeneficiaries?.data ?? totalBeneficiaries;
+                this.buildCitiesActivitiesChart(citiesActivities);
             }
-        });
+            
+        })
+        
+       
     }
 
     private buildExecutionStatusChart(data: { id: string; name: string; count: number }[]) {
@@ -101,5 +107,20 @@ export class InitiativesDashboardComponent extends BaseComponent implements OnIn
                 }
             ]
         };
+         console.log('beneficiariesStatistics:', this.citiesChartData);
+    }
+   private buildCitiesActivitiesChart(data: { id: string; name: string; count: number }[]) {
+        this.citiesActivitiesChartData = {
+            labels: data.map((d) => d.name),
+            datasets: [
+                {
+                    label: 'عدد الأنشطة',
+                    data: data.map((d) => d.count),
+                    backgroundColor: ['#42A5F5', '#66BB6A', '#FFA726', '#26C6DA', '#EC407A'],
+                    borderRadius: 6
+                }
+            ]
+        };
+         console.log('beneficiariesStatistics:', this.citiesChartData);
     }
 }
