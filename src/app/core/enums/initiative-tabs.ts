@@ -3,4 +3,5 @@ export enum InitiativeTabs {
     Activity = 'Activity',
     InitiativeTeams = 'InitiativeTeams',
     BeneficiaryGroups = 'BeneficiaryGroups',
+    Media = 'Media'
 }
