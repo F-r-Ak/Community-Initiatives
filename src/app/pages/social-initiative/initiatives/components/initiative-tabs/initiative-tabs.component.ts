@@ -8,7 +8,7 @@ import { InitiativeTabs } from '../../../../../core/enums/initiative-tabs';
 import { AddEditInitiativeComponent } from '../add-edit-initiative/add-edit-initiative.component';
 import { ActivitiesComponent } from '../activities/activities.component';
 import { InitiativeTeamsComponent } from '../initiative-teams/initiative-teams.component';
-
+import { MediaInitiativesComponent } from '../mediainitiative/mediainitiatives.component';
 @Component({
     selector: 'app-initiative-tabs',
     standalone: true,
@@ -19,6 +19,7 @@ import { InitiativeTeamsComponent } from '../initiative-teams/initiative-teams.c
         AddEditInitiativeComponent,
         ActivitiesComponent,
         InitiativeTeamsComponent,
+        MediaInitiativesComponent,
     ],
     templateUrl: './initiative-tabs.component.html',
     styleUrl: './initiative-tabs.component.scss'

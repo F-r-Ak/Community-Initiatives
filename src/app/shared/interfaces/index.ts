@@ -10,3 +10,4 @@ export * from "./team-member/team-member";
 export * from "./initiative/initiative";
 export * from "./initiative-team/initiative-team";
 export * from "./activity/activity";
+export * from "./mediainitiative/media-initiative";

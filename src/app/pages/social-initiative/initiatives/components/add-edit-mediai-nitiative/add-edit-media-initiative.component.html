@@ -1,0 +1,27 @@
+<div class="card">
+    @if (form) {
+        <form [formGroup]="form" class="row g-4">
+            <div class="col-12 ">
+                <app-prime-input-text [formGroup]="form" controlName="mediaTitle" [label]="'عنوان الميديا'" validatorLanguageType="ar"> </app-prime-input-text>
+            </div>
+
+            <div class="col-12 ">
+                <app-prime-input-text [formGroup]="form" controlName="mediaUrl" [label]="'الرابط '" > </app-prime-input-text>
+            </div>
+
+          
+
+
+           
+
+               
+              
+
+            <div class="col-12">
+                <app-prime-input-text [formGroup]="form" controlName="mediaDescription" [label]="'وصف الوسائط'" inputType="textarea"> </app-prime-input-text>
+            </div>
+
+            <app-submit-buttons [isSubmitDisabled]="form.invalid" [submitButtonText]="pageType === 'add' ? 'ACTIONS.SUBMIT' : 'ACTIONS.SAVE'" (submit)="submit()" (cancel)="redirect()"> </app-submit-buttons>
+        </form>
+    }
+</div>
