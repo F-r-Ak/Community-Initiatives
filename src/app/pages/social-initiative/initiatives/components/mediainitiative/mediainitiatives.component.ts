@@ -42,7 +42,7 @@ export class MediaInitiativesComponent extends BaseListComponent implements OnIn
             },
             inputCols: [
                  { field: 'mediaTitle', header: 'عنوان الميديا', filter: true, filterMode: 'text' },
-                { field: 'mediaUrl', header: 'الرابط', filter: true, filterMode: 'text' },               
+             { field: 'mediaUrl', header: 'الرابط', filter: true, filterMode: 'attachments' }
                
                 
             ],
@@ -85,15 +85,28 @@ export class MediaInitiativesComponent extends BaseListComponent implements OnIn
         );
     }
 
-    override loadDataFromServer(): void {
-        this.dataTableService.loadData(this.tableOptions.inputUrl.getAll).subscribe({
-            next: (res) => {
-                this.data = res.data;
-                this.totalCount = res.totalCount;
-                this.totalCountChange.emit(this.totalCount);
-            }
-        });
+override loadDataFromServer(): void {
+    this.dataTableService.loadData(this.tableOptions.inputUrl.getAll).subscribe({
+        next: (res) => {
+            this.data = res.data.map((item: any) => ({
+                ...item,
+                             mediaUrl: item.mediaUrl ? { name: item.mediaUrl, url: item.mediaUrl } : null
+            }));
+            
+            this.totalCount = res.totalCount;
+            this.totalCountChange.emit(this.totalCount);
+        }
+    });
+}
+
+onDownloadAttachment(attachment: any) {
+    const url = typeof attachment === 'string' ? attachment : (attachment?.url || attachment?.name);
+    
+    if (url) {
+        const validUrl = url.startsWith('http://') || url.startsWith('https://') ? url : `https://${url}`;
+        window.open(validUrl, '_blank');
     }
+}
 
     override ngOnDestroy() {
         this.destroy$.next(true);
