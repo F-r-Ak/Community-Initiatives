@@ -8,11 +8,11 @@ import { AuthHelper } from '../../../../../core';
 import { RoleCodes } from '../../../../../core/enums/role';
 
 @Component({
-    selector: 'app-mediainitiatives',
+    selector: 'app-media-initiatives',
     standalone: true,
     imports: [PrimeDataTableComponent],
-    templateUrl: './mediainitiatives.component.html',
-    styleUrl: './mediainitiatives.component.scss'
+    templateUrl: './media-initiatives.component.html',
+    styleUrl: './media-initiatives.component.scss'
 })
 export class MediaInitiativesComponent extends BaseListComponent implements OnInit {
     @Input() initiativeId: string = '';
@@ -43,8 +43,8 @@ export class MediaInitiativesComponent extends BaseListComponent implements OnIn
             inputCols: [
                  { field: 'mediaTitle', header: 'عنوان الميديا', filter: true, filterMode: 'text' },
              { field: 'mediaUrl', header: 'الرابط', filter: true, filterMode: 'attachments' }
-               
-                
+
+
             ],
             inputActions: [
                 {
@@ -72,7 +72,7 @@ export class MediaInitiativesComponent extends BaseListComponent implements OnIn
             bodyOptions: {
                 filter: this.authHelper.hasRole(this.rolesEnum.Employee)
                     ? { createdById: this.authHelper.getUserId(),initiativeId: this.initiativeId  }
-                    : {initiativeId: this.initiativeId }  
+                    : {initiativeId: this.initiativeId }
             }
         };
     }
@@ -92,7 +92,7 @@ override loadDataFromServer(): void {
                 ...item,
                              mediaUrl: item.mediaUrl ? { name: item.mediaUrl, url: item.mediaUrl } : null
             }));
-            
+
             this.totalCount = res.totalCount;
             this.totalCountChange.emit(this.totalCount);
         }
@@ -101,7 +101,7 @@ override loadDataFromServer(): void {
 
 onDownloadAttachment(attachment: any) {
     const url = typeof attachment === 'string' ? attachment : (attachment?.url || attachment?.name);
-    
+
     if (url) {
         const validUrl = url.startsWith('http://') || url.startsWith('https://') ? url : `https://${url}`;
         window.open(validUrl, '_blank');

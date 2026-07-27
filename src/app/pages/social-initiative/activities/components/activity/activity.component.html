@@ -1,0 +1,188 @@
+@if (activity) {
+    <div class="view-wrapper" dir="rtl">
+        <!-- Header -->
+        <div class="card header-card mb-3">
+            <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                <div>
+                    <div class="activity-title mb-2">{{ activity.name }}</div>
+                    <div class="d-flex gap-2 flex-wrap">
+                        <span class="badge-chip city"><i class="pi pi-map-marker me-1"></i>{{ activity.cityName }}</span>
+                        @if (activity.townName) {
+                            <span class="badge-chip town"><i class="pi pi-map me-1"></i>{{ activity.townName }}</span>
+                        }
+                        <span class="badge-chip status"><i class="pi pi-circle-fill me-1"></i>{{ activity.executionStatusNameAr }}</span>
+                    </div>
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="main-btn back py-1 px-3" (click)="navigateBack()"><i class="pi pi-arrow-right me-1"></i> عودة</button>
+                    <button class="main-btn edit py-1 px-3" (click)="navigateToEdit()"><i class="pi pi-file-edit me-1"></i> تعديل</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-3 mb-3">
+            <!-- Stats column -->
+            <div class="col-12 col-lg-4 d-flex flex-column gap-3">
+                <!-- Counts card -->
+                <div class="card stats-card p-3">
+                    <div class="section-header d-flex align-items-center gap-2 mb-3">
+                        <i class="pi pi-chart-bar"></i>
+                        <strong>الإحصائيات</strong>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">عدد المستفيدين:</span>
+                        <span>{{ activity.numberOfBeneficiaries ?? 0 }}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">الإناث:</span>
+                        <span>{{ activity.numberOfFemaleBeneficiaries ?? 0 }}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">الذكور:</span>
+                        <span>{{ activity.numberOfMaleBeneficiaries ?? 0 }}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">عدد المتطوعين:</span>
+                        <span>{{ activity.numberOfVolunteers ?? 0 }}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">عدد الأنشطة:</span>
+                        <span>{{ activity.numberOfActivity ?? 0 }}</span>
+                    </div>
+                </div>
+
+                <!-- Beneficiary groups card -->
+                <div class="card p-3">
+                    <div class="section-header d-flex align-items-center gap-2 mb-3">
+                        <i class="pi pi-users" style="color: var(--datatable-header-color)"></i>
+                        <strong>مجموعات المستفيدين ({{ beneficiaryGroups.length }})</strong>
+                    </div>
+                    @if (beneficiaryGroups.length === 0) {
+                        <p class="text-muted text-center font-14">لا توجد مجموعات مضافة</p>
+                    } @else {
+                        @for (group of beneficiaryGroups; track group.id) {
+                            <div class="group-row">
+                                <i class="pi pi-user-plus text-muted me-2"></i>
+                                <span>{{ group.beneficiaryGroupName }}</span>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+
+            <!-- Details column -->
+            <div class="col-12 col-lg-8 d-flex flex-column gap-3">
+                <!-- General info -->
+                <div class="card p-3">
+                    <div class="info-card-title">معلومات النشاط</div>
+                    <div class="row g-2 mt-1">
+                        <div class="col-12 col-md-6">
+                            <div class="detail-row">
+                                <span class="label">المبادرة:</span>
+                                <span>{{ activity.initiativeName || '---' }}</span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="detail-row">
+                                <span class="label">نوع النشاط:</span>
+                                <span>{{ $any(activity).activityTypeName || '---' }}</span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="detail-row">
+                                <span class="label">نوع التنفيذ:</span>
+                                <span>{{ activity.executeTypeName || '---' }}</span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="detail-row">
+                                <span class="label">مسؤول النشاط:</span>
+                                <span>{{ activity.activityManger || '---' }}</span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="detail-row">
+                                <span class="label">تاريخ البدء:</span>
+                                <span>{{ activity.startDate ? (activity.startDate | date: 'yyyy/MM/dd') : '---' }}</span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="detail-row">
+                                <span class="label">تاريخ الانتهاء:</span>
+                                <span>{{ activity.endDate ? (activity.endDate | date: 'yyyy/MM/dd') : '---' }}</span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="detail-row">
+                                <span class="label">وقت النشاط:</span>
+                                <span>{{ activity.activityTime ? activity.activityTime.slice(0, 5) : '---' }}</span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="detail-row">
+                                <span class="label">العنوان:</span>
+                                <span>{{ activity.address || '---' }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Entity info -->
+                <!-- <div class="card p-3">
+                    <div class="info-card-title">جهة التنسيق</div>
+                    <div class="row g-2 mt-1">
+                        <div class="col-12 col-md-6">
+                            <div class="detail-row">
+                                <span class="label">نوع الجهة:</span>
+                                <span>{{ activity.entityTypeNameAr || '---' }}</span>
+                            </div>
+                        </div>
+                        @if (activity.organizationName) {
+                            <div class="col-12 col-md-6">
+                                <div class="detail-row">
+                                    <span class="label">الجمعية:</span>
+                                    <span>{{ activity.organizationName }}</span>
+                                </div>
+                            </div>
+                        }
+                        @if (activity.otherEntityName) {
+                            <div class="col-12 col-md-6">
+                                <div class="detail-row">
+                                    <span class="label">اسم الجهة:</span>
+                                    <span>{{ activity.otherEntityName }}</span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div> -->
+
+                <!-- Notes -->
+                @if (activity.notes) {
+                    <div class="card p-3">
+                        <div class="info-card-title">ملاحظات</div>
+                        <p class="mt-2 text-muted font-14">{{ activity.notes }}</p>
+                    </div>
+                }
+
+                <!-- Attachments -->
+                @if (activity.attachs?.length) {
+                    <div class="card p-3">
+                        <div class="info-card-title">المرفقات</div>
+                        <div class="mt-2">
+                            @for (attachment of activity.attachs; track attachment.id) {
+                                <div class="attachment-row d-flex align-items-center gap-2">
+                                    <i [class]="getFileIcon(attachment.fileName)"></i>
+                                    <a [href]="attachment.path" target="_blank" class="text-decoration-none font-14">{{ attachment.fileName }}</a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+} @else {
+    <div class="d-flex justify-content-center align-items-center p-5">
+        <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+    </div>
+}

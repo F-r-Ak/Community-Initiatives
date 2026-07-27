@@ -1,8 +1,7 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, Optional, Output, EventEmitter, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { BaseEditComponent } from '../../../../../base/components/base-edit-component';
 import {
     PrimeInputTextComponent,
@@ -14,12 +13,9 @@ import {
     TownsService,
     ActivityTypesService,
     ExecuteTypesService,
-    EntityTypesService,
     ExecutionStatusService,
-    VwOrganizationsService,
-    EntitiesService
+    InitiativesService
 } from '../../../../../shared';
-import { EntityTypes } from '../../../../../core/enums/entity-types';
 import { Attachment } from '../../../../../shared/interfaces/attachment/attachment';
 
 @Component({
@@ -30,33 +26,25 @@ import { Attachment } from '../../../../../shared/interfaces/attachment/attachme
     styleUrl: './add-edit-activity.component.scss'
 })
 export class AddEditActivityComponent extends BaseEditComponent implements OnInit {
-    initiativeId: string = '';
-
-    dialogRef = inject(DynamicDialogRef);
-    dialogConfig = inject(DynamicDialogConfig);
-
+    @Output() activitySaved = new EventEmitter<string>();
+    @Input() embeddedPageType: string | null = null;
     activitiesService = inject(ActivitiesService);
+    initiativesService = inject(InitiativesService);
     citiesService = inject(CitiesService);
     townsService = inject(TownsService);
     activityTypesService = inject(ActivityTypesService);
     executeTypesService = inject(ExecuteTypesService);
-    entityTypesService = inject(EntityTypesService);
     executionStatusService = inject(ExecutionStatusService);
-    organizationsService = inject(VwOrganizationsService);
-    entitiesService = inject(EntitiesService);
 
     // Selected options for autocomplete fields
+    selectedInitiative: any = null;
     selectedCity: any = null;
     selectedTown: any = null;
     selectedActivityType: any = null;
     selectedExecuteType: any = null;
-    selectedEntityType: any = null;
     selectedExecutionStatus: any = null;
-    selectedEntity: any = null;
-    selectedOrganization: any = null;
 
     // Enum lists (non-lazy)
-    entityTypesList: any[] = [];
     executionStatusList: any[] = [];
     executeTypesList: any[] = [];
     activityTypesList: any[] = [];
@@ -71,10 +59,11 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
     }
 
     override ngOnInit(): void {
-        const data = this.dialogConfig.data;
-        this.initiativeId = data?.initiativeId ?? '';
-        this.id = data?.id ?? '';
-        this.pageType = this.id ? 'edit' : 'add';
+        super.ngOnInit();
+        // Allow parent to override pageType when embedded as a child component
+        if (this.embeddedPageType) {
+            this.pageType = this.embeddedPageType;
+        }
 
         if (this.pageType === 'edit' && this.id) {
             this.getEditActivity();
@@ -86,7 +75,7 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
     initFormGroup(): void {
         this.form = this.fb.group({
             id: [null],
-            initiativeId: [this.initiativeId, Validators.required],
+            initiativeId: [null, Validators.required],
             name: ['', Validators.required],
             cityId: [null, Validators.required],
             townId: [null, Validators.required],
@@ -97,11 +86,6 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
             endDate: [null],
             activityTime: [null, Validators.required],
             activityManger: [''],
-            entityType: [null, Validators.required],
-            entityId: [null],
-            organizationId: [null],
-            organizationName: [''],
-            otherEntityName: [''],
             numberOfVolunteers: [0],
             numberOfBeneficiaries: [0, Validators.required],
             numberOfFemaleBeneficiaries: [0, Validators.required],
@@ -110,14 +94,6 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
             executionStatus: [null, Validators.required],
             notes: [''],
             attachs: [[]]
-        });
-
-        // Reset entity fields when entityType changes
-        this.form.get('entityType')?.valueChanges.subscribe(() => {
-            this.form.get('entityId')?.setValue(null);
-            this.form.get('organizationId')?.setValue(null);
-            this.selectedEntity = null;
-            this.selectedOrganization = null;
         });
 
         // Auto-calculate numberOfBeneficiaries and disable it
@@ -132,12 +108,8 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
         this.form.get('numberOfBeneficiaries')?.disable();
     }
 
-    getEntities(body: any) {
-        return this.entitiesService.getPaged(body);
-    }
-
-    getOrganizations(body: any) {
-        return this.organizationsService.getPaged(body);
+    getInitiatives(body: any) {
+        return this.initiativesService.getPaged(body);
     }
 
     getEditActivity(): void {
@@ -165,14 +137,6 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
                 completed++;
                 if (completed === total) resolve();
             };
-
-            this.entityTypesService.entityTypes.subscribe({
-                next: (res) => {
-                    this.entityTypesList = res;
-                    checkComplete();
-                },
-                error: () => checkComplete()
-            });
 
             this.executionStatusService.executionStatus.subscribe({
                 next: (res) => {
@@ -204,6 +168,9 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
         if (data.cityId) {
             this.citiesService.getEditCity(data.cityId).subscribe((city) => (this.selectedCity = city));
         }
+        if (data.initiativeId) {
+            this.initiativesService.getEditInitiative(data.initiativeId).subscribe((initiative) => (this.selectedInitiative = initiative));
+        }
         if (data.townId) {
             this.townsService.getEditTown(data.townId).subscribe((town) => (this.selectedTown = town));
         }
@@ -213,30 +180,9 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
         if (data.executeTypeId) {
             this.executeTypesService.getEditExecuteType(data.executeTypeId).subscribe((et) => (this.selectedExecuteType = et));
         }
-        if (data.entityType) {
-            this.selectedEntityType = this.entityTypesList.find((e) => e.code === data.entityType) ?? null;
-        }
         if (data.executionStatus) {
             this.selectedExecutionStatus = this.executionStatusList.find((e) => e.code === data.executionStatus) ?? null;
         }
-        if (data.entityId) {
-            this.entitiesService.getEditEntity(data.entityId).subscribe((entity) => (this.selectedEntity = entity));
-        }
-        if (data.organizationId) {
-            this.organizationsService.getVwOrganization(data.organizationId).subscribe((org) => (this.selectedOrganization = org));
-        }
-    }
-
-    getEntityTypes(event: any) {
-        const query = event.query.toLowerCase();
-        this.entityTypesService.entityTypes.subscribe({
-            next: (res) => {
-                this.entityTypesList = res.filter((entityType: any) => entityType.nameAr.toLowerCase().includes(query));
-            },
-            error: (err) => {
-                this.alert.error('خطأ فى جلب بيانات أنواع جهة التنسيق');
-            }
-        });
     }
 
     getActivityTypes(event: any) {
@@ -277,6 +223,7 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
 
     // Autocomplete get methods
     getCities = (body: any) => this.citiesService.getPaged(body);
+
     getTowns = (body: any) => {
         const cityId = this.form.get('cityId')?.value;
         return this.townsService.getPaged({ ...body, filter: { ...body.filter, cityId } });
@@ -289,6 +236,11 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
         // Reset town when city changes
         this.selectedTown = null;
         this.form.get('townId')?.reset();
+    }
+
+    onInitiativeSelect(event: any): void {
+        this.selectedInitiative = event?.value ?? null;
+        this.form.get('initiativeId')?.setValue(this.selectedInitiative?.id ?? null);
     }
 
     onTownSelect(event: any): void {
@@ -306,25 +258,9 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
         this.form.get('executeTypeId')?.setValue(this.selectedExecuteType?.id ?? null);
     }
 
-    onEntityTypeSelect(event: any): void {
-        this.selectedEntityType = event?.value ?? null;
-        this.form.get('entityType')?.setValue(this.selectedEntityType?.code ?? null);
-    }
-
     onExecutionStatusSelect(event: any): void {
         this.selectedExecutionStatus = event?.value ?? null;
         this.form.get('executionStatus')?.setValue(this.selectedExecutionStatus?.code ?? null);
-    }
-
-    onEntitySelect(event: any): void {
-        this.selectedEntity = event?.value ?? null;
-        this.form.get('entityId')?.setValue(this.selectedEntity?.id ?? null);
-    }
-
-    onOrganizationSelect(event: any): void {
-        this.selectedOrganization = event?.value ?? null;
-        this.form.get('organizationId')?.setValue(this.selectedOrganization?.id ?? null);
-        this.form.get('organizationName')?.setValue(this.selectedOrganization?.name ?? null);
     }
 
     onCityClear() {
@@ -332,18 +268,6 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
         this.selectedTown = null;
         this.form.get('cityId')?.reset();
         this.form.get('townId')?.reset();
-    }
-
-    get isDepartment(): boolean {
-        return this.form.get('entityType')?.value === EntityTypes.Department;
-    }
-
-    get isOrganization(): boolean {
-        return this.form.get('entityType')?.value === EntityTypes.Organization;
-    }
-
-    get isOther(): boolean {
-        return this.form.get('entityType')?.value === EntityTypes.Other;
     }
 
     // --- Attachment methods ---
@@ -384,7 +308,15 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
             if (key === 'attachs') return; // handled separately
             if (value !== null && value !== undefined) {
                 if (value instanceof Date) {
-                    formData.append(key, value.toISOString().split('T')[0]);
+                    if (key === 'activityTime') {
+                        // Format as HH:mm:ss for time-only fields
+                        const hh = String(value.getHours()).padStart(2, '0');
+                        const mm = String(value.getMinutes()).padStart(2, '0');
+                        const ss = String(value.getSeconds()).padStart(2, '0');
+                        formData.append(key, `${hh}:${mm}:${ss}`);
+                    } else {
+                        formData.append(key, value.toISOString().split('T')[0]);
+                    }
                 } else {
                     formData.append(key, value as any);
                 }
@@ -402,18 +334,20 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
         });
 
         if (this.pageType === 'add') {
-            this.activitiesService.add(formData).subscribe(() => this.dialogRef.close(true));
+            this.activitiesService.add(formData).subscribe((res: any) => {
+                this.redirect(`/pages/social-initiatives/activities/edit/${res?.data ?? res}`);
+            });
         } else {
             if (this.filesToDelete.length > 0) {
                 this.activitiesService.deleteAttachments(this.filesToDelete).subscribe(() => {
                     this.filesToDelete = [];
                 });
             }
-            this.activitiesService.update(formData).subscribe(() => this.dialogRef.close(true));
+            this.activitiesService.update(formData).subscribe(() => this.redirect());
         }
     }
 
-    override redirect(): void {
-        this.dialogRef.close(false);
+    override redirect(url?: string) {
+        this.route.navigate([url ?? '/pages/social-initiatives/activities']);
     }
 }

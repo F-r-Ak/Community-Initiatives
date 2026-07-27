@@ -1,0 +1,15 @@
+<div class="activity-tabs-container">
+    <p-tabView [(activeIndex)]="activeTabIndex" (onChange)="onTabChange($event)">
+        <p-tabPanel header="بيانات النشاط">
+            <app-add-edit-activity
+                [embeddedPageType]="pageType">
+            </app-add-edit-activity>
+        </p-tabPanel>
+
+        @if (isEditMode) {
+        <p-tabPanel header="مجموعات المستفيدين">
+                <app-activity-beneficiary-groups [activityIdInput]="activityId"></app-activity-beneficiary-groups>
+            </p-tabPanel>
+        }
+    </p-tabView>
+</div>

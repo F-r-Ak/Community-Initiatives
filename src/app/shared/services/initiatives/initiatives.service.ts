@@ -28,7 +28,7 @@ export class InitiativesService extends HttpService {
     }
 
     getPaged(body: GetPagedBody<any>): Observable<any> {
-        return this.post<any, any>({ apiName: `getpaged`, showAlert: true }, body);
+        return this.dropdownPost<any, any>({ apiName: `getpaged`, showAlert: true }, body);
     }
 
     add(body: AddInitiativeDto) {
@@ -77,7 +77,7 @@ export class InitiativesService extends HttpService {
         if (body.reportName) params.ReportName = body.reportName;
         if (body.reportType) params.ReportType = body.reportType;
         if (body.acceptLanguage) params.AcceptLanguage = body.acceptLanguage;
-       
+
          if (body.name) params.name = body.name;
         if (body.fieldId) {
             if (body.fieldId.nameAr) {
