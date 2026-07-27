@@ -16,7 +16,7 @@
     [lazy]="true"
     [showCurrentPageReport]="true"
     [paginatorLocale]="language == 'ar' ? 'ar-EG' : 'en-US'"
-    [currentPageReportTemplate]="'PAGINATION'"
+    [currentPageReportTemplate]="'اظهار {first} إلى {last} من {totalRecords} مدخلات'"
     [paginator]="true"
     [rowsPerPageOptions]="[5, 10, 15, 20]"
     [rows]="pageSize"
@@ -34,7 +34,7 @@
             @if (expandable) {
                 <th style="width: 3rem"></th>
             }
-            
+
             @if (checkbox) {
                 <th style="width: 4rem"><p-tableHeaderCheckbox /></th>
             }
@@ -99,7 +99,7 @@
             @if ((tableOptions.inputActions && permissions.listOfPermissions.indexOf('Permission.' + permissions.componentName + '.View') > -1) || permissions.allowAll) {
                 <th></th>
             }
-            
+
         </tr>
     </ng-template>
 
@@ -111,7 +111,7 @@
                     <p-button type="button" pButton pRipple [pRowToggler]="row" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></p-button>
                 </td>
             }
-      
+
             @if (checkbox) {
                 <td>
                     <p-tableCheckbox [value]="row" />

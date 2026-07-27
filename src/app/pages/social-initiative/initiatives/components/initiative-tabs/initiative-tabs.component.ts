@@ -6,9 +6,8 @@ import { CardModule } from 'primeng/card';
 import { BaseComponent } from '../../../../../base/components/base-component';
 import { InitiativeTabs } from '../../../../../core/enums/initiative-tabs';
 import { AddEditInitiativeComponent } from '../add-edit-initiative/add-edit-initiative.component';
-import { ActivitiesComponent } from '../activities/activities.component';
 import { InitiativeTeamsComponent } from '../initiative-teams/initiative-teams.component';
-import { MediaInitiativesComponent } from '../mediainitiative/mediainitiatives.component';
+import { MediaInitiativesComponent } from '../media-initiatives/media-initiatives.component';
 @Component({
     selector: 'app-initiative-tabs',
     standalone: true,
@@ -17,7 +16,6 @@ import { MediaInitiativesComponent } from '../mediainitiative/mediainitiatives.c
         TabsModule,
         CardModule,
         AddEditInitiativeComponent,
-        ActivitiesComponent,
         InitiativeTeamsComponent,
         MediaInitiativesComponent,
     ],

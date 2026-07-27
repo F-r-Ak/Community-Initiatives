@@ -1,4 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { BaseListComponent } from '../../../../../base/components/base-list-component';
 import { PrimeDataTableComponent, TableOptions, PrimeTitleToolBarComponent } from '../../../../../shared';
@@ -9,7 +10,7 @@ import { AuthHelper } from '../../../../../core';
 @Component({
     selector: 'app-activities',
     standalone: true,
-    imports: [PrimeDataTableComponent, PrimeTitleToolBarComponent],
+    imports: [RouterModule,PrimeDataTableComponent, PrimeTitleToolBarComponent],
     templateUrl: './activities.component.html',
     styleUrl: './activities.component.scss'
 })
@@ -17,9 +18,9 @@ export class ActivitiesComponent extends BaseListComponent implements OnInit {
     authHelper = inject(AuthHelper);
     tableOptions!: TableOptions;
     service = inject(ActivitiesService);
-         get rolesEnum() {
-            return RoleCodes;
-        }
+    get rolesEnum() {
+        return RoleCodes;
+    }
     constructor(activatedRoute: ActivatedRoute) {
         super(activatedRoute);
     }
@@ -37,6 +38,7 @@ export class ActivitiesComponent extends BaseListComponent implements OnInit {
                 delete: 'v1/activities/delete'
             },
             inputCols: [
+                { field: 'initiativeName', header: 'اسم المبادرة', filter: true, filterMode: 'text' },
                 { field: 'name', header: 'اسم النشاط', filter: true, filterMode: 'text' },
                 { field: 'cityName', header: 'المدينة', filter: true, filterMode: 'text' },
                 { field: 'activityTypeName', header: 'نوع النشاط', filter: true, filterMode: 'text' },
@@ -45,13 +47,30 @@ export class ActivitiesComponent extends BaseListComponent implements OnInit {
             ],
             inputActions: [
                 {
-                    name: 'مجموعة المستفيدين',
-                    icon: 'pi pi-users',
-                    color: 'text-middle',
-                    isCallBack: true,
-                    call: (row) => this.openActivityBeneficiaryGroups(row),
+                    name: 'VIEW',
+                    icon: 'pi pi-eye',
+                    color: 'text-info',
+                    isView: true,
+                    route: '/pages/social-initiatives/activities/view/',
                     allowAll: true
-                }
+                },
+                {
+                    name: 'EDIT',
+                    icon: 'pi pi-file-edit',
+                    color: 'text-middle',
+                    isEdit: true,
+                    route: '/pages/social-initiatives/activities/edit/',
+                    allowAll: true
+                },
+                this.authHelper.isAdmin
+                    ? {
+                          name: 'DELETE',
+                          icon: 'pi pi-trash',
+                          color: 'text-error',
+                          allowAll: true,
+                          isDelete: true
+                      }
+                    : {}
             ],
             permissions: {
                 componentName: 'COMMUNITY-INITIATIVES-ACTIVITIES',
@@ -59,9 +78,7 @@ export class ActivitiesComponent extends BaseListComponent implements OnInit {
                 listOfPermissions: []
             },
             bodyOptions: {
-                filter: this.authHelper.hasRole(this.rolesEnum.Employee)
-                    ? { createdById: this.authHelper.getUserId() }
-                    : {}
+                filter: this.authHelper.hasRole(this.rolesEnum.Employee) ? { createdById: this.authHelper.getUserId() } : {}
             }
         };
     }

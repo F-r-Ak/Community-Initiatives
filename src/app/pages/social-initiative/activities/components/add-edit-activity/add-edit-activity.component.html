@@ -2,6 +2,20 @@
     @if (form) {
         <form [formGroup]="form" class="row g-4">
             <div class="col-12 col-md-3">
+                <label class="form-label">المبادرة</label>
+                <app-prime-autocomplete
+                    [formGroup]="form"
+                    controlName="initiativeId"
+                    [getMethod]="getInitiatives.bind(this)"
+                    [selectedOption]="selectedInitiative"
+                    [field]="'name'"
+                    (onSelect)="onInitiativeSelect($event)"
+                    (onClear)="onInitiativeSelect({ value: null })"
+                >
+                </app-prime-autocomplete>
+            </div>
+
+            <div class="col-12 col-md-3">
                 <app-prime-input-text [formGroup]="form" controlName="name" [label]="'اسم النشاط'" validatorLanguageType="ar"> </app-prime-input-text>
             </div>
 
@@ -31,7 +45,8 @@
 
             <div class="col-12 col-md-3">
                 <label class="form-label">المركز</label>
-                <app-prime-autocomplete [formGroup]="form" controlName="cityId" [getMethod]="getCities" [selectedOption]="selectedCity" [field]="'nameAr'" (onSelect)="onCitySelect($event)" (onClear)="onCityClear()"> </app-prime-autocomplete>
+                <app-prime-autocomplete [formGroup]="form" controlName="cityId" [getMethod]="getCities.bind(this)" [selectedOption]="selectedCity" [field]="'nameAr'" (onSelect)="onCitySelect($event)" (onClear)="onCityClear()">
+                </app-prime-autocomplete>
             </div>
 
             <div class="col-12 col-md-3">
@@ -39,7 +54,7 @@
                 <app-prime-autocomplete
                     [formGroup]="form"
                     controlName="townId"
-                    [getMethod]="getTowns"
+                    [getMethod]="getTowns.bind(this)"
                     [selectedOption]="selectedTown"
                     [field]="'nameAr'"
                     [disabled]="!form.get('cityId')?.value"
@@ -65,7 +80,7 @@
                 </app-prime-autocomplete>
             </div>
 
-            <div class="col-12 col-md-3">
+            <div class="col-12 col-md-4">
                 <label class="form-label">نوع التنفيذ</label>
                 <app-prime-autocomplete
                     [formGroup]="form"
@@ -81,93 +96,38 @@
                 </app-prime-autocomplete>
             </div>
 
-            <div class="col-12 col-md-3">
-                <app-prime-datepicker [formGroup]="form" controlName="startDate" [label]="'تاريخ البدء'" [rangeMaxControlName]="'endDate'"> </app-prime-datepicker>
-            </div>
-
-            <div class="col-12 col-md-3">
-                <app-prime-datepicker [formGroup]="form" controlName="endDate" [label]="'تاريخ الانتهاء'" [referenceControlName]="'startDate'"> </app-prime-datepicker>
-            </div>
-
-            <div class="col-12 col-md-3">
-                <app-prime-datepicker [formGroup]="form" controlName="activityTime" [label]="'وقت النشاط'" [mode]="'time'"> </app-prime-datepicker>
-            </div>
-
-            <div class="col-12 col-md-3">
-                <app-prime-input-text [formGroup]="form" controlName="numberOfVolunteers" [label]="'عدد المتطوعين'" contentType="number"> </app-prime-input-text>
-            </div>
-
-            <div class="col-12 col-md-3">
-                <app-prime-input-text [formGroup]="form" controlName="numberOfFemaleBeneficiaries" [label]="'عدد المستفيدين (الإناث)'" contentType="number"> </app-prime-input-text>
-            </div>
-
-            <div class="col-12 col-md-3">
-                <app-prime-input-text [formGroup]="form" controlName="numberOfMaleBeneficiaries" [label]="'عدد المستفيدين (الذكور)'" contentType="number"> </app-prime-input-text>
-            </div>
-
-            <div class="col-12 col-md-3">
-                <app-prime-input-text [formGroup]="form" controlName="numberOfBeneficiaries" [label]="'عدد المستفيدين'" contentType="number"> </app-prime-input-text>
-            </div>
-
-            <div class="col-12 col-md-3">
+            <div class="col-12 col-md-4">
                 <app-prime-input-text [formGroup]="form" controlName="numberOfActivity" [label]="'عدد الأنشطة'" contentType="number"> </app-prime-input-text>
             </div>
 
-            <div class="col-12 col-md-3">
-                <label class="form-label">نوع جهة التنسيق</label>
-                <app-prime-autocomplete
-                    [formGroup]="form"
-                    controlName="entityType"
-                    [suggestions]="entityTypesList"
-                    [selectedOption]="selectedEntityType"
-                    [field]="'nameAr'"
-                    [lazy]="false"
-                    (handleMethod)="getEntityTypes($event)"
-                    (onSelect)="onEntityTypeSelect($event)"
-                    (onClear)="onEntityTypeSelect({ value: null })"
-                >
-                </app-prime-autocomplete>
+            <div class="col-12 col-md-4">
+                <app-prime-input-text [formGroup]="form" controlName="numberOfVolunteers" [label]="'عدد المتطوعين'" contentType="number"> </app-prime-input-text>
             </div>
 
-            @if (isDepartment) {
-                <div class="col-12 col-md-3">
-                    <label class="form-label">المديرية</label>
-                    <app-prime-autocomplete
-                        [formGroup]="form"
-                        controlName="entityId"
-                        [getMethod]="getEntities.bind(this)"
-                        (handleMethod)="getEntities($event)"
-                        [selectedOption]="selectedEntity"
-                        [field]="'nameAr'"
-                        (onSelect)="onEntitySelect($event)"
-                        (onClear)="onEntitySelect({ value: null })"
-                    >
-                    </app-prime-autocomplete>
-                </div>
-            }
+            <div class="col-12 col-md-4">
+                <app-prime-input-text [formGroup]="form" controlName="numberOfFemaleBeneficiaries" [label]="'عدد المستفيدين (الإناث)'" contentType="number"> </app-prime-input-text>
+            </div>
 
-            @if (isOrganization) {
-                <div class="col-12 col-md-3">
-                    <label class="form-label">الجمعية</label>
-                    <app-prime-autocomplete
-                        [formGroup]="form"
-                        controlName="organizationId"
-                        [getMethod]="getOrganizations.bind(this)"
-                        (handleMethod)="getOrganizations($event)"
-                        [selectedOption]="selectedOrganization"
-                        [field]="'name'"
-                        (onSelect)="onOrganizationSelect($event)"
-                        (onClear)="onOrganizationSelect({ value: null })"
-                    >
-                    </app-prime-autocomplete>
-                </div>
-            }
+            <div class="col-12 col-md-4">
+                <app-prime-input-text [formGroup]="form" controlName="numberOfMaleBeneficiaries" [label]="'عدد المستفيدين (الذكور)'" contentType="number"> </app-prime-input-text>
+            </div>
 
-            @if (isOther) {
-                <div class="col-12 col-md-3">
-                    <app-prime-input-text [formGroup]="form" controlName="otherEntityName" [label]="'اسم جهة التنسيق'"> </app-prime-input-text>
-                </div>
-            }
+            <div class="col-12 col-md-4">
+                <app-prime-input-text [formGroup]="form" controlName="numberOfBeneficiaries" [label]="'عدد المستفيدين'" contentType="number"> </app-prime-input-text>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <app-prime-datepicker [formGroup]="form" controlName="startDate" [label]="'تاريخ البدء'" [rangeMaxControlName]="'endDate'"> </app-prime-datepicker>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <app-prime-datepicker [formGroup]="form" controlName="endDate" [label]="'تاريخ الانتهاء'" [referenceControlName]="'startDate'"> </app-prime-datepicker>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <app-prime-datepicker [formGroup]="form" controlName="activityTime" [label]="'وقت النشاط'" [mode]="'time'"> </app-prime-datepicker>
+            </div>
+
 
             <!-- Attachments -->
             <div class="col-12">

@@ -45,7 +45,7 @@ export class InitiativeComponent extends BaseComponent implements OnInit {
     loadData(): void {
         this.initiativesService.getInitiative(this.id).subscribe({
             next: (data: any) => {
-                this.initiative = data;
+                this.initiative = data?.initiative;
             }
         });
 
