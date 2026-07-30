@@ -31,7 +31,7 @@ import { Attachment } from '../../../../../shared/interfaces/attachment/attachme
 })
 export class AddEditMediaInitiativeComponent extends BaseEditComponent implements OnInit {
     initiativeId: string = '';
-    
+      isViewMode: boolean = false;  
     dialogRef = inject(DynamicDialogRef);
     dialogConfig = inject(DynamicDialogConfig);
 
@@ -66,9 +66,10 @@ export class AddEditMediaInitiativeComponent extends BaseEditComponent implement
         const data = this.dialogConfig.data;
         this.initiativeId = data?.initiativeId ?? '';
         this.id = data?.id ?? '';
-        this.pageType = this.id ? 'edit' : 'add';
+        this.isViewMode = data?.isViewMode === true;
+        this.pageType = this.isViewMode ? 'view' : this.id ? 'edit' : 'add';
 
-        if (this.pageType === 'edit' && this.id) {
+        if ((this.pageType === 'edit' || this.pageType === 'view') && this.id) {
             this.getEditMediaInitiative();
         } else {
             this.initFormGroup();

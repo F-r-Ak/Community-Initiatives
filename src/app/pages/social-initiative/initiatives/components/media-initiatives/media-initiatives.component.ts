@@ -89,14 +89,14 @@ openViewDialog(row: any) {
     this.openDialog(
         AddEditMediaInitiativeComponent,
         'تفاصيل متابعة الميديا',
-        { id: row.id, initiativeId: this.initiativeId, isViewMode: true }
+        { id: row.id, initiativeId: this.initiativeId, isViewMode: true, rowData: row }
     );
 }
     openAddEditDialog(row?: any) {
         this.openDialog(
             AddEditMediaInitiativeComponent,
             row ? 'تعديل متابعة ميديا' : 'اضافة متابعة ميديا',
-            { id: row?.id ?? null, initiativeId: this.initiativeId, isViewMode: true, rowData: row }
+            { id: row?.id ?? null, initiativeId: this.initiativeId, rowData: row }
         );
     }
 
