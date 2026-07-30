@@ -39,12 +39,10 @@ clientRole: 'Adder' | 'Updater' | 'Both' = 'Both';
   ) {}
 
   async ngOnInit(): Promise<void> {
-
-   
-
-  
-    
-   
+    this.userName = this.authHelper.getUserName() || '';
+    this.userSub = this.authHelper.userData$.subscribe((data) => {
+      this.userName = data?.name || this.userName;
+    });
   }
 
   ngOnDestroy(): void {
