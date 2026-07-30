@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BaseListComponent } from '../../../../../base/components/base-list-component';
 import { PrimeDataTableComponent, TableOptions, ActivityEntitiesService, PrimeTitleToolBarComponent } from '../../../../../shared';
 import { AddEditActivityEntityComponent } from '../add-edit-activity-entity/add-edit-activity-entity.component';
+import { ActivityEntityComponent } from '../activity-entity/activity-entity.component';
 import { AuthHelper } from '../../../../../core';
 import { RoleCodes } from '../../../../../core/enums/role';
 
@@ -57,6 +58,14 @@ export class ActivityEntitiesComponent extends BaseListComponent implements OnIn
                 { field: 'activityName', header: 'النشاط', filter: true, filterMode: 'text' }
             ],
             inputActions: [
+                {
+                    name: 'VIEW',
+                    icon: 'pi pi-eye',
+                    color: 'text-info',
+                    isCallBack: true,
+                    call: (row: any) => this.openViewDialog(row),
+                    allowAll: true
+                },
                 this.authHelper.isAdmin
                     ? { name: 'DELETE', icon: 'pi pi-trash', color: 'text-error', allowAll: true, isDelete: true }
                     : {}
@@ -79,6 +88,15 @@ export class ActivityEntitiesComponent extends BaseListComponent implements OnIn
             AddEditActivityEntityComponent,
             row ? 'تعديل جهة التنسيق' : 'اضافة جهة التنسيق',
             { id: row?.id ?? null, activityId: this.activityId }
+        );
+    }
+
+    openViewDialog(rowData: any) {
+        this.openDialog(
+            ActivityEntityComponent,
+            'عرض جهة التنسيق',
+            { pageType: 'view', row: { rowData } },
+            { closable: true }
         );
     }
 

@@ -1,0 +1,55 @@
+@if (record) {
+    <div class="card">
+    <div class="ae-view" dir="rtl">
+
+        <!-- Hero banner -->
+        <div class="ae-hero">
+            <div class="ae-hero__icon">
+                <i class="pi pi-building"></i>
+            </div>
+            <div class="ae-hero__info">
+                <div class="ae-hero__name">{{ record.name || '---' }}</div>
+                <div class="ae-hero__meta">
+                    <span class="ae-badge initiative">
+                        <i class="pi pi-flag me-1"></i>{{ record.initiativeName || '---' }}
+                    </span>
+                    <span class="ae-badge activity">
+                        <i class="pi pi-bolt me-1"></i>{{ record.activityName || '---' }}
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Details grid -->
+        <div class="ae-grid">
+
+            <!-- Entity type -->
+            <div class="ae-item">
+                <div class="ae-item__icon" style="background:#e8f4fd; color:#1a6496">
+                    <i class="pi pi-tag"></i>
+                </div>
+                <div class="ae-item__body">
+                    <span class="ae-item__label">نوع الجهة</span>
+                    <span class="ae-item__value">{{ record.entityTypeName?.nameAr || record.entityTypeNameAr || '---' }}</span>
+                </div>
+            </div>
+
+            <!-- Entity name -->
+            <div class="ae-item">
+                <div class="ae-item__icon" style="background:#f3f0ff; color:#4a3aaa">
+                    <i class="pi pi-building"></i>
+                </div>
+                <div class="ae-item__body">
+                    <span class="ae-item__label">اسم الجهة</span>
+                    <span class="ae-item__value">{{ record.name || '---' }}</span>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    </div>
+} @else {
+    <div class="d-flex justify-content-center align-items-center p-5">
+        <i class="pi pi-spin pi-spinner" style="font-size: 2rem; color: var(--datatable-header-color)"></i>
+    </div>
+}

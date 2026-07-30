@@ -4,6 +4,7 @@ import { BaseListComponent } from '../../../../../base/components/base-list-comp
 import { PrimeDataTableComponent, TableOptions } from '../../../../../shared';
 import { InitiativeTeamsService } from '../../../../../shared/services/initiative-teams/initiative-teams.service';
 import { AddEditInitiativeTeamComponent } from '../add-edit-initiative-team/add-edit-initiative-team.component';
+import { InitiativeTeamComponent } from '../initiative-team/initiative-team.component';
 import { AuthHelper } from '../../../../../core';
 import { RoleCodes } from '../../../../../core/enums/role';
 
@@ -45,6 +46,14 @@ export class InitiativeTeamsComponent extends BaseListComponent implements OnIni
             ],
 
             inputActions: [
+                {
+                    name: 'VIEW',
+                    icon: 'pi pi-eye',
+                    color: 'text-info',
+                    isCallBack: true,
+                    call: (row: any) => this.openViewDialog(row),
+                    allowAll: true
+                },
                 this.authHelper.isAdmin?
                 {
                     name: 'DELETE',
@@ -73,6 +82,15 @@ export class InitiativeTeamsComponent extends BaseListComponent implements OnIni
             AddEditInitiativeTeamComponent,
             row ? 'تعديل عضو الفريق' : 'اضافة عضو الفريق',
             { id: row?.id ?? null, initiativeId: this.initiativeId }
+        );
+    }
+
+    openViewDialog(rowData: any) {
+        this.openDialog(
+            InitiativeTeamComponent,
+            'عرض عضو الفريق',
+            { pageType: 'view', row: { rowData } },
+            { closable: true }
         );
     }
 

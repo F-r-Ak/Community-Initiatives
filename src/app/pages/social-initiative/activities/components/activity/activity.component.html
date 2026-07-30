@@ -68,6 +68,27 @@
                         }
                     }
                 </div>
+
+                <!-- Activity entities card -->
+                <div class="card p-3">
+                    <div class="section-header d-flex align-items-center gap-2 mb-3">
+                        <i class="pi pi-building" style="color: var(--datatable-header-color)"></i>
+                        <strong>جهات التنسيق ({{ activityEntities.length }})</strong>
+                    </div>
+                    @if (activityEntities.length === 0) {
+                        <p class="text-muted text-center font-14">لا توجد جهات مضافة</p>
+                    } @else {
+                        @for (entity of activityEntities; track entity.id) {
+                            <div class="group-row">
+                                <i class="pi pi-sitemap text-muted me-2"></i>
+                                <span>{{ entity.name || entity.organizationName || entity.otherEntityName || '---' }}</span>
+                                @if (entity.entityTypeNameAr) {
+                                    <span class="text-muted font-12 ms-1">({{ entity.entityTypeNameAr }})</span>
+                                }
+                            </div>
+                        }
+                    }
+                </div>
             </div>
 
             <!-- Details column -->
