@@ -4,11 +4,12 @@ import { ActivatedRoute } from '@angular/router';
 import { TabViewModule } from 'primeng/tabview';
 import { AddEditActivityComponent } from '../add-edit-activity/add-edit-activity.component';
 import { ActivityBeneficiaryGroupsComponent } from '../activity-beneficiary-groups/activity-beneficiary-groups.component';
+import { ActivityEntitiesComponent } from '../activity-entities/activity-entities.component';
 
 @Component({
     selector: 'app-activity-tabs',
     standalone: true,
-    imports: [CommonModule, TabViewModule, AddEditActivityComponent, ActivityBeneficiaryGroupsComponent],
+    imports: [CommonModule, TabViewModule, AddEditActivityComponent, ActivityBeneficiaryGroupsComponent, ActivityEntitiesComponent],
     templateUrl: './activity-tabs.component.html',
     styleUrl: './activity-tabs.component.scss'
 })
