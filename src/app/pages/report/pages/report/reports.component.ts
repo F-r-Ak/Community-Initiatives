@@ -38,6 +38,7 @@ export class ReportsComponent implements OnInit {
 
     reportTypes: any[] = [];
     reportNames: any[] = [];
+    selectedReportName: any = null;
     acceptLanguages: any[] = [];
     isGeneratingReport: boolean = false;
 
@@ -128,8 +129,9 @@ onReportTypeSelect(event: any) {
 
 onReportNameSelect(event: any) {
     // المكون يرسل الأوبجكت في الـ event مباشرة أو بداخل event.value
-    const selectedValue = event.value?.value || event.value || event;
-     this.form.get('reportName')?.setValue(selectedValue);
+    const selectedOption = event.value || event;
+    this.selectedReportName = selectedOption;
+    this.form.patchValue({ reportName: selectedOption?.value });
     this.form.get('reportName')?.updateValueAndValidity();
 }
    
