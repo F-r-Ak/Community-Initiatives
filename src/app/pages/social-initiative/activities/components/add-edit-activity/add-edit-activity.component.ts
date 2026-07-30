@@ -131,7 +131,7 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
     private loadEnumLists(): Promise<void> {
         return new Promise((resolve) => {
             let completed = 0;
-            const total = 4; // entityTypes, executionStatus, executeTypes, activityTypes
+            const total = 3; // executionStatus, executeTypes, activityTypes
 
             const checkComplete = () => {
                 completed++;
