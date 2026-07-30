@@ -42,11 +42,20 @@ export class MediaInitiativesComponent extends BaseListComponent implements OnIn
             },
             inputCols: [
                  { field: 'mediaTitle', header: 'عنوان الميديا', filter: true, filterMode: 'text' },
-             { field: 'mediaUrl', header: 'الرابط', filter: true, filterMode: 'attachments' }
+                 { field: 'mediaUrl', header: 'الرابط', filter: true, filterMode: 'attachments' },
 
 
             ],
             inputActions: [
+
+               {
+        name: 'viewMedia',
+        icon: 'pi pi-eye',
+        color: 'text-info',
+        isCallBack: true,
+        call: (row) => this.openViewDialog(row), // استدعاء دالة فتح العرض
+        allowAll: true
+    },
                 {
                     name: 'EDIT',
                     icon: 'pi pi-file-edit',
@@ -76,12 +85,18 @@ export class MediaInitiativesComponent extends BaseListComponent implements OnIn
             }
         };
     }
-
+openViewDialog(row: any) {
+    this.openDialog(
+        AddEditMediaInitiativeComponent,
+        'تفاصيل متابعة الميديا',
+        { id: row.id, initiativeId: this.initiativeId, isViewMode: true }
+    );
+}
     openAddEditDialog(row?: any) {
         this.openDialog(
             AddEditMediaInitiativeComponent,
             row ? 'تعديل متابعة ميديا' : 'اضافة متابعة ميديا',
-            { id: row?.id ?? null, initiativeId: this.initiativeId }
+            { id: row?.id ?? null, initiativeId: this.initiativeId, isViewMode: true, rowData: row }
         );
     }
 
@@ -90,7 +105,12 @@ override loadDataFromServer(): void {
         next: (res) => {
             this.data = res.data.map((item: any) => ({
                 ...item,
-                             mediaUrl: item.mediaUrl ? { name: item.mediaUrl, url: item.mediaUrl } : null
+                mediaUrl: item.mediaUrl ? { 
+                    name: '🔗 فتح الرابط',   // خيار 1: أيقونة رابط مع كلمة
+                    // name: '⬇️ تحميل',      // خيار 2: أيقونة تنزيل
+                    // name: '🌐 الذهاب للموقع', // خيار 3: أيقونة كورية
+                    url: item.mediaUrl 
+                } : null
             }));
 
             this.totalCount = res.totalCount;

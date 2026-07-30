@@ -25,5 +25,6 @@ export const initiativesRoutes: Routes = [
         path: 'view/:id',
         loadComponent: () => import('./components/initiative/initiative.component').then((c) => c.InitiativeComponent),
         data: { pageTitle: 'عرض المبادرة', pageType: 'view' }
-    }
+    },
+     
 ];

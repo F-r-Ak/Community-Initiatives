@@ -31,7 +31,7 @@ import { Attachment } from '../../../../../shared/interfaces/attachment/attachme
 })
 export class AddEditMediaInitiativeComponent extends BaseEditComponent implements OnInit {
     initiativeId: string = '';
-
+    
     dialogRef = inject(DynamicDialogRef);
     dialogConfig = inject(DynamicDialogConfig);
 
@@ -82,6 +82,10 @@ export class AddEditMediaInitiativeComponent extends BaseEditComponent implement
             mediaTitle: [null, Validators.required],
             mediaUrl: [null, [Validators.required]],
             mediaDescription: [null, Validators.required],
+            numberOfLikes: [null],
+            numberOfShares: [null],
+            numberOfComments: [null],
+            numberOfViews: [null],
         });
 
         // Reset entity fields when entityType changes
