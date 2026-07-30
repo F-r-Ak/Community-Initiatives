@@ -116,42 +116,42 @@ export abstract class HttpService extends HttpServiceBaseService {
       if (!Number.isNaN(Number(event.status))) {
         if (event.status.toString().startsWith('2')) {
           this.alertService.success(
-            event.message ? this.localize.translate.instant('VALIDATION.' + event.message) : 'Successfully Done...'
+            event.message ? this.localize.translate.instant(event.message) : 'Successfully Done...'
           );
         } else {
-          this.alertService.error(event.message ? this.localize.translate.instant('VALIDATION.' + event.message) : '!NOT HANDLED ERROR!');
+          this.alertService.error(event.message ? this.localize.translate.instant(event.message) : '!NOT HANDLED ERROR!');
         }
       } else {
         const status = event.status.toString();
         switch (status) {
           case NamedHttpStatus.Created: {
             this.alertService.success(
-              event.message ? this.localize.translate.instant('VALIDATION.' + event.message) : 'Successfully Done...'
+              event.message ? this.localize.translate.instant(event.message) : 'Successfully Done...'
             );
             break;
           }
           case NamedHttpStatus.Accepted: {
             this.alertService.success(
-              event.message ? this.localize.translate.instant('VALIDATION.' + event.message) : 'Successfully Done...'
+              event.message ? this.localize.translate.instant(event.message) : 'Successfully Done...'
             );
             break;
           }
           case NamedHttpStatus.NoContent: {
             this.alertService.success(
-              event.message ? this.localize.translate.instant('VALIDATION.' + event.message) : 'Successfully Done...'
+              event.message ? this.localize.translate.instant(event.message) : 'Successfully Done...'
             );
             break;
           }
           case NamedHttpStatus.BadRequest: {
             if (event.message === 'VALIDATION_ERROR' && event.data && Array.isArray(event.data)) {
               const errorMessages = event.data.map(error =>
-                this.localize.translate.instant('VALIDATION.' + error)
+                this.localize.translate.instant(error)
               ).join(', ');
 
               this.alertService.error(errorMessages);
             } else {
               this.alertService.error(
-                event.message ? this.localize.translate.instant('VALIDATION.' + event.message) : '!NOT HANDLED ERROR!'
+                event.message ? this.localize.translate.instant(event.message) : '!NOT HANDLED ERROR!'
               );
             }
             break;
@@ -159,7 +159,7 @@ export abstract class HttpService extends HttpServiceBaseService {
           case NamedHttpStatus.InternalServerError: {
             this.alertService.error(
               event.message
-                ? this.localize.translate.instant('VALIDATION.' + event.message)
+                ? this.localize.translate.instant(event.message)
                 : this.localize.translate.instant('VALIDATION.INTERNAL_SERVER_ERROR')
             );
             break;
@@ -168,7 +168,7 @@ export abstract class HttpService extends HttpServiceBaseService {
             break;
           }
           default: {
-            this.alertService.error(event.message ? this.localize.translate.instant('VALIDATION.' + event.message) : '!NOT HANDLED ERROR!');
+            this.alertService.error(event.message ? this.localize.translate.instant(event.message) : '!NOT HANDLED ERROR!');
           }
         }
       }

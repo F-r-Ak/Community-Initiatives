@@ -36,6 +36,6 @@ export class ModulesService extends HttpService {
     }
 
     remove(id: string) {
-        return this.delete({ apiName: `delete/`, showAlert: true }, id);
+        return this.delete({ apiName: `deletesoft/`, showAlert: true }, id);
     }
 }

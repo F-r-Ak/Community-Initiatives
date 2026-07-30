@@ -1,18 +1,25 @@
-<div class="activity-tabs-container">
-    <p-tabView [(activeIndex)]="activeTabIndex" (onChange)="onTabChange($event)">
-        <p-tabPanel header="بيانات النشاط">
-            <app-add-edit-activity
-                [embeddedPageType]="pageType">
-            </app-add-edit-activity>
-        </p-tabPanel>
+<p-tabs [value]="activeTab">
+    <p-tablist>
+        <p-tab [value]="ActivityTabs.Main">بيانات النشاط</p-tab>
+        <p-tab [value]="ActivityTabs.BeneficiaryGroups" [disabled]="!isEditMode">مجموعات المستفيدين</p-tab>
+        <p-tab [value]="ActivityTabs.Entities" [disabled]="!isEditMode">جهات التنسيق</p-tab>
+    </p-tablist>
 
-        @if (isEditMode) {
-        <p-tabPanel header="مجموعات المستفيدين">
+    <p-tabpanels>
+        <p-tabpanel [value]="ActivityTabs.Main">
+            <app-add-edit-activity [embeddedPageType]="pageType"></app-add-edit-activity>
+        </p-tabpanel>
+
+        <p-tabpanel [value]="ActivityTabs.BeneficiaryGroups">
+            @if (isEditMode) {
                 <app-activity-beneficiary-groups [activityIdInput]="activityId"></app-activity-beneficiary-groups>
-            </p-tabPanel>
-        <p-tabPanel header="جهات التنسيق">
+            }
+        </p-tabpanel>
+
+        <p-tabpanel [value]="ActivityTabs.Entities">
+            @if (isEditMode) {
                 <app-activity-entities [activityIdInput]="activityId"></app-activity-entities>
-            </p-tabPanel>
-        }
-    </p-tabView>
-</div>
+            }
+        </p-tabpanel>
+    </p-tabpanels>
+</p-tabs>
