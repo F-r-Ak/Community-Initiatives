@@ -19,6 +19,30 @@
                 </div>
             </div>
 
+            <!-- Stats bar -->
+            <div class="mi-stats">
+                <div class="mi-stat">
+                    <i class="pi pi-heart mi-stat__icon" style="color:#e74c3c"></i>
+                    <span class="mi-stat__value">{{ record.numberOfLikes || 0 }}</span>
+                    <span class="mi-stat__label">إعجاب</span>
+                </div>
+                <div class="mi-stat">
+                    <i class="pi pi-share-alt mi-stat__icon" style="color:#2980b9"></i>
+                    <span class="mi-stat__value">{{ record.numberOfShares || 0 }}</span>
+                    <span class="mi-stat__label">مشاركة</span>
+                </div>
+                <div class="mi-stat">
+                    <i class="pi pi-comments mi-stat__icon" style="color:#27ae60"></i>
+                    <span class="mi-stat__value">{{ record.numberOfComments || 0 }}</span>
+                    <span class="mi-stat__label">تعليق</span>
+                </div>
+                <div class="mi-stat">
+                    <i class="pi pi-eye mi-stat__icon" style="color:#8e44ad"></i>
+                    <span class="mi-stat__value">{{ record.numberOfViews || 0 }}</span>
+                    <span class="mi-stat__label">مشاهدة</span>
+                </div>
+            </div>
+
             <!-- Details grid -->
             <div class="mi-grid">
 

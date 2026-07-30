@@ -7,6 +7,10 @@ export interface MediaInitiativeDto extends Lookup, Partial<SharedProperties> {
     mediaTitle: string;
     mediaUrl: string;
     mediaDescription: string;
+    numberOfLikes: number;
+    numberOfShares: number;
+    numberOfComments: number;
+    numberOfViews: number;
 }
 
 export interface AddMediaInitiativeDto extends Lookup, Partial<SharedProperties> {
@@ -15,7 +19,10 @@ export interface AddMediaInitiativeDto extends Lookup, Partial<SharedProperties>
     mediaTitle: string;
     mediaUrl: string;
     mediaDescription: string;
-   
+    numberOfLikes: number;
+    numberOfShares: number;
+    numberOfComments: number;
+    numberOfViews: number;
 }
 
 export interface UpdateMediaInitiativeDto extends Lookup, Partial<SharedProperties> {
@@ -24,4 +31,8 @@ export interface UpdateMediaInitiativeDto extends Lookup, Partial<SharedProperti
     mediaTitle: string;
     mediaUrl: string;
     mediaDescription: string;
+    numberOfLikes: number;
+    numberOfShares: number;
+    numberOfComments: number;
+    numberOfViews: number;
 }
