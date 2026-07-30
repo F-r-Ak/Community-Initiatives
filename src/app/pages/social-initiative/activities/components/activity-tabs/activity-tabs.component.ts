@@ -1,7 +1,9 @@
-import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { TabViewModule } from 'primeng/tabview';
+import { TabsModule } from 'primeng/tabs';
+import { BaseComponent } from '../../../../../base/components/base-component';
+import { ActivityTabs } from '../../../../../core/enums/activity-tabs';
 import { AddEditActivityComponent } from '../add-edit-activity/add-edit-activity.component';
 import { ActivityBeneficiaryGroupsComponent } from '../activity-beneficiary-groups/activity-beneficiary-groups.component';
 import { ActivityEntitiesComponent } from '../activity-entities/activity-entities.component';
@@ -9,26 +11,22 @@ import { ActivityEntitiesComponent } from '../activity-entities/activity-entitie
 @Component({
     selector: 'app-activity-tabs',
     standalone: true,
-    imports: [CommonModule, TabViewModule, AddEditActivityComponent, ActivityBeneficiaryGroupsComponent, ActivityEntitiesComponent],
+    imports: [CommonModule, TabsModule, AddEditActivityComponent, ActivityBeneficiaryGroupsComponent, ActivityEntitiesComponent],
     templateUrl: './activity-tabs.component.html',
     styleUrl: './activity-tabs.component.scss'
 })
-export class ActivityTabsComponent implements OnInit {
-    activatedRoute = inject(ActivatedRoute);
-    cdr = inject(ChangeDetectorRef);
+export class ActivityTabsComponent extends BaseComponent implements OnInit {
+    ActivityTabs = ActivityTabs;
+    activeTab: string = ActivityTabs.Main;
+    activityId: string = '';
 
-    activityId: string | null = null;
-    pageType: string = 'add';
-    activeTabIndex: number = 0;
-
-    ngOnInit(): void {
-        this.activityId = this.activatedRoute.snapshot.params['id'] ?? null;
-        this.pageType = this.activatedRoute.snapshot.data['pageType'] ?? 'add';
-        this.activeTabIndex = 0;
+    constructor(protected override activatedRoute: ActivatedRoute) {
+        super(activatedRoute);
     }
 
-    onTabChange(event: any): void {
-        this.activeTabIndex = event.index;
+    override ngOnInit(): void {
+        super.ngOnInit();
+        this.activityId = this.activatedRoute.snapshot.paramMap.get('id') || '';
     }
 
     get isEditMode(): boolean {

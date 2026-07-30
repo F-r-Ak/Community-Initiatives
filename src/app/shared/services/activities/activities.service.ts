@@ -41,7 +41,7 @@ export class ActivitiesService extends HttpService {
 
     getCitiesActivitiesDashboardCounts(): Observable<any> {
         return this.get<any>({ apiName: 'getcountactivitiesbycity' })
-       
+
     }
 
     getActivitiesTotalCount(): Observable<any> {
@@ -65,7 +65,7 @@ export class ActivitiesService extends HttpService {
     }
 
     remove(id: string) {
-        return this.delete({ apiName: `delete/`, showAlert: true }, id);
+        return this.delete({ apiName: `deletesoft/`, showAlert: true }, id);
     }
 
     deleteAttachments(ids: string[]) {
