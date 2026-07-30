@@ -1,0 +1,99 @@
+@if (record) {
+    <div class="card">
+    <div class="abg-view" dir="rtl">
+
+        <!-- Hero banner -->
+        <div class="abg-hero">
+            <div class="abg-hero__icon">
+                <i class="pi pi-users"></i>
+            </div>
+            <div class="abg-hero__info">
+                <div class="abg-hero__name">{{ record.beneficiaryGroupName || '---' }}</div>
+                <div class="abg-hero__meta">
+                    <span class="abg-badge initiative">
+                        <i class="pi pi-flag me-1"></i>{{ record.initiativeName || '---' }}
+                    </span>
+                    <span class="abg-badge activity">
+                        <i class="pi pi-bolt me-1"></i>{{ record.activityName || '---' }}
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Details grid -->
+        <div class="abg-grid">
+
+            <!-- Activity type -->
+            <div class="abg-item">
+                <div class="abg-item__icon" style="background:#e8f4fd; color:#1a6496">
+                    <i class="pi pi-tag"></i>
+                </div>
+                <div class="abg-item__body">
+                    <span class="abg-item__label">نوع النشاط</span>
+                    <span class="abg-item__value">{{ record.activityTypeName || '---' }}</span>
+                </div>
+            </div>
+
+            <!-- Execute type -->
+            <div class="abg-item">
+                <div class="abg-item__icon" style="background:#f3f0ff; color:#4a3aaa">
+                    <i class="pi pi-cog"></i>
+                </div>
+                <div class="abg-item__body">
+                    <span class="abg-item__label">نوع التنفيذ</span>
+                    <span class="abg-item__value">{{ record.executeTypeName || '---' }}</span>
+                </div>
+            </div>
+
+            <!-- City -->
+            <div class="abg-item">
+                <div class="abg-item__icon" style="background:#e8f5e9; color:#2e7d32">
+                    <i class="pi pi-map-marker"></i>
+                </div>
+                <div class="abg-item__body">
+                    <span class="abg-item__label">المدينة</span>
+                    <span class="abg-item__value">{{ record.activityCityName || '---' }}</span>
+                </div>
+            </div>
+
+            <!-- Town -->
+            <div class="abg-item">
+                <div class="abg-item__icon" style="background:#fff8e1; color:#f57f17">
+                    <i class="pi pi-map"></i>
+                </div>
+                <div class="abg-item__body">
+                    <span class="abg-item__label">الحي / البلدة</span>
+                    <span class="abg-item__value">{{ record.activityTownName || '---' }}</span>
+                </div>
+            </div>
+
+            <!-- Start date -->
+            <div class="abg-item">
+                <div class="abg-item__icon" style="background:#e3f2fd; color:#1565c0">
+                    <i class="pi pi-calendar"></i>
+                </div>
+                <div class="abg-item__body">
+                    <span class="abg-item__label">تاريخ البدء</span>
+                    <span class="abg-item__value">{{ record.startDate ? (record.startDate | date: 'yyyy/MM/dd') : '---' }}</span>
+                </div>
+            </div>
+
+            <!-- End date -->
+            <div class="abg-item">
+                <div class="abg-item__icon" style="background:#fce4ec; color:#c62828">
+                    <i class="pi pi-calendar-times"></i>
+                </div>
+                <div class="abg-item__body">
+                    <span class="abg-item__label">تاريخ الانتهاء</span>
+                    <span class="abg-item__value">{{ record.endDate ? (record.endDate | date: 'yyyy/MM/dd') : '---' }}</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    </div>
+} @else {
+    <div class="d-flex justify-content-center align-items-center p-5">
+        <i class="pi pi-spin pi-spinner" style="font-size: 2rem; color: var(--datatable-header-color)"></i>
+    </div>
+}

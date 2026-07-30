@@ -1,0 +1,77 @@
+@if (record) {
+    <div class="card">
+        <div class="it-view" dir="rtl">
+
+            <!-- Hero banner -->
+            <div class="it-hero">
+                <div class="it-hero__icon">
+                    <i class="pi pi-user"></i>
+                </div>
+                <div class="it-hero__info">
+                    <div class="it-hero__name">{{ record.teamMemberName || '---' }}</div>
+                    <div class="it-hero__meta">
+                        <span class="it-badge initiative">
+                            <i class="pi pi-flag me-1"></i>{{ record.initiativeName || '---' }}
+                        </span>
+                        <span class="it-badge category">
+                            <i class="pi pi-users me-1"></i>{{ record.teamCategoryName?.nameAr || record.teamCategoryNameAr || '---' }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Details grid -->
+            <div class="it-grid">
+
+                <!-- Field -->
+                <div class="it-item">
+                    <div class="it-item__icon" style="background:#e8f4fd; color:#1a6496">
+                        <i class="pi pi-briefcase"></i>
+                    </div>
+                    <div class="it-item__body">
+                        <span class="it-item__label">المجال</span>
+                        <span class="it-item__value">{{ record.fieldName || '---' }}</span>
+                    </div>
+                </div>
+
+                <!-- City -->
+                <div class="it-item">
+                    <div class="it-item__icon" style="background:#e8f5e9; color:#2e7d32">
+                        <i class="pi pi-map-marker"></i>
+                    </div>
+                    <div class="it-item__body">
+                        <span class="it-item__label">المدينة</span>
+                        <span class="it-item__value">{{ record.cityName || '---' }}</span>
+                    </div>
+                </div>
+
+                <!-- National ID -->
+                <div class="it-item">
+                    <div class="it-item__icon" style="background:#fff8e1; color:#f57f17">
+                        <i class="pi pi-id-card"></i>
+                    </div>
+                    <div class="it-item__body">
+                        <span class="it-item__label">رقم الهوية</span>
+                        <span class="it-item__value">{{ record.nationalID || '---' }}</span>
+                    </div>
+                </div>
+
+                <!-- Job Status -->
+                <div class="it-item">
+                    <div class="it-item__icon" style="background:#f3f0ff; color:#4a3aaa">
+                        <i class="pi pi-tag"></i>
+                    </div>
+                    <div class="it-item__body">
+                        <span class="it-item__label">الحالة الوظيفية</span>
+                        <span class="it-item__value">{{ record.jobStatusName?.nameAr || record.jobStatusNameAr || '---' }}</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+} @else {
+    <div class="d-flex justify-content-center align-items-center p-5">
+        <i class="pi pi-spin pi-spinner" style="font-size: 2rem; color: var(--datatable-header-color)"></i>
+    </div>
+}

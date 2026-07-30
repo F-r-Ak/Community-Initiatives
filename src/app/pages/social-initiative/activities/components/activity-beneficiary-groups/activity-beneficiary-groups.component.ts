@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BaseListComponent } from '../../../../../base/components/base-list-component';
 import { PrimeDataTableComponent, TableOptions, ActivityBeneficiaryGroupsService, PrimeTitleToolBarComponent } from '../../../../../shared';
 import { AddEditActivityBeneficiaryGroupComponent } from '../add-edit-activity-beneficiary-group/add-edit-activity-beneficiary-group.component';
+import { ActivityBeneficiaryGroupComponent } from '../activity-beneficiary-group/activity-beneficiary-group.component';
 import { RoleCodes } from '../../../../../core/enums/role';
 import { AuthHelper } from '../../../../../core';
 
@@ -62,6 +63,14 @@ export class ActivityBeneficiaryGroupsComponent extends BaseListComponent implem
                 { field: 'activityTypeName', header: 'نوع النشاط', filter: true, filterMode: 'text' }
             ],
             inputActions: [
+                {
+                    name: 'VIEW',
+                    icon: 'pi pi-eye',
+                    color: 'text-info',
+                    isCallBack: true,
+                    call: (row: any) => this.openViewDialog(row),
+                    allowAll: true
+                },
                 this.authHelper.isAdmin ?
                     {
                         name: 'DELETE',
@@ -92,6 +101,15 @@ export class ActivityBeneficiaryGroupsComponent extends BaseListComponent implem
             AddEditActivityBeneficiaryGroupComponent,
             row ? 'تعديل مجموعة المستفيدين' : 'اضافة مجموعة المستفيدين',
             { id: row?.id ?? null, activityId: this.activityId }
+        );
+    }
+
+    openViewDialog(rowData: any) {
+        this.openDialog(
+            ActivityBeneficiaryGroupComponent,
+            'عرض مجموعة المستفيدين',
+            { pageType: 'view', row: { rowData } },
+            { closable: true }
         );
     }
 

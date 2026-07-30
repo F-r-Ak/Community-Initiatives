@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { BaseComponent } from '../../../../../base/components/base-component';
-import { ActivitiesService, ActivityBeneficiaryGroupsService } from '../../../../../shared/services';
+import { ActivitiesService, ActivityBeneficiaryGroupsService, ActivityEntitiesService } from '../../../../../shared/services';
 import { ActivityDto } from '../../../../../shared/interfaces';
 
 @Component({
@@ -16,9 +16,11 @@ export class ActivityComponent extends BaseComponent implements OnInit {
     id: string = '';
     activity: ActivityDto | null = null;
     beneficiaryGroups: any[] = [];
+    activityEntities: any[] = [];
 
     activitiesService = inject(ActivitiesService);
     beneficiaryGroupsService = inject(ActivityBeneficiaryGroupsService);
+    activityEntitiesService = inject(ActivityEntitiesService);
 
     constructor(protected override activatedRoute: ActivatedRoute) {
         super(activatedRoute);
@@ -42,6 +44,12 @@ export class ActivityComponent extends BaseComponent implements OnInit {
         this.beneficiaryGroupsService.getPaged({ pageNumber: 1, pageSize: 100, filter: { activityId: this.id } }).subscribe({
             next: (res: any) => {
                 this.beneficiaryGroups = res?.data ?? res ?? [];
+            }
+        });
+
+        this.activityEntitiesService.getPaged({ pageNumber: 1, pageSize: 100, filter: { activityId: this.id } }).subscribe({
+            next: (res: any) => {
+                this.activityEntities = res?.data ?? res ?? [];
             }
         });
     }

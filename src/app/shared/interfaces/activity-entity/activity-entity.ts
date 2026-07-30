@@ -15,6 +15,7 @@ export interface ActivityEntityDto extends Lookup, Partial<SharedProperties> {
     organizationId: number | null;
     organizationName: string | null;
     otherEntityName: string | null;
+    name: string | null;
 }
 
 export interface AddActivityEntityDto extends Lookup, Partial<SharedProperties> {
