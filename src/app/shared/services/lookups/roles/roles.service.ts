@@ -16,7 +16,7 @@ export class RolesService extends HttpService {
     return this.get<TestDto>({ apiName: `Get/${id}` });
   }
 
- 
+
 
   getRoleModule(body:any) {
     return this.post<any, any>({ apiName: `getrolemodule`, showAlert: true }, body);
@@ -51,6 +51,6 @@ export class RolesService extends HttpService {
   }
 
   remove(id: string) {
-    return this.delete({ apiName: `delete/`, showAlert: true }, id);
+    return this.delete({ apiName: `deletesoft/`, showAlert: true }, id);
   }
 }
