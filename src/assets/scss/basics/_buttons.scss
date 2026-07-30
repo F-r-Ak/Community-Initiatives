@@ -78,7 +78,7 @@
             border-color: #eee7e3 !important;
             cursor: not-allowed !important;
         }
-        
+
         &:not(:disabled):hover {
             background-color: $primary !important;
             color: $white !important;
@@ -202,7 +202,7 @@
             // border-color: #5d6e76;
         }
     }
-    
+
     .pi-print,
     .pi-file-edit,
     .pi-sitemap {
@@ -225,13 +225,10 @@
         }
     }
     .pi-eye {
-        background-color: $primary;
-        border-color: $primary;
-        color: $white !important;
+        color: var(--primary-color);
         &:hover {
-            background-color: $white;
-            border-color: $white;
-            color: $primary !important;
+            background-color: var(--primary-color);
+            color: var(--white-color) !important;
         }
     }
 

@@ -186,14 +186,14 @@
                             @if ((action.isEdit && permissions.listOfPermissions.indexOf('Permission.' + permissions.componentName + '.Edit') > -1) || (action.isEdit && action.allowAll)) {
                                 <span>
                                     <a [routerLink]="action.route + row.id" class="icon-btn">
-                                        <i class="{{ action.icon }} icon" [title]="action.name"></i>
+                                        <i class="{{ action.icon }} icon {{ action.color }}" [title]="action.name"></i>
                                     </a>
                                 </span>
                             }
                             @if ((action.isDelete && permissions.listOfPermissions.indexOf('Permission.' + permissions.componentName + '.Delete') > -1) || (action.isDelete && action.allowAll)) {
                                 <span>
                                     <a class="icon-btn">
-                                        <i class="{{ action.icon }} icon" (click)="delete(row.id)" [title]="action.name"></i>
+                                        <i class="{{ action.icon }} icon {{ action.color }}" (click)="delete(row.id)" [title]="action.name"></i>
                                     </a>
                                 </span>
                             }

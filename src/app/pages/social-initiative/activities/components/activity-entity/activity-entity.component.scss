@@ -1,0 +1,131 @@
+:host {
+    display: block;
+    padding: 1.25rem;
+}
+
+/* ── Hero ─────────────────────────────────────────── */
+.ae-hero {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: linear-gradient(135deg, #1a3a5c 0%, #2a5f8f 100%);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.25rem;
+    color: #fff;
+
+    &__icon {
+        flex-shrink: 0;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        i { font-size: 1.6rem; color: #fff; }
+    }
+
+    &__info { flex: 1; min-width: 0; }
+
+    &__name {
+        font-size: 1.15rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    &__meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+}
+
+/* ── Badges ───────────────────────────────────────── */
+.ae-badge {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.78rem;
+    font-weight: 500;
+    padding: 0.2rem 0.65rem;
+    border-radius: 20px;
+
+    &.initiative {
+        background: rgba(255, 255, 255, 0.2);
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.35);
+    }
+
+    &.activity {
+        background: rgba(255, 193, 7, 0.25);
+        color: #ffe082;
+        border: 1px solid rgba(255, 193, 7, 0.4);
+    }
+}
+
+/* ── Details grid ─────────────────────────────────── */
+.ae-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+
+    @media (max-width: 575px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.ae-item {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    background: #f8f9fc;
+    border: 1px solid #eaecf0;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    transition: box-shadow 0.15s;
+
+    &:hover {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    }
+
+    &__icon {
+        flex-shrink: 0;
+        width: 38px;
+        height: 38px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        i { font-size: 1rem; }
+    }
+
+    &__body {
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
+        min-width: 0;
+    }
+
+    &__label {
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: #9aa0ac;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+    }
+
+    &__value {
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: #2c3e50;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+

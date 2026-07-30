@@ -1,0 +1,71 @@
+@if (record) {
+    <div class="card">
+        <div class="mi-view" dir="rtl">
+
+            <!-- Hero banner -->
+            <div class="mi-hero">
+                <div class="mi-hero__icon">
+                    <i class="pi pi-video"></i>
+                </div>
+                <div class="mi-hero__info">
+                    <div class="mi-hero__name">{{ record.mediaTitle || '---' }}</div>
+                    @if (record.mediaUrl) {
+                        <div class="mi-hero__meta">
+                            <a [href]="record.mediaUrl" target="_blank" class="mi-badge link">
+                                <i class="pi pi-link me-1"></i> فتح الرابط
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Details grid -->
+            <div class="mi-grid">
+
+                <!-- Title -->
+                <div class="mi-item">
+                    <div class="mi-item__icon" style="background:#e8f4fd; color:#1a6496">
+                        <i class="pi pi-tag"></i>
+                    </div>
+                    <div class="mi-item__body">
+                        <span class="mi-item__label">عنوان الميديا</span>
+                        <span class="mi-item__value">{{ record.mediaTitle || '---' }}</span>
+                    </div>
+                </div>
+
+                <!-- URL -->
+                <div class="mi-item">
+                    <div class="mi-item__icon" style="background:#f3f0ff; color:#4a3aaa">
+                        <i class="pi pi-link"></i>
+                    </div>
+                    <div class="mi-item__body">
+                        <span class="mi-item__label">الرابط</span>
+                        @if (record.mediaUrl) {
+                            <a [href]="record.mediaUrl" target="_blank" class="mi-item__value mi-link">{{ record.mediaUrl }}</a>
+                        } @else {
+                            <span class="mi-item__value">---</span>
+                        }
+                    </div>
+                </div>
+
+                <!-- Description -->
+                @if (record.mediaDescription) {
+                    <div class="mi-item mi-item--full">
+                        <div class="mi-item__icon" style="background:#e8f5e9; color:#2e7d32">
+                            <i class="pi pi-align-left"></i>
+                        </div>
+                        <div class="mi-item__body">
+                            <span class="mi-item__label">الوصف</span>
+                            <span class="mi-item__value mi-item__value--wrap">{{ record.mediaDescription }}</span>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+} @else {
+    <div class="d-flex justify-content-center align-items-center p-5">
+        <i class="pi pi-spin pi-spinner" style="font-size: 2rem; color: var(--datatable-header-color)"></i>
+    </div>
+}
