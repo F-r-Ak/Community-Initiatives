@@ -82,12 +82,11 @@
                     <app-prime-autocomplete
                         [formGroup]="form"
                         controlName="reportName"
+                        [selectedOption]="selectedReportName"
                         [suggestions]="reportNames"
                         (handleMethod)="searchReportNames($event)"
-                            (onSelect)="onReportNameSelect($event)"
-                            
+                        (onSelect)="onReportNameSelect($event)"
                         field="label"
-                        
                     />
                 </div>
             </div>
