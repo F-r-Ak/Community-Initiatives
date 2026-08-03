@@ -23,6 +23,7 @@ export interface InitiativeDto extends Lookup, Partial<SharedProperties> {
     initiativeMangerName: string;
     initiativeStartDate: string;
     initiativeEndDate: string;
+    teamMemberId: []
 }
 
 export interface AddInitiativeDto extends Lookup, Partial<SharedProperties> {
@@ -41,6 +42,7 @@ export interface AddInitiativeDto extends Lookup, Partial<SharedProperties> {
     initiativeMangerId: string;
     initiativeStartDate: string;
     initiativeEndDate: string;
+    teamMemberId: []
 }
 
 export interface UpdateInitiativeDto extends Lookup, Partial<SharedProperties> {
@@ -59,4 +61,5 @@ export interface UpdateInitiativeDto extends Lookup, Partial<SharedProperties> {
     initiativeMangerId: string;
     initiativeStartDate: string;
     initiativeEndDate: string;
+    teamMemberId: []
 }

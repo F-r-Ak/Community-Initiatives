@@ -75,7 +75,7 @@ export class AppMenu {
                             routerLink: ['/pages/settings/fields']
                         },
                         {
-                            label: 'المديريات',
+                            label: 'الجهات',
                             icon: 'pi pi-fw pi-cog',
                             routerLink: ['/pages/settings/entities']
                         },

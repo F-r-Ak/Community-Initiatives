@@ -116,7 +116,8 @@
     "EMPLOYEE_IS_ALREADY_IN_THIS_SENT": "هذا الموظف موجود بالفعل",
     "TIME_IS_ALREADY_SELECTED": "الفترة الزمنية محددة بالفعل من قبل",
     "EMAIL": "صيغة البريد الإلكتروني غير صحيحة",
-    "PATTERN": "رقم  غير صحيح "
+    "PATTERN": "رقم  غير صحيح ",
+    "MINARRAYLENGTH": "يجب إضافة 15 عضواً على الأقل"
   },
   "FIELDS": {
     "NAME": "الاسم",

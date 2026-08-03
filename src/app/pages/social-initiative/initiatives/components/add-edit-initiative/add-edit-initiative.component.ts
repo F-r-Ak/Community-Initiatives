@@ -1,11 +1,21 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { BaseEditComponent } from '../../../../../base/components/base-edit-component';
 import { PrimeInputTextComponent, PrimeDatepickerComponent, PrimeAutoCompleteComponent, SubmitButtonsComponent, InitiativesService, CitiesService, FieldsService, TeamMembersService } from '../../../../../shared';
 import { AuthHelper } from '../../../../../core';
+
+function minArrayLength(min: number): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+        const value = control.value;
+        if (!Array.isArray(value) || value.length < min) {
+            return { minArrayLength: { required: min, actual: Array.isArray(value) ? value.length : 0 } };
+        }
+        return null;
+    };
+}
 
 @Component({
     selector: 'app-add-edit-initiative',
@@ -40,9 +50,19 @@ export class AddEditInitiativeComponent extends BaseEditComponent implements OnI
              }
         });
     }
+
+    getMembers(body: any) {
+        return this.teamMembersService.getPaged({
+            ...body,
+            filter: { ...body.filter, teamCategory: 'Member' }
+        });
+    }
+
     selectedField: any = null;
     selectedCity: any = null;
     selectedManager: any = null;
+    selectedMembers: any[] = [];
+    memberSearchSelection: any = null;
 
     constructor(protected override activatedRoute: ActivatedRoute) {
         super(activatedRoute);
@@ -73,7 +93,8 @@ export class AddEditInitiativeComponent extends BaseEditComponent implements OnI
             cityId: [null, Validators.required],
             areas: [''],
             initiativeMangerId: [null, Validators.required],
-            initiativeCategory: ['Community', Validators.required]
+            initiativeCategory: ['Community', Validators.required],
+            teamMemberId: [[], minArrayLength(15)]
         });
     }
 
@@ -89,6 +110,13 @@ export class AddEditInitiativeComponent extends BaseEditComponent implements OnI
             }
             if (data.initiativeMangerId) {
                 this.teamMembersService.getEditTeamMember(data.initiativeMangerId).subscribe((member) => (this.selectedManager = member));
+            }
+            if (data.teamMemberId?.length) {
+                const memberRequests = data.teamMemberId.map((id: string) => this.teamMembersService.getEditTeamMember(id));
+                Promise.all(memberRequests.map((obs: any) => obs.toPromise())).then((members: any[]) => {
+                    this.selectedMembers = members.filter(Boolean);
+                    this.form.get('teamMemberId')?.setValue(this.selectedMembers.map((m) => m.id));
+                });
             }
         });
     }
@@ -106,6 +134,28 @@ export class AddEditInitiativeComponent extends BaseEditComponent implements OnI
     onManagerSelect(event: any) {
         this.selectedManager = event?.value ?? null;
         this.form.get('initiativeMangerId')?.setValue(this.selectedManager?.id ?? null);
+    }
+
+    onMemberAdd(event: any) {
+        const member = event?.value ?? event;
+        if (!member?.id) return;
+        const alreadyAdded = this.selectedMembers.some((m) => m.id === member.id);
+        if (!alreadyAdded) {
+            this.selectedMembers = [...this.selectedMembers, member];
+            this.syncMembersControl();
+        }
+        // Reset search field after adding
+        setTimeout(() => (this.memberSearchSelection = null), 0);
+    }
+
+    onMemberRemove(index: number) {
+        this.selectedMembers = this.selectedMembers.filter((_, i) => i !== index);
+        this.syncMembersControl();
+    }
+
+    private syncMembersControl() {
+        this.form.get('teamMemberId')?.setValue(this.selectedMembers.map((m) => m.id));
+        this.form.get('teamMemberId')?.markAsTouched();
     }
 
     private toDateOnly(value: any): string | null {
