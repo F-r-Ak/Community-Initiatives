@@ -65,6 +65,10 @@
             </div>
 
             <div class="col-12 col-md-3">
+                <app-prime-input-text [formGroup]="form" controlName="areas" [label]="'المنطقة'" validatorLanguageType="ar"> </app-prime-input-text>
+            </div>
+
+            <div class="col-12 col-md-3">
                 <label class="form-label">نوع النشاط</label>
                 <app-prime-autocomplete
                     [formGroup]="form"
@@ -80,8 +84,8 @@
                 </app-prime-autocomplete>
             </div>
 
-            <div class="col-12 col-md-4">
-                <label class="form-label">نوع التنفيذ</label>
+            <div class="col-12 col-md-3">
+                <label class="form-label">موقع التنفيذ</label>
                 <app-prime-autocomplete
                     [formGroup]="form"
                     controlName="executeTypeId"
@@ -96,11 +100,11 @@
                 </app-prime-autocomplete>
             </div>
 
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-md-3">
                 <app-prime-input-text [formGroup]="form" controlName="numberOfActivity" [label]="'عدد الأنشطة'" contentType="number"> </app-prime-input-text>
             </div>
 
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-md-3">
                 <app-prime-input-text [formGroup]="form" controlName="numberOfVolunteers" [label]="'عدد المتطوعين'" contentType="number"> </app-prime-input-text>
             </div>
 
@@ -174,7 +178,7 @@
             </div>
 
             <div class="col-12">
-                <app-prime-input-text [formGroup]="form" controlName="notes" [label]="'ملاحظات'" inputType="textarea"> </app-prime-input-text>
+                <app-prime-input-text [formGroup]="form" controlName="notes" [label]="'معلومات أخري'" inputType="textarea"> </app-prime-input-text>
             </div>
 
             <app-submit-buttons [isSubmitDisabled]="form.invalid" [submitButtonText]="pageType === 'add' ? 'ACTIONS.SUBMIT' : 'ACTIONS.SAVE'" (submit)="submit()" (cancel)="redirect()"> </app-submit-buttons>

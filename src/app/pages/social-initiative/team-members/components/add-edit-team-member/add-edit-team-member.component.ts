@@ -119,7 +119,7 @@ export class AddEditTeamMemberComponent extends BaseEditComponent implements OnI
                 this.filteredTeamCategories = res.filter((teamCategory: any) => teamCategory.nameAr.toLowerCase().includes(query));
             },
             error: (err) => {
-                this.alert.error('خطأ فى جلب بيانات فئة العضوية');
+                this.alert.error('خطأ فى جلب بيانات دوره في المبادرة');
             }
         });
     }

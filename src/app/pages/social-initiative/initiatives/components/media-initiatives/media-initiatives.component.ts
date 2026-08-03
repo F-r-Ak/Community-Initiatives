@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BaseListComponent } from '../../../../../base/components/base-list-component';
 import { PrimeDataTableComponent, TableOptions } from '../../../../../shared';
 import { MediaInitiativesService } from '../../../../../shared/services/media-initiatives/media-initiatives.service';
-import { AddEditMediaInitiativeComponent } from '../add-edit-mediai-nitiative/add-edit-media-initiative.component';
+import { AddEditMediaInitiativeComponent } from '../add-edit-media-initiative/add-edit-media-initiative.component';
 import { MediaInitiativeComponent } from '../media-initiative/media-initiative.component';
 import { AuthHelper } from '../../../../../core';
 import { RoleCodes } from '../../../../../core/enums/role';

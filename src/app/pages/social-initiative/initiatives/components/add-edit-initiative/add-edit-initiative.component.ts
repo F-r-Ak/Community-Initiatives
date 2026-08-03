@@ -71,6 +71,7 @@ export class AddEditInitiativeComponent extends BaseEditComponent implements OnI
             initiativeEndDate: ['', Validators.required],
             fieldId: [null, Validators.required],
             cityId: [null, Validators.required],
+            areas: [''],
             initiativeMangerId: [null, Validators.required],
             initiativeCategory: ['Community', Validators.required]
         });

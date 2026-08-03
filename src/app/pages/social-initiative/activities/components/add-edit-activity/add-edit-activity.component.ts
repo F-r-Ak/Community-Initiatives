@@ -17,6 +17,7 @@ import {
     InitiativesService
 } from '../../../../../shared';
 import { Attachment } from '../../../../../shared/interfaces/attachment/attachment';
+import { AuthHelper } from '../../../../../core';
 
 @Component({
     selector: 'app-add-edit-activity',
@@ -35,6 +36,7 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
     activityTypesService = inject(ActivityTypesService);
     executeTypesService = inject(ExecuteTypesService);
     executionStatusService = inject(ExecutionStatusService);
+    authHelper = inject(AuthHelper);
 
     // Selected options for autocomplete fields
     selectedInitiative: any = null;
@@ -79,6 +81,7 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
             name: ['', Validators.required],
             cityId: [null, Validators.required],
             townId: [null, Validators.required],
+            areas: [''],
             address: [''],
             activityTypeId: [null, Validators.required],
             executeTypeId: [null, Validators.required],
@@ -109,7 +112,10 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
     }
 
     getInitiatives(body: any) {
-        return this.initiativesService.getPaged(body);
+        return this.initiativesService.getPaged({
+            ...body,
+            filter: { ...body.filter, createdById: this.authHelper.getUserId() }
+        });
     }
 
     getEditActivity(): void {
