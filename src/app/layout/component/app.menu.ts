@@ -104,7 +104,7 @@ export class AppMenu {
 
             this.authHelper.hasRole(this.rolesEnum.Administrator) || this.authHelper.hasRole(this.rolesEnum.Employee) ?
                 {
-                    label: 'المبادرات التنموية والمجتمعية',
+                    label: 'المبادرات المجتمعية',
                     icon: 'pi pi-fw pi-briefcase',
                     items: [
                         {

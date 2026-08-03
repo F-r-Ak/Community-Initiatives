@@ -52,7 +52,7 @@ export class ExecuteTypesComponent extends BaseListComponent {
         return [
             {
                 field: 'nameAr',
-                header: 'نوع التنفيذ',
+                header: 'موقع التنفيذ',
                 filter: true,
                 filterMode: 'text'
             }
@@ -93,20 +93,20 @@ export class ExecuteTypesComponent extends BaseListComponent {
     }
 
     openAdd() {
-        this.openDialog(AddEditExecuteTypeComponent, 'اضافة نوع التنفيذ ', {
+        this.openDialog(AddEditExecuteTypeComponent, 'اضافة موقع التنفيذ ', {
             pageType: 'add'
         });
     }
 
     openView(rowData: any) {
-        this.openDialog(ExecuteTypeComponent, 'عرض نوع التنفيذ', {
+        this.openDialog(ExecuteTypeComponent, 'عرض موقع التنفيذ', {
             pageType: 'view',
             row: { rowData }
         });
     }
 
     openEdit(rowData: any) {
-        this.openDialog(AddEditExecuteTypeComponent, 'تعديل نوع التنفيذ ', {
+        this.openDialog(AddEditExecuteTypeComponent, 'تعديل موقع التنفيذ ', {
             pageType: 'edit',
             row: { rowData }
         });

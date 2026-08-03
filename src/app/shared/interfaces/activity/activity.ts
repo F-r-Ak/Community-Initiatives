@@ -13,6 +13,7 @@ export interface ActivityDto extends Lookup, Partial<SharedProperties> {
     cityName: string;
     townId: string;
     townName: string;
+    areas: string;
     address: string;
     activityTypeId: string;
     executeTypeId: string;
@@ -39,6 +40,7 @@ export interface AddActivityDto extends Lookup, Partial<SharedProperties> {
     name: string;
     cityId: string;
     townId: string;
+    areas: string;
     address: string;
     activityTypeId: string;
     executeTypeId: string;
@@ -62,6 +64,7 @@ export interface UpdateActivityDto extends Lookup, Partial<SharedProperties> {
     name: string;
     cityId: string;
     townId: string;
+    areas: string;
     address: string;
     activityTypeId: string;
     executeTypeId: string;
