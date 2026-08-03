@@ -24,6 +24,10 @@ export class InitiativesDashboardComponent extends BaseComponent implements OnIn
     citiesChartData: any;
     citiesActivitiesChartData: any;
     chartOptions: any;
+    doughnutChartOptions: any;
+    barChartOptions: any;
+    doughnutPlugins: any[] = [];
+    barPlugins: any[] = [];
 
     activitiesTotalCount: number = 0;
     initiativesTotalCount: number = 0;
@@ -44,7 +48,59 @@ export class InitiativesDashboardComponent extends BaseComponent implements OnIn
     }
 
     initChartOptions() {
-        this.chartOptions = {
+        // Inline plugin: draw count + percentage inside each doughnut slice
+        this.doughnutPlugins = [
+            {
+                id: 'doughnutInsideLabels',
+                afterDraw(chart: any) {
+                    const { ctx, data } = chart;
+                    const total = (data.datasets[0].data as number[]).reduce((a: number, b: number) => a + b, 0);
+                    chart.getDatasetMeta(0).data.forEach((arc: any, i: number) => {
+                        const value = data.datasets[0].data[i] as number;
+                        if (!value || total === 0) return;
+                        const pct = ((value / total) * 100).toFixed(1);
+                        const mid = (arc.startAngle + arc.endAngle) / 2;
+                        const r = (arc.innerRadius + arc.outerRadius) / 2;
+                        const x = arc.x + Math.cos(mid) * r;
+                        const y = arc.y + Math.sin(mid) * r;
+                        ctx.save();
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillStyle = '#fff';
+                        ctx.font = 'bold 15px Cairo, sans-serif';
+                        ctx.fillText(`${value}`, x, y - 9);
+                        ctx.font = '600 13px Cairo, sans-serif';
+                        ctx.fillText(`${pct}%`, x, y + 9);
+                        ctx.restore();
+                    });
+                }
+            }
+        ];
+
+        // Inline plugin: draw count + percentage on top of each bar
+        this.barPlugins = [
+            {
+                id: 'barTopLabels',
+                afterDatasetsDraw(chart: any) {
+                    const { ctx, data } = chart;
+                    const total = (data.datasets[0].data as number[]).reduce((a: number, b: number) => a + b, 0);
+                    chart.getDatasetMeta(0).data.forEach((bar: any, i: number) => {
+                        const value = data.datasets[0].data[i] as number;
+                        if (value == null) return;
+                        const pct = total > 0 ? ((value / total) * 100).toFixed(1) : '0.0';
+                        ctx.save();
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'bottom';
+                        ctx.fillStyle = '#333';
+                        ctx.font = 'bold 13px Cairo, sans-serif';
+                        ctx.fillText(`${value} (${pct}%)`, bar.x, bar.y - 4);
+                        ctx.restore();
+                    });
+                }
+            }
+        ];
+
+        this.doughnutChartOptions = {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
@@ -54,6 +110,20 @@ export class InitiativesDashboardComponent extends BaseComponent implements OnIn
                 }
             }
         };
+
+        this.barChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            layout: { padding: { top: 28 } },
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { font: { family: 'Cairo, sans-serif' } }
+                }
+            }
+        };
+
+        this.chartOptions = this.barChartOptions;
     }
 
     loadDashboardData() {
@@ -75,10 +145,10 @@ export class InitiativesDashboardComponent extends BaseComponent implements OnIn
                 this.totalBeneficiaries = totalBeneficiaries?.data ?? totalBeneficiaries;
                 this.buildCitiesActivitiesChart(citiesActivities);
             }
-            
+
         })
-        
-       
+
+
     }
 
     private buildExecutionStatusChart(data: { id: string; name: string; count: number }[]) {

@@ -112,7 +112,8 @@
     "EMPLOYEE_IS_ALREADY_IN_THIS_SENT": "This employee is already exists",
     "TIME_IS_ALREADY_SELECTED": "This time period is already selected",
     "EMAIL": "Invalid email format",
-    "PATTERN": "Invalid number"
+    "PATTERN": "Invalid number",
+    "MINARRAYLENGTH": "At least 15 members are required"
   },
   "FIELDS": {
     "NAME": "Name",

@@ -18,6 +18,7 @@ import {
 } from '../../../../../shared';
 import { Attachment } from '../../../../../shared/interfaces/attachment/attachment';
 import { AuthHelper } from '../../../../../core';
+import { environment } from '../../../../../../environments/environment';
 
 @Component({
     selector: 'app-add-edit-activity',
@@ -294,6 +295,12 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
         const attachId = attachment.attachId;
         this.filesToDelete.push(attachId);
         this.existingAttachments = this.existingAttachments.filter((a) => a.id !== attachment.id);
+    }
+
+    getAttachmentUrl(path: string): string {
+        const base = environment.HUB_URL.replace(/\/$/, '');
+        const relativePath = path.replace(/^\//, '');
+        return `${base}/${relativePath}`;
     }
 
     getFileIcon(fileName: string): string {

@@ -76,6 +76,69 @@
             <app-prime-input-text [formGroup]="form" controlName="stepsExecution" [label]="'خطوات التنفيذ'" inputType="textarea"> </app-prime-input-text>
         </div>
 
+        <div class="col-12">
+            <!-- Header row: label + counter badge -->
+            <div class="flex align-items-center justify-content-between mb-2">
+                <label class="form-label mb-0">
+                    أعضاء الفريق
+                    <span class="text-muted font-12 me-1">(الحد الأدنى 15 عضو)</span>
+                </label>
+                <span
+                    class="px-2 py-1 rounded-full text-xs font-semibold"
+                    [ngClass]="selectedMembers.length >= 15 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600'"
+                >
+                    {{ selectedMembers.length }} / 15
+                </span>
+            </div>
+
+            <!-- Autocomplete search field -->
+            <app-prime-autocomplete
+                [formGroup]="form"
+                controlName="teamMemberId"
+                [getMethod]="getMembers.bind(this)"
+                [selectedOption]="memberSearchSelection"
+                [field]="'nameAr'"
+                [language]="language"
+                [multiple]="false"
+                (onSelect)="onMemberAdd($event)"
+                (onClear)="memberSearchSelection = null"
+            >
+            </app-prime-autocomplete>
+
+            <!-- Members table -->
+            @if (selectedMembers.length > 0) {
+                <div class="mt-3 border rounded overflow-hidden">
+                    <table class="w-full text-sm" dir="rtl">
+                        <thead class="bg-gray-100 text-gray-600">
+                            <tr>
+                                <th class="px-3 py-2 text-right font-semibold border-b">#</th>
+                                <th class="px-3 py-2 text-right font-semibold border-b">اسم العضو</th>
+                                <th class="px-3 py-2 text-center font-semibold border-b">حذف</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (member of selectedMembers; track member.id; let i = $index) {
+                                <tr class="border-b last:border-0 hover:bg-gray-50 transition-colors">
+                                    <td class="px-3 py-2 text-gray-500 w-10">{{ i + 1 }}</td>
+                                    <td class="px-3 py-2 text-gray-800">{{ member.nameAr }}</td>
+                                    <td class="px-3 py-2 text-center">
+                                        <button
+                                            type="button"
+                                            class="text-red-500 hover:text-red-700 transition-colors"
+                                            (click)="onMemberRemove(i)"
+                                            title="حذف"
+                                        >
+                                            <i class="pi pi-trash text-sm"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+
         <app-submit-buttons [isSubmitDisabled]="form.invalid" [submitButtonText]="pageType === 'add' ? 'ACTIONS.SUBMIT' : 'ACTIONS.SAVE'" (submit)="submit()" (cancel)="redirect()"> </app-submit-buttons>
     </form>
 }

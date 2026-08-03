@@ -149,7 +149,7 @@
                             <div class="d-flex align-items-center justify-content-between p-2 border rounded mb-1">
                                 <div class="d-flex align-items-center gap-2">
                                     <i [class]="getFileIcon(attachment.fileName)"></i>
-                                    <a [href]="attachment.path" target="_blank" class="text-decoration-none font-14">{{ attachment.fileName }}</a>
+                                    <a [href]="getAttachmentUrl(attachment.path)" target="_blank" class="text-decoration-none font-14">{{ attachment.fileName }}</a>
                                 </div>
                                 <button type="button" class="btn btn-sm btn-outline-danger" (click)="removeExistingAttachment(attachment)">
                                     <i class="pi pi-times"></i>
