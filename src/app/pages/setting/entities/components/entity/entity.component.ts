@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from 'primeng/dynamicdialog';
 import { EntitiesService } from '../../../../../shared';
 import { BaseEditComponent } from '../../../../../base/components/base-edit-component';
-import { Lookup } from '../../../../../shared/interfaces';
+import { EntityDto } from '../../../../../shared/interfaces';
 
 @Component({
     selector: 'app-entity',
@@ -16,7 +16,7 @@ import { Lookup } from '../../../../../shared/interfaces';
 export class EntityComponent extends BaseEditComponent implements OnInit {
     entitiesService: EntitiesService = inject(EntitiesService);
     dialogService: DialogService = inject(DialogService);
-    entity: Lookup | null = null;
+    entity: EntityDto | null = null;
 
     constructor(override activatedRoute: ActivatedRoute) {
         super(activatedRoute);
@@ -36,7 +36,7 @@ export class EntityComponent extends BaseEditComponent implements OnInit {
     }
 
     loadEntity(): void {
-        this.entitiesService.getEntity(this.id).subscribe((res: Lookup) => {
+        this.entitiesService.getEntity(this.id).subscribe((res: EntityDto) => {
             this.entity = res;
         });
     }

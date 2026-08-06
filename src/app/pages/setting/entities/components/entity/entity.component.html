@@ -3,7 +3,11 @@
         @if (entity) {
             <div class="p-formgrid grid">
                 <div class="field col-12 col-md-6">
-                    <label class="font-bold text-secondary">{{ 'الاسم بالعربية' }}</label>
+                    <label class="font-bold text-secondary">{{ 'نوع الجهة' }}</label>
+                    <p class="mt-1 font-16">{{ entity.entityType?.nameAr || '---' }}</p>
+                </div>
+                <div class="field col-12 col-md-6">
+                    <label class="font-bold text-secondary">{{ 'اسم الجهة' }}</label>
                     <p class="mt-1 font-16">{{ entity.nameAr || '---' }}</p>
                 </div>
             </div>

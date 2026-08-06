@@ -11,10 +11,26 @@
                 <form method="post" class="row" [formGroup]="form">
                     <div class="p-formgrid grid">
                         <div class="field col">
-                            <app-prime-input-text [formGroup]="form" controlName="nameAr" validatorLanguageType="ar" [label]="'الاسم بالعربية'"> </app-prime-input-text>
+                            <app-prime-input-text [formGroup]="form" controlName="nameAr" validatorLanguageType="ar" [label]="'اسم الجهة'"> </app-prime-input-text>
                         </div>
 
-                        <div class="field col"></div>
+                        <div class="field col">
+                            <label class="form-label">نوع الجهة</label>
+                            <app-prime-autocomplete
+                                [formGroup]="form"
+                                controlName="entityType"
+                                [suggestions]="filteredEntityTypes"
+                                [selectedOption]="selectedEntityType"
+                                [field]="'nameAr'"
+                                [language]="language"
+                                [lazy]="false"
+                                [dropdown]="true"
+                                [showClear]="true"
+                                (onSelect)="onEntityTypeSelect($event)"
+                                (onClear)="onEntityTypeSelect(null)"
+                                (handleMethod)="getEntityTypes($event)"
+                            ></app-prime-autocomplete>
+                        </div>
                     </div>
                 </form>
             }

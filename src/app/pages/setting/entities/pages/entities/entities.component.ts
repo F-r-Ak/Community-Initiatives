@@ -44,15 +44,21 @@ export class EntitiesComponent extends BaseListComponent {
             bodyOptions: {
                 filter: {}
             },
-            responsiveDisplayedProperties: ['nameAr']
+            responsiveDisplayedProperties: ['nameAr', 'entityTypeNameAr']
         };
     }
 
     initializeTableColumns(): TableOptions['inputCols'] {
         return [
             {
+                field: 'entityTypeNameAr',
+                header: 'نوع الجهة',
+                filter: true,
+                filterMode: 'text'
+            },
+            {
                 field: 'nameAr',
-                header: 'المركز',
+                header: 'اسم الجهة',
                 filter: true,
                 filterMode: 'text'
             }
@@ -93,20 +99,20 @@ export class EntitiesComponent extends BaseListComponent {
     }
 
     openAdd() {
-        this.openDialog(AddEditEntityComponent, 'اضافة مركز ', {
+        this.openDialog(AddEditEntityComponent, 'اضافة جهة ', {
             pageType: 'add'
         });
     }
 
     openView(rowData: any) {
-        this.openDialog(EntityComponent, 'عرض المركز', {
+        this.openDialog(EntityComponent, 'عرض الجهة', {
             pageType: 'view',
             row: { rowData }
         });
     }
 
     openEdit(rowData: any) {
-        this.openDialog(AddEditEntityComponent, 'تعديل مركز ', {
+        this.openDialog(AddEditEntityComponent, 'تعديل جهة ', {
             pageType: 'edit',
             row: { rowData }
         });
