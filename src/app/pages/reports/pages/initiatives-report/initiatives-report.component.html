@@ -1,5 +1,5 @@
+<app-prime-title-toolbar pageTitle="تقرير المبادرات"></app-prime-title-toolbar>
 <div class="card">
-    <h5 >التقرير</h5>
     <form [formGroup]="form">
         <div class="row">
             <!-- Visitor Name -->
@@ -22,9 +22,7 @@
  <div class="col-6 md:col-6 lg:col-4">
                 <app-prime-datepicker [formGroup]="form" controlName="initiativeStartDate" [label]="'تاريخ المبادرة'" > </app-prime-datepicker>
             </div>
-            <!-- <div class="col-6 md:col-6 lg:col-4">
-                <app-prime-datepicker [formGroup]="form" controlName="initiativeEndDate" [label]="'تاريخ انتهاء المبادرة'" > </app-prime-datepicker>
-            </div> -->
+
             <div class="col-6 md:col-6 lg:col-4">
                 <div class="form-group d-flex flex-column mb-3">
                     <label class="text-middle font-14 font-bold mb-2">المدينة</label>
@@ -39,8 +37,8 @@
                     />
                 </div>
             </div>
-             
-               
+
+
                <div class="col-6 md:col-6 lg:col-4">
                 <div class="form-group d-flex flex-column mb-3">
                     <label class="text-middle font-14 font-bold mb-2">اسم المبادرة</label>
@@ -55,27 +53,7 @@
                     />
                 </div>
             </div>
-            
 
-           
-<!-- <div class="col-6 md:col-6 lg:col-4">
-                <div class="form-group d-flex flex-column mb-3">
-                    <label class="text-middle font-14 font-bold mb-2"> المسئول</label>
-                    <app-prime-autocomplete
-                        [formGroup]="form"
-                        controlName="initiativeMangerName"
-                        [suggestions]="filteredInitiativeMangerName"
-                        [lazy]="false"
-                        (onSelect)="onInitiativeMangerSelect($event)"
-                        (handleMethod)="searchInitiativeMangerName($event)"
-                        field="nameAr"
-                    />
-                </div>
-            </div> -->
-            
-
-
-           
             <div class="col-6 md:col-6 lg:col-4">
                 <div class="form-group d-flex flex-column mb-3">
                     <label class="text-middle font-14 font-bold mb-2">اسم التقرير</label>
@@ -90,9 +68,9 @@
                     />
                 </div>
             </div>
-       
 
-           
+
+
 
             <!-- Report Type -->
             <div class="col-6 md:col-6 lg:col-4">
@@ -129,5 +107,3 @@
         </div>
     </form>
 </div>
-
-

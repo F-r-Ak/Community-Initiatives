@@ -1,20 +1,18 @@
 import { Component, inject , OnInit  } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule , Validators } from '@angular/forms';
-import { ActivatedRoute, RouterModule } from '@angular/router';
-import { BaseListComponent } from './../../../../base/components/base-list-component';
+import { RouterModule } from '@angular/router';
 import { CardModule } from 'primeng/card';
-import { PrimeDataTableComponent, PrimeTitleToolBarComponent,FieldsService,InitiativesService,TeamMembersService, CitiesService,PrimeAutoCompleteComponent, PrimeInputTextComponent ,PrimeDatepickerComponent,GendersService} from './../../../../shared';
+import { FieldsService,InitiativesService,TeamMembersService, CitiesService, PrimeTitleToolBarComponent, PrimeAutoCompleteComponent, PrimeInputTextComponent ,PrimeDatepickerComponent,GendersService} from './../../../../shared';
 import { ButtonModule } from 'primeng/button';
 import { AuthHelper , AlertService,} from './../../../../core';
 import { take } from 'rxjs/operators';
-import { animate } from '@angular/animations';
 @Component({
-    selector: 'app-reports',
-    imports: [RouterModule, FormsModule, ReactiveFormsModule, CardModule, PrimeAutoCompleteComponent, PrimeDatepickerComponent,PrimeInputTextComponent ,ButtonModule,],
-  templateUrl: './reports.component.html',
-  styleUrl: './reports.component.scss'
+    selector: 'app-initiatives-report',
+    imports: [RouterModule, FormsModule, ReactiveFormsModule, CardModule, PrimeTitleToolBarComponent, PrimeAutoCompleteComponent, PrimeDatepickerComponent,PrimeInputTextComponent ,ButtonModule,],
+  templateUrl: './initiatives-report.component.html',
+  styleUrl: './initiatives-report.component.scss'
 })
-export class ReportsComponent implements OnInit {
+export class InitiativesReportComponent implements OnInit {
     form!: FormGroup;
     formBuilder = inject(FormBuilder);
     fieldService = inject(FieldsService);
@@ -22,7 +20,7 @@ export class ReportsComponent implements OnInit {
    initiativesService = inject(InitiativesService);
     citiesService = inject(CitiesService);
     teamMembersService = inject(TeamMembersService);
-  
+
     // employeeService = inject(EmployeeService);
     // organizationsService = inject(OrganizationsService);
     // visitCasesService = inject(VisitCasesService);
@@ -49,9 +47,9 @@ export class ReportsComponent implements OnInit {
 
     initFormGroup() {
         this.form = this.formBuilder.group({
-           fieldName :[''], 
-            cityId: [''],   
-            name: [''], 
+           fieldName :[''],
+            cityId: [''],
+            name: [''],
             initiativeMangerName: [''],
             fieldId :[''],
             initiativeStartDate :[null],
@@ -70,25 +68,25 @@ export class ReportsComponent implements OnInit {
     }
 
 
-    
+
    searchName(event: any) {
         const query = event.query?.toLowerCase() ?? '';
         this.initiativesService.initiatives.pipe(take(1)).subscribe((res: any[]) => {
             this.filteredname = res.filter((item: any) => item.name?.toLowerCase().includes(query));
         });
-       
+
     }
 onNameSelect(event: any) {
     this.form.patchValue({
         name: event.value?.name // يخزن Male أو Female مباشرة
     });
-} 
+}
 
 onInitiativeMangerSelect(event: any) {
     this.form.patchValue({
         initiativeMangerName: event.value?.nameAr // يخزن Male أو Female مباشرة
     });
-} 
+}
 searchInitiativeMangerName(event: any) {
         const query = event.query?.toLowerCase() ?? '';
         this.teamMembersService.teamMembers.pipe(take(1)).subscribe((res: any[]) => {
@@ -104,25 +102,25 @@ searchInitiativeMangerName(event: any) {
 
 onFieldSelect(event: any) {
     this.form.patchValue({
-        fieldId: event.value?.id 
+        fieldId: event.value?.id
     });
-} 
+}
 
 onCitySelect(event: any) {
     this.form.patchValue({
-        cityId: event.value?.id 
+        cityId: event.value?.id
     });
 }
 
 onServiceTypeSelect(event: any) {
     this.form.patchValue({
-        serviceTypeId: event.value?.nameEn 
+        serviceTypeId: event.value?.nameEn
     });
 }
 onReportTypeSelect(event: any) {
     // للتأكد من أخذ قيمة النص الصافي سواء كان الـ event هو الأوبجكت نفسه أو بداخل قيمة value
     const selectedValue = event.value?.value || event.value || event;
-    
+
     this.form.get('reportType')?.setValue(selectedValue);
     this.form.get('reportType')?.updateValueAndValidity();
 }
@@ -134,14 +132,14 @@ onReportNameSelect(event: any) {
     this.form.patchValue({ reportName: selectedOption?.value });
     this.form.get('reportName')?.updateValueAndValidity();
 }
-   
+
     searchCity(event: any) {
         const query = event.query?.toLowerCase() ?? '';
         this.citiesService.cities.pipe(take(1)).subscribe((res: any[]) => {
             this.filteredCity = res.filter((item: any) => item.id?.toLowerCase().includes(query));
         });
     }
-   
+
 
 
 
@@ -157,7 +155,7 @@ onReportNameSelect(event: any) {
         const query = event.query.toLowerCase();
         this.reportNames = [
             { label: 'مبادرات', value: 'InitiativeReport' }
-           
+
         ].filter(item => item.label.toLowerCase().includes(query));
     }
 
@@ -175,7 +173,7 @@ onReportNameSelect(event: any) {
             const InitiativeStartDate = formData.InitiativeStartDate ? formData.InitiativeStartDate.toISOString() : null;
             // const InitiativeEndDate = formData.InitiativeEndDate ? formData.InitiativeEndDate.toISOString() : null;
 
-       
+
             const dataToClean = {
             ...formData,
             InitiativeStartDate: InitiativeStartDate,
@@ -185,8 +183,8 @@ onReportNameSelect(event: any) {
             // Log detailed request information for debugging
             console.log('=== Report Generation Request ===');
             console.log('Form Data:', formData);
-            
-         
+
+
             console.log('Query Parameters:', this.buildQueryParamsDebug(dataToClean));
             console.log('=================================');
 
@@ -199,9 +197,9 @@ onReportNameSelect(event: any) {
         let mimeType = 'application/pdf';
 
         if (dataToClean.reportType === 'excel') {
-            
-            fileExtension = 'xls'; 
-            mimeType = 'application/vnd.ms-excel'; 
+
+            fileExtension = 'xls';
+            mimeType = 'application/vnd.ms-excel';
         }
 
         // إنشاء الـ Blob بالنوع المتوافق تماماً مع السيرفر
@@ -209,7 +207,7 @@ onReportNameSelect(event: any) {
 
         const fileName = `${dataToClean.reportName}.${fileExtension}`;
         const url = window.URL.createObjectURL(reportBlob);
-        
+
         const link = document.createElement('a');
         link.href = url;
         link.download = fileName;
@@ -225,7 +223,7 @@ onReportNameSelect(event: any) {
     error: (error: any) => {
         this.isGeneratingReport = false;
         this.alert.error('حدث خطأ أثناء تحميل الملف');
-    
+
                 }
             });
         } else {
@@ -240,7 +238,7 @@ onReportNameSelect(event: any) {
         if (body.reportType) params.ReportType = body.reportType;
         if (body.acceptLanguage) params.AcceptLanguage = body.acceptLanguage;
         // if (body.ServiceNameId) params.ServiceNameId = body.ServiceNameId;
-      
+
         return params;
     }
 
@@ -259,7 +257,7 @@ onReportNameSelect(event: any) {
         if (!cleaned.reportName) {
             cleaned.reportName = 'InitiativeReport';
         }
-      
+
 if (cleaned.reportType) {
     cleaned.reportType = typeof cleaned.reportType === 'object' ? cleaned.reportType.value : cleaned.reportType;
 }
@@ -291,10 +289,10 @@ if (cleaned.reportType) {
         });
         // Clear filtered arrays
         this.filteredCity = [];
-       
+
         this.filteredInitiativeMangerName= [];
         this.filteredRequestStatus = [];
         this.filteredfeild = [];
-        this.filteredServiceType = [];  
+        this.filteredServiceType = [];
     }
 }

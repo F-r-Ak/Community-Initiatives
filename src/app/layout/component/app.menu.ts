@@ -130,11 +130,15 @@ export class AppMenu {
                     icon: 'pi pi-fw pi-briefcase',
                     items: [
                         {
-                            label: 'تقرير',
-                            icon: 'pi pi-fw pi-cog',
-                            routerLink: ['/pages/report']
+                            label: 'تقرير المبادرات',
+                            icon: 'pi pi-fw pi-file',
+                            routerLink: ['/pages/reports/initiatives-report']
                         },
-
+                        {
+                            label: 'تقرير الأنشطة',
+                            icon: 'pi pi-fw pi-file',
+                            routerLink: ['/pages/reports/activities-report']
+                        },
                     ]
                 } : { styleClass: 'v' },
 

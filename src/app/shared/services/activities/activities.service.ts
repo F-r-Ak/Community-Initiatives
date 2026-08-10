@@ -2,6 +2,17 @@ import { Injectable } from '@angular/core';
 import { AddActivityDto, ActivityDto, UpdateActivityDto, GetPagedBody } from '../../interfaces';
 import { Observable } from 'rxjs';
 import { HttpService } from '../../../core/services/http/http.service';
+import { HttpParams } from '@angular/common/http';
+
+export interface ActivityReportFilter {
+    Name?: string;
+    CityId?: string;
+    CityName?: string;
+    ActivityStartDate?: string;
+    ActivityEndDate?: string;
+    ReportName: string;
+    ReportType: 'pdf' | 'excel';
+}
 
 @Injectable({
     providedIn: 'root'
@@ -70,5 +81,22 @@ export class ActivitiesService extends HttpService {
 
     deleteAttachments(ids: string[]) {
         return this.delete({ apiName: `deleterange/attachments`, showAlert: true }, ids);
+    }
+
+    getReport(filter: ActivityReportFilter): Observable<Blob> {
+        let params = new HttpParams()
+            .set('ReportName', filter.ReportName)
+            .set('ReportType', filter.ReportType);
+
+        if (filter.Name) params = params.set('Name', filter.Name);
+        if (filter.CityId) params = params.set('CityId', filter.CityId);
+        if (filter.CityName) params = params.set('CityName', filter.CityName);
+        if (filter.ActivityStartDate) params = params.set('ActivityStartDate', filter.ActivityStartDate);
+        if (filter.ActivityEndDate) params = params.set('ActivityEndDate', filter.ActivityEndDate);
+
+        return this.http.get(`${this.domainName}${this.baseUrl}getreport`, {
+            params,
+            responseType: 'blob'
+        });
     }
 }

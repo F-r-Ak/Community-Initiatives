@@ -9,6 +9,7 @@
                     [getMethod]="getInitiatives.bind(this)"
                     [selectedOption]="selectedInitiative"
                     [field]="'name'"
+                    [disabled]="pageType === 'edit'"
                     (onSelect)="onInitiativeSelect($event)"
                     (onClear)="onInitiativeSelect({ value: null })"
                 >
@@ -94,6 +95,7 @@
                     (handleMethod)="getExecuteTypes($event)"
                     [selectedOption]="selectedExecuteType"
                     [field]="'nameAr'"
+                    [disabled]="pageType === 'edit'"
                     (onSelect)="onExecuteTypeSelect($event)"
                     (onClear)="onExecuteTypeSelect({ value: null })"
                 >
@@ -137,10 +139,12 @@
             <div class="col-12">
                 <label class="text-middle font-14 font-bold mb-2">المرفقات</label>
 
+                @if (pageType !== 'edit') {
                 <div class="mb-2">
                     <input #fileInput type="file" multiple accept="image/*,application/pdf,.doc,.docx,.xls,.xlsx" class="d-none" (change)="onFileChange($event)" />
                     <button type="button" class="btn btn-outline-primary btn-sm" (click)="fileInput.click()"><i class="pi pi-paperclip me-1"></i> إضافة مرفق</button>
                 </div>
+                }
 
                 @if (existingAttachments.length > 0) {
                     <div class="mb-2">
@@ -151,9 +155,11 @@
                                     <i [class]="getFileIcon(attachment.fileName)"></i>
                                     <a [href]="getAttachmentUrl(attachment.path)" target="_blank" class="text-decoration-none font-14">{{ attachment.fileName }}</a>
                                 </div>
+                                @if (pageType !== 'edit') {
                                 <button type="button" class="btn btn-sm btn-outline-danger" (click)="removeExistingAttachment(attachment)">
                                     <i class="pi pi-times"></i>
                                 </button>
+                                }
                             </div>
                         }
                     </div>
@@ -168,9 +174,11 @@
                                     <i [class]="getFileIcon(file.name)"></i>
                                     <span class="font-14">{{ file.name }}</span>
                                 </div>
+                                @if (pageType !== 'edit') {
                                 <button type="button" class="btn btn-sm btn-outline-danger" (click)="removeNewFile(i)">
                                     <i class="pi pi-times"></i>
                                 </button>
+                                }
                             </div>
                         }
                     </div>

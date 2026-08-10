@@ -119,9 +119,20 @@ export class AddEditActivityComponent extends BaseEditComponent implements OnIni
         });
     }
 
+    private readonly editModeEnabledControls = ['activityTypeId', 'address', 'cityId', 'townId', 'startDate', 'endDate', 'activityTime', 'executionStatus'];
+
+    private disableNonEditableControls(): void {
+        Object.keys(this.form.controls).forEach((key) => {
+            if (!this.editModeEnabledControls.includes(key)) {
+                this.form.get(key)?.disable();
+            }
+        });
+    }
+
     getEditActivity(): void {
         this.activitiesService.getEditActivity(this.id).subscribe((data: any) => {
             this.initFormGroup();
+            this.disableNonEditableControls();
             if (data.attachs?.length) {
                 this.existingAttachments = [...data.attachs];
                 this.form.get('attachs')?.setValue(data.attachs);

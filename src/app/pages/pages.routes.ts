@@ -41,8 +41,8 @@ export default [
         ]
     },
     {
-        path: 'report',
-        loadChildren: () => import('./report/reports.routes').then((m) => m.ReportRoutes)
+        path: 'reports',
+        loadChildren: () => import('./reports/reports.routes').then((m) => m.ReportsRoutes)
     },
 
     {
