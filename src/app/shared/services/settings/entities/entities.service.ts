@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Lookup, GetPagedBody } from '../../../interfaces';
-import { Observable } from 'rxjs';
 import { HttpService } from '../../../../core/services/http/http.service';
+import { GetPagedBody } from '../../../interfaces';
+import { EntityDto, AddEntityDto, UpdateEntityDto } from '../../../interfaces/entity/entity';
+
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -12,15 +14,15 @@ export class EntitiesService extends HttpService {
     }
 
     getEntity(id: string) {
-        return this.get<Lookup>({ apiName: `Get/${id}` });
+        return this.get<EntityDto>({ apiName: `Get/${id}` });
     }
 
     getEditEntity(id: string) {
-        return this.get<Lookup>({ apiName: `getEdit/${id}` });
+        return this.get<EntityDto>({ apiName: `getEdit/${id}` });
     }
 
     get entities() {
-        return this.get<Lookup[]>({ apiName: 'getAll' });
+        return this.get<EntityDto[]>({ apiName: 'getAll' });
     }
 
     getDropDown(body: GetPagedBody<any>): Observable<any> {
@@ -31,12 +33,12 @@ export class EntitiesService extends HttpService {
         return this.dropdownPost<any, any>({ apiName: `getpaged`, showAlert: true }, body);
     }
 
-    add(body: Lookup) {
-        return this.post<Lookup, Lookup>({ apiName: 'add', showAlert: true }, body);
+    add(body: AddEntityDto) {
+        return this.post<AddEntityDto, EntityDto>({ apiName: 'add', showAlert: true }, body);
     }
 
-    update(body: Lookup) {
-        return this.put({ apiName: 'update', showAlert: true }, body);
+    update(body: UpdateEntityDto) {
+        return this.put<UpdateEntityDto, EntityDto>({ apiName: 'update', showAlert: true }, body);
     }
 
     remove(id: string) {

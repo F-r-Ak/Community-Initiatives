@@ -1,0 +1,96 @@
+<app-prime-title-toolbar pageTitle="تقرير الأنشطة"></app-prime-title-toolbar>
+
+<div class="dataBox">
+    <p-card>
+        <form [formGroup]="filterForm">
+
+            <!-- Row 1: Name + City -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+
+                <div class="flex flex-col gap-1">
+                    <label class="font-medium text-sm">اسم النشاط</label>
+                    <app-prime-autocomplete
+                        [formGroup]="filterForm"
+                        controlName="Name"
+                        [selectedOption]="selectedActivity"
+                        [getMethod]="activitiesGetMethod"
+                        field="name"
+                        (onSelect)="onActivitySelect($event)"
+                        (onClear)="onActivityClear()">
+                    </app-prime-autocomplete>
+                </div>
+
+                <div class="flex flex-col gap-1">
+                    <label class="font-medium text-sm">المركز</label>
+                    <app-prime-autocomplete
+                        [formGroup]="filterForm"
+                        controlName="CityId"
+                        [selectedOption]="selectedCity"
+                        [getMethod]="citiesGetMethod"
+                        field="nameAr"
+                        (onSelect)="onCitySelect($event)"
+                        (onClear)="onCityClear()">
+                    </app-prime-autocomplete>
+                </div>
+            </div>
+
+            <!-- Row 2: Start Date + End Date + Report Type -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+
+                <div class="flex flex-col gap-1">
+                    <app-prime-datepicker
+                        [formGroup]="filterForm"
+                        controlName="ActivityStartDate"
+                        label="تاريخ البداية"
+                        [rangeMaxControlName]="'ActivityEndDate'">
+                    </app-prime-datepicker>
+                </div>
+
+                <div class="flex flex-col gap-1">
+                    <app-prime-datepicker
+                        [formGroup]="filterForm"
+                        controlName="ActivityEndDate"
+                        label="تاريخ النهاية"
+                        [referenceControlName]="'ActivityStartDate'">
+                    </app-prime-datepicker>
+                </div>
+
+                <div class="flex flex-col gap-1">
+                    <label class="font-medium text-sm">نوع التقرير</label>
+                    <app-prime-autocomplete
+                        [formGroup]="filterForm"
+                        controlName="ReportType"
+                        [selectedOption]="selectedReportType"
+                        [getMethod]="reportTypesGetMethod"
+                        field="name"
+                        (onSelect)="onReportTypeSelect($event)"
+                        (onClear)="onReportTypeClear()">
+                    </app-prime-autocomplete>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex flex-wrap gap-2 justify-end">
+                <p-button
+                    label="تحديث"
+                    icon="pi pi-refresh"
+                    severity="secondary"
+                    (onClick)="resetForm()">
+                </p-button>
+                <p-button
+                    label="تصدير"
+                    icon="pi pi-download"
+                    severity="success"
+                    [loading]="isLoading"
+                    (onClick)="getReport()">
+                </p-button>
+                <p-button
+                    label="طباعة"
+                    icon="pi pi-print"
+                    [loading]="isLoading"
+                    (onClick)="printReport()">
+                </p-button>
+            </div>
+        </form>
+    </p-card>
+</div>

@@ -12,3 +12,5 @@ export * from "./initiative-team/initiative-team";
 export * from "./activity/activity";
 export * from "./mediainitiative/media-initiative";
 export * from "./activity-entity/activity-entity";
+export * from "./entity/entity";
+
