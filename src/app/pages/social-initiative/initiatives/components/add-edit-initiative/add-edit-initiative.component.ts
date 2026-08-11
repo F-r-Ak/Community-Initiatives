@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { BaseEditComponent } from '../../../../../base/components/base-edit-component';
 import { PrimeInputTextComponent, PrimeDatepickerComponent, PrimeAutoCompleteComponent, SubmitButtonsComponent, InitiativesService, CitiesService, FieldsService, TeamMembersService } from '../../../../../shared';
-import { AuthHelper } from '../../../../../core';
+import { AuthHelper, DateHelper } from '../../../../../core';
 
 function minArrayLength(min: number): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
@@ -27,7 +27,7 @@ function minArrayLength(min: number): ValidatorFn {
 export class AddEditInitiativeComponent extends BaseEditComponent implements OnInit {
     @Input() initiativeId: string = '';
     @Input() override pageType: string = 'add';
-
+    private dateHelper = inject(DateHelper);
     initiativesService = inject(InitiativesService);
     citiesService = inject(CitiesService);
     fieldsService = inject(FieldsService);
@@ -158,22 +158,13 @@ export class AddEditInitiativeComponent extends BaseEditComponent implements OnI
         this.form.get('teamMemberId')?.markAsTouched();
     }
 
-    private toDateOnly(value: any): string | null {
-        if (!value) return null;
-        const d = new Date(value);
-        if (isNaN(d.getTime())) return null;
-        const yyyy = d.getUTCFullYear();
-        const mm = String(d.getUTCMonth() + 1).padStart(2, '0');
-        const dd = String(d.getUTCDate()).padStart(2, '0');
-        return `${yyyy}-${mm}-${dd}`;
-    }
 
     submit() {
         if (this.form.invalid) return;
         const value = {
             ...this.form.value,
-            initiativeStartDate: this.toDateOnly(this.form.value.initiativeStartDate),
-            initiativeEndDate: this.toDateOnly(this.form.value.initiativeEndDate)
+            initiativeStartDate: this.dateHelper.toDateOnly(this.form.value.initiativeStartDate),
+            initiativeEndDate: this.dateHelper.toDateOnly(this.form.value.initiativeEndDate)
         };
         if (this.pageType === 'add') {
             this.initiativesService.add(value).subscribe((res: any) => {

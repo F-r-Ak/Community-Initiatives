@@ -124,6 +124,20 @@ export class AppMenu {
                         }
                     ]
                 } : { styleClass: 'v' },
+
+            this.authHelper.hasRole(this.rolesEnum.Administrator) || this.authHelper.hasRole(this.rolesEnum.Employee) ?
+                {
+                    label: 'المبادرات التنموية',
+                    icon: 'pi pi-fw pi-briefcase',
+                    items: [
+                        {
+                            label: 'المبادرات التنموية',
+                            icon: 'pi pi-fw pi-cog',
+                            routerLink: ['/pages/develpment-initiatives/develpment-initiatives']
+                        },
+
+                    ]
+                } : { styleClass: 'v' },
             this.authHelper.hasRole(this.rolesEnum.Administrator) ?
                 {
                     label: ' التقارير',

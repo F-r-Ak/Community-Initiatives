@@ -41,7 +41,7 @@
                                 <div class="member-avatar manager-avatar">{{ getMemberInitial(manager.teamMemberName) }}</div>
                                 <div>
                                     <div class="fw-bold">{{ manager.teamMemberName }}</div>
-                                    <span class="status-chip">{{ manager.jobStatusNameAr || manager.jobStatusName?.nameAr }}</span>
+                                    <span class="status-chip">{{ manager.jobStatusNameAr || manager.jobStatusName.nameAr }}</span>
                                 </div>
                             </div>
                             <div class="member-details">
@@ -64,7 +64,7 @@
                                 <div class="member-avatar">{{ getMemberInitial(member.teamMemberName) }}</div>
                                 <div>
                                     <div class="fw-bold">{{ member.teamMemberName }}</div>
-                                    <span class="status-chip">{{ member.jobStatusNameAr || member.jobStatusName?.nameAr }}</span>
+                                    <span class="status-chip">{{ member.jobStatusNameAr || member.jobStatusName.nameAr }}</span>
                                 </div>
                             </div>
                         </div>

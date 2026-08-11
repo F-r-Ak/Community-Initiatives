@@ -1,0 +1,44 @@
+<div [ngClass]="this.dialogService.dialogComponentRefMap.size > 0 ? '' : 'card systemBackgroundDialog'">
+    <div class="card">
+        <div class="title-container">
+            @if (this.dialogService.dialogComponentRefMap.size == 0) {
+            <div class="mb-3">
+                <h1 class="m-0 font-24 font-bold text-primary">{{ pageTitle }}</h1>
+            </div>
+            }
+
+            @if (form) {
+            <form method="post"  [formGroup]="form">
+                <div class="row ">
+                    <div class="col-12 col-md-3">
+                        <app-prime-input-text [formGroup]="form" controlName="name" validatorLanguageType="ar"
+                            [label]="'الاسم بالعربية'"> </app-prime-input-text>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <label class="form-label">المجال</label>
+                        <app-prime-autocomplete [formGroup]="form" controlName="fieldId"
+                            [getMethod]="getFields.bind(this)" [selectedOption]="selectedField" [field]="'nameAr'"
+                            [language]="language" (onSelect)="onFieldSelect($event)" (onClear)="onFieldSelect(null)">
+                        </app-prime-autocomplete>
+                    </div>
+                    
+                     <div class="col-12 col-md-3">
+                <app-prime-datepicker [formGroup]="form" controlName="initiativeStartDate" [label]="'تاريخ البدء'" [rangeMaxControlName]="'endDate'"> </app-prime-datepicker>
+            </div>
+
+            <div class="col-12 col-md-3">
+                <app-prime-datepicker [formGroup]="form" controlName="initiativeEndDate" [label]="'تاريخ الانتهاء'" [referenceControlName]="'initiativeStartDate'"> </app-prime-datepicker>
+            </div>
+
+                    <div class="field col"></div>
+                </div>
+            </form>
+            }
+            @if (form) {
+            <app-submit-buttons class="mt-4" [isSubmitDisabled]="form.invalid"
+                [submitButtonText]="pageType === 'add' ? 'ACTIONS.SUBMIT' : 'ACTIONS.SAVE'" (submit)="submit()"
+                (cancel)="redirect()"> </app-submit-buttons>
+            }
+        </div>
+    </div>
+</div>

@@ -17,6 +17,7 @@ import {
 } from '../../../../../shared';
 import { EnumDto } from '../../../../../shared/interfaces';
 import { BaseEditComponent } from '../../../../../base/components/base-edit-component';
+import { DateHelper } from '../../../../../core';
 
 @Component({
     selector: 'app-add-edit-team-member',
@@ -35,10 +36,11 @@ import { BaseEditComponent } from '../../../../../base/components/base-edit-comp
     styleUrl: './add-edit-team-member.component.scss'
 })
 export class AddEditTeamMemberComponent extends BaseEditComponent implements OnInit {
-    teamMembersService: TeamMembersService = inject(TeamMembersService);
-    gendersService: GendersService = inject(GendersService);
-    jobStatusService: JobStatusService = inject(JobStatusService);
-    teamCategoriesService: TeamCategoriesService = inject(TeamCategoriesService);
+    teamMembersService = inject(TeamMembersService);
+    gendersService = inject(GendersService);
+    jobStatusService = inject(JobStatusService);
+    dateHelper = inject(DateHelper);
+    teamCategoriesService = inject(TeamCategoriesService);
     dialogService: DialogService = inject(DialogService);
 
     genders: EnumDto[] = [];
@@ -188,15 +190,7 @@ export class AddEditTeamMemberComponent extends BaseEditComponent implements OnI
         this.form.get('jobStatus')?.setValue(this.selectedJobStatus);
     }
 
-    private toDateOnly(value: any): string | null {
-        if (!value) return null;
-        const d = new Date(value);
-        if (isNaN(d.getTime())) return null;
-        const yyyy = d.getUTCFullYear();
-        const mm = String(d.getUTCMonth() + 1).padStart(2, '0');
-        const dd = String(d.getUTCDate()).padStart(2, '0');
-        return `${yyyy}-${mm}-${dd}`;
-    }
+ 
 
     submit() {
         const value = {
@@ -204,7 +198,7 @@ export class AddEditTeamMemberComponent extends BaseEditComponent implements OnI
             gender: this.form.value.gender?.code ?? null,
             jobStatus: this.form.value.jobStatus?.code ?? null,
             teamCategory: this.form.value.teamCategory?.code ?? null,
-            birthDate: this.toDateOnly(this.form.value.birthDate)
+            birthDate: this.dateHelper.toDateOnly(this.form.value.birthDate)
         };
         if (this.pageType === 'add')
             this.teamMembersService.add(value).subscribe(() => {

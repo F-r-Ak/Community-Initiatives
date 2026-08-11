@@ -6,26 +6,17 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { BaseEditComponent } from '../../../../../base/components/base-edit-component';
 import {
     PrimeInputTextComponent,
-    PrimeAutoCompleteComponent,
     PrimeDatepickerComponent,
     SubmitButtonsComponent,
     MediaInitiativesService,
-    CitiesService,
-    TownsService,
-    ActivityTypesService,
-    ExecuteTypesService,
-    EntityTypesService,
-    ExecutionStatusService,
-    VwOrganizationsService,
-    EntitiesService
+   
 } from '../../../../../shared';
-import { EntityTypes } from '../../../../../core/enums/entity-types';
 import { Attachment } from '../../../../../shared/interfaces/attachment/attachment';
 
 @Component({
     selector: 'app-add-edit-media-initiatives',
     standalone: true,
-    imports: [CommonModule, FormsModule, ReactiveFormsModule, PrimeInputTextComponent, PrimeAutoCompleteComponent, PrimeDatepickerComponent, SubmitButtonsComponent],
+    imports: [CommonModule, FormsModule, ReactiveFormsModule, PrimeInputTextComponent, PrimeDatepickerComponent, SubmitButtonsComponent],
     templateUrl: './add-edit-media-initiative.component.html',
     styleUrl: './add-edit-media-initiative.component.scss'
 })

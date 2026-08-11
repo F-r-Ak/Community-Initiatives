@@ -62,6 +62,15 @@ export default [
             }
         ]
     },
+      {
+        path: 'develpment-initiatives',
+        children: [
+            {
+                path: 'develpment-initiatives',
+                loadChildren: () => import('./develpment-initiative/develpment-initiatives/develpment-initiatives.routes').then((m) => m.DevelpmentInitiativesRoutes)
+            }
+        ]
+    },
     {
         path: 'auth',
         children: [

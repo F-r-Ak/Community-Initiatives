@@ -14,7 +14,7 @@
                             <i class="pi pi-flag me-1"></i>{{ record.initiativeName || '---' }}
                         </span>
                         <span class="it-badge category">
-                            <i class="pi pi-users me-1"></i>{{ record.teamCategoryName?.nameAr || record.teamCategoryNameAr || '---' }}
+                            <i class="pi pi-users me-1"></i>{{ record.teamCategoryName.nameAr || record.teamCategoryNameAr || '---' }}
                         </span>
                     </div>
                 </div>
@@ -63,7 +63,7 @@
                     </div>
                     <div class="it-item__body">
                         <span class="it-item__label">الحالة الوظيفية</span>
-                        <span class="it-item__value">{{ record.jobStatusName?.nameAr || record.jobStatusNameAr || '---' }}</span>
+                        <span class="it-item__value">{{ record.jobStatusName.nameAr || record.jobStatusNameAr || '---' }}</span>
                     </div>
                 </div>
 
