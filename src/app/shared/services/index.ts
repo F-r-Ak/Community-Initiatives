@@ -36,3 +36,4 @@ export * from './activity-beneficiary-groups/activity-beneficiary-groups.service
 export * from './settings/beneficiary-groups/beneficiary-groups.service';
 export * from './media-initiatives/media-initiatives.service';
 export * from './activity-entities/activity-entities.service';
+export * from './settings/service-names/service-names.service';

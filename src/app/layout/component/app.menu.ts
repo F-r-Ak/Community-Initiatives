@@ -98,7 +98,12 @@ export class AppMenu {
                             label: 'المدن',
                             icon: 'pi pi-fw pi-cog',
                             routerLink: ['/pages/settings/towns']
-                        }
+                        },
+                         {
+                            label: 'أنواع الخدمات',
+                            icon: 'pi pi-fw pi-cog',
+                            routerLink: ['/pages/settings/service-names']
+                        },
                     ]
                 } : { styleClass: 'v' },
 

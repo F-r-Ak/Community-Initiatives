@@ -88,7 +88,7 @@ export class ActivitiesReportComponent implements OnInit {
 
     getReport(): void {
         const raw = this.filterForm.value;
-        const reportType: 'pdf' | 'excel' = raw.ReportType ?? 'pdf';
+        const reportType: 'pdf' | 'excel' = raw.ReportType ?? 'pdf ';
         const filter: ActivityReportFilter = {
             ReportName: 'ActivityReport',
             ReportType: reportType,
@@ -101,7 +101,7 @@ export class ActivitiesReportComponent implements OnInit {
         this.isLoading = true;
         this.activitiesService.getReport(filter).subscribe({
             next: (blob: Blob) => {
-                const ext = reportType === 'pdf' ? 'pdf' : 'xlsx';
+                const ext = reportType === 'pdf' ? 'pdf' : 'xls';
                 this.fileSaver.save(blob, `ActivityReport.${ext}`);
                 this.isLoading = false;
             },
