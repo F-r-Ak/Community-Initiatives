@@ -34,10 +34,15 @@ export default [
                 path: 'cities',
                 loadChildren: () => import('./setting/cities/cities.routes').then((m) => m.citiesRoutes)
             },
+                {
+                    path: 'towns',
+                    loadChildren: () => import('./setting/towns/towns.routes').then((m) => m.townsRoutes)
+            },
             {
-                path: 'towns',
-                loadChildren: () => import('./setting/towns/towns.routes').then((m) => m.townsRoutes)
+                path: 'service-names',
+                loadChildren: () => import('./setting/service-names/service-names.routes').then((m) => m.serviceNamesRoutes)
             }
+
         ]
     },
     {

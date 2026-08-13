@@ -3,19 +3,19 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { BaseListComponent } from '../../../../../base/components/base-list-component';
 import { CardModule } from 'primeng/card';
-import { PrimeDataTableComponent, PrimeTitleToolBarComponent, TeamMembersService, TableOptions } from '../../../../../shared';
-import { AddEditTeamMemberComponent } from '../../components/add-edit-team-member/add-edit-team-member.component';
-import { TeamMemberComponent } from '../../components/team-member/team-member.component';
+import { PrimeDataTableComponent, PrimeTitleToolBarComponent,  TableOptions, ServiceNamesService } from '../../../../../shared';
+import { AddEditServiceNameComponent } from '../../components/add-edit-service-name/add-edit-service-name.component';
+import { ServiceNameComponent } from '../../components/service-name/service-name.component';
 import { AuthHelper } from '../../../../../core';
 @Component({
-    selector: 'app-team-members',
+    selector: 'app-service-names',
     imports: [RouterModule, FormsModule, ReactiveFormsModule, CardModule, PrimeDataTableComponent, PrimeTitleToolBarComponent],
-    templateUrl: './team-members.component.html',
-    styleUrl: './team-members.component.scss'
+    templateUrl: './service-names.component.html',
+    styleUrl: './service-names.component.scss'
 })
-export class TeamMembersComponent extends BaseListComponent {
+export class ServiceNamesComponent extends BaseListComponent {
     tableOptions!: TableOptions;
-    service = inject(TeamMembersService);
+    service = inject(ServiceNamesService);
     authHelper = inject(AuthHelper);
     formBuilder: FormBuilder = inject(FormBuilder);
     constructor(activatedRoute: ActivatedRoute) {
@@ -30,23 +30,21 @@ export class TeamMembersComponent extends BaseListComponent {
     initializeTableOptions() {
         this.tableOptions = {
             inputUrl: {
-                getAll: 'v1/teammembers/getpaged',
+                getAll: 'servicenames/getpaged',
                 getAllMethod: 'POST',
-                delete: 'v1/teammembers/deletesoft'
+                delete: 'servicenames/deletesoft'
             },
             inputCols: this.initializeTableColumns(),
             inputActions: this.initializeTableActions(),
             permissions: {
-                componentName: 'COMMUNITY-INITIATIVES-SETTINGS-TEAM-MEMBERS',
+                componentName: 'COMMUNITY-INITIATIVES-SETTINGS-CITIES',
                 allowAll: true,
                 listOfPermissions: []
             },
             bodyOptions: {
-                filter: {
-                    createdById: this.authHelper.hasRole('User') ? this.authHelper.getUserId() : null,
-                }
+                filter: {}
             },
-            responsiveDisplayedProperties: ['nameAr', 'mobile', 'jobStatusName.nameAr', 'teamCategoryName.nameAr']
+            responsiveDisplayedProperties: ['nameAr']
         };
     }
 
@@ -54,32 +52,7 @@ export class TeamMembersComponent extends BaseListComponent {
         return [
             {
                 field: 'nameAr',
-                header: 'الاسم',
-                filter: true,
-                filterMode: 'text'
-            },
-            {
-                field: 'mobile',
-                header: 'رقم الجوال',
-                filter: true,
-                filterMode: 'text'
-            },
-            {
-                field: 'email',
-                header: 'البريد الإلكتروني',
-                filter: true,
-                filterMode: 'text'
-            },
-          
-            {
-                field: 'jobStatusName.nameAr',
-                header: 'الحالة الوظيفية',
-                filter: true,
-                filterMode: 'text'
-            },
-            {
-                field: 'teamCategoryName.nameAr',
-                header: 'نوع العضوية',
+                header: 'اسم الخدمة',
                 filter: true,
                 filterMode: 'text'
             }
@@ -108,33 +81,32 @@ export class TeamMembersComponent extends BaseListComponent {
                 },
                 allowAll: true
             },
-            this.authHelper.isAdmin
-                ? {
-                      name: 'DELETE',
-                      icon: 'pi pi-trash',
-                      color: 'text-error',
-                      allowAll: true,
-                      isDelete: true
-                  }
-                : {}
+           this.authHelper.isAdmin?
+            {
+                name: 'DELETE',
+                icon: 'pi pi-trash',
+                color: 'text-error',
+                allowAll: true,
+                isDelete: true
+            }:{  }
         ];
     }
 
     openAdd() {
-        this.openDialog(AddEditTeamMemberComponent, 'اضافة عضو فريق ', {
+        this.openDialog(AddEditServiceNameComponent, 'اضافة اسم خدمة ', {
             pageType: 'add'
         });
     }
 
     openView(rowData: any) {
-        this.openDialog(TeamMemberComponent, 'عرض عضو فريق', {
+        this.openDialog(ServiceNameComponent, 'عرض اسم الخدمة', {
             pageType: 'view',
             row: { rowData }
         });
     }
 
     openEdit(rowData: any) {
-        this.openDialog(AddEditTeamMemberComponent, 'تعديل عضو فريق ', {
+        this.openDialog(AddEditServiceNameComponent, 'تعديل اسم الخدمة', {
             pageType: 'edit',
             row: { rowData }
         });
