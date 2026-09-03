@@ -65,7 +65,7 @@ export class AppMenu {
                             routerLink: ['/pages/settings/activity-types']
                         },
                         {
-                            label: 'أنواع التنفيذ',
+                            label: 'موقع التنفيذ', 
                             icon: 'pi pi-fw pi-cog',
                             routerLink: ['/pages/settings/execute-types']
                         },
@@ -103,6 +103,16 @@ export class AppMenu {
                             label: 'أنواع الخدمات',
                             icon: 'pi pi-fw pi-cog',
                             routerLink: ['/pages/settings/service-names']
+                        },
+                         {
+                            label: ' المستفيدين',
+                            icon: 'pi pi-fw pi-cog',
+                            routerLink: ['/pages/settings/beneficiaries']
+                        },
+                         {
+                            label: 'الجهات التنموية',
+                            icon: 'pi pi-fw pi-cog',
+                            routerLink: ['/pages/settings/development-entities']
                         },
                     ]
                 } : { styleClass: 'v' },

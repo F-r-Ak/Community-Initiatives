@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs';
+import { EnumDto } from '../enum/enum';
 import { GetPagedBody } from '../get-paged/get-paged';
 
 export interface TableOptions {
@@ -34,6 +36,7 @@ export interface ColumnsInterface {
   filter?: boolean;
   filterMode?: string;
   filterColumnName?: string;
+  filterOptions$?: Observable<EnumDto[]>;
   sort?: boolean;
   sortCol?: string;
   dataType?: string;

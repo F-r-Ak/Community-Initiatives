@@ -41,8 +41,15 @@ export default [
             {
                 path: 'service-names',
                 loadChildren: () => import('./setting/service-names/service-names.routes').then((m) => m.serviceNamesRoutes)
+            },
+               {
+                path: 'beneficiaries',
+                loadChildren: () => import('./setting/beneficiaries/beneficiaries.routes').then((m) => m.beneficiariesRoutes)
+            },
+            {
+                path: 'development-entities',
+                loadChildren: () => import('./setting/development-entities/development-entities.routes').then((m) => m.developmentEntitiesRoutes)
             }
-
         ]
     },
     {

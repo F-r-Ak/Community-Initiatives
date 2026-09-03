@@ -1,0 +1,67 @@
+<div [ngClass]="this.dialogService.dialogComponentRefMap.size > 0 ? '' : 'card systemBackgroundDialog'">
+    <div class="card">
+        <div class="title-container">
+            @if (this.dialogService.dialogComponentRefMap.size == 0) {
+                <div class="mb-3">
+                    <h1 class="m-0 font-24 font-bold text-primary">{{ pageTitle }}</h1>
+                </div>
+            }
+
+            @if (form) {
+                <form method="post" class="row" [formGroup]="form">
+                    <div class="p-formgrid grid">
+                        <div class="field col">
+                            <label class="text-middle font-14 font-bold mb-2">النوع</label>
+                            <app-prime-autocomplete
+                                [field]="'nameAr'"
+                                [selectedOption]="selectedGender"
+                                [suggestions]="filteredGenders"
+                                [formGroup]="form"
+                                (onSelect)="onGenderSelect($event)"
+                                [lazy]="false"
+                                (handleMethod)="getGenders($event)"
+                            ></app-prime-autocomplete>
+                        </div>
+                        <div class="field col">
+                            <app-prime-input-text [formGroup]="form" controlName="nameAr" validatorLanguageType="ar" [label]="'الاسم بالعربية'"> </app-prime-input-text>
+                        </div>
+                        
+                    </div>
+                     <div class="p-formgrid grid">
+                    <div class="field col">
+                            <app-prime-input-text [formGroup]="form" controlName="address" validatorLanguageType="ar" [label]="'العنوان'"> </app-prime-input-text>
+
+                        </div>
+                       <div  class="field col">
+                            <app-prime-input-text [formGroup]="form" controlName="mobile" validatorLanguageType="ar" [label]="'الهاتف'"> </app-prime-input-text>
+                            
+                        </div>
+
+                        </div>
+                         <div class="p-formgrid grid">
+                    <div class="field col">
+                            <app-prime-input-text [formGroup]="form" controlName="nationalID" validatorLanguageType="ar" [label]="'الرقم القومى'"> </app-prime-input-text>
+
+                        </div>
+                       <div  class="field col">
+                            <app-prime-datepicker [formGroup]="form" controlName="birthDate" [label]="'تاريخ الميلاد'" > </app-prime-datepicker>
+                            
+                        </div>
+
+                        </div>
+                         <div class="p-formgrid grid">
+                    <div class="field col">
+                            <app-prime-input-text [formGroup]="form" controlName="notes" validatorLanguageType="ar" [label]="'الملاحظات'"> </app-prime-input-text>
+
+                        </div>
+                      
+
+                        </div>
+                </form>
+            }
+            @if (form) {
+                <app-submit-buttons class="mt-4" [isSubmitDisabled]="form.invalid" [submitButtonText]="pageType === 'add' ? 'ACTIONS.SUBMIT' : 'ACTIONS.SAVE'" (submit)="submit()" (cancel)="redirect()"> </app-submit-buttons>
+            }
+        </div>
+    </div>
+</div>

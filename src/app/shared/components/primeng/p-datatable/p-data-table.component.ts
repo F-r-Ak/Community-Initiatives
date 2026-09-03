@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnDestroy, Output, EventEmitter, inject, TemplateRef } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 import { ExportExcelService } from '../../../services/export-excel/export-excel.service';
 import { TableOptions } from '../../../interfaces';
 import { TableModule } from 'primeng/table';
@@ -8,11 +8,14 @@ import { CommonModule, DatePipe, NgClass } from '@angular/common';
 import { PrimeDeleteDialogComponent } from '../p-delete-dialog/p-delete-dialog.component';
 import { Button } from 'primeng/button';
 import { TimeFormatPipe } from '../../../pipes';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { FormsModule } from '@angular/forms';
+import { EnumDto } from '../../../interfaces/enum/enum';
 
 @Component({
     selector: 'app-prime-data-table',
     standalone: true,
-    imports: [TableModule, NgClass, RouterModule, PrimeDeleteDialogComponent, DatePipe, Button, CommonModule, TimeFormatPipe], // Add TimeFormatPipe
+    imports: [TableModule, NgClass, RouterModule, PrimeDeleteDialogComponent, DatePipe, Button, CommonModule, TimeFormatPipe, AutoCompleteModule, FormsModule],
     templateUrl: './p-data-table.component.html',
     styleUrls: ['./p-data-table.component.scss']
 })
@@ -47,9 +50,14 @@ export class PrimeDataTableComponent implements OnInit, OnDestroy {
     selected: any = '';
     Array = Array; // Expose Array for template use
 
+    // Enum filter state: keyed by filterColumnName
+    enumSuggestions: { [key: string]: EnumDto[] } = {};
+    enumSelected: { [key: string]: EnumDto | null } = {};
+
     currentRoute;
     private _data = new BehaviorSubject<any[]>([]);
     private destroy$: Subject<boolean> = new Subject<boolean>();
+    private filterInput$ = new Subject<{ value: string; column: string }>();
 
     router = inject(Router);
     excel = inject(ExportExcelService);
@@ -64,6 +72,28 @@ export class PrimeDataTableComponent implements OnInit, OnDestroy {
             this.finalData = this.data;
             console.log('DataTable data:', this.finalData); // Debug log
         });
+
+        // Load enum options for enum-filter columns
+        const cols = this.tableOptions.inputCols ?? [];
+        cols.forEach(col => {
+            if (col.filterMode === 'enum' && col.filterOptions$ && col.filterColumnName) {
+                col.filterOptions$.subscribe(options => {
+                    this.enumSuggestions[col.filterColumnName!] = options;
+                });
+                this.enumSelected[col.filterColumnName!] = null;
+            }
+        });
+
+        // Debounce filter inputs so server is called only after user stops typing
+        this.filterInput$
+            .pipe(
+                debounceTime(800),
+                distinctUntilChanged((prev, curr) => prev.value === curr.value && prev.column === curr.column),
+                takeUntil(this.destroy$)
+            )
+            .subscribe(({ value, column }) => {
+                this.event.emit({ eventType: 'filter', value, column });
+            });
     }
 
     loadLazyLoadedData($event: any): void {
@@ -82,9 +112,33 @@ export class PrimeDataTableComponent implements OnInit, OnDestroy {
         return value;
     }
 
-    filter(value: string | any, column: string): void {
-        console.log('Filter applied:', { value, column }); // Debug log
-        this.event.emit({ eventType: 'filter', value, column });
+    filter(event: Event, col: any): void {
+        const value = (event.target as HTMLInputElement).value;
+        const column = col.filterColumnName ?? col.field;
+        this.filterInput$.next({ value, column });
+    }
+
+    // Autocomplete search — filters suggestions client-side from already-loaded enum list
+    searchEnumSuggestions(event: any, col: any): void {
+        const key = col.filterColumnName!;
+        const all: EnumDto[] = this.enumSuggestions[key] ?? [];
+        const query = (event.query ?? '').toLowerCase();
+        // Replace the suggestions array reference so PrimeNG detects the change
+        this.enumSuggestions = {
+            ...this.enumSuggestions,
+            [key]: query ? all.filter(o => o.nameAr.toLowerCase().includes(query)) : [...all]
+        };
+    }
+
+    onEnumSelect(item: EnumDto, col: any): void {
+        const column = col.filterColumnName ?? col.field;
+        this.event.emit({ eventType: 'filter', value: item.code, column });
+    }
+
+    onEnumClear(col: any): void {
+        const column = col.filterColumnName ?? col.field;
+        this.enumSelected[column] = null;
+        this.event.emit({ eventType: 'filter', value: '', column });
     }
 
     delete(id: any): void {

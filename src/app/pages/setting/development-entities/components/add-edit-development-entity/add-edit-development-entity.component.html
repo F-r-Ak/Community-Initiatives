@@ -1,0 +1,63 @@
+<div [ngClass]="this.dialogService.dialogComponentRefMap.size > 0 ? '' : 'card systemBackgroundDialog'">
+    <div class="card">
+        <div class="title-container">
+            @if (this.dialogService.dialogComponentRefMap.size == 0) {
+                <div class="mb-3">
+                    <h1 class="m-0 font-24 font-bold text-primary">{{ pageTitle }}</h1>
+                </div>
+            }
+
+            @if (form) {
+                <form method="post" class="row" [formGroup]="form">
+                    <div class="p-formgrid grid">
+                      <div class="field col">
+                            <label class="text-middle font-14 font-bold mb-2">نوع الجهات التنموية</label>
+                            <app-prime-autocomplete
+                                [field]="'nameAr'"
+                                [selectedOption]="selectedDevelopmentEntityType"
+                                [suggestions]="filteredDevelopmentEntityTypes"
+                                [formGroup]="form"
+                                (onSelect)="onDevelopmentEntityTypeSelect($event)"
+                                [lazy]="false"
+                                (handleMethod)="getDevelopmentEntityTypes($event)"
+                            ></app-prime-autocomplete>
+                        </div>
+                        <div class="field col">
+                            <app-prime-input-text [formGroup]="form" controlName="nameAr" validatorLanguageType="ar" [label]="'الاسم بالعربية'"> </app-prime-input-text>
+                        </div>
+                    </div>
+                         <div class="p-formgrid grid">
+                          @if (selectedDevelopmentEntityType?.id == '2') {
+
+                             
+                <div class="field col">
+                            <app-prime-input-text [formGroup]="form" controlName="contactPersonName"  [label]="'  اسم الفرد'"> </app-prime-input-text>
+                        </div>
+                        <div class="field col">
+                            <app-prime-input-text [formGroup]="form" controlName="nationalId"  [label]="' الرقم القومى '"> </app-prime-input-text>
+                        </div>
+                         <div class="field col">
+                            <app-prime-input-text [formGroup]="form" controlName="contactPersonPhone"  [label]="' رقم الهاتف'"> </app-prime-input-text>
+                        </div>
+                       
+                    } @else if (selectedDevelopmentEntityType?.id == '0' || selectedDevelopmentEntityType?.id == '1' || selectedDevelopmentEntityType?.id == '3') {
+                        <div class="field col">
+                            <app-prime-input-text [formGroup]="form" controlName="contactPersonName"  [label]="'  اسم المسئول'"> </app-prime-input-text>
+                        </div>
+                        <div class="field col">
+                            <app-prime-input-text [formGroup]="form" controlName="contactPersonPhone"  [label]="' رقم الهاتف'"> </app-prime-input-text>
+                        </div>
+                    }
+                    </div>
+                     <div class="field col">
+                            <app-prime-input-text [formGroup]="form" controlName="notes"  [label]="' ملاحظات'"> </app-prime-input-text>
+                        </div>
+                 
+                </form>
+            }
+            @if (form) {
+                <app-submit-buttons class="mt-4" [isSubmitDisabled]="form.invalid" [submitButtonText]="pageType === 'add' ? 'ACTIONS.SUBMIT' : 'ACTIONS.SAVE'" (submit)="submit()" (cancel)="redirect()"> </app-submit-buttons>
+            }
+        </div>
+    </div>
+</div>

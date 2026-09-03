@@ -16,7 +16,7 @@
     [lazy]="true"
     [showCurrentPageReport]="true"
     [paginatorLocale]="language == 'ar' ? 'ar-EG' : 'en-US'"
-    [currentPageReportTemplate]="'اظهار {first} إلى {last} من {totalRecords} مدخلات'"
+    [currentPageReportTemplate]="'PAGINATION'"
     [paginator]="true"
     [rowsPerPageOptions]="[5, 10, 15, 20]"
     [rows]="pageSize"
@@ -65,29 +65,48 @@
                             @case ('text') {
                                 <ng-container>
                                     <div class="form-group has-search">
-                                        <input class="form-control search-box" type="text" (input)="filter($event, col.field)" placeholder="{{ col.header }}" />
+                                        <input class="form-control search-box" type="text" (input)="filter($event, col)" placeholder="{{ col.header }}" />
                                     </div>
                                 </ng-container>
                             }
                             @case ('boolean') {
                                 <ng-container>
                                     <div class="form-group has-search">
-                                        <input class="form-control search-box" type="text" (input)="filter($event, col.field)" placeholder="{{ col.header }}" />
+                                        <input class="form-control search-box" type="text" (input)="filter($event, col)" placeholder="{{ col.header }}" />
                                     </div>
                                 </ng-container>
                             }
                             @case ('link') {
                                 <ng-container>
                                     <div class="form-group has-search">
-                                        <input class="form-control search-box" type="text" (input)="filter($event, col.field)" placeholder="{{ col.header }}" />
+                                        <input class="form-control search-box" type="text" (input)="filter($event, col)" placeholder="{{ col.header }}" />
                                     </div>
                                 </ng-container>
                             }
                             @case ('date') {
                                 <ng-container>
                                     <div class="form-group has-search">
-                                        <input class="form-control search-box" type="date" (input)="filter($event, col.field)" placeholder="{{ col.header }}" />
+                                        <input class="form-control search-box" type="date" (input)="filter($event, col)" placeholder="{{ col.header }}" />
                                     </div>
+                                </ng-container>
+                            }
+                            @case ('enum') {
+                                <ng-container>
+                                    <p-autoComplete
+                                        [(ngModel)]="enumSelected[col.filterColumnName]"
+                                        [suggestions]="enumSuggestions[col.filterColumnName] ?? []"
+                                        field="nameAr"
+                                        [dropdown]="true"
+                                        [showClear]="true"
+                                        [forceSelection]="true"
+                                        appendTo="body"
+                                        [placeholder]="col.header"
+                                        (completeMethod)="searchEnumSuggestions($event, col)"
+                                        (onSelect)="onEnumSelect($event.value, col)"
+                                        (onClear)="onEnumClear(col)"
+                                        [emptyMessage]="'لا توجد نتائج'"
+                                        styleClass="w-100"
+                                    />
                                 </ng-container>
                             }
                         }
@@ -127,6 +146,9 @@
                                 </span>
                             }
                             @case ('text') {
+                                <span [ngClass]="{ cell: getCellData(row, { field: 'isLate' }) }">{{ getCellData(row, col) }}</span>
+                            }
+                            @case ('enum') {
                                 <span [ngClass]="{ cell: getCellData(row, { field: 'isLate' }) }">{{ getCellData(row, col) }}</span>
                             }
                             @case ('attachments') {
@@ -186,14 +208,14 @@
                             @if ((action.isEdit && permissions.listOfPermissions.indexOf('Permission.' + permissions.componentName + '.Edit') > -1) || (action.isEdit && action.allowAll)) {
                                 <span>
                                     <a [routerLink]="action.route + row.id" class="icon-btn">
-                                        <i class="{{ action.icon }} icon {{ action.color }}" [title]="action.name"></i>
+                                        <i class="{{ action.icon }} icon" [title]="action.name"></i>
                                     </a>
                                 </span>
                             }
                             @if ((action.isDelete && permissions.listOfPermissions.indexOf('Permission.' + permissions.componentName + '.Delete') > -1) || (action.isDelete && action.allowAll)) {
                                 <span>
                                     <a class="icon-btn">
-                                        <i class="{{ action.icon }} icon {{ action.color }}" (click)="delete(row.id)" [title]="action.name"></i>
+                                        <i class="{{ action.icon }} icon" (click)="delete(row.id)" [title]="action.name"></i>
                                     </a>
                                 </span>
                             }
