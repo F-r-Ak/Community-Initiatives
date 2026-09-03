@@ -66,9 +66,12 @@ export abstract class BaseListComponent extends BaseComponent implements OnInit 
         });
     }
 
-    applyFilter(value: any, column: string): void {
-        this.resetOpt();
-        this.dataTableService.opt.filter[column] = value.data;
+    applyFilter(value: string, column: string): void {
+        if (!this.dataTableService.opt.filter) {
+            this.dataTableService.opt.filter = {};
+        }
+        this.dataTableService.opt.filter[column] = value;
+        this.dataTableService.opt.pageNumber = 1;
         this.loadDataFromServer();
     }
 
@@ -121,7 +124,9 @@ export abstract class BaseListComponent extends BaseComponent implements OnInit 
     /* lazy load table data */
     /* note:  gets called on entering component */
     loadLazyLoadedData(event?: LazyLoadEvent): void {
+        const currentFilter = { ...(this.dataTableService.opt.filter ?? {}) };
         this.resetOpt();
+        this.dataTableService.opt.filter = { ...this.dataTableService.opt.filter, ...currentFilter };
         this.setSortColumn(event);
         this.setPaging(event);
         this.loadDataFromServer();
@@ -224,8 +229,8 @@ export abstract class BaseListComponent extends BaseComponent implements OnInit 
 
     /* when leaving the component */
     ngOnDestroy() {
-        this.dataTableService.searchNew$.next({});
-        this.dataTableService.searchNew$.unsubscribe();
+        this.destroy$.next(true);
+        this.destroy$.complete();
     }
     Redirect() {
         const currentRoute = this.route.url;
