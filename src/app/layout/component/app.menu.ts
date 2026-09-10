@@ -150,7 +150,11 @@ export class AppMenu {
                             icon: 'pi pi-fw pi-cog',
                             routerLink: ['/pages/develpment-initiatives/develpment-initiatives']
                         },
-
+                      {
+                            label: ' التنموية',
+                            icon: 'pi pi-fw pi-cog',
+                            routerLink: ['/pages/develpment-initiatives/development-service']
+                        }
                     ]
                 } : { styleClass: 'v' },
             this.authHelper.hasRole(this.rolesEnum.Administrator) ?

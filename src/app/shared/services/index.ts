@@ -40,3 +40,5 @@ export * from './settings/service-names/service-names.service';
 export * from './settings/beneficiaries/beneficiaries.service';
 export * from './settings/development-entities/development-entities.service';
 export * from './enums/development-entity-type/development-entity-type.service';
+export * from './development-service/development-service.service';
+export * from './service-developmentEntity/service-developmentEntity.service';
