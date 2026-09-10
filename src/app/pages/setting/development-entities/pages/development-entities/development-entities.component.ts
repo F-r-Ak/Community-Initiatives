@@ -53,7 +53,7 @@ export class DevelopmentEntitiesComponent extends BaseListComponent {
         return [
             {
                 field: 'nameAr',
-                header: 'المركز',
+                header: 'الاسم',
                 filter: true,
                 filterMode: 'text'
             },

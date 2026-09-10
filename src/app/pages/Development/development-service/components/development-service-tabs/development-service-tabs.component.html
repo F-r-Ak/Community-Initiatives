@@ -1,0 +1,24 @@
+<p-tabs [value]="activeTab" >
+    <p-tablist>
+        <p-tab [value]="DevelopmentTabs.Main">البيانات الأساسية</p-tab>
+        <p-tab [value]="DevelopmentTabs.serviceDevelopmentEntity" [disabled]="!isEditMode"> التنمية</p-tab>
+        <!-- <p-tab [value]="DevelopmentTabs.serviceBeneficiary" [disabled]="!isEditMode"> خدمة المستفيدين</p-tab> -->
+    </p-tablist>
+
+    <p-tabpanels>
+        <p-tabpanel [value]="DevelopmentTabs.Main">
+            <app-add-edit-development-service [developmentServiceId]="developmentServiceId" [pageType]="pageType"></app-add-edit-development-service>
+        </p-tabpanel>
+         <!-- <p-tabpanel [value]="DevelopmentTabs.serviceBeneficiary">
+            @if (isEditMode) {
+                <app-service-beneficiaries [developmentServiceId]="developmentServiceId"></app-service-beneficiaries>
+            }
+        </p-tabpanel> -->
+
+        <p-tabpanel [value]="DevelopmentTabs.serviceDevelopmentEntity">
+            @if (isEditMode) {
+                <app-service-developmentEntities [developmentServiceId]="developmentServiceId"></app-service-developmentEntities>
+            }
+        </p-tabpanel>
+    </p-tabpanels>
+</p-tabs>

@@ -14,4 +14,5 @@ export * from "./mediainitiative/media-initiative";
 export * from "./activity-entity/activity-entity";
 export * from "./entity/entity";
 export * from "./develpment-initiative/develpment-initiative";
-
+export * from "./development-service/development-services";
+export * from "./service-developmentEntity/service-developmentEntity";
