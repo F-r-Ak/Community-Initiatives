@@ -4,7 +4,7 @@ import { AbstractControl, FormsModule, ReactiveFormsModule, ValidationErrors, Va
 import { ActivatedRoute } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { BaseEditComponent } from '../../../../../base/components/base-edit-component';
-import { PrimeInputTextComponent, PrimeDatepickerComponent, PrimeAutoCompleteComponent, SubmitButtonsComponent, DevelopmentServiceService,EntitiesService,ServiceNamesService,InitiativesService, CitiesService, TownsService, TeamMembersService } from '../../../../../shared';
+import { PrimeInputTextComponent, PrimeDatepickerComponent, PrimeAutoCompleteComponent ,SubmitButtonsComponent,EntityTypesService, DevelopmentServiceService,EntitiesService,ServiceNamesService,InitiativesService, CitiesService, TownsService, TeamMembersService } from '../../../../../shared';
 import { AuthHelper, DateHelper } from '../../../../../core';
 import { DevelpmentInitiativesService }from '../../../../../shared/services/develpment-initiatives/develpment-initiatives.service';
 import { ServiceDevelopmentEntityTabs } from '../../../../../core/enums/service-developmententity-tabs';
@@ -36,6 +36,7 @@ export class AddEditDevelopmentServiceComponent extends BaseEditComponent implem
     serviceNamesService = inject(ServiceNamesService);
     entitiesService = inject(EntitiesService);
     teamMembersService = inject(TeamMembersService);
+    entityTypesService = inject(EntityTypesService);
     authHelper = inject(AuthHelper);
 
     getCities(body: any) {
@@ -69,7 +70,13 @@ getDevelopmentInitiatives(body: any) {
     getEntities(body: any) {   
         return this.entitiesService.getPaged(body);
     }
+   getEntityTypes() {
+        return this.entityTypesService.entityTypes;
+    }
 
+
+
+    
     selectedField: any = null;
     selectedCity: any = null;
     selectedTown: any = null;
@@ -77,6 +84,7 @@ getDevelopmentInitiatives(body: any) {
     selectedDevelopmentInitiative: any = null;
     selectedEntity: any = null;
     selectedServiceName: any = null;
+    selectedEntityType: any = null;
     selectedMembers: any[] = [];
     memberSearchSelection: any = null;
 
@@ -106,8 +114,7 @@ getDevelopmentInitiatives(body: any) {
             serviceNameId: [null, Validators.required],
             value: ['', Validators.required],
             beneficiaryNumber: ['', Validators.required],
-           entityType: ['', Validators.required],
-           entityId: [null, Validators.required],
+         
         });
     }
 
@@ -129,9 +136,7 @@ getDevelopmentInitiatives(body: any) {
             if (data.initiativeMangerId) {
                 this.teamMembersService.getEditTeamMember(data.initiativeMangerId).subscribe((member) => (this.selectedManager = member));
             }
-            if (data.entityId) {
-                this.entitiesService.getEditEntity(data.entityId).subscribe((entity) => (this.selectedEntity = entity));
-            }
+          
           
         });
     }
@@ -165,8 +170,10 @@ getDevelopmentInitiatives(body: any) {
         this.form.get('entityId')?.setValue(this.selectedEntity?.id ?? null);
     }
 
-   
-
+   onEntityTypeSelect(event: any) {
+        this.selectedEntityType = event?.value ?? null;
+        this.form.get('entityType')?.setValue(this.selectedEntityType?.id ?? null);
+    }
     submit() {
         if (this.form.invalid) return;
         const value = {
@@ -176,16 +183,17 @@ getDevelopmentInitiatives(body: any) {
         };
         if (this.pageType === 'add') {
             this.developmentServicesService.add(value).subscribe((res: any) => {
-                this.redirect(`/pages/Development/development-service/edit/${res?.id}`);
+                console.log('res', res);
+                this.redirect(`/pages/develpment-initiatives/development-service/edit/${res}`);
             });
         } else {
             this.developmentServicesService.update({ id: this.id, ...value }).subscribe(() => {
-                this.redirect('/pages/Development/development-service');
+                this.redirect('/pages/develpment-initiatives/development-service');
             });
         }
     }
 
     override redirect(url?: string) {
-        this.route.navigate([url ?? '/pages/Development/development-service']);
+        this.route.navigate([url ?? '/pages/develpment-initiatives/development-service']);
     }
 }

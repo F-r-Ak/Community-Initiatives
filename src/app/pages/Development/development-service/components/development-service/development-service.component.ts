@@ -76,11 +76,11 @@ export class DevelopmentServiceComponent extends BaseComponent implements OnInit
     }
 
     navigateToEdit(): void {
-        this.route.navigate([`/pages/social-initiatives/initiatives/edit/${this.id}`]);
+        this.route.navigate([`/pages/develpment-initiatives/development-service/edit/${this.id}`]);
     }
 
     navigateBack(): void {
-        this.route.navigate(['/pages/social-initiatives/initiatives']);
+        this.route.navigate(['/pages/develpment-initiatives/development-service']);
     }
 
     confirmDelete(): void {

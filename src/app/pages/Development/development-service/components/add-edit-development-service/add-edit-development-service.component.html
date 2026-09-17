@@ -54,23 +54,22 @@
             >
             </app-prime-autocomplete>
         </div>
- <div class="col-12 col-md-3">
-            <label class="form-label">اسم الجهة</label>
+ 
+        <!-- <div class="col-12 col-md-3">
+            <label class="form-label">نوع الجهة</label>
             <app-prime-autocomplete
                 [formGroup]="form"
-                controlName="entityId"
+                controlName="entityType"
                 [getMethod]="getEntities.bind(this)"
                 [selectedOption]="selectedEntity"
-                [field]="'nameAr'"
+                [field]="'entityTypeNameAr'"
                 [language]="language"
                 (onSelect)="onEntitySelect($event)"
                 (onClear)="onEntitySelect(null)"
             >
             </app-prime-autocomplete>
-        </div>
- <div class="col-3">
-            <app-prime-input-text [formGroup]="form" controlName="entityType" [label]="' نوع الجهه'" > </app-prime-input-text>
-        </div>
+        </div> -->
+ 
 
 
         <div class="col-12 col-md-3">
