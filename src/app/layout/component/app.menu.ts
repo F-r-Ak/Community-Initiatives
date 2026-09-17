@@ -151,7 +151,7 @@ export class AppMenu {
                             routerLink: ['/pages/develpment-initiatives/develpment-initiatives']
                         },
                       {
-                            label: ' التنموية',
+                            label: ' الخدمات التنموية',
                             icon: 'pi pi-fw pi-cog',
                             routerLink: ['/pages/develpment-initiatives/development-service']
                         }

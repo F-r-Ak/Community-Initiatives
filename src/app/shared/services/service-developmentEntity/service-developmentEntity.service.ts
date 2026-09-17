@@ -8,7 +8,7 @@ import { HttpService } from '../../../core/services/http/http.service';
 })
 export class ServiceDevelopmentEntitiesService extends HttpService {
     protected get baseUrl(): string {
-        return 'v1/servicedevelopmententities/';
+        return 'v1/service_developmententity/';
     }
 
     getServiceDevelopmentEntity(id: string) {
