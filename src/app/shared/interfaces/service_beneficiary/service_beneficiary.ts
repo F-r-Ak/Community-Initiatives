@@ -17,16 +17,11 @@ export interface ServiceBeneficiaryDto extends Lookup, Partial<SharedProperties>
   
 
 export interface AddServiceBeneficiaryDto extends Lookup, Partial<SharedProperties> {
-    id: string;
+    id: string | null;
     developmentServiceId: string;
-     
-   beneficiaryId: [  ]
+    beneficiaryId: string[];
 }
-  
 
-
-export interface UpdateServiceBeneficiaryDto extends Lookup, Partial<SharedProperties> {
+export interface UpdateServiceBeneficiaryDto extends AddServiceBeneficiaryDto {
     id: string;
-    developmentServiceId: string;
-       beneficiaryId: [  ]
 }

@@ -12,8 +12,6 @@ import {
    ServiceBeneficiariesService,
    PrimeAutoCompleteComponent
 } from '../../../../../shared';
-import { Attachment } from '../../../../../shared/interfaces/attachment/attachment';
-
 @Component({
     selector: 'app-add-edit-service-beneficiary',
     standalone: true,
@@ -28,26 +26,7 @@ export class AddEditServiceBeneficiaryComponent extends BaseEditComponent implem
     serviceBeneficiariesService = inject(ServiceBeneficiariesService);
     beneficiariesService = inject(BeneficiariesService);
 
-    // Selected options for autocomplete fields
-    selectedCity: any = null;
-    selectedTown: any = null;
-    selectedActivityType: any = null;
-    selectedExecuteType: any = null;
-    selectedEntityType: any = null;
-    selectedExecutionStatus: any = null;
-    selectedEntity: any = null;
-    selectedOrganization: any = null;
-
-    // Enum lists (non-lazy)
-    entityTypesList: any[] = [];
-    executionStatusList: any[] = [];
-    executeTypesList: any[] = [];
-    activityTypesList: any[] = [];
-selectedBeneficiary: any = null;
-    // Attachment state
-    selectedFiles: File[] = [];
-    existingAttachments: Attachment[] = [];
-    filesToDelete: string[] = [];
+    selectedBeneficiary: any = null;
 
     constructor(protected override activatedRoute: ActivatedRoute) {
         super(activatedRoute);
@@ -60,7 +39,7 @@ selectedBeneficiary: any = null;
         this.pageType = this.id ? 'edit' : 'add';
 
         if ((this.pageType === 'edit' || this.pageType === 'view') && this.id) {
-            this.getEditMediaInitiative();
+            this.getEditServiceBeneficiary();
         } else {
             this.initFormGroup();
         }
@@ -68,61 +47,59 @@ selectedBeneficiary: any = null;
 
     initFormGroup(): void {
         this.form = this.fb.group({
-            id: [null],
             developmentServiceId: [this.developmentServiceId, Validators.required],
-           beneficiaryId: [null, Validators.required],
+            beneficiaryId: [[], Validators.required],
         });
-
-        // Reset entity fields when entityType changes
-        this.form.get('entityType')?.valueChanges.subscribe(() => {
-            this.form.get('entityId')?.setValue(null);
-            this.form.get('organizationId')?.setValue(null);
-            this.selectedEntity = null;
-            this.selectedOrganization = null;
-        });
-
-        // Auto-calculate numberOfBeneficiaries and disable it
-        const updateBeneficiaries = () => {
-            const female = this.form.get('numberOfFemaleBeneficiaries')?.value ?? 0;
-            const male = this.form.get('numberOfMaleBeneficiaries')?.value ?? 0;
-            this.form.get('numberOfBeneficiaries')?.setValue(+female + +male, { emitEvent: false });
-        };
-
-        this.form.get('numberOfFemaleBeneficiaries')?.valueChanges.subscribe(updateBeneficiaries);
-        this.form.get('numberOfMaleBeneficiaries')?.valueChanges.subscribe(updateBeneficiaries);
-        this.form.get('numberOfBeneficiaries')?.disable();
     }
 
-
-
-    getEditMediaInitiative(): void {
+    getEditServiceBeneficiary(): void {
         this.serviceBeneficiariesService.getEditServiceBeneficiary(this.id).subscribe((data: any) => {
             this.initFormGroup();
+            const beneficiaryIds: string[] = Array.isArray(data.beneficiaryId)
+                ? data.beneficiaryId
+                : data.beneficiaryId
+                  ? [data.beneficiaryId]
+                  : [];
 
-            this.form.patchValue(data);
-  if (data.beneficiaryId) {
-                this.beneficiariesService.getEditBeneficiary(data.beneficiaryId).subscribe((beneficiary) => (this.selectedBeneficiary = beneficiary));
+            this.form.patchValue({
+                developmentServiceId: data.developmentServiceId ?? this.developmentServiceId,
+                beneficiaryId: beneficiaryIds,
+            });
+
+            const firstId = beneficiaryIds[0];
+            if (firstId) {
+                this.beneficiariesService.getEditBeneficiary(firstId).subscribe((beneficiary) => (this.selectedBeneficiary = beneficiary));
             }
-        });}
-
-
-
- onBeneficiarySelect(event: any) {
-        this.selectedBeneficiary = event?.value ?? null;
-        this.form.get('beneficiaryId')?.setValue(this.selectedBeneficiary?.id ?? null);
+        });
     }
 
+    onBeneficiarySelect(event: any) {
+        if (event == null) {
+            this.selectedBeneficiary = null;
+            this.form.get('beneficiaryId')?.setValue([]);
+            return;
+        }
+        this.selectedBeneficiary = event?.value ?? null;
+        const id = this.selectedBeneficiary?.id;
+        this.form.get('beneficiaryId')?.setValue(id ? [id] : []);
+    }
 
-   submit() {
-        if (this.form.invalid) return;
-        const payload = this.form.value;
+    submit() {
+        const beneficiaryId: string[] = this.form.get('beneficiaryId')?.value ?? [];
+        if (this.form.invalid || beneficiaryId.length === 0) return;
+
+        const payload = {
+            developmentServiceId: this.form.get('developmentServiceId')?.value,
+            beneficiaryId,
+            ...(this.pageType === 'edit' ? { id: this.id } : {}),
+        };
 
         if (this.pageType === 'add') {
-            this.serviceBeneficiariesService.add(payload).subscribe(() => {
+            this.serviceBeneficiariesService.add(payload as any).subscribe(() => {
                 this.dialogRef.close(true);
             });
         } else {
-            this.serviceBeneficiariesService.update({ id: this.id, ...payload }).subscribe(() => {
+            this.serviceBeneficiariesService.update(payload as any).subscribe(() => {
                 this.dialogRef.close(true);
             });
         }

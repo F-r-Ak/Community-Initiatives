@@ -20,7 +20,7 @@
         </div>
 </div>
 
-            <app-submit-buttons [isSubmitDisabled]="form.invalid" [submitButtonText]="pageType === 'add' ? 'ACTIONS.SUBMIT' : 'ACTIONS.SAVE'" (submit)="submit()" (cancel)="redirect()"> </app-submit-buttons>
+            <app-submit-buttons [isSubmitDisabled]="form.invalid || !form.get('beneficiaryId')?.value?.length" [submitButtonText]="pageType === 'add' ? 'ACTIONS.SUBMIT' : 'ACTIONS.SAVE'" (submit)="submit()" (cancel)="redirect()"> </app-submit-buttons>
         </form>
     }
 </div>
