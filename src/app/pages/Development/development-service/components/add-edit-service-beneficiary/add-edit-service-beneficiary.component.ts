@@ -8,15 +8,16 @@ import {
     PrimeInputTextComponent,
     PrimeDatepickerComponent,
     SubmitButtonsComponent,
-    MediaInitiativesService,
-   
+    BeneficiariesService,
+   ServiceBeneficiariesService,
+   PrimeAutoCompleteComponent
 } from '../../../../../shared';
 import { Attachment } from '../../../../../shared/interfaces/attachment/attachment';
 
 @Component({
     selector: 'app-add-edit-service-beneficiary',
     standalone: true,
-    imports: [CommonModule, FormsModule, ReactiveFormsModule, PrimeInputTextComponent, PrimeDatepickerComponent, SubmitButtonsComponent],
+    imports: [CommonModule, FormsModule, ReactiveFormsModule, PrimeInputTextComponent, PrimeDatepickerComponent, PrimeAutoCompleteComponent, SubmitButtonsComponent],
     templateUrl: './add-edit-service-beneficiary.component.html',
     styleUrl: './add-edit-service-beneficiary.component.scss'
 })
@@ -24,8 +25,8 @@ export class AddEditServiceBeneficiaryComponent extends BaseEditComponent implem
     developmentServiceId: string = '';
     dialogRef = inject(DynamicDialogRef);
     dialogConfig = inject(DynamicDialogConfig);
-
-    mediaInitiativesService = inject(MediaInitiativesService);
+    serviceBeneficiariesService = inject(ServiceBeneficiariesService);
+    beneficiariesService = inject(BeneficiariesService);
 
     // Selected options for autocomplete fields
     selectedCity: any = null;
@@ -42,7 +43,7 @@ export class AddEditServiceBeneficiaryComponent extends BaseEditComponent implem
     executionStatusList: any[] = [];
     executeTypesList: any[] = [];
     activityTypesList: any[] = [];
-
+selectedBeneficiary: any = null;
     // Attachment state
     selectedFiles: File[] = [];
     existingAttachments: Attachment[] = [];
@@ -69,13 +70,7 @@ export class AddEditServiceBeneficiaryComponent extends BaseEditComponent implem
         this.form = this.fb.group({
             id: [null],
             developmentServiceId: [this.developmentServiceId, Validators.required],
-            mediaTitle: [null, Validators.required],
-            mediaUrl: [null, [Validators.required]],
-            mediaDescription: [null, Validators.required],
-            numberOfLikes: [null],
-            numberOfShares: [null],
-            numberOfComments: [null],
-            numberOfViews: [null],
+           beneficiaryId: [null, Validators.required],
         });
 
         // Reset entity fields when entityType changes
@@ -101,15 +96,21 @@ export class AddEditServiceBeneficiaryComponent extends BaseEditComponent implem
 
 
     getEditMediaInitiative(): void {
-        this.mediaInitiativesService.getEditMediaInitiative(this.id).subscribe((data: any) => {
+        this.serviceBeneficiariesService.getEditServiceBeneficiary(this.id).subscribe((data: any) => {
             this.initFormGroup();
 
             this.form.patchValue(data);
-
+  if (data.beneficiaryId) {
+                this.beneficiariesService.getEditBeneficiary(data.beneficiaryId).subscribe((beneficiary) => (this.selectedBeneficiary = beneficiary));
+            }
         });}
 
 
 
+ onBeneficiarySelect(event: any) {
+        this.selectedBeneficiary = event?.value ?? null;
+        this.form.get('beneficiaryId')?.setValue(this.selectedBeneficiary?.id ?? null);
+    }
 
 
    submit() {
@@ -117,11 +118,11 @@ export class AddEditServiceBeneficiaryComponent extends BaseEditComponent implem
         const payload = this.form.value;
 
         if (this.pageType === 'add') {
-            this.mediaInitiativesService.add(payload).subscribe(() => {
+            this.serviceBeneficiariesService.add(payload).subscribe(() => {
                 this.dialogRef.close(true);
             });
         } else {
-            this.mediaInitiativesService.update({ id: this.id, ...payload }).subscribe(() => {
+            this.serviceBeneficiariesService.update({ id: this.id, ...payload }).subscribe(() => {
                 this.dialogRef.close(true);
             });
         }

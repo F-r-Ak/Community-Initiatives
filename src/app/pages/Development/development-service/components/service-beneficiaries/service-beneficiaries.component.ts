@@ -96,36 +96,7 @@ export class ServiceBeneficiariesComponent extends BaseListComponent implements 
         );
     }
 
-    override loadDataFromServer(): void {
-        this.dataTableService.loadData(this.tableOptions.inputUrl.getAll).subscribe({
-            next: (res) => {
-                this.data = res.data.map((item: any) => ({
-                    ...item,
-                    mediaUrl: item.mediaUrl
-                        ? {
-                              name: '🔗 فتح الرابط', // خيار 1: أيقونة رابط مع كلمة
-                              // name: '⬇️ تحميل',      // خيار 2: أيقونة تنزيل
-                              // name: '🌐 الذهاب للموقع', // خيار 3: أيقونة كورية
-                              url: item.mediaUrl
-                          }
-                        : null
-                }));
-
-                this.totalCount = res.totalCount;
-                this.totalCountChange.emit(this.totalCount);
-            }
-        });
-    }
-
-    onDownloadAttachment(attachment: any) {
-        const url = typeof attachment === 'string' ? attachment : attachment?.url || attachment?.name;
-
-        if (url) {
-            const validUrl = url.startsWith('http://') || url.startsWith('https://') ? url : `https://${url}`;
-            window.open(validUrl, '_blank');
-        }
-    }
-
+   
     override ngOnDestroy() {
         this.destroy$.next(true);
         this.destroy$.unsubscribe();
