@@ -32,7 +32,7 @@ export class AddEditDevelopmentServiceComponent extends BaseEditComponent implem
     developmentServicesService = inject(DevelopmentServiceService);
     citiesService = inject(CitiesService);
     townsService = inject(TownsService);
-    develpmentInitiativesService = inject(DevelpmentInitiativesService);
+  develpmentInitiativesService = inject(DevelpmentInitiativesService);
     serviceNamesService = inject(ServiceNamesService);
     entitiesService = inject(EntitiesService);
     teamMembersService = inject(TeamMembersService);
@@ -122,7 +122,9 @@ getDevelopmentInitiatives(body: any) {
         this.developmentServicesService.getEditDevelopmentService(this.id).subscribe((data: any) => {
             this.initFormGroup();
             this.form.patchValue(data);
-            
+            if (data.townId) {
+                this.townsService.getEditTown(data.townId).subscribe((town) => (this.selectedTown = town));
+            }
             
             if (data.cityId) {
                 this.citiesService.getEditCity(data.cityId).subscribe((city) => (this.selectedCity = city));

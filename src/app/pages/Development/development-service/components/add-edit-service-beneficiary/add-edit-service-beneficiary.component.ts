@@ -9,8 +9,8 @@ import {
     PrimeDatepickerComponent,
     SubmitButtonsComponent,
     BeneficiariesService,
-   ServiceBeneficiariesService,
-   PrimeAutoCompleteComponent
+    ServiceBeneficiariesService,
+    PrimeAutoCompleteComponent
 } from '../../../../../shared';
 import { Attachment } from '../../../../../shared/interfaces/attachment/attachment';
 
@@ -28,23 +28,7 @@ export class AddEditServiceBeneficiaryComponent extends BaseEditComponent implem
     serviceBeneficiariesService = inject(ServiceBeneficiariesService);
     beneficiariesService = inject(BeneficiariesService);
 
-    // Selected options for autocomplete fields
-    selectedCity: any = null;
-    selectedTown: any = null;
-    selectedActivityType: any = null;
-    selectedExecuteType: any = null;
-    selectedEntityType: any = null;
-    selectedExecutionStatus: any = null;
-    selectedEntity: any = null;
-    selectedOrganization: any = null;
-
-    // Enum lists (non-lazy)
-    entityTypesList: any[] = [];
-    executionStatusList: any[] = [];
-    executeTypesList: any[] = [];
-    activityTypesList: any[] = [];
-selectedBeneficiary: any = null;
-    // Attachment state
+    selectedBeneficiary: any = null;
     selectedFiles: File[] = [];
     existingAttachments: Attachment[] = [];
     filesToDelete: string[] = [];
@@ -53,8 +37,37 @@ selectedBeneficiary: any = null;
         super(activatedRoute);
     }
 
+    private normalizeSelectedValue(event: any): any {
+        if (!event) return null;
+
+        if (typeof event === 'object') {
+            if ('value' in event && event.value !== undefined && event.value !== null) {
+                return event.value;
+            }
+            if ('id' in event && event.id !== undefined && event.id !== null) {
+                return event;
+            }
+            if ('beneficiaryId' in event && event.beneficiaryId !== undefined && event.beneficiaryId !== null) {
+                return event;
+            }
+        }
+
+        return event;
+    }
+
+    private getSelectedBeneficiaryId(value: any): string | null {
+        const selected = this.normalizeSelectedValue(value);
+
+        if (!selected) return null;
+        if (typeof selected === 'object') {
+            return selected.id ?? selected.beneficiaryId ?? null;
+        }
+
+        return selected;
+    }
+
     override ngOnInit(): void {
-        const data = this.dialogConfig.data;
+        const data = this.dialogConfig.data ?? {};
         this.developmentServiceId = data?.developmentServiceId ?? '';
         this.id = data?.id ?? '';
         this.pageType = this.id ? 'edit' : 'add';
@@ -70,59 +83,60 @@ selectedBeneficiary: any = null;
         this.form = this.fb.group({
             id: [null],
             developmentServiceId: [this.developmentServiceId, Validators.required],
-           beneficiaryId: [null, Validators.required],
+            beneficiaryId: [null, Validators.required]
         });
-
-        // Reset entity fields when entityType changes
-        this.form.get('entityType')?.valueChanges.subscribe(() => {
-            this.form.get('entityId')?.setValue(null);
-            this.form.get('organizationId')?.setValue(null);
-            this.selectedEntity = null;
-            this.selectedOrganization = null;
-        });
-
-        // Auto-calculate numberOfBeneficiaries and disable it
-        const updateBeneficiaries = () => {
-            const female = this.form.get('numberOfFemaleBeneficiaries')?.value ?? 0;
-            const male = this.form.get('numberOfMaleBeneficiaries')?.value ?? 0;
-            this.form.get('numberOfBeneficiaries')?.setValue(+female + +male, { emitEvent: false });
-        };
-
-        this.form.get('numberOfFemaleBeneficiaries')?.valueChanges.subscribe(updateBeneficiaries);
-        this.form.get('numberOfMaleBeneficiaries')?.valueChanges.subscribe(updateBeneficiaries);
-        this.form.get('numberOfBeneficiaries')?.disable();
     }
-
-
 
     getEditMediaInitiative(): void {
         this.serviceBeneficiariesService.getEditServiceBeneficiary(this.id).subscribe((data: any) => {
             this.initFormGroup();
-
             this.form.patchValue(data);
-  if (data.beneficiaryId) {
-                this.beneficiariesService.getEditBeneficiary(data.beneficiaryId).subscribe((beneficiary) => (this.selectedBeneficiary = beneficiary));
+
+            if (data.beneficiaryId) {
+                this.beneficiariesService.getEditBeneficiary(data.beneficiaryId).subscribe((beneficiary) => {
+                    this.selectedBeneficiary = beneficiary;
+                    this.form.get('beneficiaryId')?.setValue(beneficiary?.id ?? data.beneficiaryId ?? null, { emitEvent: false });
+                });
             }
-        });}
-
-
-
- onBeneficiarySelect(event: any) {
-        this.selectedBeneficiary = event?.value ?? null;
-        this.form.get('beneficiaryId')?.setValue(this.selectedBeneficiary?.id ?? null);
+        });
     }
 
+    onBeneficiarySelect(event: any): void {
+        this.selectedBeneficiary = this.normalizeSelectedValue(event);
+        const beneficiaryId = this.getSelectedBeneficiaryId(this.selectedBeneficiary);
 
-   submit() {
-        if (this.form.invalid) return;
-        const payload = this.form.value;
+        this.form.get('beneficiaryId')?.setValue(beneficiaryId ?? null, { emitEvent: false });
+    }
+
+    submit(): void {
+        const beneficiaryId = this.getSelectedBeneficiaryId(this.form.get('beneficiaryId')?.value ?? this.selectedBeneficiary);
+
+        if (this.form.invalid || !beneficiaryId) {
+            this.form.get('beneficiaryId')?.markAsTouched();
+            this.form.get('beneficiaryId')?.setErrors({ required: true });
+            return;
+        }
+
+        const developmentServiceId = this.form.get('developmentServiceId')?.value ?? this.developmentServiceId;
+        const beneficiaryIdList = [beneficiaryId];
 
         if (this.pageType === 'add') {
-            this.serviceBeneficiariesService.add(payload).subscribe(() => {
+            const payload = {
+                developmentServiceId,
+                beneficiaryId: beneficiaryIdList
+            };
+
+            this.serviceBeneficiariesService.add(payload as any).subscribe(() => {
                 this.dialogRef.close(true);
             });
         } else {
-            this.serviceBeneficiariesService.update({ id: this.id, ...payload }).subscribe(() => {
+            const payload = {
+                id: this.id,
+                developmentServiceId,
+                beneficiaryId: beneficiaryIdList
+            };
+
+            this.serviceBeneficiariesService.update(payload as any).subscribe(() => {
                 this.dialogRef.close(true);
             });
         }

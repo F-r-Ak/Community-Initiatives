@@ -20,6 +20,7 @@ export interface DevelopmentServiceDto extends Lookup, Partial<SharedProperties>
     townName: string;
     serviceName: string;
     entityName: string;
+    
  
 }
 

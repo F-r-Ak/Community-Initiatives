@@ -1,170 +1,125 @@
-@if (initiative) {
+@if (developmentService) {
     <div class="view-wrapper" dir="rtl">
-        <!-- Header card -->
+        <!-- Header -->
         <div class="card header-card mb-3">
             <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
-                <!-- Title and badges -->
-                <div class="text-start">
-                    <div class="initiative-title mb-2">{{ initiative.name }}</div>
-                    <div class="d-flex gap-2 justify-content-end flex-wrap">
-                        <span class="badge-chip city"> <i class="pi pi-map-marker me-1"></i>{{ initiative.cityName }} </span>
-                        <span class="badge-chip field"> <i class="pi pi-tag me-1"></i>{{ initiative.fieldName }} </span>
-                    </div>
-                </div>
-
-                <!-- Action buttons -->
-                <div class="d-flex gap-2">
-                    <button pButton class="main-btn danger py-1 px-3" (click)="navigateBack()"><i class="pi pi-trash me-1"></i> عودة</button>
-                    <button pButton class="main-btn py-1 px-3" style="background: var(--datatable-header-color); color: #fff; border: none" (click)="navigateToEdit()"><i class="pi pi-file-edit me-1"></i> تعديل</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Main content row -->
-        <div class="row g-3 mb-3">
-            <!-- Left column: Team + Extra details -->
-            <div class="col-12 col-lg-4 d-flex flex-column gap-3">
-                <!-- Team card -->
-                <div class="card p-3">
-                    <div class="section-header d-flex align-items-center justify-content-between mb-2">
-                        <span class="d-flex align-items-center gap-2">
-                            <i class="pi pi-users text-primary"></i>
-                            <strong>فريق العمل ({{ teamMembers.length }})</strong>
+                <div>
+                    <div class="activity-title mb-2">{{ developmentService.name || '---' }}</div>
+                    <div class="d-flex gap-2 flex-wrap">
+                        <span class="badge-chip city">
+                            <i class="pi pi-map-marker me-1"></i>{{ developmentService.cityName || '---' }}
                         </span>
-                    </div>
-
-                    <!-- Manager card -->
-                    @if (manager) {
-                        <div class="team-card manager-card">
-                            <div class="manager-badge mb-2"><i class="pi pi-star-fill me-1"></i> المسئول عن المبادرة</div>
-                            <div class="d-flex align-items-center gap-2">
-                                <div class="member-avatar manager-avatar">{{ getMemberInitial(manager.teamMemberName) }}</div>
-                                <div>
-                                    <div class="fw-bold">{{ manager.teamMemberName }}</div>
-                                    <span class="status-chip">{{ manager.jobStatusNameAr || manager.jobStatusName.nameAr }}</span>
-                                </div>
-                            </div>
-                            <div class="member-details">
-                                @if (manager.nationalID) {
-                                    <div class="detail-row">
-                                        <span class="label">الهاتف:</span><span>{{ manager.nationalID }}</span>
-                                    </div>
-                                }
-                                <div class="detail-row">
-                                    <span class="label">الموقع:</span><span>{{ manager.cityName }}</span>
-                                </div>
-                            </div>
-                        </div>
-                    }
-
-                    <!-- Regular members -->
-                    @for (member of regularMembers; track member.id) {
-                        <div class="team-card">
-                            <div class="d-flex align-items-center gap-2">
-                                <div class="member-avatar">{{ getMemberInitial(member.teamMemberName) }}</div>
-                                <div>
-                                    <div class="fw-bold">{{ member.teamMemberName }}</div>
-                                    <span class="status-chip">{{ member.jobStatusNameAr || member.jobStatusName.nameAr }}</span>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                </div>
-
-                <!-- Extra details card -->
-                <div class="card p-3 extra-details-card">
-                    <div class="section-header d-flex align-items-center gap-2 mb-3">
-                        <i class="pi pi-info-circle"></i>
-                        <strong>تفاصيل إضافية</strong>
-                    </div>
-                    <div class="detail-row">
-                        <span class="label">عدد الأنشطة:</span>
-                        <span>{{ activitiesCount }}</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="label">إجمالي المخرجات:</span>
-                        <span>{{ outputsCount }}</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Right column: Info cards -->
-            <div class="col-12 col-lg-8 d-flex flex-column gap-3">
-                <!-- Description -->
-                <div class="card p-3 info-card">
-                    <div class="info-card-title">نبذة عن المبادرة</div>
-                    <p>{{ initiative.description }}</p>
-                </div>
-
-                <!-- Problem + Suggested Solution -->
-                <div class="row g-3">
-                    <div class="col-12 col-md-6">
-                        <div class="card p-3 info-card h-100">
-                            <div class="info-card-title">المشكلة</div>
-                            <p>{{ initiative.problemDescription }}</p>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <div class="card p-3 info-card h-100">
-                            <div class="info-card-title">مقترح الحل</div>
-                            <p>{{ initiative.suggestedSolution }}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Beneficiary + Expected Impact -->
-                <div class="row g-3">
-                    <div class="col-12 col-md-6">
-                        <div class="card p-3 info-card h-100">
-                            <div class="info-card-title">الفئة المستهدفة</div>
-                            <p>{{ initiative.beneficiaryGroup }}</p>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <div class="card p-3 info-card h-100">
-                            <div class="info-card-title">النتائج</div>
-                            <p>{{ initiative.expectedImpact }}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Execution steps -->
-                <div class="card p-3 info-card">
-                    <div class="info-card-title">خطوات التنفيذ</div>
-                    <p>{{ initiative.stepsExecution }}</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Activities log section -->
-        <div class="card p-3 mb-3">
-            <div class="section-header d-flex align-items-center justify-content-between">
-                <div class="d-flex align-items-center gap-2">
-                    <i class="pi pi-calendar" style="color: var(--datatable-header-color)"></i>
-                    <strong>سجل الأنشطة ({{ activitiesCount }})</strong>
-                </div>
-                <button class="toggle-btn" (click)="toggleActivities()">
-                    <i class="pi" [class.pi-chevron-up]="showActivities" [class.pi-chevron-down]="!showActivities"></i>
-                    {{ showActivities ? 'إخفاء' : 'إظهار' }}
-                </button>
-            </div>
-
-            @if (showActivities) {
-                @if (activities.length === 0) {
-                    <div class="empty-state mt-3">
-                        <p class="text-muted text-center">لا يوجد أنشطة مضافة لهذه المبادرة بعد</p>
-                    </div>
-                } @else {
-                    <div class="activities-list mt-3">
-                        @for (activity of activities; track activity.id) {
-                            <div class="activity-row d-flex justify-content-between align-items-center">
-                                <span>{{ activity.name }}</span>
-                                <span class="text-muted" style="font-size: 0.8rem">{{ activity.startDate | date: 'yyyy/M/d' }}</span>
-                            </div>
+                        @if (developmentService.townName) {
+                            <span class="badge-chip town">
+                                <i class="pi pi-map me-1"></i>{{ developmentService.townName }}
+                            </span>
                         }
                     </div>
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="main-btn back py-1 px-3" (click)="navigateBack()">
+                        <i class="pi pi-arrow-right me-1"></i> عودة
+                    </button>
+                    <button class="main-btn edit py-1 px-3" (click)="navigateToEdit()">
+                        <i class="pi pi-file-edit me-1"></i> تعديل
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-3 mb-3">
+            <!-- Stats Column (العمود الأيسر: الأرقام والإحصائيات) -->
+            <div class="col-12 col-lg-4 d-flex flex-column gap-3">
+                <div class="card stats-card p-3">
+                    <div class="section-header d-flex align-items-center gap-2 mb-3">
+                        <i class="pi pi-chart-bar"></i>
+                        <strong>الإحصائيات</strong>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">عدد المستفيدين:</span>
+                        <span>{{ developmentService.beneficiaryNumber ?? 0 }}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">قيمة الخدمة:</span>
+                        <span>{{ developmentService.value ?? 0 }}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">تاريخ بدء الخدمة:</span>
+                        <span>{{ developmentService.serviceStartDate | date:'dd/MM/yyyy'   }}</span>
+                    </div>
+                     <div class="detail-row">
+                        <span class="label">تاريخ انتهاء الخدمة:</span>
+                        <span>{{ developmentService.serviceEndDate | date:'dd/MM/yyyy'   }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Details Column (العمود الأيمن: معلومات الخدمة) -->
+            <div class="col-12 col-lg-8 d-flex flex-column gap-3">
+                <div class="card p-3">
+                    <div class="section-header d-flex align-items-center gap-2 mb-3">
+                        <i class="pi pi-info-circle"></i>
+                        <strong>معلومات الخدمة</strong>
+                    </div>
+                    <div class="row g-2">
+                        <div class="col-12 col-md-6">
+                            <div class="detail-row">
+                                <span class="label">اسم الخدمة:</span>
+                                <span>{{ developmentService.serviceName || '---' }}</span>
+                            </div>
+                        </div>
+                        <!-- <div class="col-12 col-md-6">
+                            <div class="detail-row">
+                                <span class="label">تاريخ بدء الخدمة:</span>
+                                <span>{{ servicedevelopmententities.developmentInitiativeName || '---' }}</span>
+                            </div>
+                        </div> -->
+                        <!-- <div class="col-12 col-md-6">
+                            <div class="detail-row">
+                                <span class="label">تاريخ انتهاء الخدمة:</span>
+                                <span>{{servicebeneficiaries.beneficiaryName || '---' }}</span>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+            <!-- كارت جهات التنمية المخصصة للخدمة -->
+<div class="card p-3 mb-3">
+    <div class="section-header d-flex align-items-center gap-2 mb-3">
+        <i class="pi pi-building text-primary"></i>
+        <strong>جهات التنمية ({{ servicedevelopmententities.length }})</strong>
+    </div>
+
+    @if (servicedevelopmententities.length === 0) {
+        <p class="text-muted text-center font-14 my-2">لا توجد جهات مضافة لهذه الخدمة</p>
+    } @else {
+        @for (entity of servicedevelopmententities; track entity.id || $index) {
+            <div class="group-row d-flex align-items-center justify-content-between mb-2 p-2 border-round">
+                <div class="d-flex align-items-center">
+                    <i class="pi pi-sitemap text-muted me-2"></i>
+                    <span>{{ entity.name || entity.entityName || entity.organizationName || '---' }}</span>
+                </div>
+                @if (entity.entityTypeNameAr || entity.typeName) {
+                    <span class="text-muted font-12">({{ entity.entityTypeNameAr || entity.typeName }})</span>
                 }
-            }
+            </div>
+        }
+    }
+</div>
+
+            <!-- كارت المستفيدين المخصص للخدمة -->
+<div class="card p-3 mb-3">
+    <div class="section-header d-flex align-items-center gap-2 mb-3">   
+        <i class="pi pi-users text-primary"></i>    
+        <strong>المستفيدين ({{ servicebeneficiaries.length }})</strong>
+          <div class="col-12 col-md-6">
+                            <div class="detail-row">
+                                <span class="label">اسم الخدمة:</span>
+                                <span>{{ servicebeneficiaries[0]?.beneficiaryName || '---' }}</span>
+                            </div>
+                        </div>
+</div>
+</div>
         </div>
     </div>
 } @else {

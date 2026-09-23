@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular
 import { ActivatedRoute } from '@angular/router';
 import { BaseListComponent } from '../../../../../base/components/base-list-component';
 import { PrimeDataTableComponent, TableOptions } from '../../../../../shared';
-import { MediaInitiativesService } from '../../../../../shared/services/media-initiatives/media-initiatives.service';
+import { ServiceBeneficiariesService } from '../../../../../shared';
 import { AddEditServiceBeneficiaryComponent } from '../add-edit-service-beneficiary/add-edit-service-beneficiary.component';
 import { ServiceBeneficiaryComponent } from '../service_beneficiary/service-beneficiary.component';
 import { AuthHelper } from '../../../../../core';
@@ -23,7 +23,7 @@ export class ServiceBeneficiariesComponent extends BaseListComponent implements 
         return RoleCodes;
     }
     tableOptions!: TableOptions;
-    service = inject(MediaInitiativesService);
+    service = inject(ServiceBeneficiariesService);
 
     constructor(activatedRoute: ActivatedRoute) {
         super(activatedRoute);
@@ -37,13 +37,13 @@ export class ServiceBeneficiariesComponent extends BaseListComponent implements 
     initializeTableOptions() {
         this.tableOptions = {
             inputUrl: {
-                getAll: 'v1/MediaInitiatives/getpaged',
+                getAll: 'v1/service_beneficiary/getpaged',
                 getAllMethod: 'POST',
-                delete: 'v1/MediaInitiatives/delete'
+                delete: 'v1/service_beneficiary/delete'
             },
             inputCols: [
-                { field: 'mediaTitle', header: 'عنوان الميديا', filter: true, filterMode: 'text' },
-                { field: 'mediaUrl', header: 'الرابط', filter: true, filterMode: 'attachments' }
+                { field: 'beneficiaryName', header: 'اسم المستفيد', filter: true, filterMode: 'text' },
+                
             ],
             inputActions: [
                 {

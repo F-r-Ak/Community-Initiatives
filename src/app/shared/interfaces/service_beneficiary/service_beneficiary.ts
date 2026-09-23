@@ -13,20 +13,18 @@ export interface ServiceBeneficiaryDto extends Lookup, Partial<SharedProperties>
     organizationName: string | null;
     otherEntityName: string | null;
     name: string | null;
+    beneficiaryId: string[] | string | null;
+    beneficiaryName: string | null;
 }
-  
 
 export interface AddServiceBeneficiaryDto extends Lookup, Partial<SharedProperties> {
-    id: string;
+    id: string | null;
     developmentServiceId: string;
-     
-   beneficiaryId: [  ]
+    beneficiaryId: string[] | null;
 }
-  
-
 
 export interface UpdateServiceBeneficiaryDto extends Lookup, Partial<SharedProperties> {
     id: string;
     developmentServiceId: string;
-       beneficiaryId: [  ]
+    beneficiaryId: string[] | null;
 }
