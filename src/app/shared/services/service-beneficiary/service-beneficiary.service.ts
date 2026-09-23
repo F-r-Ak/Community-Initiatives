@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AddServiceDevelopmentEntityDto,  UpdateServiceDevelopmentEntityDto, GetPagedBody, ServiceDevelopmentEntityDto } from '../../interfaces';
+import { AddServiceBeneficiaryDto,  UpdateServiceBeneficiaryDto, GetPagedBody,ServiceBeneficiaryDto  } from '../../interfaces';
 import { Observable } from 'rxjs';
 import { HttpService } from '../../../core/services/http/http.service';
 
@@ -12,15 +12,15 @@ export class ServiceBeneficiariesService extends HttpService {
     }
 
     getServiceBeneficiary(id: string) {
-        return this.get<ServiceDevelopmentEntityDto>({ apiName: `Get/${id}` });
+        return this.get<ServiceBeneficiaryDto>({ apiName: `Get/${id}` });
     }
 
     getEditServiceBeneficiary(id: string) {
-        return this.get<ServiceDevelopmentEntityDto >({ apiName: `getEdit/${id}` });
+        return this.get<ServiceBeneficiaryDto >({ apiName: `getEdit/${id}` });
     }
 
     get serviceBeneficiaries() {
-        return this.get<ServiceDevelopmentEntityDto[]>({ apiName: 'getAll' });
+        return this.get<ServiceBeneficiaryDto[]>({ apiName: 'getAll' });
     }
 
     getDropDown(body: GetPagedBody<any>): Observable<any> {
@@ -31,11 +31,11 @@ export class ServiceBeneficiariesService extends HttpService {
         return this.post<any, any>({ apiName: `getpaged`, showAlert: true }, body);
     }
 
-    add(body: AddServiceDevelopmentEntityDto) {
-        return this.post<AddServiceDevelopmentEntityDto, ServiceDevelopmentEntityDto>({ apiName: 'add', showAlert: true }, body);
+    add(body: AddServiceBeneficiaryDto) {
+        return this.post<AddServiceBeneficiaryDto, ServiceBeneficiaryDto>({ apiName: 'add', showAlert: true }, body);
     }
 
-    update(body: UpdateServiceDevelopmentEntityDto) {
+    update(body: UpdateServiceBeneficiaryDto) {
         return this.put({ apiName: 'update', showAlert: true }, body);
     }
 
