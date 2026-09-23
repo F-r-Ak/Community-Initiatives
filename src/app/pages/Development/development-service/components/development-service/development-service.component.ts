@@ -4,8 +4,8 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { BaseComponent } from '../../../../../base/components/base-component';
-import { InitiativesService, InitiativeTeamsService, ActivitiesService } from '../../../../../shared/services';
-import { InitiativeDto, InitiativeTeamDto } from '../../../../../shared/interfaces';
+import { InitiativesService, InitiativeTeamsService, ActivitiesService , DevelopmentServiceService , ServiceBeneficiariesService , ServiceDevelopmentEntitiesService} from '../../../../../shared/services';
+import { InitiativeDto, InitiativeTeamDto , DevelopmentServiceDto} from '../../../../../shared/interfaces';
 
 @Component({
     selector: 'app-development-service',
@@ -16,19 +16,23 @@ import { InitiativeDto, InitiativeTeamDto } from '../../../../../shared/interfac
 })
 export class DevelopmentServiceComponent extends BaseComponent implements OnInit {
     id: string = '';
-    initiative: InitiativeDto | null = null;
-    teamMembers: InitiativeTeamDto[] = [];
+    developmentService: DevelopmentServiceDto | null = null;
+   
     activities: any[] = [];
     activitiesCount: number = 0;
     outputsCount: number = 0;
-    isLoadingTeam: boolean = false;
-
+    servicedevelopmententities: any[] = [];
+    servicebeneficiaries: any[] = [];
+    
     showActivities: boolean = true;
     showOutputs: boolean = true;
-
+    
     initiativesService = inject(InitiativesService);
     teamsService = inject(InitiativeTeamsService);
     activitiesService = inject(ActivitiesService);
+    developmentServicesService = inject(DevelopmentServiceService);
+    serviceBeneficiariesService = inject(ServiceBeneficiariesService);
+    serviceDevelopmentEntitiesService = inject(ServiceDevelopmentEntitiesService);
 
     constructor(protected override activatedRoute: ActivatedRoute) {
         super(activatedRoute);
@@ -43,33 +47,37 @@ export class DevelopmentServiceComponent extends BaseComponent implements OnInit
     }
 
     loadData(): void {
-        this.initiativesService.getInitiative(this.id).subscribe({
+        this.developmentServicesService.getDevelopmentService(this.id).subscribe({
             next: (data: any) => {
-                this.initiative = data?.initiative;
+                this.developmentService = data;
             }
         });
 
-        this.teamsService.getPaged({ pageNumber: 1, pageSize: 100, filter: { initiativeId: this.id } }).subscribe({
-            next: (res: any) => {
-                this.teamMembers = res?.data ?? res ?? [];
-            }
-        });
+       
 
-        this.activitiesService.getPaged({ pageNumber: 1, pageSize: 100, filter: { initiativeId: this.id } }).subscribe({
+        this.developmentServicesService.getPaged({ pageNumber: 1, pageSize: 100, filter: { developmentServiceId: this.id } }).subscribe({
             next: (res: any) => {
                 this.activities = res?.data ?? res ?? [];
                 this.activitiesCount = res?.totalCount ?? this.activities.length;
             }
         });
+         this.serviceBeneficiariesService.getPaged({ pageNumber: 1, pageSize: 100, filter: { developmentServiceId: this.id } }).subscribe({
+            next: (res: any) => {
+                this.servicebeneficiaries = res?.data ?? res ?? [];
+                console.log('servicebeneficiaries', this.servicebeneficiaries);
+            }
+        });
+
+        this.serviceDevelopmentEntitiesService.getPaged({ pageNumber: 1, pageSize: 100, filter: { developmentServiceId: this.id } }).subscribe({
+            next: (res: any) => {
+                this.servicedevelopmententities = res?.data ?? res ?? [];
+                console.log('servicedevelopmententities', this.servicedevelopmententities);
+            }
+        });
     }
 
-    get manager(): InitiativeTeamDto | undefined {
-        return this.teamMembers.find(m => m.teamCategory === 'Manager' || m.teamCategoryNameAr?.includes('مسئول'));
-    }
-
-    get regularMembers(): InitiativeTeamDto[] {
-        return this.teamMembers.filter(m => m !== this.manager);
-    }
+   
+   
 
     getMemberInitial(name: string): string {
         return name?.trim()?.[0] ?? '؟';
