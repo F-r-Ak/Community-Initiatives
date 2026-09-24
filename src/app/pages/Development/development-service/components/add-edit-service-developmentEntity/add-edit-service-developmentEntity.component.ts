@@ -85,7 +85,7 @@ export class AddEditServiceDevelopmentEntityComponent extends BaseEditComponent 
           if (this.isAgency) return !!this.selectedEntity;
           if (this.isPerson) return !!this.selectedEntityPerson;
           if (this.isOrganization) return !!this.selectedOrganization;
-          if (this.isOther) return !!this.otherEntityName?.trim();
+          if (this.isOther) return true;
           return false;
       }
 
@@ -161,7 +161,7 @@ export class AddEditServiceDevelopmentEntityComponent extends BaseEditComponent 
             entry.entityId = this.selectedEntityPerson.id;
             entry.entityName = this.selectedEntityPerson.nameAr;
         } else if (this.isOther) {
-            entry.otherEntityName = this.otherEntityName.trim();
+            entry.otherEntityName = this.selectedEntityType!.nameAr;
         }
 
         this.pendingEntities.push(entry);
