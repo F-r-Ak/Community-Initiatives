@@ -1,26 +1,80 @@
 <div class="card">
     @if (form) {
         <form [formGroup]="form" class="row g-4">
-            <div class="p-formgrid grid">
-                 <div class="col-12 col-md-3">
-            <label class="form-label">اسم 
-المستفيد</label>
-            <app-prime-autocomplete
-                [formGroup]="form"
-                controlName="beneficiaryId"
-                [getMethod]="beneficiariesService.getPaged.bind(beneficiariesService)"
-                [selectedOption]="selectedBeneficiary"
-                [field]="'nameAr'"
-                [language]="language"
-                (onSelect)="onBeneficiarySelect($event)"
-                (onClear)="onBeneficiarySelect(null)"
-           
-        ></app-prime-autocomplete>
-           
-        </div>
-</div>
+            <div class="col-12 col-md-4">
+                <label class="form-label">اسم المستفيد</label>
+                <app-prime-autocomplete
+                    [formGroup]="form"
+                    controlName="beneficiaryId"
+                    [getMethod]="beneficiariesService.getPaged.bind(beneficiariesService)"
+                    [selectedOption]="selectedBeneficiary"
+                    [field]="'nameAr'"
+                    [language]="language"
+                    (onSelect)="onBeneficiarySelect($event)"
+                    (onClear)="onBeneficiarySelect(null)"
+                ></app-prime-autocomplete>
+            </div>
 
-            <app-submit-buttons [isSubmitDisabled]="form.invalid" [submitButtonText]="pageType === 'add' ? 'ACTIONS.SUBMIT' : 'ACTIONS.SAVE'" (submit)="submit()" (cancel)="redirect()"> </app-submit-buttons>
+            <div class="col-12 col-md-auto d-flex align-items-end">
+                <button
+                    type="button"
+                    class="btn btn-outline-primary"
+                    [disabled]="!canAddRow"
+                    (click)="addRow()"
+                >
+                    <i class="pi pi-plus me-1"></i>
+                    إضافة
+                </button>
+            </div>
+
+            @if (pendingBeneficiaries.length > 0) {
+                <div class="col-12">
+                    <div class="border rounded overflow-hidden">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr class="table-header-row">
+                                    <th class="py-3 px-4">اسم المستفيد</th>
+                                    <th class="py-3 px-4 text-center" style="width: 80px;">الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (row of pendingBeneficiaries; track $index) {
+                                    <tr>
+                                        <td class="py-3 px-4 align-middle">{{ row.nameAr || row.name }}</td>
+                                        <td class="py-3 px-4 text-center align-middle">
+                                            <button
+                                                type="button"
+                                                class="btn btn-sm btn-outline-danger rounded-circle"
+                                                (click)="removeRow($index)"
+                                                title="حذف"
+                                            >
+                                                <i class="pi pi-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <small class="text-muted mt-1 d-block">{{ pendingBeneficiaries.length }} مستفيد تم اختياره</small>
+                </div>
+            }
+
+            @if (pendingBeneficiaries.length === 0) {
+                <div class="col-12">
+                    <div class="empty-state text-center py-4 border rounded text-muted">
+                        <i class="pi pi-user mb-2 d-block" style="font-size: 2rem; opacity: 0.4;"></i>
+                        <span>لم يتم إضافة أي مستفيدين بعد</span>
+                    </div>
+                </div>
+            }
+
+           <app-submit-buttons
+                [isSubmitDisabled]="pendingBeneficiaries.length === 0"
+                [submitButtonText]="'ACTIONS.SUBMIT'"
+                (submit)="submit()"
+                (cancel)="redirect()"
+            ></app-submit-buttons>
         </form>
     }
 </div>

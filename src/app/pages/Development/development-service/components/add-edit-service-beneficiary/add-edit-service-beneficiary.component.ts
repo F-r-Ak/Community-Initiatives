@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { BaseEditComponent } from '../../../../../base/components/base-edit-component';
@@ -17,7 +17,15 @@ import { Attachment } from '../../../../../shared/interfaces/attachment/attachme
 @Component({
     selector: 'app-add-edit-service-beneficiary',
     standalone: true,
-    imports: [CommonModule, FormsModule, ReactiveFormsModule, PrimeInputTextComponent, PrimeDatepickerComponent, PrimeAutoCompleteComponent, SubmitButtonsComponent],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        PrimeInputTextComponent,
+        PrimeDatepickerComponent,
+        PrimeAutoCompleteComponent,
+        SubmitButtonsComponent
+    ],
     templateUrl: './add-edit-service-beneficiary.component.html',
     styleUrl: './add-edit-service-beneficiary.component.scss'
 })
@@ -29,9 +37,15 @@ export class AddEditServiceBeneficiaryComponent extends BaseEditComponent implem
     beneficiariesService = inject(BeneficiariesService);
 
     selectedBeneficiary: any = null;
+    pendingBeneficiaries: any[] = [];
     selectedFiles: File[] = [];
     existingAttachments: Attachment[] = [];
     filesToDelete: string[] = [];
+
+    get canAddRow(): boolean {
+        const id = this.getSelectedBeneficiaryId(this.selectedBeneficiary);
+        return !!id;
+    }
 
     constructor(protected override activatedRoute: ActivatedRoute) {
         super(activatedRoute);
@@ -44,10 +58,7 @@ export class AddEditServiceBeneficiaryComponent extends BaseEditComponent implem
             if ('value' in event && event.value !== undefined && event.value !== null) {
                 return event.value;
             }
-            if ('id' in event && event.id !== undefined && event.id !== null) {
-                return event;
-            }
-            if ('beneficiaryId' in event && event.beneficiaryId !== undefined && event.beneficiaryId !== null) {
+            if ('id' in event || 'beneficiaryId' in event) {
                 return event;
             }
         }
@@ -72,30 +83,31 @@ export class AddEditServiceBeneficiaryComponent extends BaseEditComponent implem
         this.id = data?.id ?? '';
         this.pageType = this.id ? 'edit' : 'add';
 
+        this.initFormGroup();
+
         if ((this.pageType === 'edit' || this.pageType === 'view') && this.id) {
             this.getEditMediaInitiative();
-        } else {
-            this.initFormGroup();
         }
     }
 
     initFormGroup(): void {
         this.form = this.fb.group({
-            id: [null],
-            developmentServiceId: [this.developmentServiceId, Validators.required],
-            beneficiaryId: [null, Validators.required]
+            id: [this.id || null],
+            developmentServiceId: [this.developmentServiceId],
+            beneficiaryId: [null]
         });
     }
 
     getEditMediaInitiative(): void {
         this.serviceBeneficiariesService.getEditServiceBeneficiary(this.id).subscribe((data: any) => {
-            this.initFormGroup();
             this.form.patchValue(data);
 
             if (data.beneficiaryId) {
                 this.beneficiariesService.getEditBeneficiary(data.beneficiaryId).subscribe((beneficiary) => {
-                    this.selectedBeneficiary = beneficiary;
-                    this.form.get('beneficiaryId')?.setValue(beneficiary?.id ?? data.beneficiaryId ?? null, { emitEvent: false });
+                    if (beneficiary) {
+                        this.selectedBeneficiary = beneficiary;
+                        this.pendingBeneficiaries = [beneficiary];
+                    }
                 });
             }
         });
@@ -104,26 +116,51 @@ export class AddEditServiceBeneficiaryComponent extends BaseEditComponent implem
     onBeneficiarySelect(event: any): void {
         this.selectedBeneficiary = this.normalizeSelectedValue(event);
         const beneficiaryId = this.getSelectedBeneficiaryId(this.selectedBeneficiary);
+        this.form.get('beneficiaryId')?.setValue(beneficiaryId, { emitEvent: false });
+    }
 
-        this.form.get('beneficiaryId')?.setValue(beneficiaryId ?? null, { emitEvent: false });
+    addRow(): void {
+        if (!this.canAddRow) return;
+
+        const currentId = this.getSelectedBeneficiaryId(this.selectedBeneficiary);
+        const isAlreadyAdded = this.pendingBeneficiaries.some((item) => {
+            const itemId = this.getSelectedBeneficiaryId(item);
+            return itemId === currentId;
+        });
+
+        if (!isAlreadyAdded) {
+            this.pendingBeneficiaries.push({ ...this.selectedBeneficiary });
+        }
+
+        this.clearSelection();
+    }
+
+    removeRow(index: number): void {
+        this.pendingBeneficiaries.splice(index, 1);
+    }
+
+    private clearSelection(): void {
+        this.selectedBeneficiary = null;
+        this.form.get('beneficiaryId')?.setValue(null, { emitEvent: false });
     }
 
     submit(): void {
-        const beneficiaryId = this.getSelectedBeneficiaryId(this.form.get('beneficiaryId')?.value ?? this.selectedBeneficiary);
+        const beneficiaryIds = this.pendingBeneficiaries
+            .map((item) => this.getSelectedBeneficiaryId(item))
+            .filter((id): id is string => !!id);
 
-        if (this.form.invalid || !beneficiaryId) {
+        if (beneficiaryIds.length === 0) {
             this.form.get('beneficiaryId')?.markAsTouched();
             this.form.get('beneficiaryId')?.setErrors({ required: true });
             return;
         }
 
-        const developmentServiceId = this.form.get('developmentServiceId')?.value ?? this.developmentServiceId;
-        const beneficiaryIdList = [beneficiaryId];
+        const developmentServiceId = this.form.get('developmentServiceId')?.value || this.developmentServiceId;
 
         if (this.pageType === 'add') {
             const payload = {
                 developmentServiceId,
-                beneficiaryId: beneficiaryIdList
+                beneficiaryId: beneficiaryIds
             };
 
             this.serviceBeneficiariesService.add(payload as any).subscribe(() => {
@@ -133,7 +170,7 @@ export class AddEditServiceBeneficiaryComponent extends BaseEditComponent implem
             const payload = {
                 id: this.id,
                 developmentServiceId,
-                beneficiaryId: beneficiaryIdList
+                beneficiaryId: beneficiaryIds
             };
 
             this.serviceBeneficiariesService.update(payload as any).subscribe(() => {

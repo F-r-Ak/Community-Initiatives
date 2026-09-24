@@ -79,34 +79,34 @@ export class DevelopmentServiceService extends HttpService {
         if (body.acceptLanguage) params.AcceptLanguage = body.acceptLanguage;
 
          if (body.name) params.name = body.name;
-        if (body.fieldId) {
-            if (body.fieldId.nameAr) {
-                params.fieldId = body.fieldId.nameAr;
-            } else if (typeof body.fieldId === 'string') {
-                params.fieldId = body.fieldId;
-            }
-        }
-        if (body.cityId) {
-            if (body.cityId.nameAr) {
-                params.cityId = body.cityId.nameAr;
-            } else if (typeof body.cityId === 'string') {
+        // if (body.fieldId) {
+        //     if (body.fieldId.nameAr) {
+        //         params.fieldId = body.fieldId.nameAr;
+        //     } else if (typeof body.fieldId === 'string') {
+        //         params.fieldId = body.fieldId;
+        //     }
+        // }
+         if (body.cityId) {
+             if (body.cityId.nameAr) {
+                 params.cityId = body.cityId.nameAr;
+             } else if (typeof body.cityId === 'string') {
                 params.cityId = body.cityId;
-            }
+             }
         }
-        if (body.InitiativeMangerName) {
-            if (body.InitiativeMangerName.name) {
-                params.InitiativeMangerName = body.InitiativeMangerName.name;
-            } else if (typeof body.InitiativeMangerName === 'string') {
-                params.InitiativeMangerName = body.InitiativeMangerName;
-            }
-        }
-        if (body.serviceTypeId) {
-            if (body.serviceTypeId.nameEn) {
-                params.ServiceType = body.serviceTypeId.nameEn;
-            } else if (typeof body.serviceTypeId === 'string') {
-                params.ServiceType = body.serviceTypeId;
-            }
-        }
+        // if (body.InitiativeMangerName) {
+        //     if (body.InitiativeMangerName.name) {
+        //         params.InitiativeMangerName = body.InitiativeMangerName.name;
+        //     } else if (typeof body.InitiativeMangerName === 'string') {
+        //         params.InitiativeMangerName = body.InitiativeMangerName;
+        //     }
+        // }
+        // if (body.serviceTypeId) {
+        //     if (body.serviceTypeId.nameEn) {
+        //         params.ServiceType = body.serviceTypeId.nameEn;
+        //     } else if (typeof body.serviceTypeId === 'string') {
+        //         params.ServiceType = body.serviceTypeId;
+        //     }
+        // }
         return params;
     }
 }

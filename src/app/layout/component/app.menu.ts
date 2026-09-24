@@ -172,6 +172,11 @@ export class AppMenu {
                             icon: 'pi pi-fw pi-file',
                             routerLink: ['/pages/reports/activities-report']
                         },
+                        {
+                            label: 'تقرير الخدمات التنموية',
+                            icon: 'pi pi-fw pi-file',
+                            routerLink: ['/pages/reports/developmentservice-report']
+                        },
                     ]
                 } : { styleClass: 'v' },
 
