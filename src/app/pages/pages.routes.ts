@@ -49,6 +49,20 @@ export default [
             {
                 path: 'development-entities',
                 loadChildren: () => import('./setting/development-entities/development-entities.routes').then((m) => m.developmentEntitiesRoutes)
+            },
+             
+            
+            {
+                path: 'age-groups',
+                loadChildren: () => import('./setting/age-groups/age-groups.routes').then((m) => m.ageGroupsRoutes)
+            },
+            {  
+                path: 'service-type-details',
+                loadChildren: () => import('./setting/service-type-details/service-type-details.routes').then((m) => m.serviceTypeDetailsRoutes)
+            },
+             {  
+                path: 'benefit-types',
+                loadChildren: () => import('./setting/BenefitTypes/benefit-types.routes').then((m) => m.benefitTypesRoutes)
             }
         ]
     },

@@ -8,6 +8,7 @@ import { ServiceDevelopmentEntityTabs } from '../../../../../core/enums/service-
 import { AddEditDevelopmentServiceComponent } from '../add-edit-development-service/add-edit-development-service.component';
 import { ServiceBeneficiariesComponent } from '../service-beneficiaries/service-beneficiaries.component';
 import { ServiceDevelopmentEntitiesComponent } from '../service-developmentEntities/service-developmentEntities.component';
+import { ServiceDetailsComponent } from '../service-details/service-details.component'
 @Component({
     selector: 'app-development-service-tabs',
     standalone: true,
@@ -18,6 +19,8 @@ import { ServiceDevelopmentEntitiesComponent } from '../service-developmentEntit
         AddEditDevelopmentServiceComponent,
         ServiceBeneficiariesComponent,
         ServiceDevelopmentEntitiesComponent,
+        ServiceDetailsComponent
+        
     ],
     templateUrl: './development-service-tabs.component.html',
     styleUrl: './development-service-tabs.component.scss'

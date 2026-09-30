@@ -43,3 +43,8 @@ export * from './enums/development-entity-type/development-entity-type.service';
 export * from './development-service/development-service.service';
 export * from './service-developmentEntity/service-developmentEntity.service';
 export * from './service-beneficiary/service-beneficiary.service';
+export * from './settings/age-groups/age-groups.service';
+export * from './settings/service-type-details/service-type-details.service';
+export * from './settings/benefit-types/benefit-types.service';
+export * from './service-details/service-details.service';
+export * from './enums/benefit-period/benefit-period.service';

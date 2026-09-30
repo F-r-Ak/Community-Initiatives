@@ -114,6 +114,21 @@ export class AppMenu {
                             icon: 'pi pi-fw pi-cog',
                             routerLink: ['/pages/settings/development-entities']
                         },
+                         {
+                            label: 'مجموعات الأعمار',
+                            icon: 'pi pi-fw pi-cog',
+                            routerLink: ['/pages/settings/age-groups']
+                        },
+                        {
+                            label: ' تفاصيل الخدمة',
+                            icon: 'pi pi-fw pi-cog',
+                            routerLink: ['/pages/settings/service-type-details']
+                        },
+                        {
+                            label: ' نوع الاستفادة',
+                            icon: 'pi pi-fw pi-cog',
+                            routerLink: ['/pages/settings/benefit-types']
+                        },
                     ]
                 } : { styleClass: 'v' },
 

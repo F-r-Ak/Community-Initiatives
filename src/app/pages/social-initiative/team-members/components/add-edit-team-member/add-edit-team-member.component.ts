@@ -136,7 +136,7 @@ export class AddEditTeamMemberComponent extends BaseEditComponent implements OnI
             mobile: ['', Validators.required],
             email: ['', [Validators.email]],
             nationalID: [null, [Validators.required, Validators.pattern(/^[23]\d{13}$/)]],
-            birthDate: [{ value: null, disabled: true }, Validators.required],
+            birthDate: ['', Validators.required],
             specailization: [''],
             jobStatus: [null, Validators.required],
             teamCategory: [null, Validators.required]
