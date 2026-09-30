@@ -1,0 +1,30 @@
+<div class="card">
+    @if (form) {
+        <form [formGroup]="form" class="row g-4">
+          
+
+
+            <div class="col-12 col-md-4">
+            <label class="form-label">المبادرات التنمويه</label>
+            <app-prime-autocomplete
+                [formGroup]="form"
+                
+                [getMethod]="getServiceName.bind(this)"
+                [selectedOption]="selectServiceName"
+                [field]="'nameAr'"
+                [language]="language"
+                (onSelect)="onServiceNameSelect($event)"
+                (onClear)="onServiceNameSelect(null)"
+            >
+            </app-prime-autocomplete>
+        </div>
+
+           <app-submit-buttons
+                [isSubmitDisabled]="pendingEntities.length === 0"
+                [submitButtonText]="'ACTIONS.SUBMIT'"
+                (submit)="submit()"
+                (cancel)="redirect()"
+            ></app-submit-buttons>
+        </form>
+    }
+</div>
