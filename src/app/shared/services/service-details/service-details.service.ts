@@ -11,15 +11,15 @@ export class ServiceDetailsService extends HttpService {
         return 'service_details/';
     }
 
-    getMediaInitiative(id: string) {
+    getServiceDetail(id: string) {
         return this.get<ServiceDetailDto>({ apiName: `Get/${id}` });
     }
 
-    getEditMediaInitiative(id: string) {
+    getEditServiceDetail(id: string) {
         return this.get<ServiceDetailDto>({ apiName: `getEdit/${id}` });
     }
 
-    get mediaInitiatives() {
+    get serviceDetails() {
         return this.get<ServiceDetailDto[]>({ apiName: 'getAll' });
     }
 

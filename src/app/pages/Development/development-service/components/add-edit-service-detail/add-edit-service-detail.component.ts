@@ -4,10 +4,11 @@ import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { BaseEditComponent } from '../../../../../base/components/base-edit-component';
-import { PrimeAutoCompleteComponent, SubmitButtonsComponent, ServiceDetailsService,EntitiesService,ServiceNamesService,BenefitPeriodService,ServiceTypeDetailsService,DevelopmentEntityTypesService , VwOrganizationsService ,DevelopmentEntitiesService } from '../../../../../shared';
+import { PrimeAutoCompleteComponent, SubmitButtonsComponent, PrimeInputTextComponent,ServiceDetailsService,EntitiesService,ServiceNamesService,BenefitPeriodService,BenefitTypesService,ServiceTypeDetailsService,DevelopmentEntityTypesService , VwOrganizationsService ,DevelopmentEntitiesService } from '../../../../../shared';
 import { AuthHelper } from '../../../../../core';
 import { EnumDto } from '../../../../../shared/interfaces';
 import { DevelopmentEntityTypes } from '../../../../../core/enums/DevelopmentEntityType';
+import { of } from 'rxjs';
 
 
   interface DevelopmentEntityType {
@@ -30,6 +31,7 @@ import { DevelopmentEntityTypes } from '../../../../../core/enums/DevelopmentEnt
         FormsModule,
         ReactiveFormsModule,
         PrimeAutoCompleteComponent,
+        PrimeInputTextComponent,
         SubmitButtonsComponent
     ],
     templateUrl: './add-edit-service-detail.component.html',
@@ -41,6 +43,7 @@ export class AddEditServiceDetailComponent extends BaseEditComponent implements 
     serviceDetailsService = inject(ServiceDetailsService);
     serviceNameService = inject(ServiceNamesService);
     serviceTypeDetailsService = inject(ServiceTypeDetailsService);
+    benefitTypesService = inject(BenefitTypesService);
     benefitPeriodService = inject(BenefitPeriodService);
     entitiesService = inject(EntitiesService);
     developmentEntityTypesService = inject(DevelopmentEntityTypesService);
@@ -51,6 +54,9 @@ export class AddEditServiceDetailComponent extends BaseEditComponent implements 
     dialogConfig = inject(DynamicDialogConfig);
     
     selectServiceName : any = null;
+    selectserviceTypeDetail : any = null;
+   selectedBenefitPeriod : any = null;
+ filteredBenefitPeriods: EnumDto[] = [];
     otherEntityName: string = '';
     selectedOrganization : any = null;
     selectedMembers: any[] = [];
@@ -127,6 +133,37 @@ export class AddEditServiceDetailComponent extends BaseEditComponent implements 
     getServiceName(body: any) {
         return this.serviceNameService.getPaged(body);
     }
+     getServiceTypeDetail(body: any) {
+        const serviceNameId = this.selectServiceName?.id;
+        if (!serviceNameId) return of({ data: [], totalCount: 0 });
+
+        return this.serviceTypeDetailsService.getPaged({
+            ...body,
+            filter: { ...body.filter, serviceNameId }
+        });
+    }
+    getBenefitPeriods(event: any) {
+        const query = event.query.toLowerCase();
+        this.benefitPeriodService.benefitPeriod.subscribe({
+            next: (res) => {
+                this.filteredBenefitPeriods = res.filter((period: any) => period.nameAr.toLowerCase().includes(query));
+            },
+            error: (err) => {
+                this.alert.error('خطأ فى جلب بيانات النوع');
+            }
+        });
+    }
+
+
+    onbenefitPeriodSelect(event: any) {
+       this.selectedBenefitPeriod = event.value;
+    const benefitPeriodValue = event.value?.id ?? event.value?.value ?? event.value;
+    this.form.get('benefitPeriod')?.setValue(benefitPeriodValue);
+}
+   
+    getBenefitTypes(body: any) {
+        return this.benefitTypesService.getPaged(body);
+    }
      loadEntityTypes() {
         this.developmentEntityTypesService.developmentEntityTypes.subscribe((types) => {
             this.entityTypesList = types ?? [];
@@ -152,7 +189,12 @@ export class AddEditServiceDetailComponent extends BaseEditComponent implements 
 
    onServiceNameSelect(event: any) {
         this.selectServiceName = event?.value ?? null;
-        this.form.get('serviceNameId')?.setValue(this.selectServiceName?.id ?? null);
+        this.selectserviceTypeDetail = null;
+        this.form.get('serviceTypeDetailId')?.setValue(null);
+    }
+ onserviceTypeDetailSelect(event: any) {
+        this.selectserviceTypeDetail = event?.value ?? null;
+        this.form.get('serviceTypeDetailId')?.setValue(this.selectserviceTypeDetail?.id ?? null);
     }
 
     // onOrganizationSelect(selected: any) {

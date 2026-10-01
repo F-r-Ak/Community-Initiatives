@@ -5,7 +5,7 @@
 
 
             <div class="col-12 col-md-4">
-            <label class="form-label">المبادرات التنمويه</label>
+            <label class="form-label">خدمة التنمويه</label>
             <app-prime-autocomplete
                 [formGroup]="form"
                 
@@ -19,8 +19,48 @@
             </app-prime-autocomplete>
         </div>
 
+
+ <div class="col-12 col-md-4">
+            <label class="form-label">تفاصيل الخدمة</label>
+            <app-prime-autocomplete
+                [formGroup]="form"
+                controlName="serviceTypeDetailId"
+                [disabled]="!selectServiceName"
+                [getMethod]="getServiceTypeDetail.bind(this)"
+                [selectedOption]="selectserviceTypeDetail"
+                [field]="'nameAr'"
+                [language]="language"
+                (onSelect)="onserviceTypeDetailSelect($event)"
+                (onClear)="onserviceTypeDetailSelect(null)"
+            >
+            </app-prime-autocomplete>
+        </div>
+
+<div class="col-12 col-md-4">
+            <app-prime-input-text [formGroup]="form" controlName="value"  [label]="'القيمة'" > </app-prime-input-text>
+        </div>
+ @if (selectserviceTypeDetail?.nameAr === 'مادية') {
+ <div class="col-12 col-md-4">
+            <label class="form-label"> مدة الاستفادة</label>
+            <app-prime-autocomplete
+                                [field]="'nameAr'"
+                                [selectedOption]=""
+                                [suggestions]="filteredBenefitPeriods"
+                                [formGroup]="form"
+                                (onSelect)="onbenefitPeriodSelect($event)"
+                                [lazy]="false"
+                                (handleMethod)="getBenefitPeriods($event)"
+            >
+            </app-prime-autocomplete>
+        </div>
+ }
+<div class="col-12 col-md-12">
+            <app-prime-input-text [formGroup]="form" controlName="notes"  [label]="'ملاحظات'" > </app-prime-input-text>
+        </div>
+
+
            <app-submit-buttons
-                [isSubmitDisabled]="pendingEntities.length === 0"
+                [isSubmitDisabled]="form.get('serviceTypeDetailId')?.value === null || form.get('value')?.value === null"
                 [submitButtonText]="'ACTIONS.SUBMIT'"
                 (submit)="submit()"
                 (cancel)="redirect()"

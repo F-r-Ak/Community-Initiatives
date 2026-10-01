@@ -18,3 +18,5 @@ export * from "./development-service/development-services";
 export * from "./service-developmentEntity/service-developmentEntity";
 export * from "./service_beneficiary/service_beneficiary";
 export * from "./service-detail/service-detail"
+export * from "./develop-service-age/develop-service-age";
+export * from "./develop-service-age/develop-service-age";

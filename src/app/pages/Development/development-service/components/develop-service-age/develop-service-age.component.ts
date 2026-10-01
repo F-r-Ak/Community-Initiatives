@@ -1,28 +1,28 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
-import { ServiceDetailsService } from '../../../../../shared';
-import { ServiceDetailDto } from '../../../../../shared/interfaces/service-detail/service-detail';
+import { DevelopServiceAgesService } from '../../../../../shared';
+import { DevelopServiceAgeDto } from '../../../../../shared/interfaces/develop-service-age/develop-service-age';
 
 @Component({
-    selector: 'app-service-detail',
+    selector: 'app-develop-service-age',
     standalone: true,
     imports: [CommonModule],
-    templateUrl: './service-detail.component.html',
-    styleUrl: './service-detail.component.scss'
+    templateUrl: './develop-service-age.component.html',
+    styleUrl: './develop-service-age.component.scss'
 })
-export class ServiceDetailComponent implements OnInit {
+export class DevelopServiceAgeComponent implements OnInit {
     dialogConfig = inject(DynamicDialogConfig);
-    service = inject(ServiceDetailsService);
+    service = inject(DevelopServiceAgesService);
 
-    record: ServiceDetailDto | null = null;
+    record: DevelopServiceAgeDto | null = null;
 
     ngOnInit(): void {
         const data = this.dialogConfig.data;
         const id: string = data?.row?.rowData?.id ?? data?.id ?? null;
 
         if (id) {
-            this.service.getServiceDetail(id).subscribe({
+            this.service.getDevelopServiceAge(id).subscribe({
                 next: (res: any) => (this.record = res)
             });
         } else {
