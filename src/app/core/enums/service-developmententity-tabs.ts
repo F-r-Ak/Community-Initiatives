@@ -2,5 +2,6 @@ export enum ServiceDevelopmentEntityTabs {
     Main = 'Main',
     serviceDevelopmentEntity = 'serviceDevelopmentEntity',
     serviceBeneficiary = 'serviceBeneficiary',
-    serviceDetail ='serviceDetail'
+    serviceDetail ='serviceDetail',
+    serviceAge = 'serviceAge'
 }

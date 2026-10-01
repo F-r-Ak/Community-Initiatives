@@ -84,7 +84,7 @@ export class ServiceBeneficiariesComponent extends BaseListComponent implements 
     }
 
     openAddEditDialog(row?: any) {
-        this.openDialog(AddEditServiceBeneficiaryComponent, row ? 'تعديل متابعة ميديا' : 'اضافة متابعة ميديا', { id: row?.id ?? null, developmentServiceId: this.developmentServiceId, rowData: row });
+        this.openDialog(AddEditServiceBeneficiaryComponent, row ? 'تعديل  المستفيد' : 'اضافة  المستفيد', { id: row?.id ?? null, developmentServiceId: this.developmentServiceId, rowData: row });
     }
 
     openViewDialog(rowData: any) {

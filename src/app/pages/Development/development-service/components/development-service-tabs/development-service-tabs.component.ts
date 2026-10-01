@@ -8,6 +8,7 @@ import { ServiceDevelopmentEntityTabs } from '../../../../../core/enums/service-
 import { AddEditDevelopmentServiceComponent } from '../add-edit-development-service/add-edit-development-service.component';
 import { ServiceBeneficiariesComponent } from '../service-beneficiaries/service-beneficiaries.component';
 import { ServiceDevelopmentEntitiesComponent } from '../service-developmentEntities/service-developmentEntities.component';
+import { DevelopServiceAgesComponent } from '../develop-service-ages/develop-service-ages.component';
 import { ServiceDetailsComponent } from '../service-details/service-details.component'
 @Component({
     selector: 'app-development-service-tabs',
@@ -19,7 +20,8 @@ import { ServiceDetailsComponent } from '../service-details/service-details.comp
         AddEditDevelopmentServiceComponent,
         ServiceBeneficiariesComponent,
         ServiceDevelopmentEntitiesComponent,
-        ServiceDetailsComponent
+        ServiceDetailsComponent,
+        DevelopServiceAgesComponent
         
     ],
     templateUrl: './development-service-tabs.component.html',

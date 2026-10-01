@@ -1,9 +1,11 @@
 <p-tabs [(value)]="activeTab">
     <p-tablist>
         <p-tab [value]="DevelopmentTabs.Main">البيانات الأساسية</p-tab>
+         <p-tab [value]="DevelopmentTabs.serviceDetail" [disabled]="!isEditMode"> تفاصيل الخدمة</p-tab>
+        <p-tab [value]="DevelopmentTabs.serviceAge" [disabled]="!isEditMode"> الفئات العمرية</p-tab>
         <p-tab [value]="DevelopmentTabs.serviceDevelopmentEntity" [disabled]="!isEditMode"> الجهات المنفذة</p-tab>
         <p-tab [value]="DevelopmentTabs.serviceBeneficiary" [disabled]="!isEditMode"> خدمة المستفيدين</p-tab>
-        <p-tab [value]="DevelopmentTabs.serviceDetail" [disabled]="!isEditMode"> تفاصيل الخدمة</p-tab>
+       
     </p-tablist>
 
     <p-tabpanels>
@@ -11,7 +13,16 @@
             <app-add-edit-development-service [developmentServiceId]="developmentServiceId" [pageType]="pageType"></app-add-edit-development-service>
         </p-tabpanel>
        
-
+ <p-tabpanel [value]="DevelopmentTabs.serviceDetail">
+            @if (isEditMode) {
+                <app-service-details [developmentServiceId]="developmentServiceId"></app-service-details>
+            }
+        </p-tabpanel>
+        <p-tabpanel [value]="DevelopmentTabs.serviceAge">
+            @if (isEditMode) {
+                <app-develop-service-ages [developmentServiceId]="developmentServiceId"></app-develop-service-ages>
+            }
+        </p-tabpanel>
         <p-tabpanel [value]="DevelopmentTabs.serviceDevelopmentEntity">
             @if (isEditMode) {
                 <app-service-developmentEntities [developmentServiceId]="developmentServiceId"></app-service-developmentEntities>
@@ -22,10 +33,6 @@
                 <app-service-beneficiaries [developmentServiceId]="developmentServiceId"></app-service-beneficiaries>
             }
         </p-tabpanel>
-         <p-tabpanel [value]="DevelopmentTabs.serviceDetail">
-            @if (isEditMode) {
-                <app-service-details [developmentServiceId]="developmentServiceId"></app-service-details>
-            }
-        </p-tabpanel>
+        
     </p-tabpanels>
 </p-tabs>

@@ -2,25 +2,26 @@ import { Component, Input, OnInit, inject ,  OnChanges, SimpleChanges } from '@a
 import { ActivatedRoute } from '@angular/router';
 import { BaseListComponent } from '../../../../../base/components/base-list-component';
 import { PrimeDataTableComponent, TableOptions , PrimeTitleToolBarComponent} from '../../../../../shared';
-import { ServiceDetailsService } from '../../../../../shared';
-import { AddEditServiceDetailComponent } from '../add-edit-service-detail/add-edit-service-detail.component';
-import { ServiceDetailComponent } from '../service-detail/service-detail.component';
+import { ServiceDevelopmentEntitiesService } from '../../../../../shared/services/service-developmentEntity/service-developmentEntity.service';
+import { AddEditDevelopServiceAgeComponent } from '../add-edit-develop-service-age/add-edit-develop-service-age.component'; 
+import { DevelopServiceAgeComponent } from '../develop-service-age/develop-service-age.component';
 import { AuthHelper } from '../../../../../core';
 import { RoleCodes } from '../../../../../core/enums/role';
 import { ServiceDevelopmentEntityDto } from '../../../../../shared/interfaces/service-developmentEntity/service-developmentEntity';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
+
 @Component({
-    selector: 'app-service-details',
+    selector: 'app-develop-service-ages',
     standalone: true,
     imports: [PrimeDataTableComponent, PrimeTitleToolBarComponent],
-    templateUrl: './service-details.component.html',
-    styleUrl: './service-details.component.scss'
+    templateUrl: './develop-service-ages.component.html',
+    styleUrl: './develop-service-ages.component.scss'
 })
-export class ServiceDetailsComponent extends BaseListComponent implements OnInit, OnChanges {
+export class DevelopServiceAgesComponent extends BaseListComponent implements OnInit, OnChanges {
 
     
     tableOptions!: TableOptions;
-      service = inject(ServiceDetailsService);
+      service = inject(ServiceDevelopmentEntitiesService);
       authHelper = inject(AuthHelper);
   
       get rolesEnum() {
@@ -36,7 +37,7 @@ export class ServiceDetailsComponent extends BaseListComponent implements OnInit
       override ngOnInit(): void {
         this.developmentServiceId = this.developmentServiceId ?? this.activatedRoute.snapshot.params['developmentServiceId'] ?? '';
           super.ngOnInit();
-          this.pageTitle = 'تفاصيل الخدمة';
+          this.pageTitle = 'الجهات المنفذة';
           this.initializeTableOptions();
       }
   
@@ -50,16 +51,13 @@ export class ServiceDetailsComponent extends BaseListComponent implements OnInit
       initializeTableOptions() {
           this.tableOptions = {
               inputUrl: {
-                  getAll: 'service_details/getpaged',
+                  getAll: 'developserviceages/getpaged',
                   getAllMethod: 'POST',
-                  delete: 'service_details/delete'
+                  delete: 'developserviceages/delete'
               },
               inputCols: [
-                  { field: 'serviceTypeDetailName', header: 'تفاصيل الخدمة', filter: true, filterMode: 'text' },
-                  { field: 'value', header: 'القيمة', filter: true, filterMode: 'text' },
-                  { field: 'serviceName', header: 'اسم الخدمة', filter: true, filterMode: 'text' },
-                  { field: 'developmentInitiativeName', header: 'المبادرة التنموية', filter: true, filterMode: 'text' },
-               
+                  { field: 'developmentServiceName', header: ' اسم الخدمة', filter: true, filterMode: 'text' },
+                  { field: 'ageGroupName', header: ' العمر', filter: true, filterMode: 'text' },
                 
               ],
               inputActions: [
@@ -90,16 +88,16 @@ export class ServiceDetailsComponent extends BaseListComponent implements OnInit
   
       openAddEditDialog(row?: any) {
           this.openDialog(
-              AddEditServiceDetailComponent,
-              row ? 'تعديل  تفاصيل الخدمة' : 'اضافة  تفاصيل الخدمة',
+             AddEditDevelopServiceAgeComponent,
+              row ? 'تعديل الجهات المنفذة' : 'اضافة الجهات المنفذة',
               { id: row?.id ?? null, developmentServiceId: this.developmentServiceId }
           );
       }
   
       openViewDialog(rowData: any) {
           this.openDialog(
-             ServiceDetailComponent ,
-              'عرض تفاصيل الخدمة',
+              DevelopServiceAgeComponent,
+              'عرض الجهات المنفذة',
               { pageType: 'view', row: { rowData } },
               { closable: true }
           );

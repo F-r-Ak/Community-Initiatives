@@ -1,0 +1,29 @@
+<div class="card">
+    @if (form) {
+        <form [formGroup]="form" class="row g-4">
+<div class="col-12 col-md-4">
+            <label class="form-label">العمر</label>
+            <app-prime-autocomplete
+                [formGroup]="form"
+                controlName="ageGroupId"
+                [getMethod]="getAgeGroups.bind(this)"
+                [selectedOption]="selectedAgeGroup"
+                [field]="'nameAr'"
+                [language]="language"
+                (onSelect)="onAgeGroupSelect($event)"
+                (onClear)="onAgeGroupSelect(null)"
+            >
+            </app-prime-autocomplete>
+        </div>
+           
+
+            <app-submit-buttons
+                [isSubmitDisabled]="form.get('ageGroupId')?.value === null"
+                [submitButtonText]="'ACTIONS.SUBMIT'"
+                (submit)="submit()"
+                (cancel)="redirect()"
+            ></app-submit-buttons>
+
+        </form>
+    }
+</div>
