@@ -54,10 +54,15 @@ export class DevelopmentServicesComponent extends BaseListComponent {
 
     initializeTableColumns(): TableOptions['inputCols'] {
         return [
-            { field: 'name', header: 'اسم المبادرة', filter: true, filterMode: 'text' },
-            { field: 'serviceName', header: 'اسم الخدمة', filter: true, filterMode: 'text' },
+            { field: 'name', header: 'اسم الخدمة', filter: true, filterMode: 'text' },
+          
+           
             { field: 'cityName', header: 'المركز', filter: true, filterMode: 'text' },
-            { field: 'beneficiaryNumber', header: 'عدد المستفيدين', filter: true, filterMode: 'text' }
+             { field: 'totalBeneficiaryNumber', header: 'عدد المستفيدين', filter: true, filterMode: 'text' },
+             { field: 'serviceStartDate', header: 'تاريخ بدء الخدمة', filter: true, filterMode: 'date' },
+            { field: 'serviceEndDate', header: 'تاريخ انتهاء الخدمة', filter: true, filterMode: 'date' },
+          
+
         ];
     }
 

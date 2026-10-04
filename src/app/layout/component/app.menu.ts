@@ -155,7 +155,7 @@ export class AppMenu {
                     ]
                 } : { styleClass: 'v' },
 
-            this.authHelper.hasRole(this.rolesEnum.Administrator) || this.authHelper.hasRole(this.rolesEnum.Employee) ?
+           this.authHelper.hasRole(this.rolesEnum.Administrator) ?
                 {
                     label: 'المبادرات التنموية',
                     icon: 'pi pi-fw pi-briefcase',
