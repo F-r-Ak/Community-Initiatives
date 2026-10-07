@@ -56,6 +56,7 @@ export class AddEditServiceDetailComponent extends BaseEditComponent implements 
     selectServiceName : any = null;
     selectserviceTypeDetail : any = null;
    selectedBenefitPeriod : any = null;
+        selectedBenefitType: any = null;
  filteredBenefitPeriods: EnumDto[] = [];
     otherEntityName: string = '';
     selectedOrganization : any = null;
@@ -68,6 +69,7 @@ export class AddEditServiceDetailComponent extends BaseEditComponent implements 
     selectedEntityPerson: any = null;
     pendingEntities: DevelopmentEntityType[] = [];
     filteredServiceName: EnumDto[] = [];
+    filteredBenefitTypes: EnumDto[] = [];
 
     
     // get EntityTypes() {
@@ -161,8 +163,17 @@ export class AddEditServiceDetailComponent extends BaseEditComponent implements 
     this.form.get('benefitPeriod')?.setValue(benefitPeriodValue);
 }
    
-    getBenefitTypes(body: any) {
-        return this.benefitTypesService.getPaged(body);
+    getBenefitTypes(event: any) {
+           const query = event.query.toLowerCase();
+        this.benefitTypesService.benefitTypes.subscribe({
+            next: (res) => {
+                this.filteredBenefitTypes = res.filter((type: any) => type.nameAr.toLowerCase().includes(query));
+            },
+            error: (err) => {
+                this.alert.error('خطأ فى جلب بيانات النوع');
+            }
+        });
+      
     }
      loadEntityTypes() {
         this.developmentEntityTypesService.developmentEntityTypes.subscribe((types) => {
@@ -195,6 +206,11 @@ export class AddEditServiceDetailComponent extends BaseEditComponent implements 
  onserviceTypeDetailSelect(event: any) {
         this.selectserviceTypeDetail = event?.value ?? null;
         this.form.get('serviceTypeDetailId')?.setValue(this.selectserviceTypeDetail?.id ?? null);
+    }
+    onBenefitTypeSelect(event: any) {
+      this.selectedBenefitType = event.value;
+    const benefitTypeValue = event.value?.id ?? event.value?.value ?? event.value;
+    this.form.get('benefitTypeId')?.setValue(benefitTypeValue);
     }
 
     // onOrganizationSelect(selected: any) {

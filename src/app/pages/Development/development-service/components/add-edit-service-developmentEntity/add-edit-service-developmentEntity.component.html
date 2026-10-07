@@ -42,7 +42,7 @@
                     <app-prime-autocomplete
                         [formGroup]="form"
                         controlName="personId"
-                        [getMethod]="developmentEntitiesService.getPaged.bind(developmentEntitiesService)"
+                        [getMethod]="getDevelopmentEntitiesByType.bind(this)"
                         [selectedOption]="selectedEntityPerson"
                         [field]="'nameAr'"
                         [language]="language"
@@ -67,6 +67,32 @@
                 </div>
             }
 
+            @if (isTheNationalAlliance){
+                <div class="col-12 col-md-4">
+                    <label class="form-label">التحالف الوطني</label>
+                    <app-prime-autocomplete
+                        [formGroup]="form"
+                        controlName="TheNationalAllianceId"
+                        [getMethod]="getDevelopmentEntitiesByType.bind(this)"
+                        [selectedOption]="selectedEntityTheNationalAlliance"
+                        [field]="'nameAr'"
+                        [language]="language"
+                        (onSelect)="onEntityTheNationalAllianceSelect($event)"
+                        (onClear)="onEntityTheNationalAllianceSelect(null)"
+                    ></app-prime-autocomplete>
+                </div>  
+            }
+            @if (isOther) {
+                <div class="col-12 col-md-4">
+                    <label class="form-label">جهة أخرى</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        formControlName="otherEntityName"
+                        placeholder="أدخل اسم الجهة الأخرى"
+                    />
+                </div>
+            }
             <div class="col-12 col-md-auto d-flex align-items-end">
                 <button
                     type="button"

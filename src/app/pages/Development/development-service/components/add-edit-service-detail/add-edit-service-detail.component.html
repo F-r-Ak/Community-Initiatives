@@ -36,9 +36,7 @@
             </app-prime-autocomplete>
         </div>
 
-<div class="col-12 col-md-4">
-            <app-prime-input-text [formGroup]="form" controlName="value"  [label]="'القيمة'" > </app-prime-input-text>
-        </div>
+
  @if (selectserviceTypeDetail?.nameAr === 'مادية') {
  <div class="col-12 col-md-4">
             <label class="form-label"> مدة الاستفادة</label>
@@ -54,6 +52,24 @@
             </app-prime-autocomplete>
         </div>
  }
+ @if (selectserviceTypeDetail?.nameAr === 'عينية') {
+ <div class="col-12 col-md-4">
+            <label class="form-label"> نوع الاستفادة</label>
+            <app-prime-autocomplete
+                                [field]="'nameAr'"
+                                [selectedOption]=""
+                                [suggestions]="filteredBenefitTypes"
+                                [formGroup]="form"
+                                (onSelect)="onBenefitTypeSelect($event)"
+                                [lazy]="false"
+                                (handleMethod)="getBenefitTypes($event)"
+            >
+            </app-prime-autocomplete>
+        </div>
+    }
+    <div class="col-12 col-md-4">
+            <app-prime-input-text [formGroup]="form" controlName="value"  [label]="'القيمة'" > </app-prime-input-text>
+        </div>
 <div class="col-12 col-md-12">
             <app-prime-input-text [formGroup]="form" controlName="notes"  [label]="'ملاحظات'" > </app-prime-input-text>
         </div>

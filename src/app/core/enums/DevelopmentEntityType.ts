@@ -3,5 +3,6 @@ export enum DevelopmentEntityTypes {
     Organization = 'Organization',
     Other = 'Other',
     Person = 'Person',
+    TheNationalAlliance = 'TheNationalAlliance',
    
 }
