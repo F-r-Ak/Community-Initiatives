@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { DialogService } from 'primeng/dynamicdialog';
-import { SubmitButtonsComponent, PrimeInputTextComponent, FieldsService, PrimeAutoCompleteComponent, PrimeDatepickerComponent } from '../../../../../shared';
+import { SubmitButtonsComponent, PrimeInputTextComponent, FieldsService,InitiativeCategoriesService , PrimeAutoCompleteComponent, PrimeDatepickerComponent } from '../../../../../shared';
 import { BaseEditComponent } from '../../../../../base/components/base-edit-component';
 import { DevelpmentInitiativesService } from '../../../../../shared/services/develpment-initiatives/develpment-initiatives.service';
 import { DateHelper } from '../../../../../core';
@@ -18,7 +18,11 @@ import { DateHelper } from '../../../../../core';
 })
 export class AddEditDevelpmentInitiativeComponent extends BaseEditComponent implements OnInit {
     selectedField: any = null;
+    selectedInitiativeCategory: any = null;
+    filteredFields: any[] = [];
+    filteredInitiativeCategories: any[] = [];
     develpmentInitiativesService = inject(DevelpmentInitiativesService);
+    initiativeCategoriesService = inject(InitiativeCategoriesService);
     dialogService: DialogService = inject(DialogService);
     fieldsService = inject(FieldsService);
     dateHelper = inject(DateHelper);
@@ -50,7 +54,8 @@ export class AddEditDevelpmentInitiativeComponent extends BaseEditComponent impl
             fieldId: [null, Validators.required],
             initiativeStartDate: [],
             initiativeEndDate: [],
-            initiativeCategory: ['Development'],
+            initiativeCategory: ['', Validators.required],
+            targerNumber: []
 
         });
     }
@@ -91,6 +96,28 @@ export class AddEditDevelpmentInitiativeComponent extends BaseEditComponent impl
         this.selectedField = event?.value ?? null;
         this.form.get('fieldId')?.setValue(this.selectedField?.id ?? null);
     }
+ getInitiativeCategories(event: any) {
+        const query = event.query.toLowerCase();
+        this.initiativeCategoriesService.initiativeCategories.subscribe({
+            next: (res) => {
+                this.filteredInitiativeCategories = res.filter((category: any) => category.nameAr.toLowerCase().includes(query));
+            },
+            error: (err) => {
+                this.alert.error('خطأ فى جلب بيانات فئات المبادرة');
+            }   
+        });
+    }
+
+
+    onInitiativeCategorySelect(event: any) {
+       this.selectedInitiativeCategory = event.value;
+    const initiativeCategoryValue = event.value?.id ?? event.value?.value ?? event.value;
+    this.form.get('initiativeCategory')?.setValue(initiativeCategoryValue);
+}
+           
+        
+  
+
 
     override redirect() {
         if (this.dialogService.dialogComponentRefMap.size > 0) {

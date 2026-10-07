@@ -105,15 +105,16 @@ getDevelopmentInitiatives(body: any) {
         this.form = this.fb.group({
             id: [null],
             name: ['', Validators.required],
-            notes: ['', Validators.required],
+            notes: [''],
             serviceStartDate: ['', Validators.required],
             serviceEndDate: ['', Validators.required],
             townId: [null, Validators.required],
             cityId: [null, Validators.required],
             developmentInitiativeId: [null, Validators.required],
-            serviceNameId: [null, Validators.required],
-            value: ['', Validators.required],
-            beneficiaryNumber: ['', Validators.required],
+            beneficiaryMaleNumber: ['', Validators.required],
+           beneficiaryFemaleNumber: ['', Validators.required],
+            totalBeneficiaryNumber: ['', Validators.required],
+
          
         });
     }

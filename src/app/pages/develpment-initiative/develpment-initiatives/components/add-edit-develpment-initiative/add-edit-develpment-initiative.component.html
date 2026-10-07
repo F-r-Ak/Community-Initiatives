@@ -10,10 +10,30 @@
             @if (form) {
             <form method="post"  [formGroup]="form">
                 <div class="row ">
-                    <div class="col-12 col-md-3">
+
+  <div class="field col">
+                            <label class="text-middle font-14 font-bold mb-2">نوع المبادرة</label>
+                            <app-prime-autocomplete
+                                [field]="'nameAr'"
+                                [selectedOption]="selectedInitiativeCategory"
+                                [suggestions]="filteredInitiativeCategories"
+                                [formGroup]="form"
+                                (onSelect)="onInitiativeCategorySelect($event)"
+                                [lazy]="false"
+                                (handleMethod)="getInitiativeCategories($event)"
+                            ></app-prime-autocomplete>
+                        </div>
+ <div class="col-12 col-md-3">
                         <app-prime-input-text [formGroup]="form" controlName="name" validatorLanguageType="ar"
                             [label]="'الاسم بالعربية'"> </app-prime-input-text>
                     </div>
+@if (selectedInitiativeCategory?.nameEn === 'National') {
+
+                    <div class="col-12 col-md-3">
+                        <app-prime-input-text [formGroup]="form" controlName="targerNumber" validatorLanguageType="ar"
+                            [label]="'عدد الأهداف'"> </app-prime-input-text>
+                    </div>
+                }
                     <div class="col-12 col-md-3">
                         <label class="form-label">المجال</label>
                         <app-prime-autocomplete [formGroup]="form" controlName="fieldId"
