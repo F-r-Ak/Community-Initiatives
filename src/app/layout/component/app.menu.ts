@@ -192,6 +192,11 @@ export class AppMenu {
                             icon: 'pi pi-fw pi-file',
                             routerLink: ['/pages/reports/developmentservice-report']
                         },
+                        {
+                            label: 'تقرير متابعة الميديا',
+                            icon: 'pi pi-fw pi-file',   
+                        routerLink: ['/pages/reports/media-initiative-report']
+                        }
                     ]
                 } : { styleClass: 'v' },
 

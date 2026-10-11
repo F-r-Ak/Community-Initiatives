@@ -3,6 +3,7 @@ import { Lookup, SharedProperties } from '../shared/shared';
 
 export interface DevelopServiceAgeDto extends Lookup, Partial<SharedProperties> {
     id: string;
+  developmentServiceName: string;
     developmentServiceId: string;
     ageGroupId: string;
     ageGroupName: string;
@@ -19,6 +20,8 @@ export interface AddDevelopServiceAgeDto extends Lookup, Partial<SharedPropertie
     ageGroupName: string;
     ageGroupNameAr: string;
     note: string | null;
+ 
+     developmentServiceName: string;
 }
   
 
@@ -30,4 +33,6 @@ export interface UpdateDevelopServiceAgeDto extends Lookup, Partial<SharedProper
     ageGroupName: string;
     ageGroupNameAr: string;
     note: string | null;
+   
+     developmentServiceName: string;
 }

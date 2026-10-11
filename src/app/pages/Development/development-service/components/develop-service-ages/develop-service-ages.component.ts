@@ -89,7 +89,7 @@ export class DevelopServiceAgesComponent extends BaseListComponent implements On
       openAddEditDialog(row?: any) {
           this.openDialog(
              AddEditDevelopServiceAgeComponent,
-              row ? 'تعديل الجهات المنفذة' : 'اضافة الجهات المنفذة',
+              row ? 'تعديل الفئات العمرية' : 'اضافة  الفئات العمرية',
               { id: row?.id ?? null, developmentServiceId: this.developmentServiceId }
           );
       }
@@ -97,7 +97,7 @@ export class DevelopServiceAgesComponent extends BaseListComponent implements On
       openViewDialog(rowData: any) {
           this.openDialog(
               DevelopServiceAgeComponent,
-              'عرض الجهات المنفذة',
+              'عرض الفئات العمرية',
               { pageType: 'view', row: { rowData } },
               { closable: true }
           );

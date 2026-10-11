@@ -42,4 +42,38 @@ export class MediaInitiativesService extends HttpService {
     remove(id: string) {
         return this.delete({ apiName: `deletesoft/`, showAlert: true }, id);
     }
+   generateReport(body: any): Observable<any> {
+        // Convert body to query parameters
+        const params = this.buildQueryParams(body);
+        return this.get<any>({ apiName: 'getreport', params });
+    }
+
+    downloadReport(body: any): Observable<Blob> {
+        // Convert body to query parameters and download as blob
+        const params = this.buildQueryParams(body);
+        const queryString = new URLSearchParams(params).toString();
+        return this.http.get(`${this.domainName}${this.baseUrl}getreport?${queryString}`, {
+            responseType: 'blob'
+        });
+    }
+
+    private buildQueryParams(body: any): any {
+        const params: any = {};
+
+        // Map form fields to API parameters
+        if (body.reportName) params.ReportName = body.reportName;
+        if (body.reportType) params.ReportType = body.reportType;
+        if (body.acceptLanguage) params.AcceptLanguage = body.acceptLanguage;
+
+         if (body.name) params.name = body.name;
+        if (body.initiativeName) {
+            if (body.initiativeName.name) {
+                params.initiativeName = body.initiativeName.name;
+            } else if (typeof body.initiativeName === 'string') {
+                params.initiativeName = body.initiativeName;
+            }
+        }
+     
+        return params;
+    }
 }

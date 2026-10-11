@@ -90,7 +90,7 @@ export class ServiceBeneficiariesComponent extends BaseListComponent implements 
     openViewDialog(rowData: any) {
         this.openDialog(
             ServiceBeneficiaryComponent,
-            'عرض متابعة ميديا',
+            'عرض  خدمات المستفيدين',
             { pageType: 'view', row: { rowData } },
             { closable: true }
         );
