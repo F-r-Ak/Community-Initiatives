@@ -15,5 +15,10 @@ export const ReportsRoutes: Routes = [
         path: 'developmentservice-report',
         loadComponent: () => import('./pages/developmentservice-report/developmentservice-report.component').then((c) => c.DevelopmentServiceReportComponent),
         data: { pageTitle: 'تقرير خدمات التنموية', pageType: 'report' }
+    },
+    {
+        path: 'media-initiative-report',
+        loadComponent: () => import('./pages/medialnitiative-report/medialnitiative-report.component').then((c) => c.MediaInitiativeReportComponent),
+        data: { pageTitle: 'تقرير متابعة الميديا', pageType: 'report' }
     }
 ];

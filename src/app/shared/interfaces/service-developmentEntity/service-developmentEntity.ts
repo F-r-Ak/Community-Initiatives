@@ -13,6 +13,7 @@ export interface ServiceDevelopmentEntityDto extends Lookup, Partial<SharedPrope
     organizationName: string | null;
     otherEntityName: string | null;
     name: string | null;
+    developmentServiceName: string;
 }
   
 

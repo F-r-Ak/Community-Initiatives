@@ -170,13 +170,11 @@ onReportNameSelect(event: any) {
         if (this.form.valid) {
             this.isGeneratingReport = true;
             const formData = this.form.value;
-            const InitiativeStartDate = formData.InitiativeStartDate ? formData.InitiativeStartDate.toISOString() : null;
             // const InitiativeEndDate = formData.InitiativeEndDate ? formData.InitiativeEndDate.toISOString() : null;
 
 
             const dataToClean = {
             ...formData,
-            InitiativeStartDate: InitiativeStartDate,
             // InitiativeEndDate: InitiativeEndDate
              };
 

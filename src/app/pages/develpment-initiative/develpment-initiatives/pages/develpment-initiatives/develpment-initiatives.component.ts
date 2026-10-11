@@ -76,7 +76,7 @@ export class DevelpmentInitiativesComponent extends BaseListComponent {
                 filterMode: 'text'
             },
             {
-                field: 'initiativeCategory',
+                field: 'initiativeCategoryNameAr',
                 header: 'فئة المبادرة',
                 filter: true,
                 filterMode: 'text'
