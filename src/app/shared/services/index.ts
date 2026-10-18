@@ -49,3 +49,5 @@ export * from './settings/benefit-types/benefit-types.service';
 export * from './service-details/service-details.service';
 export * from './enums/benefit-period/benefit-period.service';
 export * from './develop-service-ages/DevelopServiceAges.service';
+export * from './settings/support-details/support-details.servive';
+export * from './enums/supports/supports.service';
