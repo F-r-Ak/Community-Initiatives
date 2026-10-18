@@ -63,6 +63,10 @@ export default [
              {  
                 path: 'benefit-types',
                 loadChildren: () => import('./setting/BenefitTypes/benefit-types.routes').then((m) => m.benefitTypesRoutes)
+            },
+            {  
+                path: 'support-details',
+                loadChildren: () => import('./setting/support-details/support-details.routes').then((m) => m.supportDetailsRoutes)
             }
         ]
     },

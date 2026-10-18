@@ -129,6 +129,11 @@ export class AppMenu {
                             icon: 'pi pi-fw pi-cog',
                             routerLink: ['/pages/settings/benefit-types']
                         },
+                         {
+                            label: '  تفاصيل الدعم',
+                            icon: 'pi pi-fw pi-cog',
+                            routerLink: ['/pages/settings/support-details']
+                        },
                     ]
                 } : { styleClass: 'v' },
 
