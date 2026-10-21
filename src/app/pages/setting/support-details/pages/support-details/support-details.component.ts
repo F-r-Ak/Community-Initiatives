@@ -57,7 +57,7 @@ export class SupportDetailsComponent extends BaseListComponent {
                 filterMode: 'text'
             },
             {
-                field: 'support.nameAr',
+                field: 'supportNameAr',
                 header: 'نوع الدعم',
                 filter: true,
                 filterMode: 'text'

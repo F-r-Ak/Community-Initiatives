@@ -16,11 +16,11 @@ export const developmentServicesRoutes: Routes = [
         loadComponent: () => import('./components/development-service-tabs/development-service-tabs.component').then((c) => c.DevelopmentServiceTabsComponent),
         data: { pageTitle: 'تعديل مبادرة', pageType: 'edit' }
     },
-    // {
-    //     path: 'dashboard',
-    //     loadComponent: () => import('./pages/development-services-dashboard/development-services-dashboard.component').then((c) => c.DevelopmentServicesDashboardComponent),
-    //     data: { pageTitle: 'الإحصائيات', pageType: 'dashboard' }
-    // },
+    {
+        path: 'dashboard',
+        loadComponent: () => import('../development-service-dashboard/development-service-dashboard.component').then((c) => c.DevelopmentServiceDashboardComponent),
+        data: { pageTitle: 'الإحصائيات', pageType: 'dashboard' }
+    },
     {
         path: 'view/:id',
         loadComponent: () => import('./components/development-service/development-service.component').then((c) => c.DevelopmentServiceComponent),
