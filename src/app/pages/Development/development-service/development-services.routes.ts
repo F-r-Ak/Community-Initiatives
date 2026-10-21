@@ -19,7 +19,7 @@ export const developmentServicesRoutes: Routes = [
     {
         path: 'dashboard',
         loadComponent: () => import('../development-service-dashboard/development-service-dashboard.component').then((c) => c.DevelopmentServiceDashboardComponent),
-        data: { pageTitle: 'الإحصائيات', pageType: 'dashboard' }
+        data: { pageTitle: 'الإحصائيات الخدمات التنموية', pageType: 'dashboard' }
     },
     {
         path: 'view/:id',

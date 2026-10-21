@@ -47,8 +47,8 @@ export class DevelopmentServiceService extends HttpService {
         return this.get<any>({ apiName: 'getcountbycity' });
     }
 
-    getInitiativesTotalCount(): Observable<any> {
-        return this.get<any>({ apiName: 'getinitiativestotalcount' });
+    getcountbybeneficiary(): Observable<any> {
+        return this.get<any>({ apiName: 'getcountbybeneficiary' });
     }
 
     remove(id: string) {
