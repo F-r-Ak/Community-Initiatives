@@ -1,0 +1,38 @@
+<p-tabs [(value)]="activeTab">
+    <p-tablist>
+        <p-tab [value]="nationalInitiativeDetailTabs.Main">البيانات الأساسية</p-tab>
+         <p-tab [value]="nationalInitiativeDetailTabs.serviceDetail" [disabled]="!isEditMode"> تفاصيل الخدمة</p-tab>
+        <p-tab [value]="nationalInitiativeDetailTabs.serviceAge" [disabled]="!isEditMode"> الفئات العمرية</p-tab>
+        <p-tab [value]="nationalInitiativeDetailTabs.serviceDevelopmentEntity" [disabled]="!isEditMode"> الجهات المنفذة</p-tab>
+        <p-tab [value]="nationalInitiativeDetailTabs.serviceBeneficiary" [disabled]="!isEditMode"> خدمة المستفيدين</p-tab>
+       
+    </p-tablist>
+
+    <p-tabpanels>
+        <p-tabpanel [value]="nationalInitiativeDetailTabs.Main">
+            <app-add-edit-national-initiative-detail [nationalInitiativeId]="nationalInitiativeId" [pageType]="pageType"></app-add-edit-national-initiative-detail>
+        </p-tabpanel>
+       
+ <p-tabpanel [value]="nationalInitiativeDetailTabs.serviceDetail">
+            @if (isEditMode) {
+                <app-service-details [developmentServiceId]="developmentServiceId"></app-service-details>
+            }
+        </p-tabpanel>
+        <p-tabpanel [value]="nationalInitiativeDetailTabs.serviceAge">
+            @if (isEditMode) {
+                <app-develop-service-ages [developmentServiceId]="developmentServiceId"></app-develop-service-ages>
+            }
+        </p-tabpanel>
+        <p-tabpanel [value]="nationalInitiativeDetailTabs.serviceDevelopmentEntity">
+            @if (isEditMode) {
+                <app-service-developmentEntities [developmentServiceId]="developmentServiceId"></app-service-developmentEntities>
+            }
+        </p-tabpanel>
+          <p-tabpanel [value]="nationalInitiativeDetailTabs.serviceBeneficiary">
+            @if (isEditMode) {
+                <app-service-beneficiaries [developmentServiceId]="developmentServiceId"></app-service-beneficiaries>
+            }
+        </p-tabpanel>
+        
+    </p-tabpanels>
+</p-tabs>

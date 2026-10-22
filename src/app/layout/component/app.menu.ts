@@ -182,6 +182,19 @@ export class AppMenu {
                         }
                     ]
                 } : { styleClass: 'v' },
+                  this.authHelper.hasRole(this.rolesEnum.Administrator) ?
+                {
+                    label: 'المبادرات الرئاسية',
+                    icon: 'pi pi-fw pi-briefcase',
+                    items: [
+                        {
+                            label: 'المبادرات الرئاسية',
+                            icon: 'pi pi-fw pi-cog',
+                            routerLink: ['/pages/national-initiative-detail/national-initiative-detail']
+                        },
+                     
+                    ]
+                } : { styleClass: 'v' },
             this.authHelper.hasRole(this.rolesEnum.Administrator) ?
                 {
                     label: ' التقارير',

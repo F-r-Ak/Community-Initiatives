@@ -106,6 +106,16 @@ export default [
         ]
     },
     {
+        path: 'national-initiative-detail',
+        children: [
+            {
+                path: 'national-initiative-detail',
+                loadChildren: () => import('./national-initiative-detail/national-initiative-detail/national-initiative-details.routes').then((m) => m.nationalInitiativeRoutes)
+            },
+             
+        ]
+    },
+    {
         path: 'auth',
         children: [
             {
