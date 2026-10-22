@@ -1,0 +1,128 @@
+:host {
+    display: block;
+    padding: 1rem;
+}
+
+.view-wrapper {
+    max-width: 1200px;
+}
+
+.activity-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1a3a5c;
+    direction: rtl;
+}
+
+.badge-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+
+    &.city {
+        background: #e8f4fd;
+        color: #1a6496;
+        border: 1px solid #b8d9f0;
+    }
+
+    &.town {
+        background: #f3f0ff;
+        color: #4a3aaa;
+        border: 1px solid #d0c8ff;
+    }
+
+    &.status {
+        background: #e8f5e9;
+        color: #256029;
+        border: 1px solid #b2dfdb;
+    }
+}
+
+.main-btn {
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    border: none;
+
+    &.back {
+        background: #e0e0e0;
+        color: #333;
+        &:hover { background: #bdbdbd; }
+    }
+
+    &.edit {
+        background: var(--datatable-header-color, #1a3a5c);
+        color: #fff;
+        &:hover { opacity: 0.9; }
+    }
+}
+
+.stats-card {
+    background: #1a3a5c !important;
+    color: #fff;
+
+    .section-header i,
+    .section-header strong {
+        color: #fff !important;
+    }
+
+    .detail-row {
+        color: rgba(255, 255, 255, 0.9);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 0.4rem;
+        margin-bottom: 0.4rem;
+
+        .label { color: rgba(255, 255, 255, 0.65); }
+    }
+}
+
+.detail-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 0.3rem;
+    font-size: 0.85rem;
+    color: #444;
+
+    .label {
+        font-weight: 600;
+        color: #777;
+        flex-shrink: 0;
+    }
+}
+
+.info-card-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #1a3a5c;
+    border-right: 3px solid #2196f3;
+    padding-right: 0.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.group-row {
+    display: flex;
+    align-items: center;
+    padding: 0.35rem 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 0.88rem;
+    color: #444;
+
+    &:last-child { border-bottom: none; }
+}
+
+.attachment-row {
+    padding: 0.4rem 0;
+    border-bottom: 1px solid #f5f5f5;
+    font-size: 0.88rem;
+
+    &:last-child { border-bottom: none; }
+}
+
+.section-header {
+    margin-bottom: 0.5rem;
+}
+
