@@ -8,6 +8,13 @@ import { InitiativesService } from '../../../../../shared/services/initiatives/i
 import { BaseComponent } from '../../../../../base/components/base-component';
 import { forkJoin } from 'rxjs';
 import { ActivitiesService } from '../../../../../shared';
+import { DevelopmentServiceService } from '../../../../../shared/services/development-service/development-service.service';
+
+interface DashboardCount {
+    id: string;
+    name: string;
+    count: number;
+}
 
 @Component({
     selector: 'app-initiatives-dashboard',
@@ -19,6 +26,7 @@ import { ActivitiesService } from '../../../../../shared';
 export class InitiativesDashboardComponent extends BaseComponent implements OnInit {
     initiativesService = inject(InitiativesService);
     activitiesService = inject(ActivitiesService);
+    developmentServiceService = inject(DevelopmentServiceService);
 
     executionStatusChartData: any;
     citiesChartData: any;
@@ -28,6 +36,11 @@ export class InitiativesDashboardComponent extends BaseComponent implements OnIn
     barChartOptions: any;
     doughnutPlugins: any[] = [];
     barPlugins: any[] = [];
+
+     governoratesChartData: any;
+    chartOption: any;
+    totalServicesCount = 0;
+    totalBeneficiariesCount = 0;
 
     activitiesTotalCount: number = 0;
     initiativesTotalCount: number = 0;
@@ -45,6 +58,7 @@ export class InitiativesDashboardComponent extends BaseComponent implements OnIn
         super.ngOnInit();
         this.loadDashboardData();
         this.initChartOptions();
+        this.loadDashboardDatas();
     }
 
     initChartOptions() {
@@ -77,6 +91,8 @@ export class InitiativesDashboardComponent extends BaseComponent implements OnIn
             }
         ];
 
+
+        
         // Inline plugin: draw count + percentage on top of each bar
         this.barPlugins = [
             {
@@ -126,6 +142,39 @@ export class InitiativesDashboardComponent extends BaseComponent implements OnIn
         this.chartOptions = this.barChartOptions;
     }
 
+     private loadDashboardDatas(): void {
+        forkJoin({
+            governorates: this.developmentServiceService.getCitiesDashboardCounts(),
+            beneficiaries: this.developmentServiceService.getcountbybeneficiary()
+        }).subscribe({
+            next: ({ governorates, beneficiaries }) => {
+                this.governoratesChartData = this.buildChartData(governorates, 'عدد الخدمات');
+                this.totalServicesCount = governorates.reduce(
+                    (total: number, item: DashboardCount) => total + Number(item.count),
+                    0
+                );
+                this.totalBeneficiariesCount = beneficiaries.reduce(
+                    (total: number, item: DashboardCount) => total + Number(item.count),
+                    0
+                );
+            },
+            error: () => this.alert.error('حدث خطأ أثناء تحميل إحصائيات الخدمات التنموية')
+        });
+    }
+
+private buildChartData(data: DashboardCount[], label: string) {
+        return {
+            labels: data.map((item) => item.name),
+            datasets: [
+                {
+                    label,
+                    data: data.map((item) => item.count),
+                    backgroundColor: this.cardColors,
+                    borderRadius: 6
+                }
+            ]
+        };
+    }
     loadDashboardData() {
         forkJoin({
             executionStatus: this.activitiesService.getExecutionStatusDashboardCounts(),
