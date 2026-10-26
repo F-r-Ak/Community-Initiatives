@@ -17,11 +17,6 @@ export const initiativesRoutes: Routes = [
         data: { pageTitle: 'تعديل مبادرة', pageType: 'edit' }
     },
     {
-        path: 'dashboard',
-        loadComponent: () => import('./pages/initiatives-dashboard/initiatives-dashboard.component').then((c) => c.InitiativesDashboardComponent),
-        data: { pageTitle: 'الإحصائيات', pageType: 'dashboard' }
-    },
-    {
         path: 'view/:id',
         loadComponent: () => import('./components/initiative/initiative.component').then((c) => c.InitiativeComponent),
         data: { pageTitle: 'عرض المبادرة', pageType: 'view' }

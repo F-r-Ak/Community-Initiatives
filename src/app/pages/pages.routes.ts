@@ -74,6 +74,11 @@ export default [
         ]
     },
     {
+        path: 'initiatives-dashboard',
+        loadComponent: () => import('./initiatives-dashboard/initiatives-dashboard.component').then((c) => c.InitiativesDashboardComponent),
+        data: { pageTitle: 'الإحصائيات', pageType: 'dashboard' }
+    },
+    {
         path: 'reports',
         loadChildren: () => import('./reports/reports.routes').then((m) => m.ReportsRoutes)
     },
@@ -113,7 +118,7 @@ export default [
         children: [
             {
                 path: 'initiative-details',
-                loadChildren: () => import('./national-initiative-detail/national-initiative-detail/national-initiative-details.routes').then((m) => m.nationalInitiativeRoutes)
+                loadChildren: () => import('./national-initiatives/national-initiative-details/national-initiative-details.routes').then((m) => m.nationalInitiativeRoutes)
             }
         ]
     },
