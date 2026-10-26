@@ -1,0 +1,187 @@
+<div class="d-flex flex-column h-100">
+    <app-prime-title-toolbar [pageTitle]="pageTitle"></app-prime-title-toolbar>
+
+    <div class="db-page">
+
+        <!-- ══════════════════════════════════════════
+             SECTION 1 — Initiatives
+        ══════════════════════════════════════════ -->
+        <div class="db-section">
+
+            <!-- Section heading -->
+            <div class="db-section__head">
+                <div class="db-section__head-icon">
+                    <i class="pi pi-chart-bar"></i>
+                </div>
+                <div class="db-section__head-text">
+                    <h2>إحصائيات المبادرات</h2>
+                    <p>نظرة عامة على الأنشطة والمبادرات والمستفيدين</p>
+                </div>
+            </div>
+
+            <!-- KPI cards -->
+            <div class="db-kpi-row">
+
+                <div class="db-kpi db-kpi--1">
+                    <i class="pi pi-bolt db-kpi__ico"></i>
+                    <div class="db-kpi__num">{{ activitiesTotalCount }}</div>
+                    <div class="db-kpi__lbl">إجمالي الأنشطة</div>
+                    <div class="db-kpi__bubble"></div>
+                </div>
+
+                <div class="db-kpi db-kpi--2">
+                    <i class="pi pi-flag db-kpi__ico"></i>
+                    <div class="db-kpi__num">{{ initiativesTotalCount }}</div>
+                    <div class="db-kpi__lbl">إجمالي المبادرات</div>
+                    <div class="db-kpi__bubble"></div>
+                </div>
+
+                <div class="db-kpi db-kpi--3">
+                    <i class="pi pi-users db-kpi__ico"></i>
+                    <div class="db-kpi__num">{{ beneficiariesStatistics?.totalBeneficiaries }}</div>
+                    <div class="db-kpi__lbl">إجمالي المستفيدين</div>
+                    <div class="db-kpi__bubble"></div>
+                </div>
+
+                <div class="db-kpi db-kpi--4">
+                    <i class="pi pi-user db-kpi__ico"></i>
+                    <div class="db-kpi__num">{{ beneficiariesStatistics?.totalMaleBeneficiaries }}</div>
+                    <div class="db-kpi__lbl">المستفيدون (ذكور)</div>
+                    <div class="db-kpi__bubble"></div>
+                </div>
+
+                <div class="db-kpi db-kpi--5">
+                    <i class="pi pi-user db-kpi__ico"></i>
+                    <div class="db-kpi__num">{{ beneficiariesStatistics?.totalFemaleBeneficiaries }}</div>
+                    <div class="db-kpi__lbl">المستفيدون (إناث)</div>
+                    <div class="db-kpi__bubble"></div>
+                </div>
+
+            </div>
+
+            <!-- Charts row -->
+            <div class="db-charts-row">
+
+                <div class="db-chart-card">
+                    <div class="db-chart-card__head">
+                        <span class="db-chart-card__dot db-chart-card__dot--primary"></span>
+                        الأنشطة حسب حالة التنفيذ
+                    </div>
+                    <div class="db-chart-card__body">
+                        <p-chart type="doughnut"
+                            [data]="executionStatusChartData"
+                            [options]="doughnutChartOptions"
+                            [plugins]="doughnutPlugins"
+                            height="290" />
+                    </div>
+                </div>
+
+                <div class="db-chart-card">
+                    <div class="db-chart-card__head">
+                        <span class="db-chart-card__dot db-chart-card__dot--secondary"></span>
+                        الأنشطة حسب المراكز
+                    </div>
+                    <div class="db-chart-card__body">
+                        <p-chart type="bar"
+                            [data]="citiesActivitiesChartData"
+                            [options]="barChartOptions"
+                            [plugins]="barPlugins"
+                            height="290" />
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Cities breakdown -->
+            <div class="db-breakdown">
+                <div class="db-breakdown__head">
+                    <span class="db-breakdown__dot"></span>
+                    المبادرات حسب المراكز
+                </div>
+                <div class="db-breakdown__grid">
+                    @for (item of citiesChartData?.labels; track item; let i = $index) {
+                        <div class="db-city" [style.--c]="cardColors[i % cardColors.length]">
+                            <div class="db-city__icon">
+                                <i class="pi pi-map-marker"></i>
+                            </div>
+                            <div class="db-city__num">{{ citiesChartData.datasets[0].data[i] }}</div>
+                            <div class="db-city__name">{{ item }}</div>
+                            <div class="db-city__bubble"></div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ══════════════════════════════════════════
+             Section divider
+        ══════════════════════════════════════════ -->
+        <div class="db-divider"></div>
+
+        <!-- ══════════════════════════════════════════
+             SECTION 2 — Development Services
+        ══════════════════════════════════════════ -->
+        <div class="db-section">
+
+            <div class="db-section__head">
+                <div class="db-section__head-icon db-section__head-icon--alt">
+                    <i class="pi pi-star"></i>
+                </div>
+                <div class="db-section__head-text">
+                    <h2>إحصائيات الخدمات التنموية</h2>
+                    <p>ملخص الخدمات التنموية والمستفيدين حسب المركز</p>
+                </div>
+            </div>
+
+            <!-- KPI cards + Chart side by side -->
+            <div class="db-svc-row">
+
+                <!-- left: KPI stack -->
+                <div class="db-svc-kpis">
+                    <div class="db-svc-kpi db-svc-kpi--1">
+                        <div class="db-svc-kpi__icon">
+                            <i class="pi pi-briefcase"></i>
+                        </div>
+                        <div class="db-svc-kpi__body">
+                            <div class="db-svc-kpi__num">{{ totalServicesCount }}</div>
+                            <div class="db-svc-kpi__lbl">إجمالي الخدمات التنموية</div>
+                        </div>
+                        <div class="db-svc-kpi__bubble"></div>
+                    </div>
+
+                    <div class="db-svc-kpi db-svc-kpi--2">
+                        <div class="db-svc-kpi__icon">
+                            <i class="pi pi-users"></i>
+                        </div>
+                        <div class="db-svc-kpi__body">
+                            <div class="db-svc-kpi__num">{{ totalBeneficiariesCount }}</div>
+                            <div class="db-svc-kpi__lbl">إجمالي المستفيدين</div>
+                        </div>
+                        <div class="db-svc-kpi__bubble"></div>
+                    </div>
+                </div>
+
+                <!-- right: chart -->
+                <div class="db-chart-card db-svc-chart">
+                    <div class="db-chart-card__head">
+                        <span class="db-chart-card__dot db-chart-card__dot--primary"></span>
+                        الخدمات التنموية حسب المركز
+                    </div>
+                    <div class="db-chart-card__body">
+                        @if (governoratesChartData) {
+                            <p-chart type="bar"
+                                [data]="governoratesChartData"
+                                [options]="chartOptions"
+                                [plugins]="barPlugins"
+                                height="310" />
+                        }
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
