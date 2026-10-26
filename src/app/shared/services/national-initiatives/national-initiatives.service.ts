@@ -1,26 +1,26 @@
 import { Injectable } from '@angular/core';
-import { AddInitiativeDto, InitiativeDto, UpdateInitiativeDto, GetPagedBody } from '../../interfaces';
+import { AddNationalInitiativeDto, NationalInitiativeDto, UpdateNationalInitiativeDto, GetPagedBody } from '../../interfaces';
 import { Observable } from 'rxjs';
 import { HttpService } from '../../../core/services/http/http.service';
 
 @Injectable({
     providedIn: 'root'
 })
-export class NationalInitiativeDetailService extends HttpService {
+export class NationalInitiativesService extends HttpService {
     protected get baseUrl(): string {
         return 'v1/nationalinitiativedetails/';
     }
 
     getnationalinitiativedetail(id: string) {
-        return this.get<InitiativeDto>({ apiName: `Get/${id}` });
+        return this.get<NationalInitiativeDto>({ apiName: `Get/${id}` });
     }
 
     getEditNationalInitiative(id: string) {
-        return this.get<InitiativeDto>({ apiName: `getEdit/${id}` });
+        return this.get<NationalInitiativeDto>({ apiName: `getEdit/${id}` });
     }
 
     get nationalinitiativedetails() {
-        return this.get<InitiativeDto[]>({ apiName: 'getAll' });
+        return this.get<NationalInitiativeDto[]>({ apiName: 'getAll' });
     }
 
     getDropDown(body: GetPagedBody<any>): Observable<any> {
@@ -31,11 +31,11 @@ export class NationalInitiativeDetailService extends HttpService {
         return this.dropdownPost<any, any>({ apiName: `getpaged`, showAlert: true }, body);
     }
 
-    add(body: AddInitiativeDto) {
-        return this.post<AddInitiativeDto, InitiativeDto>({ apiName: 'add', showAlert: true }, body);
+    add(body: AddNationalInitiativeDto) {
+        return this.post<AddNationalInitiativeDto, NationalInitiativeDto>({ apiName: 'add', showAlert: true }, body);
     }
 
-    update(body: UpdateInitiativeDto) {
+    update(body: UpdateNationalInitiativeDto) {
         return this.put({ apiName: 'update', showAlert: true }, body);
     }
 

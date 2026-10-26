@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { BaseListComponent } from '../../../../../base/components/base-list-component';
 import { PrimeDataTableComponent, PrimeTitleToolBarComponent, TableOptions } from '../../../../../shared';
-import { DevelopmentServiceService } from '../../../../../shared';
+import { NationalInitiativesService } from '../../../../../shared';
 import { AuthHelper } from '../../../../../core';
 import { RoleCodes } from '../../../../../core/enums/role';
 
@@ -16,7 +16,7 @@ import { RoleCodes } from '../../../../../core/enums/role';
 export class NationalInitiativeDetailsComponent extends BaseListComponent {
     tableOptions!: TableOptions;
     authHelper = inject(AuthHelper);
-    service = inject(DevelopmentServiceService);
+    service = inject(NationalInitiativesService);
     get rolesEnum() {
         return RoleCodes;
     }
@@ -52,11 +52,10 @@ export class NationalInitiativeDetailsComponent extends BaseListComponent {
 
     initializeTableColumns(): TableOptions['inputCols'] {
         return [
-            { field: 'name', header: 'اسم المبادرة', filter: true, filterMode: 'text' },
-            { field: 'cityName', header: 'المركز', filter: true, filterMode: 'text' },
-            { field: 'totalBeneficiaryNumber', header: 'عدد المستفيدين', filter: true, filterMode: 'text' },
-            { field: 'serviceStartDate', header: 'تاريخ بدء الخدمة', filter: true, filterMode: 'date' },
-            { field: 'serviceEndDate', header: 'تاريخ انتهاء الخدمة', filter: true, filterMode: 'date' }
+            { field: 'developmentInitiativeName', header: 'اسم المبادرة', filter: true, filterMode: 'text' },
+            { field: 'beneficiaryGroupName ', header: 'الفئة المستهدفة', filter: true, filterMode: 'text' },
+            { field: 'ExecuteTypeName ', header: 'نطاق التنفيذ', filter: true, filterMode: 'text' },
+            { field: 'ExecutionStatusName ', header: 'الموقف التنفيذي', filter: true, filterMode: 'text' }
         ];
     }
 

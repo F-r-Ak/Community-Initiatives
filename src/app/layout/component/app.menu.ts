@@ -48,13 +48,8 @@ export class AppMenu {
                           {
                               label: 'الإحصائيات ',
                               icon: 'pi pi-fw pi-chart-bar',
-                              routerLink: ['/pages/social-initiatives/initiatives/dashboard']
+                              routerLink: ['/pages/initiatives-dashboard']
                           }
-                          // {
-                          //     label: 'إحصائيات الخدمات التنموية',
-                          //     icon: 'pi pi-fw pi-chart-bar',
-                          //     routerLink: ['/pages/develpment-initiatives/development-service/dashboard']
-                          // }
                       ]
                   }
                 : { styleClass: 'v' },

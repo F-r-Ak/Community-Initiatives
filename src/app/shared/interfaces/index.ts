@@ -20,3 +20,4 @@ export * from "./service_beneficiary/service_beneficiary";
 export * from "./service-detail/service-detail"
 export * from "./develop-service-age/develop-service-age";
 export * from "./develop-service-age/develop-service-age";
+export * from "./national-initiative/national-initiative";
