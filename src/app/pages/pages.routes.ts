@@ -34,15 +34,15 @@ export default [
                 path: 'cities',
                 loadChildren: () => import('./setting/cities/cities.routes').then((m) => m.citiesRoutes)
             },
-                {
-                    path: 'towns',
-                    loadChildren: () => import('./setting/towns/towns.routes').then((m) => m.townsRoutes)
+            {
+                path: 'towns',
+                loadChildren: () => import('./setting/towns/towns.routes').then((m) => m.townsRoutes)
             },
             {
                 path: 'service-names',
                 loadChildren: () => import('./setting/service-names/service-names.routes').then((m) => m.serviceNamesRoutes)
             },
-               {
+            {
                 path: 'beneficiaries',
                 loadChildren: () => import('./setting/beneficiaries/beneficiaries.routes').then((m) => m.beneficiariesRoutes)
             },
@@ -50,23 +50,26 @@ export default [
                 path: 'development-entities',
                 loadChildren: () => import('./setting/development-entities/development-entities.routes').then((m) => m.developmentEntitiesRoutes)
             },
-             
-            
+
             {
                 path: 'age-groups',
                 loadChildren: () => import('./setting/age-groups/age-groups.routes').then((m) => m.ageGroupsRoutes)
             },
-            {  
+            {
                 path: 'service-type-details',
                 loadChildren: () => import('./setting/service-type-details/service-type-details.routes').then((m) => m.serviceTypeDetailsRoutes)
             },
-             {  
+            {
                 path: 'benefit-types',
                 loadChildren: () => import('./setting/BenefitTypes/benefit-types.routes').then((m) => m.benefitTypesRoutes)
             },
-            {  
+            {
                 path: 'support-details',
                 loadChildren: () => import('./setting/support-details/support-details.routes').then((m) => m.supportDetailsRoutes)
+            },
+            {
+                path: 'initiatives-definition',
+                loadChildren: () => import('./setting/initiatives-definition/initiatives-definitions.routes').then((m) => m.InitiativesDefinitionsRoutes)
             }
         ]
     },
@@ -83,7 +86,7 @@ export default [
                 loadChildren: () => import('./social-initiative/team-members/team-members.routes').then((m) => m.teamMembersRoutes)
             },
             {
-                path: 'initiatives',
+                path: 'initiative-details',
                 loadChildren: () => import('./social-initiative/initiatives/initiatives.routes').then((m) => m.initiativesRoutes)
             },
             {
@@ -92,27 +95,26 @@ export default [
             }
         ]
     },
-      {
+    {
         path: 'develpment-initiatives',
         children: [
+            // {
+            //     path: 'initiative-details',
+            //     loadChildren: () => import('./develpment-initiative/develpment-initiatives/develpment-initiatives.routes').then((m) => m.DevelpmentInitiativesRoutes)
+            // },
             {
-                path: 'develpment-initiatives',
-                loadChildren: () => import('./develpment-initiative/develpment-initiatives/develpment-initiatives.routes').then((m) => m.DevelpmentInitiativesRoutes)
-            },
-             {
-                path: 'development-service',
+                path: 'development-services',
                 loadChildren: () => import('./Development/development-service/development-services.routes').then((m) => m.developmentServicesRoutes)
             }
         ]
     },
     {
-        path: 'national-initiative-detail',
+        path: 'national-initiatives',
         children: [
             {
-                path: 'national-initiative-detail',
+                path: 'initiative-details',
                 loadChildren: () => import('./national-initiative-detail/national-initiative-detail/national-initiative-details.routes').then((m) => m.nationalInitiativeRoutes)
-            },
-             
+            }
         ]
     },
     {
