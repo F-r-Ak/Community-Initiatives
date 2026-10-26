@@ -1,0 +1,30 @@
+<p-tabs [value]="activeTab">
+    <p-tablist>
+        <p-tab [value]="NationalInitiativeTabs.Main">البيانات الأساسية</p-tab>
+        <p-tab [value]="NationalInitiativeTabs.NationalBeneficiaries" [disabled]="!isEditMode">المستفيدين</p-tab>
+        <p-tab [value]="NationalInitiativeTabs.NationalEntities" [disabled]="!isEditMode">الجهات المنفذة</p-tab>
+        <p-tab [value]="NationalInitiativeTabs.InitiativeSupports" [disabled]="!isEditMode">الدعم المقدّم</p-tab>
+    </p-tablist>
+
+    <p-tabpanels>
+        <p-tabpanel [value]="NationalInitiativeTabs.Main">
+            <app-add-edit-national-initiative></app-add-edit-national-initiative>
+        </p-tabpanel>
+        <p-tabpanel [value]="NationalInitiativeTabs.NationalBeneficiaries">
+            @if (isEditMode) {
+                <app-national-beneficiaries></app-national-beneficiaries>
+            }
+        </p-tabpanel>
+
+        <p-tabpanel [value]="NationalInitiativeTabs.NationalEntities">
+            @if (isEditMode) {
+                <app-national-entities></app-national-entities>
+            }
+        </p-tabpanel>
+        <p-tabpanel [value]="NationalInitiativeTabs.InitiativeSupports">
+            @if (isEditMode) {
+                <app-national-supports></app-national-supports>
+            }
+        </p-tabpanel>
+    </p-tabpanels>
+</p-tabs>

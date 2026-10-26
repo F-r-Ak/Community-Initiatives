@@ -44,9 +44,7 @@ export class NationalInitiativeDetailsComponent extends BaseListComponent {
                 listOfPermissions: []
             },
             bodyOptions: {
-                filter: this.authHelper.hasRole(this.rolesEnum.Employee)
-                    ? { createdById: this.authHelper.getUserId() }
-                    : {}
+                filter: this.authHelper.hasRole(this.rolesEnum.Employee) ? { createdById: this.authHelper.getUserId() } : {}
             },
             responsiveDisplayedProperties: ['name', 'fieldName', 'cityName', 'initiativeMangerName', 'createdDate']
         };
@@ -54,15 +52,11 @@ export class NationalInitiativeDetailsComponent extends BaseListComponent {
 
     initializeTableColumns(): TableOptions['inputCols'] {
         return [
-            { field: 'name', header: 'اسم الخدمة', filter: true, filterMode: 'text' },
-          
-           
+            { field: 'name', header: 'اسم المبادرة', filter: true, filterMode: 'text' },
             { field: 'cityName', header: 'المركز', filter: true, filterMode: 'text' },
-             { field: 'totalBeneficiaryNumber', header: 'عدد المستفيدين', filter: true, filterMode: 'text' },
-             { field: 'serviceStartDate', header: 'تاريخ بدء الخدمة', filter: true, filterMode: 'date' },
-            { field: 'serviceEndDate', header: 'تاريخ انتهاء الخدمة', filter: true, filterMode: 'date' },
-          
-
+            { field: 'totalBeneficiaryNumber', header: 'عدد المستفيدين', filter: true, filterMode: 'text' },
+            { field: 'serviceStartDate', header: 'تاريخ بدء الخدمة', filter: true, filterMode: 'date' },
+            { field: 'serviceEndDate', header: 'تاريخ انتهاء الخدمة', filter: true, filterMode: 'date' }
         ];
     }
 
@@ -84,23 +78,24 @@ export class NationalInitiativeDetailsComponent extends BaseListComponent {
                 route: '/pages/national-initiative-detail/national-initiative-detail/edit/',
                 allowAll: true
             },
-           this.authHelper.isAdmin ?
-                {
-                    name: 'DELETE',
-                    icon: 'pi pi-trash',
-                    color: 'text-error',
-                    allowAll: true,
-                    isDelete: true
-                } : {}
+            this.authHelper.isAdmin
+                ? {
+                      name: 'DELETE',
+                      icon: 'pi pi-trash',
+                      color: 'text-error',
+                      allowAll: true,
+                      isDelete: true
+                  }
+                : {}
         ];
     }
 
     navigateToEdit(row: any) {
-        this.route.navigate([`/pages/national-initiative-detail/national-initiative-detail/edit/${row.id}`]);
+        this.route.navigate([`/pages/national-initiatives/initiative-details/edit/${row.id}`]);
     }
 
     navigateToView(row: any) {
-        this.route.navigate([`/pages/national-initiative-detail/national-initiative-detail/view/${row.id}`]);
+        this.route.navigate([`/pages/national-initiatives/initiative-details/view/${row.id}`]);
     }
 
     override ngOnDestroy() {
