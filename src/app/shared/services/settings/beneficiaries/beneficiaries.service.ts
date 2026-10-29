@@ -24,11 +24,11 @@ export class BeneficiariesService extends HttpService {
     }
 
    getDropDown(body: GetPagedBody<any>): Observable<any> {
-        return this.dropdownPost<any, any>({ apiName: `getdropdown`, showAlert: true }, body);
+        return this.dropdownPost<any, any>({ apiName: `getdropdown`, showAlert: false }, body);
     }
 
     getPaged(body: GetPagedBody<any>): Observable<any> {
-        return this.dropdownPost<any, any>({ apiName: `getpaged`, showAlert: true }, body);
+        return this.dropdownPost<any, any>({ apiName: `getpaged`, showAlert: false }, body);
     }
 
     add(body: Lookup) {
