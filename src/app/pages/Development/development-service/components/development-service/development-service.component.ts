@@ -17,16 +17,16 @@ import { InitiativeDto, InitiativeTeamDto , DevelopmentServiceDto} from '../../.
 export class DevelopmentServiceComponent extends BaseComponent implements OnInit {
     id: string = '';
     developmentService: DevelopmentServiceDto | null = null;
-   
+
     activities: any[] = [];
     activitiesCount: number = 0;
     outputsCount: number = 0;
     servicedevelopmententities: any[] = [];
     servicebeneficiaries: any[] = [];
-    
+
     showActivities: boolean = true;
     showOutputs: boolean = true;
-    
+
     initiativesService = inject(InitiativesService);
     teamsService = inject(InitiativeTeamsService);
     activitiesService = inject(ActivitiesService);
@@ -53,7 +53,7 @@ export class DevelopmentServiceComponent extends BaseComponent implements OnInit
             }
         });
 
-       
+
 
         this.developmentServicesService.getPaged({ pageNumber: 1, pageSize: 100, filter: { developmentServiceId: this.id } }).subscribe({
             next: (res: any) => {
@@ -76,19 +76,19 @@ export class DevelopmentServiceComponent extends BaseComponent implements OnInit
         });
     }
 
-   
-   
+
+
 
     getMemberInitial(name: string): string {
         return name?.trim()?.[0] ?? '؟';
     }
 
     navigateToEdit(): void {
-        this.route.navigate([`/pages/develpment-initiatives/development-service/edit/${this.id}`]);
+        this.route.navigate([`/pages/develpment-initiatives/development-services/edit/${this.id}`]);
     }
 
     navigateBack(): void {
-        this.route.navigate(['/pages/develpment-initiatives/development-service']);
+        this.route.navigate(['/pages/develpment-initiatives/development-services']);
     }
 
     confirmDelete(): void {

@@ -1,1 +1,145 @@
-<p>add-edit-national-initiative works!</p>
+<div class="card">
+    @if (form) {
+        <form [formGroup]="form" class="row g-4">
+            <div class="col-12 col-md-4">
+                <label class="form-label">المبادرة</label>
+                <app-prime-autocomplete
+                    [formGroup]="form"
+                    controlName="developmentInitiativeId"
+                    [getMethod]="getDevelopmentInitiatives.bind(this)"
+                    [selectedOption]="selectedDevelopmentInitiative"
+                    [field]="'name'"
+                    [disabled]="pageType === 'edit'"
+                    (onSelect)="onDevelopmentInitiativeSelect($event)"
+                    (onClear)="onDevelopmentInitiativeSelect({ value: null })"
+                >
+                </app-prime-autocomplete>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <label class="form-label">الفئات المستهدفة</label>
+                <app-prime-autocomplete
+                    [formGroup]="form"
+                    controlName="beneficiaryGroupId"
+                    [getMethod]="getBeneficiaryGroups.bind(this)"
+                    [selectedOption]="selectedBeneficiaryGroup"
+                    [field]="'nameAr'"
+                    [disabled]="pageType === 'edit'"
+                    (onSelect)="onBeneficiaryGroupSelect($event)"
+                    (onClear)="onBeneficiaryGroupSelect({ value: null })"
+                >
+                </app-prime-autocomplete>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <label class="form-label">الجهة</label>
+                <app-prime-autocomplete
+                    [formGroup]="form"
+                    controlName="entityId"
+                    [getMethod]="getEntities.bind(this)"
+                    [selectedOption]="selectedEntity"
+                    [field]="'nameAr'"
+                    [disabled]="pageType === 'edit'"
+                    (onSelect)="onEntitySelect($event)"
+                    (onClear)="onEntitySelect({ value: null })"
+                >
+                </app-prime-autocomplete>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <label class="form-label">نوع التنفيذ</label>
+                <app-prime-autocomplete
+                    [formGroup]="form"
+                    controlName="executeTypeId"
+                    [suggestions]="executeTypesList"
+                    [lazy]="false"
+                    (handleMethod)="getExecuteTypes($event)"
+                    [selectedOption]="selectedExecuteType"
+                    [field]="'nameAr'"
+                    [disabled]="pageType === 'edit'"
+                    (onSelect)="onExecuteTypeSelect($event)"
+                    (onClear)="onExecuteTypeSelect({ value: null })"
+                >
+                </app-prime-autocomplete>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <label class="form-label">الموقف التنفيذي</label>
+                <app-prime-autocomplete
+                    [formGroup]="form"
+                    controlName="executionStatus"
+                    [suggestions]="executionStatusList"
+                    [selectedOption]="selectedExecutionStatus"
+                    [field]="'nameAr'"
+                    [lazy]="false"
+                    (handleMethod)="getExecutionStatus($event)"
+                    (onSelect)="onExecutionStatusSelect($event)"
+                    (onClear)="onExecutionStatusSelect({ value: null })"
+                >
+                </app-prime-autocomplete>
+            </div>
+
+            <div class="col-6">
+                <app-prime-input-text [formGroup]="form" controlName="problemDescription" [label]="'المعوقات والتحديات'" inputType="textarea"> </app-prime-input-text>
+            </div>
+
+            <div class="col-6">
+                <app-prime-input-text [formGroup]="form" controlName="workPlan" [label]="'خطة العمل'" inputType="textarea"> </app-prime-input-text>
+            </div>
+
+            <div class="col-6">
+                <app-prime-input-text [formGroup]="form" controlName="stepsExecution" [label]="'الاجراءات المتخذة'" inputType="textarea"> </app-prime-input-text>
+            </div>
+
+            <div class="col-6">
+                <app-prime-input-text [formGroup]="form" controlName="results" [label]="'النتائج'" inputType="textarea"> </app-prime-input-text>
+            </div>
+
+            <!-- Attachments -->
+            <div class="col-12">
+                <label class="text-middle font-14 font-bold mb-2">المرفقات</label>
+
+                <div class="mb-2">
+                    <input #fileInput type="file" multiple accept="image/*,application/pdf,.doc,.docx,.xls,.xlsx" class="d-none" (change)="onFileChange($event)" />
+                    <button type="button" class="btn btn-outline-primary btn-sm" (click)="fileInput.click()"><i class="pi pi-paperclip me-1"></i> إضافة مرفق</button>
+                </div>
+
+                @if (existingAttachments.length > 0) {
+                    <div class="mb-2">
+                        <small class="text-muted d-block mb-1">الملفات الموجودة</small>
+                        @for (attachment of existingAttachments; track attachment.id) {
+                            <div class="d-flex align-items-center justify-content-between p-2 border rounded mb-1">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i [class]="getFileIcon(attachment.fileName)"></i>
+                                    <a [href]="getAttachmentUrl(attachment.path)" target="_blank" class="text-decoration-none font-14">{{ attachment.fileName }}</a>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-outline-danger" (click)="removeExistingAttachment(attachment)">
+                                    <i class="pi pi-times"></i>
+                                </button>
+                            </div>
+                        }
+                    </div>
+                }
+
+                @if (selectedFiles.length > 0) {
+                    <div>
+                        <small class="text-muted d-block mb-1">الملفات المختارة</small>
+                        @for (file of selectedFiles; track file.name; let i = $index) {
+                            <div class="d-flex align-items-center justify-content-between p-2 border rounded mb-1">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i [class]="getFileIcon(file.name)"></i>
+                                    <span class="font-14">{{ file.name }}</span>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-outline-danger" (click)="removeNewFile(i)">
+                                    <i class="pi pi-times"></i>
+                                </button>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+
+            <app-submit-buttons [isSubmitDisabled]="form.invalid" [submitButtonText]="pageType === 'add' ? 'ACTIONS.SUBMIT' : 'ACTIONS.SAVE'" (submit)="submit()" (cancel)="redirect()"> </app-submit-buttons>
+        </form>
+    }
+</div>
