@@ -105,11 +105,11 @@ $stat-attachments:   #37474f;
     display: inline-flex;
     align-items: center;
     gap: .35rem;
-    padding: .28rem .8rem;
+    padding: .32rem .9rem;
     border-radius: 20px;
-    font-size: .78rem;
+    font-size: .9rem;
     font-weight: 600;
-    i { font-size: .72rem; }
+    i { font-size: .82rem; }
 
     &.city {
         background: rgba(255,255,255,.15);
@@ -129,20 +129,20 @@ $stat-attachments:   #37474f;
     display: inline-flex;
     align-items: center;
     gap: .35rem;
-    padding: .28rem .8rem;
+    padding: .32rem .9rem;
     border-radius: 20px;
-    font-size: .78rem;
+    font-size: .9rem;
     font-weight: 700;
     background: rgba(255,255,255,.15);
     color: #fff;
     border: 1px solid rgba(255,255,255,.25);
     backdrop-filter: blur(4px);
 
-    i { font-size: .5rem; }
+    i { font-size: .55rem; }
 }
 
 .hero-title {
-    font-size: 1.75rem;
+    font-size: 2.1rem;
     font-weight: 800;
     color: #fff;
     line-height: 1.35;
@@ -160,13 +160,13 @@ $stat-attachments:   #37474f;
     display: inline-flex;
     align-items: center;
     gap: .4rem;
-    font-size: .8rem;
+    font-size: .92rem;
     color: rgba(255,255,255,.8);
     background: rgba(255,255,255,.1);
     border: 1px solid rgba(255,255,255,.18);
     border-radius: 20px;
-    padding: .25rem .75rem;
-    i { font-size: .72rem; color: rgba(255,255,255,.6); }
+    padding: .3rem .85rem;
+    i { font-size: .82rem; color: rgba(255,255,255,.6); }
 }
 
 .hero-actions {
@@ -183,16 +183,16 @@ $stat-attachments:   #37474f;
     display: inline-flex;
     align-items: center;
     gap: .45rem;
-    padding: .55rem 1.15rem;
+    padding: .6rem 1.3rem;
     border-radius: $radius-sm;
     font-family: 'Cairo', sans-serif;
-    font-size: .85rem;
+    font-size: .95rem;
     font-weight: 700;
     cursor: pointer;
     border: none;
     transition: all .18s ease;
     white-space: nowrap;
-    i { font-size: .82rem; }
+    i { font-size: .92rem; }
 
     &.btn-back {
         background: rgba(255,255,255,.12);
@@ -258,14 +258,14 @@ $stat-attachments:   #37474f;
 }
 
 .stat-value {
-    font-size: 1.1rem;
+    font-size: 1.35rem;
     font-weight: 800;
     color: $text-main;
     line-height: 1.2;
 }
 
 .stat-label {
-    font-size: .72rem;
+    font-size: .88rem;
     color: $text-muted;
     margin-top: .1rem;
     white-space: nowrap;
@@ -319,14 +319,14 @@ $stat-attachments:   #37474f;
 }
 
 .detail-card-icon {
-    width: 34px;
-    height: 34px;
+    width: 38px;
+    height: 38px;
     border-radius: $radius-sm;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    i { font-size: .9rem; }
+    i { font-size: 1.05rem; }
 
     &.accent-teal   { background: $accent-teal-bg;   color: $accent-teal;   }
     &.accent-purple { background: $accent-purple-bg; color: $accent-purple; }
@@ -334,7 +334,7 @@ $stat-attachments:   #37474f;
 }
 
 .detail-card-title {
-    font-size: .92rem;
+    font-size: 1.05rem;
     font-weight: 700;
     color: $text-main;
     margin: 0;
@@ -344,7 +344,7 @@ $stat-attachments:   #37474f;
 }
 
 .count-badge {
-    font-size: .72rem;
+    font-size: .82rem;
     font-weight: 700;
     background: $primary-light;
     color: $primary-dark;
@@ -354,9 +354,9 @@ $stat-attachments:   #37474f;
 }
 
 .detail-card-body {
-    font-size: .875rem;
+    font-size: 1rem;
     color: $text-muted;
-    line-height: 1.8;
+    line-height: 1.85;
     margin: 0;
     white-space: pre-line;
 }
@@ -381,7 +381,7 @@ $stat-attachments:   #37474f;
 }
 
 .info-label {
-    font-size: .72rem;
+    font-size: .82rem;
     font-weight: 700;
     color: $text-muted;
     text-transform: uppercase;
@@ -390,7 +390,7 @@ $stat-attachments:   #37474f;
 }
 
 .info-value {
-    font-size: .875rem;
+    font-size: 1rem;
     font-weight: 600;
     color: $text-main;
 }
@@ -438,7 +438,7 @@ $stat-attachments:   #37474f;
 
 .attachment-name {
     flex: 1;
-    font-size: .85rem;
+    font-size: .98rem;
     font-weight: 500;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -471,9 +471,9 @@ $stat-attachments:   #37474f;
     padding: .9rem 1.1rem;
     background: linear-gradient(90deg, $navy-dark, $navy);
     color: #fff;
-    font-size: .875rem;
+    font-size: 1rem;
     font-weight: 700;
-    i { font-size: .95rem; color: rgba(255,255,255,.7); }
+    i { font-size: 1.05rem; color: rgba(255,255,255,.7); }
 }
 
 .side-count-badge {
@@ -481,7 +481,7 @@ $stat-attachments:   #37474f;
     background: rgba(255,255,255,.18);
     border: 1px solid rgba(255,255,255,.25);
     color: #fff;
-    font-size: .7rem;
+    font-size: .82rem;
     font-weight: 700;
     border-radius: 12px;
     padding: .12rem .55rem;
@@ -537,7 +537,7 @@ $stat-attachments:   #37474f;
 }
 
 .side-row-text {
-    font-size: .85rem;
+    font-size: .98rem;
     color: $text-main;
     font-weight: 500;
     line-height: 1.4;
@@ -545,7 +545,7 @@ $stat-attachments:   #37474f;
 
 .side-row-tag {
     display: inline-block;
-    font-size: .7rem;
+    font-size: .82rem;
     color: $text-muted;
     background: #f0f4f6;
     border-radius: 8px;

@@ -1,1 +1,74 @@
-<p>add-edit-national-beneficiary works!</p>
+<div class="card">
+    @if (form) {
+        <form [formGroup]="form" class="row g-4">
+
+            <!-- City -->
+            <div class="col-12 col-md-6">
+                <label class="form-label">المركز</label>
+                <app-prime-autocomplete
+                    [formGroup]="form"
+                    controlName="cityId"
+                    [getMethod]="getCities"
+                    [selectedOption]="selectedCity"
+                    [field]="'nameAr'"
+                    (onSelect)="onCitySelect($event)"
+                    (onClear)="onCityClear()">
+                </app-prime-autocomplete>
+            </div>
+
+            <!-- Town -->
+            <div class="col-12 col-md-6">
+                <label class="form-label">الحي</label>
+                <app-prime-autocomplete
+                    [formGroup]="form"
+                    controlName="townId"
+                    [getMethod]="getTowns"
+                    [selectedOption]="selectedTown"
+                    [field]="'nameAr'"
+                    [disabled]="!form.get('cityId')?.value"
+                    (onSelect)="onTownSelect($event)"
+                    (onClear)="onTownClear()">
+                </app-prime-autocomplete>
+            </div>
+
+            <!-- Male beneficiaries -->
+            <div class="col-12 col-md-4">
+                <app-prime-input-text
+                    [formGroup]="form"
+                    controlName="beneficiaryMaleNumber"
+                    [label]="'عدد الذكور'"
+                    contentType="number">
+                </app-prime-input-text>
+            </div>
+
+            <!-- Female beneficiaries -->
+            <div class="col-12 col-md-4">
+                <app-prime-input-text
+                    [formGroup]="form"
+                    controlName="beneficiaryFemaleNumber"
+                    [label]="'عدد الإناث'"
+                    contentType="number">
+                </app-prime-input-text>
+            </div>
+
+            <!-- Total (read-only, auto-calculated) -->
+            <div class="col-12 col-md-4">
+                <app-prime-input-text
+                    [formGroup]="form"
+                    controlName="totalBeneficiaryNumber"
+                    [label]="'إجمالي المستفيدين'"
+                    contentType="number">
+                </app-prime-input-text>
+            </div>
+
+            <app-submit-buttons
+                class="col-12"
+                [isSubmitDisabled]="form.invalid"
+                [submitButtonText]="pageType === 'add' ? 'ACTIONS.SUBMIT' : 'ACTIONS.SAVE'"
+                (submit)="submit()"
+                (cancel)="redirect()">
+            </app-submit-buttons>
+
+        </form>
+    }
+</div>

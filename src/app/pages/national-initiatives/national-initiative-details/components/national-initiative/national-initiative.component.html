@@ -1,1 +1,261 @@
-<p>national-initiative works!</p>
+@if (!isLoading && nationalInitiative) {
+    <div class="ni-page" dir="rtl">
+
+        <!-- ══════════════════════════════ HERO HEADER ════════════════════════════════ -->
+        <div class="hero-header">
+            <div class="hero-backdrop"></div>
+            <div class="hero-content">
+                <div class="hero-meta">
+                    <span class="badge-chip chip-field">
+                        <i class="pi pi-flag"></i>
+                        {{ nationalInitiative.developmentInitiativeName }}
+                    </span>
+                    <span class="badge-chip chip-entity">
+                        <i class="pi pi-building"></i>
+                        {{ nationalInitiative.entityName }}
+                    </span>
+                    <span class="badge-chip chip-scope">
+                        <i class="pi pi-map"></i>
+                        {{ nationalInitiative.executeTypeName }}
+                    </span>
+                </div>
+
+                <h1 class="hero-title">
+                    {{ nationalInitiative.developmentInitiativeName }}
+                </h1>
+
+                <!-- Execution status badge -->
+                <div class="hero-status">
+                    <span class="status-badge">
+                        <i class="pi pi-chart-line"></i>
+                        {{ nationalInitiative.executionStatusNameAr || nationalInitiative.executionStatusName }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="hero-actions">
+                <button class="action-btn btn-back" type="button" (click)="navigateBack()">
+                    <i class="pi pi-arrow-right"></i>
+                    <span>عودة</span>
+                </button>
+                <button class="action-btn btn-edit" type="button" (click)="navigateToEdit()">
+                    <i class="pi pi-file-edit"></i>
+                    <span>تعديل</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════ STATS RIBBON ══════════════════════════════ -->
+        <div class="stats-ribbon">
+            <div class="stat-item">
+                <span class="stat-icon s-group"><i class="pi pi-users"></i></span>
+                <div class="stat-body">
+                    <span class="stat-value">{{ nationalInitiative.beneficiaryGroupName || '—' }}</span>
+                    <span class="stat-label">الفئة المستهدفة</span>
+                </div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-icon s-entities"><i class="pi pi-building"></i></span>
+                <div class="stat-body">
+                    <span class="stat-value">{{ entitiesCount }}</span>
+                    <span class="stat-label">الجهات المنفذة</span>
+                </div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-icon s-supports"><i class="pi pi-dollar"></i></span>
+                <div class="stat-body">
+                    <span class="stat-value">{{ supportsCount }}</span>
+                    <span class="stat-label">الدعم المقدم</span>
+                </div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-icon s-attachments"><i class="pi pi-paperclip"></i></span>
+                <div class="stat-body">
+                    <span class="stat-value">{{ nationalInitiative.attachs?.length ?? 0 }}</span>
+                    <span class="stat-label">المرفقات</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ════════════════════════════════ MAIN BODY ════════════════════════════════ -->
+        <div class="body-grid">
+
+            <!-- ─────────────────────── DETAILS COLUMN ────────────────────────────── -->
+            <div class="col-details">
+
+                <!-- Problem Description -->
+                <div class="detail-card accent-left-red">
+                    <div class="detail-card-header">
+                        <span class="detail-card-icon accent-red">
+                            <i class="pi pi-exclamation-triangle"></i>
+                        </span>
+                        <h3 class="detail-card-title">وصف المشكلة</h3>
+                    </div>
+                    <p class="detail-card-body">{{ nationalInitiative.problemDescription || '—' }}</p>
+                </div>
+
+                <!-- Work Plan -->
+                <div class="detail-card accent-left-blue">
+                    <div class="detail-card-header">
+                        <span class="detail-card-icon accent-blue">
+                            <i class="pi pi-sitemap"></i>
+                        </span>
+                        <h3 class="detail-card-title">خطة العمل</h3>
+                    </div>
+                    <p class="detail-card-body">{{ nationalInitiative.workPlan || '—' }}</p>
+                </div>
+
+                <!-- Steps Execution + Results (two columns) -->
+                <div class="two-col-grid">
+                    <div class="detail-card accent-left-teal">
+                        <div class="detail-card-header">
+                            <span class="detail-card-icon accent-teal">
+                                <i class="pi pi-list-check"></i>
+                            </span>
+                            <h3 class="detail-card-title">خطوات التنفيذ</h3>
+                        </div>
+                        <p class="detail-card-body">{{ nationalInitiative.stepsExecution || '—' }}</p>
+                    </div>
+
+                    <div class="detail-card accent-left-green">
+                        <div class="detail-card-header">
+                            <span class="detail-card-icon accent-green">
+                                <i class="pi pi-check-circle"></i>
+                            </span>
+                            <h3 class="detail-card-title">النتائج</h3>
+                        </div>
+                        <p class="detail-card-body">{{ nationalInitiative.results || '—' }}</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ─────────────────────── SIDE PANEL ────────────────────────────────── -->
+            <div class="col-side">
+
+                <!-- Key Info Card -->
+                <div class="info-panel">
+                    <div class="info-panel-header">
+                        <i class="pi pi-info-circle"></i>
+                        <span>البيانات الأساسية</span>
+                    </div>
+                    <div class="info-panel-body">
+                        <div class="info-row">
+                            <span class="info-label"><i class="pi pi-flag"></i> المبادرة التنموية</span>
+                            <span class="info-value">{{ nationalInitiative.developmentInitiativeName || '—' }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label"><i class="pi pi-users"></i> الفئة المستهدفة</span>
+                            <span class="info-value">{{ nationalInitiative.beneficiaryGroupName || '—' }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label"><i class="pi pi-building"></i> الجهة</span>
+                            <span class="info-value">{{ nationalInitiative.entityName || '—' }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label"><i class="pi pi-map"></i> نطاق التنفيذ</span>
+                            <span class="info-value">{{ nationalInitiative.executeTypeName || '—' }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label"><i class="pi pi-chart-line"></i> الموقف التنفيذي</span>
+                            <span class="info-value status-pill">
+                                {{ nationalInitiative.executionStatusNameAr || nationalInitiative.executionStatusName || '—' }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Entities panel -->
+                @if (entities.length > 0) {
+                    <div class="sub-panel">
+                        <div class="sub-panel-header">
+                            <i class="pi pi-building"></i>
+                            <span>الجهات المنفذة</span>
+                            <span class="sub-count-badge">{{ entitiesCount }}</span>
+                        </div>
+                        <div class="sub-panel-body">
+                            @for (entity of entities; track entity.id; let i = $index) {
+                                <div class="sub-row">
+                                    <span class="sub-index">{{ i + 1 }}</span>
+                                    <div class="sub-text">
+                                        <span class="sub-name">{{ entity.entityName }}</span>
+                                        @if (entity.description) {
+                                            <span class="sub-detail">{{ entity.description }}</span>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+
+                <!-- Supports panel -->
+                @if (supports.length > 0) {
+                    <div class="sub-panel">
+                        <div class="sub-panel-header">
+                            <i class="pi pi-dollar"></i>
+                            <span>الدعم المقدم</span>
+                            <span class="sub-count-badge">{{ supportsCount }}</span>
+                        </div>
+                        <div class="sub-panel-body">
+                            @for (support of supports; track support.id; let i = $index) {
+                                <div class="sub-row">
+                                    <span class="sub-index">{{ i + 1 }}</span>
+                                    <div class="sub-text">
+                                        <span class="sub-name">{{ support.supportDetailName }}</span>
+                                        @if (support.value) {
+                                            <span class="sub-detail">{{ support.value }}</span>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+
+        <!-- ════════════════════════════ ATTACHMENTS PANEL ═══════════════════════════ -->
+        @if (nationalInitiative.attachs && nationalInitiative.attachs.length > 0) {
+            <div class="attachments-panel">
+                <div class="attachments-header">
+                    <i class="pi pi-paperclip"></i>
+                    <span>المرفقات</span>
+                    <span class="attach-count-badge">{{ nationalInitiative.attachs.length }}</span>
+                </div>
+                <div class="attachments-body">
+                    @for (attach of nationalInitiative.attachs; track attach.id; let i = $index) {
+                        <a class="attach-item" [href]="attach.path" target="_blank" rel="noopener noreferrer">
+                            <span class="attach-icon"><i class="pi pi-file"></i></span>
+                            <span class="attach-name">{{ attach.fileName || ('مرفق ' + (i + 1)) }}</span>
+                            <i class="pi pi-external-link attach-link-icon"></i>
+                        </a>
+                    }
+                </div>
+            </div>
+        }
+
+    </div>
+
+} @else if (isLoading) {
+    <div class="loading-screen" dir="rtl">
+        <div class="loading-ring">
+            <i class="pi pi-spin pi-spinner"></i>
+        </div>
+        <span>جارٍ تحميل بيانات المبادرة الرئاسية…</span>
+    </div>
+
+} @else {
+    <div class="empty-screen" dir="rtl">
+        <i class="pi pi-inbox"></i>
+        <p>لم يتم العثور على بيانات المبادرة</p>
+        <button class="action-btn btn-back" type="button" (click)="navigateBack()">
+            <i class="pi pi-arrow-right"></i>
+            <span>عودة للقائمة</span>
+        </button>
+    </div>
+}

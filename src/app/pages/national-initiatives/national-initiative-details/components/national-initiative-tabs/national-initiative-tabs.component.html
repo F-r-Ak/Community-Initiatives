@@ -3,7 +3,7 @@
         <p-tab [value]="NationalInitiativeTabs.Main">البيانات الأساسية</p-tab>
         <p-tab [value]="NationalInitiativeTabs.NationalBeneficiaries" [disabled]="!isEditMode">المستفيدين</p-tab>
         <p-tab [value]="NationalInitiativeTabs.NationalEntities" [disabled]="!isEditMode">الجهات المنفذة</p-tab>
-        <p-tab [value]="NationalInitiativeTabs.InitiativeSupports" [disabled]="!isEditMode">الدعم المقدّم</p-tab>
+        <p-tab [value]="NationalInitiativeTabs.InitiativeSupports" [disabled]="!isEditMode">الدعم المقدم</p-tab>
     </p-tablist>
 
     <p-tabpanels>
@@ -12,7 +12,7 @@
         </p-tabpanel>
         <p-tabpanel [value]="NationalInitiativeTabs.NationalBeneficiaries">
             @if (isEditMode) {
-                <app-national-beneficiaries></app-national-beneficiaries>
+                <app-national-beneficiaries [nationalInitiativeDetailId]="initiativeId"></app-national-beneficiaries>
             }
         </p-tabpanel>
 

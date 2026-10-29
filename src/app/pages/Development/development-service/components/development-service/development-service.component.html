@@ -1,129 +1,231 @@
 @if (developmentService) {
-    <div class="view-wrapper" dir="rtl">
-        <!-- Header -->
-        <div class="card header-card mb-3">
-            <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
-                <div>
-                    <div class="activity-title mb-2">{{ developmentService.name || '---' }}</div>
-                    <div class="d-flex gap-2 flex-wrap">
-                        <span class="badge-chip city">
-                            <i class="pi pi-map-marker me-1"></i>{{ developmentService.cityName || '---' }}
+    <div class="service-page" dir="rtl">
+
+        <!-- ═══════════════════════════ HERO HEADER ══════════════════════════ -->
+        <div class="hero-header">
+            <div class="hero-backdrop"></div>
+            <div class="hero-content">
+                <div class="hero-meta">
+                    @if (developmentService.cityName) {
+                        <span class="badge-chip chip-city">
+                            <i class="pi pi-map-marker"></i>
+                            {{ developmentService.cityName }}
                         </span>
-                        @if (developmentService.townName) {
-                            <span class="badge-chip town">
-                                <i class="pi pi-map me-1"></i>{{ developmentService.townName }}
+                    }
+                    @if (developmentService.townName) {
+                        <span class="badge-chip chip-town">
+                            <i class="pi pi-map"></i>
+                            {{ developmentService.townName }}
+                        </span>
+                    }
+                    @if (developmentService.entityName) {
+                        <span class="badge-chip chip-entity">
+                            <i class="pi pi-building"></i>
+                            {{ developmentService.entityName }}
+                        </span>
+                    }
+                </div>
+
+                <h1 class="hero-title">{{ developmentService.name || '—' }}</h1>
+
+                <div class="hero-dates">
+                    @if (developmentService.serviceStartDate) {
+                        <span class="date-pill">
+                            <i class="pi pi-calendar-plus"></i>
+                            بداية: {{ developmentService.serviceStartDate | date: 'yyyy/MM/dd' }}
+                        </span>
+                    }
+                    @if (developmentService.serviceEndDate) {
+                        <span class="date-pill">
+                            <i class="pi pi-calendar-minus"></i>
+                            نهاية: {{ developmentService.serviceEndDate | date: 'yyyy/MM/dd' }}
+                        </span>
+                    }
+                </div>
+            </div>
+
+            <div class="hero-actions">
+                <button class="action-btn btn-back" (click)="navigateBack()">
+                    <i class="pi pi-arrow-right"></i>
+                    <span>عودة</span>
+                </button>
+                <button class="action-btn btn-edit" (click)="navigateToEdit()">
+                    <i class="pi pi-file-edit"></i>
+                    <span>تعديل</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════ STATS RIBBON ═════════════════════════ -->
+        <div class="stats-ribbon">
+            <div class="stat-item">
+                <span class="stat-icon icon-beneficiaries"><i class="pi pi-users"></i></span>
+                <div class="stat-body">
+                    <span class="stat-value">{{ developmentService.beneficiaryNumber ?? 0 }}</span>
+                    <span class="stat-label">عدد المستفيدين</span>
+                </div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-icon icon-value"><i class="pi pi-wallet"></i></span>
+                <div class="stat-body">
+                    <span class="stat-value">{{ developmentService.value ?? 0 }}</span>
+                    <span class="stat-label">قيمة الخدمة</span>
+                </div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-icon icon-entities"><i class="pi pi-building"></i></span>
+                <div class="stat-body">
+                    <span class="stat-value">{{ servicedevelopmententities.length }}</span>
+                    <span class="stat-label">جهات التنمية</span>
+                </div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-icon icon-beneficiaries-list"><i class="pi pi-list"></i></span>
+                <div class="stat-body">
+                    <span class="stat-value">{{ servicebeneficiaries.length }}</span>
+                    <span class="stat-label">المستفيدون</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════ BODY GRID ════════════════════════════ -->
+        <div class="body-grid">
+
+            <!-- ─────────────── RIGHT COLUMN: SERVICE INFO ──────────────────── -->
+            <div class="col-details">
+
+                <!-- Service Info -->
+                <div class="detail-card">
+                    <div class="detail-card-header">
+                        <span class="detail-card-icon accent-teal">
+                            <i class="pi pi-info-circle"></i>
+                        </span>
+                        <h3 class="detail-card-title">معلومات الخدمة</h3>
+                    </div>
+                    <div class="info-grid">
+                        <div class="info-field">
+                            <span class="info-label">اسم الخدمة</span>
+                            <span class="info-value">{{ developmentService.serviceName || '—' }}</span>
+                        </div>
+                        <div class="info-field">
+                            <span class="info-label">المبادرة التنموية</span>
+                            <span class="info-value">{{ developmentService.developmentInitiativeId || '—' }}</span>
+                        </div>
+                        <div class="info-field">
+                            <span class="info-label">المدينة</span>
+                            <span class="info-value">{{ developmentService.cityName || '—' }}</span>
+                        </div>
+                        <div class="info-field">
+                            <span class="info-label">المركز</span>
+                            <span class="info-value">{{ developmentService.townName || '—' }}</span>
+                        </div>
+                        <div class="info-field">
+                            <span class="info-label">تاريخ بدء الخدمة</span>
+                            <span class="info-value">
+                                {{ developmentService.serviceStartDate ? (developmentService.serviceStartDate | date: 'yyyy/MM/dd') : '—' }}
                             </span>
+                        </div>
+                        <div class="info-field">
+                            <span class="info-label">تاريخ انتهاء الخدمة</span>
+                            <span class="info-value">
+                                {{ developmentService.serviceEndDate ? (developmentService.serviceEndDate | date: 'yyyy/MM/dd') : '—' }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notes -->
+                @if (developmentService.notes) {
+                    <div class="detail-card">
+                        <div class="detail-card-header">
+                            <span class="detail-card-icon accent-purple">
+                                <i class="pi pi-comment"></i>
+                            </span>
+                            <h3 class="detail-card-title">ملاحظات</h3>
+                        </div>
+                        <p class="detail-card-body">{{ developmentService.notes }}</p>
+                    </div>
+                }
+
+            </div>
+
+            <!-- ─────────────── LEFT COLUMN: ENTITIES + BENEFICIARIES ─────── -->
+            <div class="col-side">
+
+                <!-- Development Entities -->
+                <div class="side-panel">
+                    <div class="side-panel-header">
+                        <i class="pi pi-building"></i>
+                        <span>جهات التنمية</span>
+                        <span class="side-count-badge">{{ servicedevelopmententities.length }}</span>
+                    </div>
+                    <div class="side-panel-body">
+                        @if (servicedevelopmententities.length === 0) {
+                            <div class="empty-side">
+                                <i class="pi pi-building"></i>
+                                <span>لا توجد جهات مضافة</span>
+                            </div>
+                        } @else {
+                            @for (entity of servicedevelopmententities; track entity.id || $index) {
+                                <div class="side-row">
+                                    <span class="side-dot"></span>
+                                    <div class="side-row-content">
+                                        <span class="side-row-text">
+                                            {{ entity.name || entity.entityName || entity.organizationName || '—' }}
+                                        </span>
+                                        @if (entity.entityTypeNameAr || entity.typeName) {
+                                            <span class="side-row-tag">{{ entity.entityTypeNameAr || entity.typeName }}</span>
+                                        }
+                                    </div>
+                                </div>
+                            }
                         }
                     </div>
                 </div>
-                <div class="d-flex gap-2">
-                    <button class="main-btn back py-1 px-3" (click)="navigateBack()">
-                        <i class="pi pi-arrow-right me-1"></i> عودة
-                    </button>
-                    <button class="main-btn edit py-1 px-3" (click)="navigateToEdit()">
-                        <i class="pi pi-file-edit me-1"></i> تعديل
-                    </button>
+
+                <!-- Beneficiaries -->
+                <div class="side-panel">
+                    <div class="side-panel-header">
+                        <i class="pi pi-users"></i>
+                        <span>المستفيدون</span>
+                        <span class="side-count-badge">{{ servicebeneficiaries.length }}</span>
+                    </div>
+                    <div class="side-panel-body">
+                        @if (servicebeneficiaries.length === 0) {
+                            <div class="empty-side">
+                                <i class="pi pi-users"></i>
+                                <span>لا يوجد مستفيدون مضافون</span>
+                            </div>
+                        } @else {
+                            @for (ben of servicebeneficiaries; track ben.id || $index) {
+                                <div class="side-row">
+                                    <div class="beneficiary-avatar">
+                                        {{ ben.beneficiaryName?.trim()?.[0] ?? '؟' }}
+                                    </div>
+                                    <div class="side-row-content">
+                                        <span class="side-row-text">{{ ben.beneficiaryName || '—' }}</span>
+                                        @if (ben.serviceName) {
+                                            <span class="side-row-tag">{{ ben.serviceName }}</span>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
                 </div>
+
             </div>
         </div>
 
-        <div class="row g-3 mb-3">
-            <!-- Stats Column (العمود الأيسر: الأرقام والإحصائيات) -->
-            <div class="col-12 col-lg-4 d-flex flex-column gap-3">
-                <div class="card stats-card p-3">
-                    <div class="section-header d-flex align-items-center gap-2 mb-3">
-                        <i class="pi pi-chart-bar"></i>
-                        <strong>الإحصائيات</strong>
-                    </div>
-                    <div class="detail-row">
-                        <span class="label">عدد المستفيدين:</span>
-                        <span>{{ developmentService.beneficiaryNumber ?? 0 }}</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="label">قيمة الخدمة:</span>
-                        <span>{{ developmentService.value ?? 0 }}</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="label">تاريخ بدء الخدمة:</span>
-                        <span>{{ developmentService.serviceStartDate | date:'dd/MM/yyyy'   }}</span>
-                    </div>
-                     <div class="detail-row">
-                        <span class="label">تاريخ انتهاء الخدمة:</span>
-                        <span>{{ developmentService.serviceEndDate | date:'dd/MM/yyyy'   }}</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Details Column (العمود الأيمن: معلومات الخدمة) -->
-            <div class="col-12 col-lg-8 d-flex flex-column gap-3">
-                <div class="card p-3">
-                    <div class="section-header d-flex align-items-center gap-2 mb-3">
-                        <i class="pi pi-info-circle"></i>
-                        <strong>معلومات الخدمة</strong>
-                    </div>
-                    <div class="row g-2">
-                        <div class="col-12 col-md-6">
-                            <div class="detail-row">
-                                <span class="label">اسم الخدمة:</span>
-                                <span>{{ developmentService.serviceName || '---' }}</span>
-                            </div>
-                        </div>
-                        <!-- <div class="col-12 col-md-6">
-                            <div class="detail-row">
-                                <span class="label">تاريخ بدء الخدمة:</span>
-                                <span>{{ servicedevelopmententities.developmentInitiativeName || '---' }}</span>
-                            </div>
-                        </div> -->
-                        <!-- <div class="col-12 col-md-6">
-                            <div class="detail-row">
-                                <span class="label">تاريخ انتهاء الخدمة:</span>
-                                <span>{{servicebeneficiaries.beneficiaryName || '---' }}</span>
-                            </div>
-                        </div> -->
-                    </div>
-                </div>
-            </div>
-            <!-- كارت جهات التنمية المخصصة للخدمة -->
-<div class="card p-3 mb-3">
-    <div class="section-header d-flex align-items-center gap-2 mb-3">
-        <i class="pi pi-building text-primary"></i>
-        <strong>جهات التنمية ({{ servicedevelopmententities.length }})</strong>
-    </div>
-
-    @if (servicedevelopmententities.length === 0) {
-        <p class="text-muted text-center font-14 my-2">لا توجد جهات مضافة لهذه الخدمة</p>
-    } @else {
-        @for (entity of servicedevelopmententities; track entity.id || $index) {
-            <div class="group-row d-flex align-items-center justify-content-between mb-2 p-2 border-round">
-                <div class="d-flex align-items-center">
-                    <i class="pi pi-sitemap text-muted me-2"></i>
-                    <span>{{ entity.name || entity.entityName || entity.organizationName || '---' }}</span>
-                </div>
-                @if (entity.entityTypeNameAr || entity.typeName) {
-                    <span class="text-muted font-12">({{ entity.entityTypeNameAr || entity.typeName }})</span>
-                }
-            </div>
-        }
-    }
-</div>
-
-            <!-- كارت المستفيدين المخصص للخدمة -->
-<div class="card p-3 mb-3">
-    <div class="section-header d-flex align-items-center gap-2 mb-3">   
-        <i class="pi pi-users text-primary"></i>    
-        <strong>المستفيدين ({{ servicebeneficiaries.length }})</strong>
-          <div class="col-12 col-md-6">
-                            <div class="detail-row">
-                                <span class="label">اسم الخدمة:</span>
-                                <span>{{ servicebeneficiaries[0]?.beneficiaryName || '---' }}</span>
-                            </div>
-                        </div>
-</div>
-</div>
-        </div>
     </div>
 } @else {
-    <div class="d-flex justify-content-center align-items-center p-5">
-        <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+    <div class="loading-screen">
+        <div class="loading-ring">
+            <i class="pi pi-spin pi-spinner"></i>
+        </div>
+        <span>جارٍ تحميل بيانات الخدمة…</span>
     </div>
 }

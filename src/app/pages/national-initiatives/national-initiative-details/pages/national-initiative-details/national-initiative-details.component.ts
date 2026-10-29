@@ -46,16 +46,16 @@ export class NationalInitiativeDetailsComponent extends BaseListComponent {
             bodyOptions: {
                 filter: this.authHelper.hasRole(this.rolesEnum.Employee) ? { createdById: this.authHelper.getUserId() } : {}
             },
-            responsiveDisplayedProperties: ['name', 'fieldName', 'cityName', 'initiativeMangerName', 'createdDate']
+            responsiveDisplayedProperties: ['developmentInitiativeName', 'beneficiaryGroupName', 'ExecuteTypeName', 'ExecutionStatusName']
         };
     }
 
     initializeTableColumns(): TableOptions['inputCols'] {
         return [
             { field: 'developmentInitiativeName', header: 'اسم المبادرة', filter: true, filterMode: 'text' },
-            { field: 'beneficiaryGroupName ', header: 'الفئة المستهدفة', filter: true, filterMode: 'text' },
-            { field: 'ExecuteTypeName ', header: 'نطاق التنفيذ', filter: true, filterMode: 'text' },
-            { field: 'ExecutionStatusName ', header: 'الموقف التنفيذي', filter: true, filterMode: 'text' }
+            { field: 'beneficiaryGroupName', header: 'الفئة المستهدفة', filter: true, filterMode: 'text' },
+            { field: 'ExecuteTypeName', header: 'نطاق التنفيذ', filter: true, filterMode: 'text' },
+            { field: 'ExecutionStatusName', header: 'الموقف التنفيذي', filter: true, filterMode: 'text' }
         ];
     }
 
@@ -66,7 +66,7 @@ export class NationalInitiativeDetailsComponent extends BaseListComponent {
                 icon: 'pi pi-eye',
                 color: 'text-info',
                 isView: true,
-                route: '/pages/national-initiative-detail/national-initiative-detail/view/',
+                route: '/pages/national-initiatives/initiative-details/view/',
                 allowAll: true
             },
             {
@@ -74,7 +74,7 @@ export class NationalInitiativeDetailsComponent extends BaseListComponent {
                 icon: 'pi pi-file-edit',
                 color: 'text-middle',
                 isEdit: true,
-                route: '/pages/national-initiative-detail/national-initiative-detail/edit/',
+                route: '/pages/national-initiatives/initiative-details/edit/',
                 allowAll: true
             },
             this.authHelper.isAdmin
