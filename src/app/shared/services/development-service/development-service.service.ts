@@ -31,13 +31,7 @@ export class DevelopmentServiceService extends HttpService {
         return this.dropdownPost<any, any>({ apiName: `getpaged`, showAlert: true }, body);
     }
 
-    add(body: AddDevelopmentServiceDto) {
-        return this.post<AddDevelopmentServiceDto, DevelopmentServiceDto>({ apiName: 'add', showAlert: true }, body);
-    }
-
-    update(body: UpdateDevelopmentServiceDto) {
-        return this.put({ apiName: 'update', showAlert: true }, body);
-    }
+   
 
     getFieldsDashboardCounts(): Observable<any> {
         return this.get<any>({ apiName: 'getcountbyfield' });
@@ -51,8 +45,20 @@ export class DevelopmentServiceService extends HttpService {
         return this.get<any>({ apiName: 'getcountbybeneficiary' });
     }
 
+ add(body: FormData) {
+        return this.post<FormData, DevelopmentServiceDto>({ apiName: 'add', showAlert: true }, body);
+    }
+
+    update(body: FormData) {
+        return this.put<FormData, DevelopmentServiceDto>({ apiName: 'update', showAlert: true }, body);
+    }
+
     remove(id: string) {
         return this.delete({ apiName: `deletesoft/`, showAlert: true }, id);
+    }
+
+    deleteAttachments(ids: string[]) {
+        return this.delete({ apiName: `deleterange/attachments`, showAlert: true }, ids);
     }
 
     generateReport(body: any): Observable<any> {
