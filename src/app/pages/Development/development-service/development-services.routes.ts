@@ -17,14 +17,9 @@ export const developmentServicesRoutes: Routes = [
         data: { pageTitle: 'تعديل مبادرة', pageType: 'edit' }
     },
     {
-        path: 'dashboard',
-        loadComponent: () => import('../development-service-dashboard/development-service-dashboard.component').then((c) => c.DevelopmentServiceDashboardComponent),
-        data: { pageTitle: 'الإحصائيات الخدمات التنموية', pageType: 'dashboard' }
-    },
-    {
         path: 'view/:id',
         loadComponent: () => import('./components/development-service/development-service.component').then((c) => c.DevelopmentServiceComponent),
         data: { pageTitle: 'عرض المبادرة', pageType: 'view' }
     },
-     
+
 ];

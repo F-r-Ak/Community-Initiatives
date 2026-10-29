@@ -168,16 +168,16 @@ export class AddEditInitiativeComponent extends BaseEditComponent implements OnI
         };
         if (this.pageType === 'add') {
             this.initiativesService.add(value).subscribe((res: any) => {
-                this.redirect(`/pages/social-initiatives/initiatives/edit/${res?.id}`);
+                this.redirect(`/pages/social-initiatives/initiative-details/edit/${res?.id}`);
             });
         } else {
             this.initiativesService.update({ id: this.id, ...value }).subscribe(() => {
-                this.redirect('/pages/social-initiatives/initiatives');
+                this.redirect('/pages/social-initiatives/initiative-details');
             });
         }
     }
 
     override redirect(url?: string) {
-        this.route.navigate([url ?? '/pages/social-initiatives/initiatives']);
+        this.route.navigate([url ?? '/pages/social-initiatives/initiative-details']);
     }
 }

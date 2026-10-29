@@ -103,10 +103,6 @@ export default [
     {
         path: 'develpment-initiatives',
         children: [
-            // {
-            //     path: 'initiative-details',
-            //     loadChildren: () => import('./develpment-initiative/develpment-initiatives/develpment-initiatives.routes').then((m) => m.DevelpmentInitiativesRoutes)
-            // },
             {
                 path: 'development-services',
                 loadChildren: () => import('./Development/development-service/development-services.routes').then((m) => m.developmentServicesRoutes)
