@@ -55,13 +55,13 @@ export class DevelopmentServicesComponent extends BaseListComponent {
     initializeTableColumns(): TableOptions['inputCols'] {
         return [
             { field: 'name', header: 'اسم الخدمة', filter: true, filterMode: 'text' },
-          
-           
+
+
             { field: 'cityName', header: 'المركز', filter: true, filterMode: 'text' },
              { field: 'totalBeneficiaryNumber', header: 'عدد المستفيدين', filter: true, filterMode: 'text' },
              { field: 'serviceStartDate', header: 'تاريخ بدء الخدمة', filter: true, filterMode: 'date' },
             { field: 'serviceEndDate', header: 'تاريخ انتهاء الخدمة', filter: true, filterMode: 'date' },
-          
+
 
         ];
     }
@@ -73,7 +73,7 @@ export class DevelopmentServicesComponent extends BaseListComponent {
                 icon: 'pi pi-eye',
                 color: 'text-info',
                 isView: true,
-                route: '/pages/develpment-initiatives/development-service/view/',
+                route: '/pages/develpment-initiatives/development-services/view/',
                 allowAll: true
             },
             {
@@ -81,7 +81,7 @@ export class DevelopmentServicesComponent extends BaseListComponent {
                 icon: 'pi pi-file-edit',
                 color: 'text-middle',
                 isEdit: true,
-                route: '/pages/develpment-initiatives/development-service/edit/',
+                route: '/pages/develpment-initiatives/development-services/edit/',
                 allowAll: true
             },
            this.authHelper.isAdmin ?
@@ -96,11 +96,11 @@ export class DevelopmentServicesComponent extends BaseListComponent {
     }
 
     navigateToEdit(row: any) {
-        this.route.navigate([`/pages/develpment-initiatives/development-service/edit/${row.id}`]);
+        this.route.navigate([`/pages/develpment-initiatives/development-services/edit/${row.id}`]);
     }
 
     navigateToView(row: any) {
-        this.route.navigate([`/pages/develpment-initiatives/development-service/view/${row.id}`]);
+        this.route.navigate([`/pages/develpment-initiatives/development-services/view/${row.id}`]);
     }
 
     override ngOnDestroy() {

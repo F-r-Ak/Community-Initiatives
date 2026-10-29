@@ -67,7 +67,7 @@ getServiceNames(body: any) {
 getDevelopmentInitiatives(body: any) {
         return this.develpmentInitiativesService.getPaged(body);
     }
-    getEntities(body: any) {   
+    getEntities(body: any) {
         return this.entitiesService.getPaged(body);
     }
    getEntityTypes() {
@@ -76,7 +76,7 @@ getDevelopmentInitiatives(body: any) {
 
 
 
-    
+
     selectedField: any = null;
     selectedCity: any = null;
     selectedTown: any = null;
@@ -115,7 +115,7 @@ getDevelopmentInitiatives(body: any) {
            beneficiaryFemaleNumber: ['', Validators.required],
             totalBeneficiaryNumber: ['', Validators.required],
 
-         
+
         });
     }
 
@@ -126,7 +126,7 @@ getDevelopmentInitiatives(body: any) {
             if (data.townId) {
                 this.townsService.getEditTown(data.townId).subscribe((town) => (this.selectedTown = town));
             }
-            
+
             if (data.cityId) {
                 this.citiesService.getEditCity(data.cityId).subscribe((city) => (this.selectedCity = city));
             }
@@ -139,8 +139,8 @@ getDevelopmentInitiatives(body: any) {
             if (data.initiativeMangerId) {
                 this.teamMembersService.getEditTeamMember(data.initiativeMangerId).subscribe((member) => (this.selectedManager = member));
             }
-          
-          
+
+
         });
     }
 
@@ -187,16 +187,16 @@ getDevelopmentInitiatives(body: any) {
         if (this.pageType === 'add') {
             this.developmentServicesService.add(value).subscribe((res: any) => {
                 console.log('res', res);
-                this.redirect(`/pages/develpment-initiatives/development-service/edit/${res}`);
+                this.redirect(`/pages/develpment-initiatives/development-services/edit/${res}`);
             });
         } else {
             this.developmentServicesService.update({ id: this.id, ...value }).subscribe(() => {
-                this.redirect('/pages/develpment-initiatives/development-service');
+                this.redirect('/pages/develpment-initiatives/development-services');
             });
         }
     }
 
     override redirect(url?: string) {
-        this.route.navigate([url ?? '/pages/develpment-initiatives/development-service']);
+        this.route.navigate([url ?? '/pages/develpment-initiatives/development-services']);
     }
 }

@@ -1,5 +1,5 @@
-import { EnumDto } from '../..';
 import { Lookup, SharedProperties } from '../shared/shared';
+import { Attachment } from '../attachment/attachment';
 
 export interface NationalInitiativeDto extends Lookup, Partial<SharedProperties> {
     id: string;
@@ -18,6 +18,7 @@ export interface NationalInitiativeDto extends Lookup, Partial<SharedProperties>
     workPlan: string;
     stepsExecution: string;
     results: string;
+    attachs: Attachment[];
 }
 
 export interface AddNationalInitiativeDto extends Lookup, Partial<SharedProperties> {
@@ -31,6 +32,7 @@ export interface AddNationalInitiativeDto extends Lookup, Partial<SharedProperti
     workPlan: string;
     stepsExecution: string;
     results: string;
+    attachs: Attachment[];
 }
 
 export interface UpdateNationalInitiativeDto extends Lookup, Partial<SharedProperties> {
@@ -44,4 +46,5 @@ export interface UpdateNationalInitiativeDto extends Lookup, Partial<SharedPrope
     workPlan: string;
     stepsExecution: string;
     results: string;
+    attachs: Attachment[];
 }
