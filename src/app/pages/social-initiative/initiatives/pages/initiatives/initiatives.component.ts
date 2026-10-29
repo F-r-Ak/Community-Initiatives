@@ -68,7 +68,7 @@ export class InitiativesComponent extends BaseListComponent {
                 icon: 'pi pi-eye',
                 color: 'text-info',
                 isView: true,
-                route: '/pages/social-initiatives/initiatives/view/',
+                route: '/pages/social-initiatives/initiative-details/view/',
                 allowAll: true
             },
             {
@@ -76,7 +76,7 @@ export class InitiativesComponent extends BaseListComponent {
                 icon: 'pi pi-file-edit',
                 color: 'text-middle',
                 isEdit: true,
-                route: '/pages/social-initiatives/initiatives/edit/',
+                route: '/pages/social-initiatives/initiative-details/edit/',
                 allowAll: true
             },
            this.authHelper.isAdmin ?
@@ -91,11 +91,11 @@ export class InitiativesComponent extends BaseListComponent {
     }
 
     navigateToEdit(row: any) {
-        this.route.navigate([`social-initiatives/initiatives/edit/${row.id}`]);
+        this.route.navigate([`social-initiatives/initiative-details/edit/${row.id}`]);
     }
 
     navigateToView(row: any) {
-        this.route.navigate([`social-initiatives/initiatives/view/${row.id}`]);
+        this.route.navigate([`social-initiatives/initiative-details/view/${row.id}`]);
     }
 
     override ngOnDestroy() {

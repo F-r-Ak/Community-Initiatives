@@ -68,9 +68,11 @@ export class InitiativesDashboardComponent extends BaseComponent implements OnIn
                 id: 'doughnutInsideLabels',
                 afterDraw(chart: any) {
                     const { ctx, data } = chart;
-                    const total = (data.datasets[0].data as number[]).reduce((a: number, b: number) => a + b, 0);
-                    chart.getDatasetMeta(0).data.forEach((arc: any, i: number) => {
-                        const value = data.datasets[0].data[i] as number;
+                    const values: number[] = data?.datasets?.[0]?.data;
+                    if (!Array.isArray(values)) return;
+                    const total = values.reduce((a: number, b: number) => a + b, 0);
+                    chart.getDatasetMeta(0)?.data?.forEach((arc: any, i: number) => {
+                        const value = values[i] as number;
                         if (!value || total === 0) return;
                         const pct = ((value / total) * 100).toFixed(1);
                         const mid = (arc.startAngle + arc.endAngle) / 2;
@@ -92,16 +94,18 @@ export class InitiativesDashboardComponent extends BaseComponent implements OnIn
         ];
 
 
-        
+
         // Inline plugin: draw count + percentage on top of each bar
         this.barPlugins = [
             {
                 id: 'barTopLabels',
                 afterDatasetsDraw(chart: any) {
                     const { ctx, data } = chart;
-                    const total = (data.datasets[0].data as number[]).reduce((a: number, b: number) => a + b, 0);
-                    chart.getDatasetMeta(0).data.forEach((bar: any, i: number) => {
-                        const value = data.datasets[0].data[i] as number;
+                    const values: number[] = data?.datasets?.[0]?.data;
+                    if (!Array.isArray(values)) return;
+                    const total = values.reduce((a: number, b: number) => a + b, 0);
+                    chart.getDatasetMeta(0)?.data?.forEach((bar: any, i: number) => {
+                        const value = values[i] as number;
                         if (value == null) return;
                         const pct = total > 0 ? ((value / total) * 100).toFixed(1) : '0.0';
                         ctx.save();

@@ -76,11 +76,11 @@ export class InitiativeComponent extends BaseComponent implements OnInit {
     }
 
     navigateToEdit(): void {
-        this.route.navigate([`/pages/social-initiatives/initiatives/edit/${this.id}`]);
+        this.route.navigate([`/pages/social-initiatives/initiative-details/edit/${this.id}`]);
     }
 
     navigateBack(): void {
-        this.route.navigate(['/pages/social-initiatives/initiatives']);
+        this.route.navigate(['/pages/social-initiatives/initiative-details']);
     }
 
     confirmDelete(): void {
