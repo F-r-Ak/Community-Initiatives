@@ -8,6 +8,10 @@ import { PrimeInputTextComponent, PrimeDatepickerComponent, PrimeAutoCompleteCom
 import { AuthHelper, DateHelper } from '../../../../../core';
 import { DevelpmentInitiativesService }from '../../../../../shared/services/develpment-initiatives/develpment-initiatives.service';
 import { ServiceDevelopmentEntityTabs } from '../../../../../core/enums/service-developmententity-tabs';
+import { Attachment } from '../../../../../shared/interfaces/attachment/attachment';
+import { environment } from '../../../../../../environments/environment';
+
+
 function minArrayLength(min: number): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
         const value = control.value;
@@ -44,7 +48,8 @@ export class AddEditDevelopmentServiceComponent extends BaseEditComponent implem
     }
 
     getTowns(body: any) {
-        return this.townsService.getPaged(body);
+        const filter = this.selectedCity?.id ? { ...body.filter, cityId: this.selectedCity.id } : body.filter;
+        return this.townsService.getPaged({ ...body, filter });
     }
 
     getManagers(body: any) {
@@ -87,6 +92,11 @@ getDevelopmentInitiatives(body: any) {
     selectedEntityType: any = null;
     selectedMembers: any[] = [];
     memberSearchSelection: any = null;
+    
+      // Attachment state
+    selectedFiles: File[] = [];
+    existingAttachments: Attachment[] = [];
+    filesToDelete: string[] = [];
 
     constructor(protected override activatedRoute: ActivatedRoute) {
         super(activatedRoute);
@@ -111,18 +121,30 @@ getDevelopmentInitiatives(body: any) {
             townId: [null, Validators.required],
             cityId: [null, Validators.required],
             developmentInitiativeId: [null, Validators.required],
-            beneficiaryMaleNumber: ['', Validators.required],
-           beneficiaryFemaleNumber: ['', Validators.required],
-            totalBeneficiaryNumber: ['', Validators.required],
+            beneficiaryMaleNumber: [0, Validators.required],
+            beneficiaryFemaleNumber: [0, Validators.required],
+            totalBeneficiaryNumber: ['0', Validators.required],
+            attachs: [[]],
 
 
         });
+
+        this.form.get('beneficiaryMaleNumber')?.valueChanges.subscribe(() => this.updateTotalBeneficiaryNumber());
+        this.form.get('beneficiaryFemaleNumber')?.valueChanges.subscribe(() => this.updateTotalBeneficiaryNumber());
+        this.updateTotalBeneficiaryNumber();
+    }
+
+    private updateTotalBeneficiaryNumber(): void {
+        const male = Number(this.form.get('beneficiaryMaleNumber')?.value) || 0;
+        const female = Number(this.form.get('beneficiaryFemaleNumber')?.value) || 0;
+        this.form.get('totalBeneficiaryNumber')?.setValue(String(male + female), { emitEvent: false });
     }
 
     getEditInitiative() {
         this.developmentServicesService.getEditDevelopmentService(this.id).subscribe((data: any) => {
             this.initFormGroup();
             this.form.patchValue(data);
+            this.updateTotalBeneficiaryNumber();
             if (data.townId) {
                 this.townsService.getEditTown(data.townId).subscribe((town) => (this.selectedTown = town));
             }
@@ -139,7 +161,12 @@ getDevelopmentInitiatives(body: any) {
             if (data.initiativeMangerId) {
                 this.teamMembersService.getEditTeamMember(data.initiativeMangerId).subscribe((member) => (this.selectedManager = member));
             }
-
+          
+      if (data.attachs?.length) {
+                this.existingAttachments = [...data.attachs];
+                this.form.get('attachs')?.setValue(data.attachs);
+            }
+            this.form.patchValue({ ...data, attachs: data.attachs ?? [] });
 
         });
     }
@@ -147,11 +174,22 @@ getDevelopmentInitiatives(body: any) {
     onTownSelect(event: any) {
         this.selectedTown = event?.value ?? null;
         this.form.get('townId')?.setValue(this.selectedTown?.id ?? null);
+        const cityId = this.selectedTown?.cityId ?? null;
+        this.form.get('cityId')?.setValue(cityId);
+        if (cityId && this.selectedCity?.id !== cityId) {
+            this.citiesService.getEditCity(cityId).subscribe((city) => (this.selectedCity = city));
+        } else if (!cityId) {
+            this.selectedCity = null;
+        }
     }
 
     onCitySelect(event: any) {
         this.selectedCity = event?.value ?? null;
         this.form.get('cityId')?.setValue(this.selectedCity?.id ?? null);
+        if (this.selectedTown?.cityId !== this.selectedCity?.id) {
+            this.selectedTown = null;
+            this.form.get('townId')?.setValue(null);
+        }
     }
     onDevelopmentInitiativeSelect(event: any) {
         this.selectedDevelopmentInitiative = event?.value ?? null;
@@ -177,24 +215,85 @@ getDevelopmentInitiatives(body: any) {
         this.selectedEntityType = event?.value ?? null;
         this.form.get('entityType')?.setValue(this.selectedEntityType?.id ?? null);
     }
+
+
+       // --- Attachment methods ---
+    
+        onFileChange(event: Event): void {
+            const input = event.target as HTMLInputElement;
+            if (!input.files) return;
+            const newFiles = Array.from(input.files) as File[];
+            this.selectedFiles.push(...newFiles);
+            input.value = '';
+        }
+    
+        removeNewFile(index: number): void {
+            this.selectedFiles.splice(index, 1);
+        }
+    
+        removeExistingAttachment(attachment: Attachment): void {
+            const attachId = attachment.attachId;
+            this.filesToDelete.push(attachId);
+            this.existingAttachments = this.existingAttachments.filter((a) => a.id !== attachment.id);
+        }
+    
+        getAttachmentUrl(path: string): string {
+            const base = environment.HUB_URL.replace(/\/$/, '');
+            const relativePath = path.replace(/^\//, '');
+            return `${base}/${relativePath}`;
+        }
+    
+        getFileIcon(fileName: string): string {
+            const ext = fileName?.split('.').pop()?.toLowerCase() ?? '';
+            if (['png', 'jpg', 'jpeg', 'gif', 'bmp', 'svg'].includes(ext)) return 'pi pi-image text-info';
+            if (['mp4', 'mov', 'avi', 'mkv', 'webm'].includes(ext)) return 'pi pi-video text-warning';
+            if (ext === 'pdf') return 'pi pi-file-pdf text-danger';
+            if (['doc', 'docx'].includes(ext)) return 'pi pi-file-word text-primary';
+            if (['xls', 'xlsx'].includes(ext)) return 'pi pi-file-excel text-success';
+            return 'pi pi-file text-secondary';
+        }
     submit() {
         if (this.form.invalid) return;
         const value = {
-            ...this.form.value,
+            ...this.form.getRawValue(),
             serviceStartDate: this.dateHelper.toDateOnly(this.form.value.serviceStartDate),
             serviceEndDate: this.dateHelper.toDateOnly(this.form.value.serviceEndDate)
         };
+
+        const submissionValue = this.pageType === 'edit' ? { id: this.id, ...value } : value;
+        const formData = new FormData();
+        Object.entries(submissionValue).forEach(([key, value]) => {
+            if (key === 'attachs') return; // handled separately
+            if (value !== null && value !== undefined) {
+                if (value instanceof Date) {
+                    formData.append(key, value.toISOString().split('T')[0]);
+                } else {
+                    formData.append(key, String(value));
+                }
+            }
+        });
+
+        // Append new files
+        this.selectedFiles.forEach((file: File) => {
+            formData.append('attachs', file, file.name);
+        });
+
+        // Append IDs of removed existing attachments
+        this.filesToDelete.forEach((id) => {
+            formData.append('filesToDelete', id);
+        });
+
         if (this.pageType === 'add') {
-            this.developmentServicesService.add(value).subscribe((res: any) => {
-                console.log('res', res);
-                this.redirect(`/pages/develpment-initiatives/development-services/edit/${res}`);
+            this.developmentServicesService.add(formData).subscribe((res: any) => {
+                this.redirect(`/pages/develpment-initiatives/development-services/edit/${res?.id ?? res}`);
             });
         } else {
-            this.developmentServicesService.update({ id: this.id, ...value }).subscribe(() => {
+            this.developmentServicesService.update(formData).subscribe(() => {
                 this.redirect('/pages/develpment-initiatives/development-services');
             });
         }
     }
+   
 
     override redirect(url?: string) {
         this.route.navigate([url ?? '/pages/develpment-initiatives/development-services']);
