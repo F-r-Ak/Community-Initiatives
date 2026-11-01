@@ -72,7 +72,7 @@ getServiceNames(body: any) {
 getDevelopmentInitiatives(body: any) {
         return this.develpmentInitiativesService.getPaged(body);
     }
-    getEntities(body: any) {   
+    getEntities(body: any) {
         return this.entitiesService.getPaged(body);
     }
    getEntityTypes() {
@@ -81,7 +81,7 @@ getDevelopmentInitiatives(body: any) {
 
 
 
-    
+
     selectedField: any = null;
     selectedCity: any = null;
     selectedTown: any = null;
@@ -123,10 +123,10 @@ getDevelopmentInitiatives(body: any) {
             developmentInitiativeId: [null, Validators.required],
             beneficiaryMaleNumber: [0, Validators.required],
             beneficiaryFemaleNumber: [0, Validators.required],
-            totalBeneficiaryNumber: [0, Validators.required],
+            totalBeneficiaryNumber: ['0', Validators.required],
             attachs: [[]],
 
-         
+
         });
 
         this.form.get('beneficiaryMaleNumber')?.valueChanges.subscribe(() => this.updateTotalBeneficiaryNumber());
@@ -137,7 +137,7 @@ getDevelopmentInitiatives(body: any) {
     private updateTotalBeneficiaryNumber(): void {
         const male = Number(this.form.get('beneficiaryMaleNumber')?.value) || 0;
         const female = Number(this.form.get('beneficiaryFemaleNumber')?.value) || 0;
-        this.form.get('totalBeneficiaryNumber')?.setValue(male + female, { emitEvent: false });
+        this.form.get('totalBeneficiaryNumber')?.setValue(String(male + female), { emitEvent: false });
     }
 
     getEditInitiative() {
@@ -148,7 +148,7 @@ getDevelopmentInitiatives(body: any) {
             if (data.townId) {
                 this.townsService.getEditTown(data.townId).subscribe((town) => (this.selectedTown = town));
             }
-            
+
             if (data.cityId) {
                 this.citiesService.getEditCity(data.cityId).subscribe((city) => (this.selectedCity = city));
             }
@@ -162,7 +162,12 @@ getDevelopmentInitiatives(body: any) {
                 this.teamMembersService.getEditTeamMember(data.initiativeMangerId).subscribe((member) => (this.selectedManager = member));
             }
           
-          
+      if (data.attachs?.length) {
+                this.existingAttachments = [...data.attachs];
+                this.form.get('attachs')?.setValue(data.attachs);
+            }
+            this.form.patchValue({ ...data, attachs: data.attachs ?? [] });
+
         });
     }
 
@@ -250,27 +255,20 @@ getDevelopmentInitiatives(body: any) {
     submit() {
         if (this.form.invalid) return;
         const value = {
-            ...this.form.value,
+            ...this.form.getRawValue(),
             serviceStartDate: this.dateHelper.toDateOnly(this.form.value.serviceStartDate),
             serviceEndDate: this.dateHelper.toDateOnly(this.form.value.serviceEndDate)
         };
-        
+
+        const submissionValue = this.pageType === 'edit' ? { id: this.id, ...value } : value;
         const formData = new FormData();
-        Object.entries(this.form.getRawValue()).forEach(([key, value]) => {
+        Object.entries(submissionValue).forEach(([key, value]) => {
             if (key === 'attachs') return; // handled separately
             if (value !== null && value !== undefined) {
                 if (value instanceof Date) {
-                    if (key === 'activityTime') {
-                        // Format as HH:mm:ss for time-only fields
-                        const hh = String(value.getHours()).padStart(2, '0');
-                        const mm = String(value.getMinutes()).padStart(2, '0');
-                        const ss = String(value.getSeconds()).padStart(2, '0');
-                        formData.append(key, `${hh}:${mm}:${ss}`);
-                    } else {
-                        formData.append(key, value.toISOString().split('T')[0]);
-                    }
+                    formData.append(key, value.toISOString().split('T')[0]);
                 } else {
-                    formData.append(key, value as any);
+                    formData.append(key, String(value));
                 }
             }
         });
@@ -287,20 +285,17 @@ getDevelopmentInitiatives(body: any) {
 
         if (this.pageType === 'add') {
             this.developmentServicesService.add(formData).subscribe((res: any) => {
-                this.redirect(`/pages/develpment-initiatives/development-service/edit/${res?.data ?? res}`);
+                this.redirect(`/pages/develpment-initiatives/development-services/edit/${res?.id ?? res}`);
             });
         } else {
-            if (this.filesToDelete.length > 0) {
-                this.developmentServicesService.deleteAttachments(this.filesToDelete).subscribe(() => {
-                    this.filesToDelete = [];
-                });
-            }
-            this.developmentServicesService.update(formData).subscribe(() => this.redirect());
+            this.developmentServicesService.update(formData).subscribe(() => {
+                this.redirect('/pages/develpment-initiatives/development-services');
+            });
         }
     }
    
 
     override redirect(url?: string) {
-        this.route.navigate([url ?? '/pages/develpment-initiatives/development-service']);
+        this.route.navigate([url ?? '/pages/develpment-initiatives/development-services']);
     }
 }

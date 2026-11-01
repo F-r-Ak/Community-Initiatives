@@ -1,66 +1,114 @@
-<div class="card">
-    <div class="title-container">
-        @if (teamMember) {
-            <div class="p-formgrid grid">
-                <div class="field col-12 col-md-6">
-                    <label class="font-bold text-secondary">{{ 'الاسم' }}</label>
-                    <p class="mt-1 font-16">{{ teamMember.nameAr || '---' }}</p>
-                </div>
-                <div class="field col-12 col-md-6">
-                    <label class="font-bold text-secondary">{{ 'الرقم القومي' }}</label>
-                    <p class="mt-1 font-16">{{ teamMember.nationalID || '---' }}</p>
-                </div>
-            </div>
-            <div class="p-formgrid grid">
-                <div class="field col-12 col-md-6">
-                    <label class="font-bold text-secondary">{{ 'رقم الهاتف' }}</label>
-                    <p class="mt-1 font-16">{{ teamMember.mobile || '---' }}</p>
-                </div>
-                <div class="field col-12 col-md-6">
-                    <label class="font-bold text-secondary">{{ 'البريد الإلكتروني' }}</label>
-                    <p class="mt-1 font-16">{{ teamMember.email || '---' }}</p>
-                </div>
-            </div>
-            <div class="p-formgrid grid">
-                <div class="field col-12 col-md-6">
-                    <label class="font-bold text-secondary">{{ 'التخصص' }}</label>
-                    <p class="mt-1 font-16">{{ teamMember.specailization || '---' }}</p>
-                </div>
-                <div class="field col-12 col-md-6">
-                    <label class="font-bold text-secondary">{{ 'العنوان' }}</label>
-                    <p class="mt-1 font-16">{{ teamMember.address || '---' }}</p>
-                </div>
-            </div>
-            <div class="p-formgrid grid">
-                <div class="field col-12 col-md-6">
-                    <label class="font-bold text-secondary">{{ 'النوع' }}</label>
-                    <p class="mt-1 font-16">{{ teamMember.gender.nameAr || '---' }}</p>
-                </div>
-                <div class="field col-12 col-md-6">
-                    <label class="font-bold text-secondary">{{ 'الحالة الوظيفية' }}</label>
-                    <p class="mt-1 font-16">{{ teamMember.jobStatus.nameAr || '---' }}</p>
-                </div>
-            </div>
-            <div class="p-formgrid grid">
-                <div class="field col-12 col-md-6">
-                    <label class="font-bold text-secondary">{{ 'دوره في المبادرة' }}</label>
-                    <p class="mt-1 font-16">{{ teamMember.teamCategory.nameAr || '---' }}</p>
-                </div>
-                <div class="field col-12 col-md-6">
-                    <label class="font-bold text-secondary">{{ 'تاريخ الميلاد' }}</label>
-                    <p class="mt-1 font-16">{{ teamMember.birthDate ? (teamMember.birthDate | date: 'yyyy/MM/dd') : '---' }}</p>
-                </div>
-            </div>
-        } @else {
-            <div class="d-flex justify-content-center p-4">
-                <i class="pi pi-spin pi-spinner" style="font-size: 2rem;"></i>
-            </div>
-        }
+@if (teamMember) {
+    <div class="member-profile" dir="rtl">
 
-        <div class="d-flex justify-content-end mt-3">
-            <button class="main-btn align-self-center font-14 main border-radius-2 py-1 px-2 mt-2 mt-sm-0" type="button" (click)="closeDialog()">
-                {{ 'إغلاق' }}
+        <!-- ══ PROFILE HEADER ══════════════════════════════════════════════════ -->
+        <div class="profile-header">
+            <!-- decorative rings -->
+            <div class="deco-ring ring-1"></div>
+            <div class="deco-ring ring-2"></div>
+
+            <div class="avatar-wrap">
+                <div class="avatar">{{ teamMember.nameAr?.trim()?.[0] ?? '؟' }}</div>
+                @if (teamMember.gender?.nameAr) {
+                    <span class="gender-dot" [title]="teamMember.gender.nameAr"></span>
+                }
+            </div>
+
+            <div class="header-text">
+                <h2 class="profile-name">{{ teamMember.nameAr || '—' }}</h2>
+                <div class="profile-pills">
+                    @if (teamMember.teamCategory?.nameAr) {
+                        <span class="pill pill-role">
+                            <i class="pi pi-shield"></i>
+                            {{ teamMember.teamCategory.nameAr }}
+                        </span>
+                    }
+                    @if (teamMember.jobStatus?.nameAr) {
+                        <span class="pill pill-status">
+                            <i class="pi pi-briefcase"></i>
+                            {{ teamMember.jobStatus.nameAr }}
+                        </span>
+                    }
+                    @if (teamMember.gender?.nameAr) {
+                        <span class="pill pill-gender">
+                            <i class="pi pi-user"></i>
+                            {{ teamMember.gender.nameAr }}
+                        </span>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- ══ INFO ROWS ═══════════════════════════════════════════════════════ -->
+        <div class="info-list">
+
+            <div class="info-row">
+                <div class="info-icon-wrap c-navy"><i class="pi pi-id-card"></i></div>
+                <div class="info-content">
+                    <span class="info-label">الرقم القومي</span>
+                    <span class="info-value mono">{{ teamMember.nationalID || '—' }}</span>
+                </div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-icon-wrap c-teal"><i class="pi pi-mobile"></i></div>
+                <div class="info-content">
+                    <span class="info-label">رقم الهاتف</span>
+                    <span class="info-value mono">{{ teamMember.mobile || '—' }}</span>
+                </div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-icon-wrap c-blue"><i class="pi pi-envelope"></i></div>
+                <div class="info-content">
+                    <span class="info-label">البريد الإلكتروني</span>
+                    <span class="info-value mono">{{ teamMember.email || '—' }}</span>
+                </div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-icon-wrap c-purple"><i class="pi pi-graduation-cap"></i></div>
+                <div class="info-content">
+                    <span class="info-label">التخصص</span>
+                    <span class="info-value">{{ teamMember.specailization || '—' }}</span>
+                </div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-icon-wrap c-orange"><i class="pi pi-calendar"></i></div>
+                <div class="info-content">
+                    <span class="info-label">تاريخ الميلاد</span>
+                    <span class="info-value mono">
+                        {{ teamMember.birthDate ? (teamMember.birthDate | date: 'yyyy/MM/dd') : '—' }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="info-row no-border">
+                <div class="info-icon-wrap c-green"><i class="pi pi-map-marker"></i></div>
+                <div class="info-content">
+                    <span class="info-label">العنوان</span>
+                    <span class="info-value">{{ teamMember.address || '—' }}</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ══ FOOTER ══════════════════════════════════════════════════════════ -->
+        <div class="profile-footer">
+            <button class="btn-close-dialog" type="button" (click)="closeDialog()">
+                <i class="pi pi-times"></i>
+                إغلاق
             </button>
         </div>
+
     </div>
-</div>
+} @else {
+    <div class="skeleton-state">
+        <div class="skeleton-avatar"></div>
+        <div class="skeleton-lines">
+            <div class="sk-line w-60"></div>
+            <div class="sk-line w-40"></div>
+        </div>
+    </div>
+}

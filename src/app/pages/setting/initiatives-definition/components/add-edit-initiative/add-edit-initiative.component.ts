@@ -67,6 +67,11 @@ export class AddEditInitiativeComponent extends BaseEditComponent implements OnI
             if (data.fieldId) {
                 this.fieldsService.getEditField(data.fieldId).subscribe((field) => (this.selectedField = field));
             }
+            if (data.initiativeCategory) {
+                this.initiativeCategoriesService.initiativeCategories.subscribe((categories) => {
+                    this.selectedInitiativeCategory = categories.find((c: any) => c.id === data.initiativeCategory) ?? null;
+                });
+            }
         });
     };
 
@@ -100,7 +105,7 @@ export class AddEditInitiativeComponent extends BaseEditComponent implements OnI
         const query = event.query.toLowerCase();
         this.initiativeCategoriesService.initiativeCategories.subscribe({
             next: (res) => {
-                this.filteredInitiativeCategories = res.filter((category: any) => category.nameAr.toLowerCase().includes(query));
+                this.filteredInitiativeCategories = res.filter((category: any) => category.id !== 0 && category.nameAr.toLowerCase().includes(query));
             },
             error: (err) => {
                 this.alert.error('خطأ فى جلب بيانات فئات المبادرة');

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AddNationalInitiativeDto, NationalInitiativeDto, UpdateNationalInitiativeDto, GetPagedBody } from '../../interfaces';
+import { NationalInitiativeDto, GetPagedBody } from '../../interfaces';
 import { Observable } from 'rxjs';
 import { HttpService } from '../../../core/services/http/http.service';
 
@@ -31,12 +31,16 @@ export class NationalInitiativesService extends HttpService {
         return this.dropdownPost<any, any>({ apiName: `getpaged`, showAlert: true }, body);
     }
 
-    add(body: AddNationalInitiativeDto) {
-        return this.post<AddNationalInitiativeDto, NationalInitiativeDto>({ apiName: 'add', showAlert: true }, body);
+    add(body: FormData) {
+        return this.post<FormData, NationalInitiativeDto>({ apiName: 'add', showAlert: true }, body);
     }
 
-    update(body: UpdateNationalInitiativeDto) {
-        return this.put({ apiName: 'update', showAlert: true }, body);
+    update(body: FormData) {
+        return this.put<FormData, NationalInitiativeDto>({ apiName: 'update', showAlert: true }, body);
+    }
+
+    deleteAttachments(ids: string[]) {
+        return this.delete({ apiName: `deleterange/attachments`, showAlert: true }, ids);
     }
 
     getFieldsDashboardCounts(): Observable<any> {

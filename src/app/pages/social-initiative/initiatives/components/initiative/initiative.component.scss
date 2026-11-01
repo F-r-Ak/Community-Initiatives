@@ -1,219 +1,730 @@
+// ─── Design Tokens ───────────────────────────────────────────────────────────
+$primary:        #357988;
+$primary-dark:   #265a66;
+$primary-light:  #e8f4f6;
+$navy:           #343454;
+$navy-dark:      #23233a;
+$gold:           #c9a227;
+$gold-light:     #fff8e1;
+$surface:        #f4f7f9;
+$card-bg:        #ffffff;
+$border:         #e4eaee;
+$text-main:      #1e2c38;
+$text-muted:     #6b7e8d;
+$radius-sm:      8px;
+$radius-md:      12px;
+$radius-lg:      16px;
+$shadow-sm:      0 1px 4px rgba(0,0,0,.06);
+$shadow-md:      0 4px 16px rgba(0,0,0,.09);
+$shadow-hero:    0 8px 32px rgba(53,121,136,.18);
+
+// Accent palette
+$accent-blue:    #1565c0;
+$accent-blue-bg: #e3f0ff;
+$accent-red:     #c62828;
+$accent-red-bg:  #fce8e8;
+$accent-green:   #2e7d32;
+$accent-green-bg:#e8f5e9;
+$accent-purple:  #6a1b9a;
+$accent-purple-bg:#f3e5f5;
+$accent-orange:  #e65100;
+$accent-orange-bg:#fff3e0;
+$accent-teal:    $primary;
+$accent-teal-bg: $primary-light;
+
+// ─── Host ─────────────────────────────────────────────────────────────────────
 :host {
     display: block;
-    padding: 1rem;
+    background: $surface;
+    min-height: 100%;
 }
 
-.view-wrapper {
-    max-width: 1200px;
-}
-
-.header-card {
-    margin-bottom: 0;
-}
-
-.back-link {
-    font-size: 0.85rem;
-    color: #555;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-
-    &:hover { color: var(--primary-color); }
-}
-
-.empty-state {
-    padding: 1rem 0;
-}
-
-// Initiative header
-.initiative-title {
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: #1a3a5c;
+// ─── Page Wrapper ─────────────────────────────────────────────────────────────
+.initiative-page {
     direction: rtl;
+    font-family: 'Cairo', sans-serif;
+    padding-bottom: 2.5rem;
 }
 
-// Badge chips (city / field)
+// ═══════════════════════════════════════════════════════════════════════════════
+// HERO HEADER
+// ═══════════════════════════════════════════════════════════════════════════════
+.hero-header {
+    position: relative;
+    background: linear-gradient(135deg, $navy-dark 0%, $navy 40%, $primary-dark 100%);
+    padding: 2.25rem 2rem 2rem;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+    overflow: hidden;
+    border-radius: 0 0 $radius-lg $radius-lg;
+    box-shadow: $shadow-hero;
+
+    // Decorative circles
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+        border-radius: 50%;
+        opacity: .08;
+        background: #fff;
+        pointer-events: none;
+    }
+    &::before {
+        width: 320px;
+        height: 320px;
+        top: -80px;
+        left: -60px;
+    }
+    &::after {
+        width: 180px;
+        height: 180px;
+        bottom: -60px;
+        right: 120px;
+    }
+}
+
+.hero-backdrop {
+    // Extra subtle diagonal stripe texture
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        -55deg,
+        transparent,
+        transparent 18px,
+        rgba(255,255,255,.018) 18px,
+        rgba(255,255,255,.018) 36px
+    );
+    pointer-events: none;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+}
+
+.hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    margin-bottom: .9rem;
+}
+
 .badge-chip {
     display: inline-flex;
     align-items: center;
-    padding: 0.25rem 0.75rem;
+    gap: .35rem;
+    padding: .28rem .8rem;
     border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 500;
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .01em;
+
+    i { font-size: .72rem; }
 
     &.city {
-        background: #e8f4fd;
-        color: #1a6496;
-        border: 1px solid #b8d9f0;
+        background: rgba(255,255,255,.15);
+        color: #fff;
+        border: 1px solid rgba(255,255,255,.25);
+        backdrop-filter: blur(4px);
     }
-
     &.field {
-        background: #fff8e1;
-        color: #7c5c00;
-        border: 1px solid #ffe082;
+        background: rgba($gold, .2);
+        color: #f8e4a0;
+        border: 1px solid rgba($gold, .35);
+    }
+    &.area {
+        background: rgba(255,255,255,.1);
+        color: rgba(255,255,255,.85);
+        border: 1px solid rgba(255,255,255,.18);
     }
 }
 
-// Action buttons
-.main-btn {
-    &.danger {
-        background: #e53935;
+.hero-title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.35;
+    margin: 0 0 1rem;
+    text-shadow: 0 2px 8px rgba(0,0,0,.2);
+}
+
+.hero-dates {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .6rem;
+}
+
+.date-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    font-size: .8rem;
+    color: rgba(255,255,255,.8);
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 20px;
+    padding: .25rem .75rem;
+
+    i { font-size: .72rem; color: rgba(255,255,255,.6); }
+}
+
+.hero-actions {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: .6rem;
+    flex-shrink: 0;
+    align-items: flex-end;
+}
+
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    padding: .55rem 1.15rem;
+    border-radius: $radius-sm;
+    font-family: 'Cairo', sans-serif;
+    font-size: .85rem;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    transition: all .18s ease;
+    white-space: nowrap;
+
+    i { font-size: .82rem; }
+
+    &.btn-back {
+        background: rgba(255,255,255,.12);
         color: #fff;
-        border: none;
+        border: 1px solid rgba(255,255,255,.25);
+        backdrop-filter: blur(6px);
 
         &:hover {
-            background: #c62828;
+            background: rgba(255,255,255,.22);
+            border-color: rgba(255,255,255,.4);
+        }
+    }
+
+    &.btn-edit {
+        background: $gold;
+        color: #fff;
+        box-shadow: 0 2px 10px rgba($gold,.35);
+
+        &:hover {
+            background: darken($gold, 8%);
+            box-shadow: 0 4px 14px rgba($gold,.45);
+            transform: translateY(-1px);
         }
     }
 }
 
-// Info cards (description, problem, etc.)
-.info-card {
-    .info-card-title {
-        font-size: 0.95rem;
-        font-weight: 700;
-        color: #1a3a5c;
-        border-right: 3px solid #2196f3;
-        padding-right: 0.5rem;
-        margin-bottom: 0.5rem;
-    }
-
-    p {
-        color: #555;
-        font-size: 0.9rem;
-        line-height: 1.7;
-    }
-}
-
-// Team member card
-.team-card {
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 0.75rem 1rem;
-    margin-bottom: 0.75rem;
-    background: #fff;
-
-    &.manager-card {
-        border-color: #f0c040;
-        background: #fffdf0;
-    }
-}
-
-.manager-badge {
-    display: inline-flex;
+// ═══════════════════════════════════════════════════════════════════════════════
+// STATS RIBBON
+// ═══════════════════════════════════════════════════════════════════════════════
+.stats-ribbon {
+    display: flex;
     align-items: center;
-    background: linear-gradient(135deg, #c9a227, #f0c040);
-    color: #fff;
-    font-size: 0.75rem;
-    font-weight: 700;
-    padding: 0.2rem 0.7rem;
-    border-radius: 12px;
-    margin-bottom: 0.6rem;
-
-    i { font-size: 0.7rem; }
+    background: $card-bg;
+    border-radius: $radius-md;
+    box-shadow: $shadow-md;
+    margin: 1.25rem 1.5rem;
+    padding: .1rem 0;
+    overflow: hidden;
+    border: 1px solid $border;
 }
 
-.member-avatar {
-    width: 42px;
-    height: 42px;
+.stat-item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: .85rem;
+    padding: 1rem 1.5rem;
+    min-width: 0;
+}
+
+.stat-icon {
+    font-size: 1.35rem;
+    color: $primary;
+    background: $primary-light;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
-    background: #e3f2fd;
-    color: #1565c0;
-    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.stat-body {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.stat-value {
     font-size: 1.1rem;
+    font-weight: 800;
+    color: $text-main;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.stat-label {
+    font-size: .75rem;
+    color: $text-muted;
+    margin-top: .1rem;
+}
+
+.stat-divider {
+    width: 1px;
+    height: 40px;
+    background: $border;
+    flex-shrink: 0;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// BODY GRID
+// ═══════════════════════════════════════════════════════════════════════════════
+.body-grid {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    grid-template-areas: 'details team';
+    gap: 1.25rem;
+    padding: 0 1.5rem;
+    align-items: start;
+
+    @media (max-width: 1024px) {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            'team'
+            'details';
+    }
+}
+
+.col-details { grid-area: details; display: flex; flex-direction: column; gap: 1.1rem; }
+.col-team    { grid-area: team; }
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// DETAIL CARDS (right column)
+// ═══════════════════════════════════════════════════════════════════════════════
+.detail-card {
+    background: $card-bg;
+    border-radius: $radius-md;
+    border: 1px solid $border;
+    box-shadow: $shadow-sm;
+    padding: 1.25rem 1.4rem;
+    transition: box-shadow .18s ease;
+
+    &:hover { box-shadow: $shadow-md; }
+}
+
+.two-col-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.1rem;
+
+    @media (max-width: 640px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.detail-card-header {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+    margin-bottom: .9rem;
+}
+
+.detail-card-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: $radius-sm;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
 
-    &.manager-avatar {
-        background: #fff3cd;
-        color: #856404;
-    }
+    i { font-size: .9rem; }
+
+    &.accent-blue   { background: $accent-blue-bg;   color: $accent-blue;   }
+    &.accent-red    { background: $accent-red-bg;    color: $accent-red;    }
+    &.accent-green  { background: $accent-green-bg;  color: $accent-green;  }
+    &.accent-purple { background: $accent-purple-bg; color: $accent-purple; }
+    &.accent-orange { background: $accent-orange-bg; color: $accent-orange; }
+    &.accent-teal   { background: $accent-teal-bg;   color: $accent-teal;   }
 }
 
-.status-chip {
-    font-size: 0.72rem;
-    background: #f5f5f5;
-    color: #555;
-    border-radius: 10px;
-    padding: 0.1rem 0.5rem;
-    margin-top: 0.15rem;
-    display: inline-block;
+.detail-card-title {
+    font-size: .92rem;
+    font-weight: 700;
+    color: $text-main;
+    margin: 0;
 }
 
-.member-details {
-    border-top: 1px dashed #e0e0e0;
-    padding-top: 0.5rem;
-    margin-top: 0.5rem;
-    font-size: 0.82rem;
+.detail-card-body {
+    font-size: .875rem;
+    color: $text-muted;
+    line-height: 1.8;
+    margin: 0;
+    white-space: pre-line;
 }
 
-// Shared detail row
-.detail-row {
-    display: flex;
-    align-items: baseline;
-    gap: 0.5rem;
-    margin-bottom: 0.3rem;
-    font-size: 0.85rem;
-    color: #444;
-
-    .label {
-        font-weight: 600;
-        color: #777;
-        flex-shrink: 0;
-    }
+// ═══════════════════════════════════════════════════════════════════════════════
+// TEAM PANEL (left column)
+// ═══════════════════════════════════════════════════════════════════════════════
+.team-panel {
+    background: $card-bg;
+    border-radius: $radius-md;
+    border: 1px solid $border;
+    box-shadow: $shadow-sm;
+    overflow: hidden;
+    position: sticky;
+    top: 1rem;
 }
 
-// Extra details card (dark blue)
-.extra-details-card {
-    background: #1a3a5c !important;
-    color: #fff;
-
-    .section-header span,
-    .section-header i {
-        color: #fff !important;
-    }
-
-    .detail-row {
-        color: rgba(255, 255, 255, 0.9);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        padding-bottom: 0.4rem;
-        margin-bottom: 0.4rem;
-
-        .label {
-            color: rgba(255, 255, 255, 0.65);
-        }
-    }
-}
-
-// Toggle button for collapsible sections
-.toggle-btn {
-    background: none;
-    border: none;
-    color: #555;
-    font-size: 0.83rem;
-    cursor: pointer;
+.team-panel-header {
     display: flex;
     align-items: center;
-    gap: 0.3rem;
+    gap: .65rem;
+    padding: 1rem 1.25rem;
+    background: linear-gradient(90deg, $navy-dark, $navy);
+    color: #fff;
+    font-size: .92rem;
+    font-weight: 700;
 
-    i { font-size: 0.75rem; }
-    &:hover { color: #1a3a5c; }
+    i { font-size: 1rem; color: rgba(255,255,255,.75); }
 }
 
-// Activity list rows
-.activities-list {
-    .activity-row {
-        padding: 0.4rem 0;
-        border-bottom: 1px solid #f0f0f0;
-        font-size: 0.88rem;
+.team-count-badge {
+    margin-right: auto;
+    background: rgba(255,255,255,.18);
+    border: 1px solid rgba(255,255,255,.25);
+    color: #fff;
+    font-size: .72rem;
+    font-weight: 700;
+    border-radius: 12px;
+    padding: .15rem .6rem;
+}
 
-        &:last-child { border-bottom: none; }
+.team-panel-body {
+    padding: 1rem 1.1rem;
+    max-height: 560px;
+    overflow-y: auto;
+
+    // Custom scrollbar
+    &::-webkit-scrollbar       { width: 4px; }
+    &::-webkit-scrollbar-track { background: transparent; }
+    &::-webkit-scrollbar-thumb { background: $border; border-radius: 4px; }
+}
+
+// ── Manager card ──
+.manager-card {
+    background: linear-gradient(135deg, $gold-light 0%, #fffdf5 100%);
+    border: 1px solid rgba($gold, .35);
+    border-radius: $radius-md;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.manager-crown {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    background: linear-gradient(135deg, $gold, darken($gold, 10%));
+    color: #fff;
+    font-size: .72rem;
+    font-weight: 700;
+    padding: .25rem .75rem;
+    border-radius: 20px;
+    margin-bottom: .8rem;
+
+    i { font-size: .65rem; }
+}
+
+.manager-info {
+    display: flex;
+    align-items: flex-start;
+    gap: .75rem;
+}
+
+// ── Avatars ──
+.avatar {
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    flex-shrink: 0;
+    letter-spacing: .02em;
+
+    &.avatar-lg {
+        width: 48px;
+        height: 48px;
+        font-size: 1.2rem;
+    }
+    &.avatar-sm {
+        width: 36px;
+        height: 36px;
+        font-size: .9rem;
+    }
+    &.avatar-manager {
+        background: linear-gradient(135deg, $gold-light, rgba($gold,.25));
+        color: darken($gold, 15%);
+        border: 2px solid rgba($gold,.4);
+    }
+    // Regular members get a color from their position via nth-child
+    &:not(.avatar-manager) {
+        background: $primary-light;
+        color: $primary-dark;
+        border: 2px solid rgba($primary, .2);
     }
 }
 
-.section-header {
-    margin-bottom: 0.5rem;
+.member-text {
+    display: flex;
+    flex-direction: column;
+    gap: .15rem;
+    min-width: 0;
+}
+
+.member-name {
+    font-size: .875rem;
+    font-weight: 700;
+    color: $text-main;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.member-status {
+    font-size: .75rem;
+    color: $text-muted;
+    background: #f0f4f6;
+    border-radius: 8px;
+    padding: .1rem .5rem;
+    display: inline-block;
+    width: fit-content;
+}
+
+.member-location {
+    font-size: .74rem;
+    color: $text-muted;
+    display: flex;
+    align-items: center;
+    gap: .25rem;
+
+    i { font-size: .65rem; color: $primary; }
+}
+
+// ── Members list ──
+.members-label {
+    font-size: .75rem;
+    font-weight: 700;
+    color: $text-muted;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    padding: .5rem 0 .4rem;
+    border-top: 1px solid $border;
+    margin-top: .25rem;
+}
+
+.members-list {
+    display: flex;
+    flex-direction: column;
+    gap: .1rem;
+}
+
+.member-row {
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+    padding: .55rem .5rem;
+    border-radius: $radius-sm;
+    transition: background .15s ease;
+
+    &:hover { background: $surface; }
+}
+
+.empty-team {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .6rem;
+    padding: 2rem 1rem;
+    color: $text-muted;
+    font-size: .875rem;
+
+    i { font-size: 2rem; color: $border; }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// ACTIVITIES LOG
+// ═══════════════════════════════════════════════════════════════════════════════
+.activities-panel {
+    margin: 1.25rem 1.5rem 0;
+    background: $card-bg;
+    border-radius: $radius-md;
+    border: 1px solid $border;
+    box-shadow: $shadow-sm;
+    overflow: hidden;
+}
+
+.activities-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.4rem;
+    cursor: pointer;
+    user-select: none;
+    border-bottom: 1px solid transparent;
+    transition: background .15s ease, border-color .15s ease;
+
+    &:hover { background: $surface; }
+}
+
+.activities-title {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    font-size: .92rem;
+    font-weight: 700;
+    color: $text-main;
+
+    i {
+        font-size: 1.05rem;
+        color: $primary;
+    }
+}
+
+.activity-count-badge {
+    background: $primary-light;
+    color: $primary-dark;
+    font-size: .72rem;
+    font-weight: 700;
+    border-radius: 12px;
+    padding: .15rem .6rem;
+    border: 1px solid rgba($primary, .2);
+}
+
+.collapse-btn {
+    background: none;
+    border: 1px solid $border;
+    width: 28px;
+    height: 28px;
+    border-radius: $radius-sm;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: $text-muted;
+    transition: all .15s ease;
+    padding: 0;
+
+    i { font-size: .75rem; }
+    &:hover { background: $surface; color: $text-main; }
+}
+
+.activities-body {
+    padding: .75rem 1.4rem 1.25rem;
+}
+
+.empty-activities {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .6rem;
+    padding: 2.5rem 1rem;
+    color: $text-muted;
+    font-size: .875rem;
+
+    i { font-size: 2.2rem; color: $border; }
+    p { margin: 0; }
+}
+
+.activity-table {
+    border-radius: $radius-sm;
+    overflow: hidden;
+    border: 1px solid $border;
+}
+
+.activity-table-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .6rem 1rem;
+    background: $navy;
+    color: rgba(255,255,255,.85);
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .02em;
+}
+
+.activity-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .65rem 1rem;
+    border-bottom: 1px solid $border;
+    transition: background .12s ease;
+
+    &:last-child { border-bottom: none; }
+    &:hover      { background: $primary-light; }
+    &.even       { background: #fafcfd; &:hover { background: $primary-light; } }
+}
+
+.activity-name {
+    font-size: .865rem;
+    color: $text-main;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+.activity-dot {
+    font-size: .38rem;
+    color: $primary;
+    flex-shrink: 0;
+}
+
+.activity-date {
+    font-size: .8rem;
+    color: $text-muted;
+    white-space: nowrap;
+    padding-right: 1rem;
+    direction: ltr;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// LOADING STATE
+// ═══════════════════════════════════════════════════════════════════════════════
+.loading-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    gap: 1.25rem;
+    color: $text-muted;
+    font-size: .9rem;
+}
+
+.loading-ring {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: $primary-light;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    i {
+        font-size: 1.75rem;
+        color: $primary;
+    }
 }

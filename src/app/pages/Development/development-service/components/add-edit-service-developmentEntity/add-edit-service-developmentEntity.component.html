@@ -26,13 +26,13 @@
                     <label class="form-label">الهيئة</label>
                     <app-prime-autocomplete
                         [formGroup]="form"
-                        controlName="entityId"
-                        [getMethod]="developmentEntitiesService.getPaged.bind(developmentEntitiesService)"
-                        [selectedOption]="selectedEntity"
+                        controlName="agencyId"
+                        [getMethod]="getDevelopmentEntitiesByType.bind(this)"
+                        [selectedOption]="selectedAgency"
                         [field]="'nameAr'"
                         [language]="language"
-                        (onSelect)="onEntitySelect($event)"
-                        (onClear)="onEntitySelect(null)"
+                        (onSelect)="onAgencySelect($event)"
+                        (onClear)="onAgencySelect(null)"
                     ></app-prime-autocomplete>
                 </div>
             }

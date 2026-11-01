@@ -52,3 +52,5 @@ export * from './develop-service-ages/DevelopServiceAges.service';
 export * from './settings/support-details/support-details.servive';
 export * from './enums/supports/supports.service';
 export * from './national-initiatives/national-initiatives.service';
+export * from './develpment-initiatives/develpment-initiatives.service';
+

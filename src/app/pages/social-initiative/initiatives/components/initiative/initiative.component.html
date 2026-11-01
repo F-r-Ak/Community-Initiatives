@@ -1,174 +1,288 @@
 @if (initiative) {
-    <div class="view-wrapper" dir="rtl">
-        <!-- Header card -->
-        <div class="card header-card mb-3">
-            <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
-                <!-- Title and badges -->
-                <div class="text-start">
-                    <div class="initiative-title mb-2">{{ initiative.name }}</div>
-                    <div class="d-flex gap-2 justify-content-end flex-wrap">
-                        <span class="badge-chip city"> <i class="pi pi-map-marker me-1"></i>{{ initiative.cityName }} </span>
-                        <span class="badge-chip field"> <i class="pi pi-tag me-1"></i>{{ initiative.fieldName }} </span>
-                    </div>
+    <div class="initiative-page" dir="rtl">
+
+        <!-- ═══════════════════════════════ HERO HEADER ═══════════════════════════════ -->
+        <div class="hero-header">
+            <div class="hero-backdrop"></div>
+            <div class="hero-content">
+                <div class="hero-meta">
+                    <span class="badge-chip city">
+                        <i class="pi pi-map-marker"></i>
+                        {{ initiative.cityName }}
+                    </span>
+                    <span class="badge-chip field">
+                        <i class="pi pi-tag"></i>
+                        {{ initiative.fieldName }}
+                    </span>
+                    @if (initiative.areas) {
+                        <span class="badge-chip area">
+                            <i class="pi pi-compass"></i>
+                            {{ initiative.areas }}
+                        </span>
+                    }
                 </div>
 
-                <!-- Action buttons -->
-                <div class="d-flex gap-2">
-                    <button pButton class="main-btn danger py-1 px-3" (click)="navigateBack()"><i class="pi pi-trash me-1"></i> عودة</button>
-                    <button pButton class="main-btn py-1 px-3" style="background: var(--datatable-header-color); color: #fff; border: none" (click)="navigateToEdit()"><i class="pi pi-file-edit me-1"></i> تعديل</button>
+                <h1 class="hero-title">{{ initiative.name }}</h1>
+
+                <div class="hero-dates">
+                    @if (initiative.initiativeStartDate) {
+                        <span class="date-pill">
+                            <i class="pi pi-calendar-plus"></i>
+                            بداية: {{ initiative.initiativeStartDate | date: 'yyyy/MM/dd' }}
+                        </span>
+                    }
+                    @if (initiative.initiativeEndDate) {
+                        <span class="date-pill">
+                            <i class="pi pi-calendar-minus"></i>
+                            نهاية: {{ initiative.initiativeEndDate | date: 'yyyy/MM/dd' }}
+                        </span>
+                    }
+                </div>
+            </div>
+
+            <div class="hero-actions">
+                <button class="action-btn btn-back" (click)="navigateBack()">
+                    <i class="pi pi-arrow-right"></i>
+                    <span>عودة</span>
+                </button>
+                <button class="action-btn btn-edit" (click)="navigateToEdit()">
+                    <i class="pi pi-file-edit"></i>
+                    <span>تعديل</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ══════════════════════════════ STATS RIBBON ═══════════════════════════════ -->
+        <div class="stats-ribbon">
+            <div class="stat-item">
+                <i class="pi pi-users stat-icon"></i>
+                <div class="stat-body">
+                    <span class="stat-value">{{ teamMembers.length }}</span>
+                    <span class="stat-label">أعضاء الفريق</span>
+                </div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <i class="pi pi-calendar stat-icon"></i>
+                <div class="stat-body">
+                    <span class="stat-value">{{ activitiesCount }}</span>
+                    <span class="stat-label">الأنشطة</span>
+                </div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <i class="pi pi-box stat-icon"></i>
+                <div class="stat-body">
+                    <span class="stat-value">{{ outputsCount }}</span>
+                    <span class="stat-label">المخرجات</span>
+                </div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <i class="pi pi-th-large stat-icon"></i>
+                <div class="stat-body">
+                    <span class="stat-value">{{ initiative.initiativeCategoryName?.nameAr || '—' }}</span>
+                    <span class="stat-label">تصنيف المبادرة</span>
                 </div>
             </div>
         </div>
 
-        <!-- Main content row -->
-        <div class="row g-3 mb-3">
-            <!-- Left column: Team + Extra details -->
-            <div class="col-12 col-lg-4 d-flex flex-column gap-3">
-                <!-- Team card -->
-                <div class="card p-3">
-                    <div class="section-header d-flex align-items-center justify-content-between mb-2">
-                        <span class="d-flex align-items-center gap-2">
-                            <i class="pi pi-users text-primary"></i>
-                            <strong>فريق العمل ({{ teamMembers.length }})</strong>
+        <!-- ══════════════════════════════ MAIN BODY ══════════════════════════════════ -->
+        <div class="body-grid">
+
+            <!-- ─────────────────────── RIGHT COLUMN: DETAILS ──────────────────────── -->
+            <div class="col-details">
+
+                <!-- Description -->
+                <div class="detail-card">
+                    <div class="detail-card-header">
+                        <span class="detail-card-icon accent-blue">
+                            <i class="pi pi-info-circle"></i>
                         </span>
+                        <h3 class="detail-card-title">نبذة عن المبادرة</h3>
+                    </div>
+                    <p class="detail-card-body">{{ initiative.description || '—' }}</p>
+                </div>
+
+                <!-- Problem + Solution -->
+                <div class="two-col-grid">
+                    <div class="detail-card">
+                        <div class="detail-card-header">
+                            <span class="detail-card-icon accent-red">
+                                <i class="pi pi-exclamation-triangle"></i>
+                            </span>
+                            <h3 class="detail-card-title">المشكلة</h3>
+                        </div>
+                        <p class="detail-card-body">{{ initiative.problemDescription || '—' }}</p>
                     </div>
 
-                    <!-- Manager card -->
-                    @if (manager) {
-                        <div class="team-card manager-card">
-                            <div class="manager-badge mb-2"><i class="pi pi-star-fill me-1"></i> المسئول عن المبادرة</div>
-                            <div class="d-flex align-items-center gap-2">
-                                <div class="member-avatar manager-avatar">{{ getMemberInitial(manager.teamMemberName) }}</div>
-                                <div>
-                                    <div class="fw-bold">{{ manager.teamMemberName }}</div>
-                                    <span class="status-chip">{{ manager.jobStatusNameAr || manager.jobStatusName.nameAr }}</span>
+                    <div class="detail-card">
+                        <div class="detail-card-header">
+                            <span class="detail-card-icon accent-green">
+                                <i class="pi pi-lightbulb"></i>
+                            </span>
+                            <h3 class="detail-card-title">مقترح الحل</h3>
+                        </div>
+                        <p class="detail-card-body">{{ initiative.suggestedSolution || '—' }}</p>
+                    </div>
+                </div>
+
+                <!-- Beneficiary + Impact -->
+                <div class="two-col-grid">
+                    <div class="detail-card">
+                        <div class="detail-card-header">
+                            <span class="detail-card-icon accent-purple">
+                                <i class="pi pi-heart"></i>
+                            </span>
+                            <h3 class="detail-card-title">الفئة المستهدفة</h3>
+                        </div>
+                        <p class="detail-card-body">{{ initiative.beneficiaryGroup || '—' }}</p>
+                    </div>
+
+                    <div class="detail-card">
+                        <div class="detail-card-header">
+                            <span class="detail-card-icon accent-orange">
+                                <i class="pi pi-chart-bar"></i>
+                            </span>
+                            <h3 class="detail-card-title">النتائج المتوقعة</h3>
+                        </div>
+                        <p class="detail-card-body">{{ initiative.expectedImpact || '—' }}</p>
+                    </div>
+                </div>
+
+                <!-- Execution Steps -->
+                <div class="detail-card">
+                    <div class="detail-card-header">
+                        <span class="detail-card-icon accent-teal">
+                            <i class="pi pi-list-check"></i>
+                        </span>
+                        <h3 class="detail-card-title">خطوات التنفيذ</h3>
+                    </div>
+                    <p class="detail-card-body">{{ initiative.stepsExecution || '—' }}</p>
+                </div>
+
+            </div>
+
+            <!-- ─────────────────────── LEFT COLUMN: TEAM ──────────────────────────── -->
+            <div class="col-team">
+
+                <!-- Team card -->
+                <div class="team-panel">
+                    <div class="team-panel-header">
+                        <i class="pi pi-users"></i>
+                        <span>فريق العمل</span>
+                        <span class="team-count-badge">{{ teamMembers.length }}</span>
+                    </div>
+
+                    <div class="team-panel-body">
+                        <!-- Manager -->
+                        @if (manager) {
+                            <div class="manager-card">
+                                <div class="manager-crown">
+                                    <i class="pi pi-star-fill"></i>
+                                    مسئول المبادرة
+                                </div>
+                                <div class="manager-info">
+                                    <div class="avatar avatar-lg avatar-manager">
+                                        {{ getMemberInitial(manager.teamMemberName) }}
+                                    </div>
+                                    <div class="member-text">
+                                        <span class="member-name">{{ manager.teamMemberName }}</span>
+                                        <span class="member-status">
+                                            {{ manager.jobStatusNameAr || manager.jobStatusName?.nameAr || '—' }}
+                                        </span>
+                                        @if (manager.cityName) {
+                                            <span class="member-location">
+                                                <i class="pi pi-map-marker"></i>
+                                                {{ manager.cityName }}
+                                            </span>
+                                        }
+                                    </div>
                                 </div>
                             </div>
-                            <div class="member-details">
-                                @if (manager.nationalID) {
-                                    <div class="detail-row">
-                                        <span class="label">الهاتف:</span><span>{{ manager.nationalID }}</span>
+                        }
+
+                        <!-- Members list -->
+                        @if (regularMembers.length > 0) {
+                            <div class="members-label">
+                                <span>الأعضاء ({{ regularMembers.length }})</span>
+                            </div>
+                            <div class="members-list">
+                                @for (member of regularMembers; track member.id) {
+                                    <div class="member-row">
+                                        <div class="avatar avatar-sm">
+                                            {{ getMemberInitial(member.teamMemberName) }}
+                                        </div>
+                                        <div class="member-text">
+                                            <span class="member-name">{{ member.teamMemberName }}</span>
+                                            <span class="member-status">
+                                                {{ member.jobStatusNameAr || member.jobStatusName?.nameAr || '—' }}
+                                            </span>
+                                        </div>
                                     </div>
                                 }
-                                <div class="detail-row">
-                                    <span class="label">الموقع:</span><span>{{ manager.cityName }}</span>
-                                </div>
                             </div>
-                        </div>
-                    }
+                        }
 
-                    <!-- Regular members -->
-                    @for (member of regularMembers; track member.id) {
-                        <div class="team-card">
-                            <div class="d-flex align-items-center gap-2">
-                                <div class="member-avatar">{{ getMemberInitial(member.teamMemberName) }}</div>
-                                <div>
-                                    <div class="fw-bold">{{ member.teamMemberName }}</div>
-                                    <span class="status-chip">{{ member.jobStatusNameAr || member.jobStatusName.nameAr }}</span>
-                                </div>
+                        @if (teamMembers.length === 0) {
+                            <div class="empty-team">
+                                <i class="pi pi-users"></i>
+                                <span>لا يوجد أعضاء مضافون</span>
                             </div>
-                        </div>
-                    }
-                </div>
-
-                <!-- Extra details card -->
-                <div class="card p-3 extra-details-card">
-                    <div class="section-header d-flex align-items-center gap-2 mb-3">
-                        <i class="pi pi-info-circle"></i>
-                        <strong>تفاصيل إضافية</strong>
-                    </div>
-                    <div class="detail-row">
-                        <span class="label">عدد الأنشطة:</span>
-                        <span>{{ activitiesCount }}</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="label">إجمالي المخرجات:</span>
-                        <span>{{ outputsCount }}</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Right column: Info cards -->
-            <div class="col-12 col-lg-8 d-flex flex-column gap-3">
-                <!-- Description -->
-                <div class="card p-3 info-card">
-                    <div class="info-card-title">نبذة عن المبادرة</div>
-                    <p>{{ initiative.description }}</p>
-                </div>
-
-                <!-- Problem + Suggested Solution -->
-                <div class="row g-3">
-                    <div class="col-12 col-md-6">
-                        <div class="card p-3 info-card h-100">
-                            <div class="info-card-title">المشكلة</div>
-                            <p>{{ initiative.problemDescription }}</p>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <div class="card p-3 info-card h-100">
-                            <div class="info-card-title">مقترح الحل</div>
-                            <p>{{ initiative.suggestedSolution }}</p>
-                        </div>
+                        }
                     </div>
                 </div>
 
-                <!-- Beneficiary + Expected Impact -->
-                <div class="row g-3">
-                    <div class="col-12 col-md-6">
-                        <div class="card p-3 info-card h-100">
-                            <div class="info-card-title">الفئة المستهدفة</div>
-                            <p>{{ initiative.beneficiaryGroup }}</p>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <div class="card p-3 info-card h-100">
-                            <div class="info-card-title">النتائج</div>
-                            <p>{{ initiative.expectedImpact }}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Execution steps -->
-                <div class="card p-3 info-card">
-                    <div class="info-card-title">خطوات التنفيذ</div>
-                    <p>{{ initiative.stepsExecution }}</p>
-                </div>
             </div>
         </div>
 
-        <!-- Activities log section -->
-        <div class="card p-3 mb-3">
-            <div class="section-header d-flex align-items-center justify-content-between">
-                <div class="d-flex align-items-center gap-2">
-                    <i class="pi pi-calendar" style="color: var(--datatable-header-color)"></i>
-                    <strong>سجل الأنشطة ({{ activitiesCount }})</strong>
+        <!-- ══════════════════════════ ACTIVITIES LOG ═════════════════════════════════ -->
+        <div class="activities-panel">
+            <div class="activities-header" (click)="toggleActivities()">
+                <div class="activities-title">
+                    <i class="pi pi-calendar-clock"></i>
+                    <span>سجل الأنشطة</span>
+                    <span class="activity-count-badge">{{ activitiesCount }}</span>
                 </div>
-                <button class="toggle-btn" (click)="toggleActivities()">
+                <button class="collapse-btn" type="button">
                     <i class="pi" [class.pi-chevron-up]="showActivities" [class.pi-chevron-down]="!showActivities"></i>
-                    {{ showActivities ? 'إخفاء' : 'إظهار' }}
                 </button>
             </div>
 
             @if (showActivities) {
-                @if (activities.length === 0) {
-                    <div class="empty-state mt-3">
-                        <p class="text-muted text-center">لا يوجد أنشطة مضافة لهذه المبادرة بعد</p>
-                    </div>
-                } @else {
-                    <div class="activities-list mt-3">
-                        @for (activity of activities; track activity.id) {
-                            <div class="activity-row d-flex justify-content-between align-items-center">
-                                <span>{{ activity.name }}</span>
-                                <span class="text-muted" style="font-size: 0.8rem">{{ activity.startDate | date: 'yyyy/M/d' }}</span>
+                <div class="activities-body">
+                    @if (activities.length === 0) {
+                        <div class="empty-activities">
+                            <i class="pi pi-calendar-times"></i>
+                            <p>لا توجد أنشطة مضافة لهذه المبادرة بعد</p>
+                        </div>
+                    } @else {
+                        <div class="activity-table">
+                            <div class="activity-table-head">
+                                <span>اسم النشاط</span>
+                                <span>تاريخ البداية</span>
                             </div>
-                        }
-                    </div>
-                }
+                            @for (activity of activities; track activity.id; let i = $index) {
+                                <div class="activity-row" [class.even]="i % 2 === 0">
+                                    <span class="activity-name">
+                                        <i class="pi pi-circle-fill activity-dot"></i>
+                                        {{ activity.name }}
+                                    </span>
+                                    <span class="activity-date">{{ activity.startDate | date: 'yyyy/M/d' }}</span>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
             }
         </div>
+
     </div>
 } @else {
-    <div class="d-flex justify-content-center align-items-center p-5">
-        <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+    <div class="loading-screen">
+        <div class="loading-ring">
+            <i class="pi pi-spin pi-spinner"></i>
+        </div>
+        <span>جارٍ تحميل بيانات المبادرة…</span>
     </div>
 }

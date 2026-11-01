@@ -60,6 +60,7 @@ export class AddEditServiceDevelopmentEntityComponent extends BaseEditComponent 
     selectedEntityPerson: any = null;
     selectedEntityTheNationalAlliance: any = null;
     pendingEntities: DevelopmentEntityType[] = [];
+    selectedAgency: any = null;
 
     get EntityTypes() {
           return DevelopmentEntityTypes;
@@ -88,7 +89,7 @@ export class AddEditServiceDevelopmentEntityComponent extends BaseEditComponent 
   
       get canAddRow(): boolean {
           if (!this.selectedEntityType) return false;
-          if (this.isAgency) return !!this.selectedEntity;
+          if (this.isAgency) return !!this.selectedAgency;
           if (this.isPerson) return !!this.selectedEntityPerson;
           if (this.isOrganization) return !!this.selectedOrganization;
           if (this.isOther) return true;
@@ -148,13 +149,16 @@ export class AddEditServiceDevelopmentEntityComponent extends BaseEditComponent 
         this.selectedEntity = null;
         this.selectedEntityPerson = null;
         this.selectedOrganization = null;
+        this.selectedAgency = null;
         this.otherEntityName = '';
     }
 
     onEntitySelect(selected: any) {
         this.selectedEntity = selected?.value ?? null;
     }
-
+onAgencySelect(selected: any) {
+        this.selectedAgency = selected?.value ?? null;
+    }
     onOrganizationSelect(selected: any) {
         this.selectedOrganization = selected?.value ?? null;
     }
@@ -168,11 +172,11 @@ export class AddEditServiceDevelopmentEntityComponent extends BaseEditComponent 
     addRow() {
         if (!this.canAddRow) return;
 
-        const entry: DevelopmentEntityType = { entityType: this.selectedEntityType! };
+        const entry : DevelopmentEntityType = { entityType: this.selectedEntityType! };
 
         if (this.isAgency) {
-            entry.entityId = this.selectedEntity.id;
-            entry.entityName = this.selectedEntity.nameAr;
+            entry.entityId = this.selectedAgency.id;
+            entry.entityName = this.selectedAgency.nameAr;
             console.log("entry:", entry);
         } else if (this.isOrganization) {
             entry.organizationId = this.selectedOrganization.id;
@@ -194,6 +198,7 @@ export class AddEditServiceDevelopmentEntityComponent extends BaseEditComponent 
         this.selectedEntity = null;
         this.selectedOrganization = null;
         this.selectedEntityPerson = null;
+        this.selectedAgency = null;
         this.otherEntityName = '';
     }
 
@@ -215,6 +220,7 @@ export class AddEditServiceDevelopmentEntityComponent extends BaseEditComponent 
                     entityType: e.entityType.nameEn,
                     otherEntityName: e.otherEntityName ?? '',
                     TheNationalAllianceId: e.TheNationalAllianceId ?? ''
+                    
                 }))
         };
     }
