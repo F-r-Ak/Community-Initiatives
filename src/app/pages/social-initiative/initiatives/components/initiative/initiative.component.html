@@ -20,6 +20,12 @@
                             {{ initiative.areas }}
                         </span>
                     }
+                    @if (initiative.initiativeCategoryName?.nameAr) {
+                        <span class="badge-chip category">
+                            <i class="pi pi-th-large"></i>
+                            {{ initiative.initiativeCategoryName.nameAr }}
+                        </span>
+                    }
                 </div>
 
                 <h1 class="hero-title">{{ initiative.name }}</h1>
@@ -55,7 +61,7 @@
         <!-- ══════════════════════════════ STATS RIBBON ═══════════════════════════════ -->
         <div class="stats-ribbon">
             <div class="stat-item">
-                <i class="pi pi-users stat-icon"></i>
+                <span class="stat-icon s-team"><i class="pi pi-users"></i></span>
                 <div class="stat-body">
                     <span class="stat-value">{{ teamMembers.length }}</span>
                     <span class="stat-label">أعضاء الفريق</span>
@@ -63,7 +69,7 @@
             </div>
             <div class="stat-divider"></div>
             <div class="stat-item">
-                <i class="pi pi-calendar stat-icon"></i>
+                <span class="stat-icon s-activities"><i class="pi pi-calendar"></i></span>
                 <div class="stat-body">
                     <span class="stat-value">{{ activitiesCount }}</span>
                     <span class="stat-label">الأنشطة</span>
@@ -71,7 +77,7 @@
             </div>
             <div class="stat-divider"></div>
             <div class="stat-item">
-                <i class="pi pi-box stat-icon"></i>
+                <span class="stat-icon s-outputs"><i class="pi pi-box"></i></span>
                 <div class="stat-body">
                     <span class="stat-value">{{ outputsCount }}</span>
                     <span class="stat-label">المخرجات</span>
@@ -79,10 +85,10 @@
             </div>
             <div class="stat-divider"></div>
             <div class="stat-item">
-                <i class="pi pi-th-large stat-icon"></i>
+                <span class="stat-icon s-manager"><i class="pi pi-user"></i></span>
                 <div class="stat-body">
-                    <span class="stat-value">{{ initiative.initiativeCategoryName?.nameAr || '—' }}</span>
-                    <span class="stat-label">تصنيف المبادرة</span>
+                    <span class="stat-value manager-name">{{ initiative.initiativeMangerName || '—' }}</span>
+                    <span class="stat-label">المسئول</span>
                 </div>
             </div>
         </div>
@@ -94,7 +100,7 @@
             <div class="col-details">
 
                 <!-- Description -->
-                <div class="detail-card">
+                <div class="detail-card accent-left-blue">
                     <div class="detail-card-header">
                         <span class="detail-card-icon accent-blue">
                             <i class="pi pi-info-circle"></i>
@@ -106,7 +112,7 @@
 
                 <!-- Problem + Solution -->
                 <div class="two-col-grid">
-                    <div class="detail-card">
+                    <div class="detail-card accent-left-red">
                         <div class="detail-card-header">
                             <span class="detail-card-icon accent-red">
                                 <i class="pi pi-exclamation-triangle"></i>
@@ -116,7 +122,7 @@
                         <p class="detail-card-body">{{ initiative.problemDescription || '—' }}</p>
                     </div>
 
-                    <div class="detail-card">
+                    <div class="detail-card accent-left-green">
                         <div class="detail-card-header">
                             <span class="detail-card-icon accent-green">
                                 <i class="pi pi-lightbulb"></i>
@@ -129,7 +135,7 @@
 
                 <!-- Beneficiary + Impact -->
                 <div class="two-col-grid">
-                    <div class="detail-card">
+                    <div class="detail-card accent-left-purple">
                         <div class="detail-card-header">
                             <span class="detail-card-icon accent-purple">
                                 <i class="pi pi-heart"></i>
@@ -139,7 +145,7 @@
                         <p class="detail-card-body">{{ initiative.beneficiaryGroup || '—' }}</p>
                     </div>
 
-                    <div class="detail-card">
+                    <div class="detail-card accent-left-orange">
                         <div class="detail-card-header">
                             <span class="detail-card-icon accent-orange">
                                 <i class="pi pi-chart-bar"></i>
@@ -151,7 +157,7 @@
                 </div>
 
                 <!-- Execution Steps -->
-                <div class="detail-card">
+                <div class="detail-card accent-left-teal">
                     <div class="detail-card-header">
                         <span class="detail-card-icon accent-teal">
                             <i class="pi pi-list-check"></i>
@@ -165,8 +171,6 @@
 
             <!-- ─────────────────────── LEFT COLUMN: TEAM ──────────────────────────── -->
             <div class="col-team">
-
-                <!-- Team card -->
                 <div class="team-panel">
                     <div class="team-panel-header">
                         <i class="pi pi-users"></i>
@@ -205,11 +209,13 @@
                         <!-- Members list -->
                         @if (regularMembers.length > 0) {
                             <div class="members-label">
-                                <span>الأعضاء ({{ regularMembers.length }})</span>
+                                <span>الأعضاء</span>
+                                <span class="members-count">{{ regularMembers.length }}</span>
                             </div>
                             <div class="members-list">
-                                @for (member of regularMembers; track member.id) {
+                                @for (member of regularMembers; track member.id; let i = $index) {
                                     <div class="member-row">
+                                        <div class="member-index">{{ i + 1 }}</div>
                                         <div class="avatar avatar-sm">
                                             {{ getMemberInitial(member.teamMemberName) }}
                                         </div>
@@ -232,7 +238,6 @@
                         }
                     </div>
                 </div>
-
             </div>
         </div>
 
@@ -246,6 +251,7 @@
                 </div>
                 <button class="collapse-btn" type="button">
                     <i class="pi" [class.pi-chevron-up]="showActivities" [class.pi-chevron-down]="!showActivities"></i>
+                    <span>{{ showActivities ? 'إخفاء' : 'إظهار' }}</span>
                 </button>
             </div>
 
@@ -259,16 +265,15 @@
                     } @else {
                         <div class="activity-table">
                             <div class="activity-table-head">
-                                <span>اسم النشاط</span>
-                                <span>تاريخ البداية</span>
+                                <span class="col-num">#</span>
+                                <span class="col-name">اسم النشاط</span>
+                                <span class="col-date">تاريخ البداية</span>
                             </div>
                             @for (activity of activities; track activity.id; let i = $index) {
                                 <div class="activity-row" [class.even]="i % 2 === 0">
-                                    <span class="activity-name">
-                                        <i class="pi pi-circle-fill activity-dot"></i>
-                                        {{ activity.name }}
-                                    </span>
-                                    <span class="activity-date">{{ activity.startDate | date: 'yyyy/M/d' }}</span>
+                                    <span class="act-num">{{ i + 1 }}</span>
+                                    <span class="act-name">{{ activity.name }}</span>
+                                    <span class="act-date">{{ activity.startDate | date: 'yyyy/M/d' }}</span>
                                 </div>
                             }
                         </div>

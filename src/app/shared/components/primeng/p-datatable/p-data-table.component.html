@@ -83,6 +83,13 @@
                                     </div>
                                 </ng-container>
                             }
+                            @case ('number') {
+                                <ng-container>
+                                    <div class="form-group has-search">
+                                        <input class="form-control search-box" type="number" (input)="filter($event, col)" placeholder="{{ col.header }}" />
+                                    </div>
+                                </ng-container>
+                            }
                             @case ('date') {
                                 <ng-container>
                                     <div class="form-group has-search">
@@ -146,6 +153,9 @@
                                 </span>
                             }
                             @case ('text') {
+                                <span [ngClass]="{ cell: getCellData(row, { field: 'isLate' }) }">{{ getCellData(row, col) }}</span>
+                            }
+                            @case ('number') {
                                 <span [ngClass]="{ cell: getCellData(row, { field: 'isLate' }) }">{{ getCellData(row, col) }}</span>
                             }
                             @case ('enum') {

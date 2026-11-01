@@ -10,7 +10,6 @@ import {
     NationalInitiativesService,
     DevelpmentInitiativesService,
     BeneficiaryGroupsService,
-    EntitiesService,
     ExecuteTypesService,
     ExecutionStatusService
 } from '../../../../../shared';
@@ -32,7 +31,6 @@ export class AddEditNationalInitiativeComponent extends BaseEditComponent implem
     nationalInitiativesService = inject(NationalInitiativesService);
     develpmentInitiativesService = inject(DevelpmentInitiativesService);
     beneficiaryGroupsService = inject(BeneficiaryGroupsService);
-    entitiesService = inject(EntitiesService);
     executeTypesService = inject(ExecuteTypesService);
     executionStatusService = inject(ExecutionStatusService);
     authHelper = inject(AuthHelper);
@@ -40,7 +38,6 @@ export class AddEditNationalInitiativeComponent extends BaseEditComponent implem
     // Selected options for autocomplete fields
     selectedDevelopmentInitiative: any = null;
     selectedBeneficiaryGroup: any = null;
-    selectedEntity: any = null;
     selectedExecuteType: any = null;
     selectedExecutionStatus: any = null;
 
@@ -76,31 +73,19 @@ export class AddEditNationalInitiativeComponent extends BaseEditComponent implem
             id: [null],
             developmentInitiativeId: [null, Validators.required],
             beneficiaryGroupId: [null, Validators.required],
-            entityId: [null, Validators.required],
             executeTypeId: [null, Validators.required],
-            executionStatus: [null, Validators.required],
+            executionStatus: [0, Validators.required],
             problemDescription: ['', Validators.required],
             workPlan: ['', Validators.required],
-            stepsExecution: [''],
-            results: [''],
+            stepsExecution: ['', Validators.required],
+            results: ['', Validators.required],
             attachs: [[]]
-        });
-    }
-
-    private readonly editModeEnabledControls = ['executionStatus', 'problemDescription', 'workPlan', 'stepsExecution', 'results', 'attachs'];
-
-    private disableNonEditableControls(): void {
-        Object.keys(this.form.controls).forEach((key) => {
-            if (!this.editModeEnabledControls.includes(key)) {
-                this.form.get(key)?.disable();
-            }
         });
     }
 
     getEditNationalInitiative(): void {
         this.nationalInitiativesService.getEditNationalInitiative(this.id).subscribe((data: any) => {
             this.initFormGroup();
-            this.disableNonEditableControls();
             if (data.attachs?.length) {
                 this.existingAttachments = [...data.attachs];
                 this.form.get('attachs')?.setValue(data.attachs);
@@ -153,14 +138,11 @@ export class AddEditNationalInitiativeComponent extends BaseEditComponent implem
                 .getEditBeneficiaryGroup(data.beneficiaryGroupId)
                 .subscribe((group) => (this.selectedBeneficiaryGroup = group));
         }
-        if (data.entityId) {
-            this.entitiesService.getEditEntity(data.entityId).subscribe((entity) => (this.selectedEntity = entity));
-        }
         if (data.executeTypeId) {
             this.executeTypesService.getEditExecuteType(data.executeTypeId).subscribe((et) => (this.selectedExecuteType = et));
         }
         if (data.executionStatus !== null && data.executionStatus !== undefined) {
-            this.selectedExecutionStatus = this.executionStatusList.find((e) => +e.code === +data.executionStatus) ?? null;
+            this.selectedExecutionStatus = this.executionStatusList.find((e) => +e.id === +data.executionStatus) ?? null;
         }
     }
 
@@ -197,7 +179,6 @@ export class AddEditNationalInitiativeComponent extends BaseEditComponent implem
 
     getBeneficiaryGroups = (body: any) => this.beneficiaryGroupsService.getPaged(body);
 
-    getEntities = (body: any) => this.entitiesService.getPaged(body);
 
     // Select handlers
     onDevelopmentInitiativeSelect(event: any): void {
@@ -210,20 +191,15 @@ export class AddEditNationalInitiativeComponent extends BaseEditComponent implem
         this.form.get('beneficiaryGroupId')?.setValue(this.selectedBeneficiaryGroup?.id ?? null);
     }
 
-    onEntitySelect(event: any): void {
-        this.selectedEntity = event?.value ?? null;
-        this.form.get('entityId')?.setValue(this.selectedEntity?.id ?? null);
-    }
-
     onExecuteTypeSelect(event: any): void {
         this.selectedExecuteType = event?.value ?? null;
         this.form.get('executeTypeId')?.setValue(this.selectedExecuteType?.id ?? null);
     }
 
     onExecutionStatusSelect(event: any): void {
-        this.selectedExecutionStatus = event?.value ?? null;
+        this.selectedExecutionStatus = event?.value ;
         // executionStatus is a number for national initiatives
-        this.form.get('executionStatus')?.setValue(this.selectedExecutionStatus ? +this.selectedExecutionStatus.code : null);
+        this.form.get('executionStatus')?.setValue(this.selectedExecutionStatus ? +this.selectedExecutionStatus.id : null);
     }
 
     // --- Attachment methods ---

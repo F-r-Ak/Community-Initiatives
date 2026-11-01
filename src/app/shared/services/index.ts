@@ -53,4 +53,6 @@ export * from './settings/support-details/support-details.servive';
 export * from './enums/supports/supports.service';
 export * from './national-initiatives/national-initiatives.service';
 export * from './develpment-initiatives/develpment-initiatives.service';
-
+export * from './central-beneficiaries/central-beneficiaries.service';
+export * from './national-supports/national-supports.service';
+export * from './national-entities/national-entities.service';
