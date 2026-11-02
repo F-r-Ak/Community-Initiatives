@@ -13,7 +13,6 @@ import {
     OrganizationsService,
     EntityTypesService
 } from '../../../../../shared';
-import { EntityTypes } from '../../../../../core/enums/entity-types';
 import { EnumDto } from '../../../../../shared/interfaces';
 
 interface ActivityEntityEntry {
@@ -53,20 +52,16 @@ export class AddEditActivityEntityComponent extends BaseEditComponent implements
     // Accumulated list to submit
     pendingEntities: ActivityEntityEntry[] = [];
 
-    get EntityTypes() {
-        return EntityTypes;
-    }
-
     get isOrganization(): boolean {
-        return this.selectedEntityType?.nameEn === EntityTypes.Organization;
+        return this.selectedEntityType?.nameEn === 'Organization';
     }
 
     get isDepartment(): boolean {
-        return this.selectedEntityType?.nameEn === EntityTypes.Department;
+        return this.selectedEntityType?.nameEn === 'Department';
     }
 
     get isOther(): boolean {
-        return this.selectedEntityType?.nameEn === EntityTypes.Other;
+        return this.selectedEntityType?.nameEn === 'Other';
     }
 
     get canAddRow(): boolean {

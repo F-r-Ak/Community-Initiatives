@@ -43,6 +43,8 @@ export interface ColumnsInterface {
   dateFormat?: string;
   route?: string;
   viewRoute?: string;
+  /** Optional custom renderer — receives the full row and returns the display value. Takes priority over field. */
+  renderFn?: (row: any) => any;
 }
 
 export interface ActionsInterface {

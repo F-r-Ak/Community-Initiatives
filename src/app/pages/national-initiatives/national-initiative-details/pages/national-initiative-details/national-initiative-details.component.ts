@@ -54,8 +54,8 @@ export class NationalInitiativeDetailsComponent extends BaseListComponent {
         return [
             { field: 'developmentInitiativeName', header: 'اسم المبادرة', filter: true, filterMode: 'text' },
             { field: 'beneficiaryGroupName', header: 'الفئة المستهدفة', filter: true, filterMode: 'text' },
-            { field: 'ExecuteTypeName', header: 'نطاق التنفيذ', filter: true, filterMode: 'text' },
-            { field: 'ExecutionStatusName', header: 'الموقف التنفيذي', filter: true, filterMode: 'text' }
+            { field: 'executeTypeName', header: 'نطاق التنفيذ', filter: true, filterMode: 'text' },
+            { field: 'executionStatusNameAr', header: 'الموقف التنفيذي', filter: true, filterMode: 'text' }
         ];
     }
 

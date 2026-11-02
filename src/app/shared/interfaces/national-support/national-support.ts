@@ -1,10 +1,12 @@
+import { EnumDto } from '../..';
 import { Lookup, SharedProperties } from '../shared/shared';
 
 export interface NationalSupportDto extends Lookup, Partial<SharedProperties> {
     id: string;
     nationalInitiativeDetailId: string;
-    nationalInitiativeDetailName: string;
     support: number;
+    supportName: EnumDto;
+    supportNameAr: string;
     supportDetailId: string;
     supportDetailName: string;
     value: string;

@@ -18,12 +18,12 @@
 
         <p-tabpanel [value]="NationalInitiativeTabs.NationalEntities">
             @if (isEditMode) {
-                <app-national-entities></app-national-entities>
+                <app-national-entities [nationalInitiativeDetailId]="initiativeId"></app-national-entities>
             }
         </p-tabpanel>
         <p-tabpanel [value]="NationalInitiativeTabs.InitiativeSupports">
             @if (isEditMode) {
-                <app-national-supports></app-national-supports>
+                <app-national-supports [nationalInitiativeDetailId]="initiativeId"></app-national-supports>
             }
         </p-tabpanel>
     </p-tabpanels>

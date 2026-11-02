@@ -1,0 +1,169 @@
+@if (!isLoading && support) {
+    <div class="ns-page" dir="rtl">
+
+        <!-- ══════════════════════════════ HERO HEADER ════════════════════════════════ -->
+        <div class="hero-header">
+            <div class="hero-backdrop"></div>
+            <div class="hero-content">
+                <div class="hero-meta">
+                    <span class="badge-chip chip-support">
+                        <i class="pi pi-tag"></i>
+                        {{ support.supportNameAr }}
+                    </span>
+                </div>
+
+                <h1 class="hero-title">
+                    {{ support.supportDetailName || 'تفاصيل الدعم' }}
+                </h1>
+
+                <div class="hero-status">
+                    <span class="status-badge">
+                        <i class="pi pi-dollar"></i>
+                        قيمة الدعم: {{ support.value || '—' }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="hero-actions">
+                <button class="action-btn btn-back" type="button" (click)="navigateBack()">
+                    <i class="pi pi-arrow-right"></i>
+                    <span>عودة</span>
+                </button>
+                <button class="action-btn btn-edit" type="button" (click)="openEditDialog()">
+                    <i class="pi pi-file-edit"></i>
+                    <span>تعديل</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════ STATS RIBBON ══════════════════════════════ -->
+        <div class="stats-ribbon">
+            <div class="stat-item">
+                <span class="stat-icon s-type"><i class="pi pi-tag"></i></span>
+                <div class="stat-body">
+                    <span class="stat-value">{{ support.supportNameAr || '—' }}</span>
+                    <span class="stat-label">نوع الدعم</span>
+                </div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-icon s-detail"><i class="pi pi-list"></i></span>
+                <div class="stat-body">
+                    <span class="stat-value">{{ support.supportDetailName || '—' }}</span>
+                    <span class="stat-label">تفاصيل الدعم</span>
+                </div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-icon s-value"><i class="pi pi-dollar"></i></span>
+                <div class="stat-body">
+                    <span class="stat-value">{{ support.value || '—' }}</span>
+                    <span class="stat-label">قيمة الدعم</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ════════════════════════════════ MAIN BODY ════════════════════════════════ -->
+        <div class="body-grid">
+
+            <!-- ─────────────────────── DETAILS COLUMN ────────────────────────────── -->
+            <div class="col-details">
+
+                <!-- Support Type Card -->
+                <div class="detail-card accent-left-blue">
+                    <div class="detail-card-header">
+                        <span class="detail-card-icon accent-blue">
+                            <i class="pi pi-tag"></i>
+                        </span>
+                        <h3 class="detail-card-title">نوع الدعم</h3>
+                    </div>
+                    <div class="detail-card-body">
+                        <div class="info-row">
+                            <span class="info-label"><i class="pi pi-tag"></i> التصنيف</span>
+                            <span class="info-value">{{ support.supportNameAr || '—' }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Support Detail Card -->
+                <div class="detail-card accent-left-teal">
+                    <div class="detail-card-header">
+                        <span class="detail-card-icon accent-teal">
+                            <i class="pi pi-list"></i>
+                        </span>
+                        <h3 class="detail-card-title">تفاصيل الدعم</h3>
+                    </div>
+                    <div class="detail-card-body">
+                        <div class="info-row">
+                            <span class="info-label"><i class="pi pi-info-circle"></i> البيان</span>
+                            <span class="info-value">{{ support.supportDetailName || '—' }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Support Value Card -->
+                <div class="detail-card accent-left-green">
+                    <div class="detail-card-header">
+                        <span class="detail-card-icon accent-green">
+                            <i class="pi pi-dollar"></i>
+                        </span>
+                        <h3 class="detail-card-title">قيمة الدعم</h3>
+                    </div>
+                    <div class="detail-card-body">
+                        <div class="info-row">
+                            <span class="info-label"><i class="pi pi-dollar"></i> القيمة</span>
+                            <span class="info-value value-highlight">{{ support.value || '—' }}</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ─────────────────────── SIDE PANEL ────────────────────────────────── -->
+            <div class="col-side">
+
+                <!-- Key Info Panel -->
+                <div class="info-panel">
+                    <div class="info-panel-header">
+                        <i class="pi pi-info-circle"></i>
+                        <span>البيانات الأساسية</span>
+                    </div>
+                    <div class="info-panel-body">
+                        <div class="info-row">
+                            <span class="info-label"><i class="pi pi-tag"></i> نوع الدعم</span>
+                            <span class="info-value">{{ support.supportNameAr || '—' }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label"><i class="pi pi-list"></i> تفاصيل الدعم</span>
+                            <span class="info-value">{{ support.supportDetailName || '—' }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label"><i class="pi pi-dollar"></i> القيمة</span>
+                            <span class="info-value total-pill">{{ support.value || '—' }}</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+} @else if (isLoading) {
+    <div class="loading-screen" dir="rtl">
+        <div class="loading-ring">
+            <i class="pi pi-spin pi-spinner"></i>
+        </div>
+        <span>جارٍ تحميل بيانات الدعم…</span>
+    </div>
+
+} @else {
+    <div class="empty-screen" dir="rtl">
+        <i class="pi pi-inbox"></i>
+        <p>لم يتم العثور على بيانات الدعم</p>
+        <button class="action-btn btn-back" type="button" (click)="navigateBack()">
+            <i class="pi pi-arrow-right"></i>
+            <span>عودة للقائمة</span>
+        </button>
+    </div>
+}

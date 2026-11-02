@@ -1,5 +1,6 @@
 import { Lookup, SharedProperties } from '../shared/shared';
 import { Attachment } from '../attachment/attachment';
+import { EnumDto } from '../..';
 
 export interface NationalInitiativeDto extends Lookup, Partial<SharedProperties> {
     id: string;
@@ -12,7 +13,7 @@ export interface NationalInitiativeDto extends Lookup, Partial<SharedProperties>
     executeTypeId: string;
     executeTypeName: string;
     executionStatus: number;
-    executionStatusName: string;
+    executionStatusName: EnumDto;
     executionStatusNameAr: string;
     problemDescription: string;
     workPlan: string;
