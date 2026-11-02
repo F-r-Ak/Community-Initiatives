@@ -1,1 +1,55 @@
-<p>add-edit-national-support works!</p>
+<div class="card">
+    @if (form) {
+        <form [formGroup]="form" class="row g-4">
+
+            <!-- Support Type (non-lazy enum) -->
+            <div class="col-12 col-md-6">
+                <label class="form-label">نوع الدعم</label>
+                <app-prime-autocomplete
+                    [formGroup]="form"
+                    controlName="support"
+                    [field]="'nameAr'"
+                    [lazy]="false"
+                    [suggestions]="filteredSupports"
+                    [selectedOption]="selectedSupport"
+                    (handleMethod)="getSupports($event)"
+                    (onSelect)="onSupportSelect($event)"
+                    (onClear)="onSupportClear()">
+                </app-prime-autocomplete>
+            </div>
+
+            <!-- Support Detail (lazy, cascaded by support type) -->
+            <div class="col-12 col-md-6">
+                <label class="form-label">تفاصيل الدعم</label>
+                <app-prime-autocomplete
+                    [formGroup]="form"
+                    controlName="supportDetailId"
+                    [getMethod]="getSupportDetails"
+                    [selectedOption]="selectedSupportDetail"
+                    [field]="'nameAr'"
+                    [disabled]="!form.get('support')?.value"
+                    (onSelect)="onSupportDetailSelect($event)"
+                    (onClear)="onSupportDetailClear()">
+                </app-prime-autocomplete>
+            </div>
+
+            <!-- Value -->
+            <div class="col-12 col-md-6">
+                <app-prime-input-text
+                    [formGroup]="form"
+                    controlName="value"
+                    [label]="'قيمة الدعم'">
+                </app-prime-input-text>
+            </div>
+
+            <app-submit-buttons
+                class="col-12"
+                [isSubmitDisabled]="form.invalid"
+                [submitButtonText]="pageType === 'add' ? 'ACTIONS.SUBMIT' : 'ACTIONS.SAVE'"
+                (submit)="submit()"
+                (cancel)="redirect()">
+            </app-submit-buttons>
+
+        </form>
+    }
+</div>

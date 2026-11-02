@@ -1,0 +1,34 @@
+.table-header-row th {
+    background-color: var(--surface-100, #f8f9fa);
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--text-color-secondary, #6c757d);
+    border-bottom: 2px solid var(--surface-200, #e9ecef);
+}
+
+.badge-entity-type {
+    display: inline-block;
+    padding: 0.25rem 0.65rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    background-color: var(--primary-50, #e8f4fd);
+    color: var(--primary-600, #1a6aad);
+    border: 1px solid var(--primary-100, #bee3f8);
+}
+
+.empty-state {
+    background-color: var(--surface-50, #fafafa);
+    border-style: dashed !important;
+    border-color: var(--surface-300, #dee2e6) !important;
+    border-radius: 0.5rem;
+}
+
+.btn-outline-danger.rounded-circle {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}

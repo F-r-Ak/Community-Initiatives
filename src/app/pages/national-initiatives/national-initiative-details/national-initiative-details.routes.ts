@@ -21,5 +21,15 @@ export const nationalInitiativeRoutes: Routes = [
         loadComponent: () => import('./components/national-initiative/national-initiative.component').then((c) => c.NationalInitiativeComponent),
         data: { pageTitle: 'عرض مبادرة رئاسية', pageType: 'view' }
     },
+    {
+        path: 'view-beneficiary/:id',
+        loadComponent: () => import('./components/national-beneficiary/national-beneficiary.component').then((c) => c.NationalBeneficiaryComponent),
+        data: { pageTitle: 'عرض مستفيد رئاسي', pageType: 'view' }
+    },
+    {
+        path: 'view-support/:id',
+        loadComponent: () => import('./components/national-support/national-support.component').then((c) => c.NationalSupportComponent),
+        data: { pageTitle: 'عرض دعم رئاسي', pageType: 'view' }
+    },
 
 ];

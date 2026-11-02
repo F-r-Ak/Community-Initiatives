@@ -51,6 +51,14 @@ export class NationalBeneficiariesComponent extends BaseListComponent implements
             ],
             inputActions: [
                 {
+                    name: 'VIEW',
+                    icon: 'pi pi-eye',
+                    color: 'text-info',
+                    isCallBack: true,
+                    call: (row: any) => this.navigateToView(row),
+                    allowAll: true
+                },
+                {
                     name: 'EDIT',
                     icon: 'pi pi-file-edit',
                     color: 'text-middle',
@@ -85,6 +93,10 @@ export class NationalBeneficiariesComponent extends BaseListComponent implements
             row ? 'تعديل مستفيد' : 'إضافة مستفيد',
             { id: row?.id ?? null, nationalInitiativeDetailId: this.nationalInitiativeDetailId, rowData: row }
         );
+    }
+
+    navigateToView(row: any): void {
+        this.route.navigate([`/pages/national-initiatives/initiative-details/view-beneficiary/${row.id}`]);
     }
 
     override ngOnDestroy() {

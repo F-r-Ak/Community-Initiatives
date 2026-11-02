@@ -101,6 +101,9 @@ export class PrimeDataTableComponent implements OnInit, OnDestroy {
     }
 
     getCellData(row: any, col: any): any {
+        if (col.renderFn) {
+            return col.renderFn(row);
+        }
         const nestedProperties: string[] = col.field.split('.');
         let value: any = row;
         for (const prop of nestedProperties) {

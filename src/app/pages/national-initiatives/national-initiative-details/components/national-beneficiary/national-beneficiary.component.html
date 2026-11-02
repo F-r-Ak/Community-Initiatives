@@ -1,1 +1,252 @@
-<p>national-beneficiary works!</p>
+@if (!isLoading && beneficiary) {
+    <div class="nb-page" dir="rtl">
+
+        <!-- ══════════════════════════════ HERO HEADER ════════════════════════════════ -->
+        <div class="hero-header">
+            <div class="hero-backdrop"></div>
+            <div class="hero-content">
+                <div class="hero-meta">
+                    <span class="badge-chip chip-city">
+                        <i class="pi pi-map-marker"></i>
+                        {{ beneficiary.cityName }}
+                    </span>
+                    <span class="badge-chip chip-town">
+                        <i class="pi pi-home"></i>
+                        {{ beneficiary.townName }}
+                    </span>
+                </div>
+
+                <h1 class="hero-title">
+                    {{ beneficiary.nationalInitiativeName || 'مستفيد رئاسي' }}
+                </h1>
+
+                <div class="hero-status">
+                    <span class="status-badge">
+                        <i class="pi pi-users"></i>
+                        إجمالي المستفيدين: {{ beneficiary.totalBeneficiaryNumber | number }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="hero-actions">
+                <button class="action-btn btn-back" type="button" (click)="navigateBack()">
+                    <i class="pi pi-arrow-right"></i>
+                    <span>عودة</span>
+                </button>
+                <button class="action-btn btn-edit" type="button" (click)="openEditDialog()">
+                    <i class="pi pi-file-edit"></i>
+                    <span>تعديل</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════ STATS RIBBON ══════════════════════════════ -->
+        <div class="stats-ribbon">
+            <div class="stat-item">
+                <span class="stat-icon s-total"><i class="pi pi-users"></i></span>
+                <div class="stat-body">
+                    <span class="stat-value">{{ beneficiary.totalBeneficiaryNumber | number }}</span>
+                    <span class="stat-label">إجمالي المستفيدين</span>
+                </div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-icon s-male"><i class="pi pi-user"></i></span>
+                <div class="stat-body">
+                    <span class="stat-value">{{ beneficiary.beneficiaryMaleNumber | number }}</span>
+                    <span class="stat-label">عدد الذكور</span>
+                </div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-icon s-female"><i class="pi pi-user"></i></span>
+                <div class="stat-body">
+                    <span class="stat-value">{{ beneficiary.beneficiaryFemaleNumber | number }}</span>
+                    <span class="stat-label">عدد الإناث</span>
+                </div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-icon s-city"><i class="pi pi-map-marker"></i></span>
+                <div class="stat-body">
+                    <span class="stat-value">{{ beneficiary.cityName || '—' }}</span>
+                    <span class="stat-label">المدينة</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ════════════════════════════════ MAIN BODY ════════════════════════════════ -->
+        <div class="body-grid">
+
+            <!-- ─────────────────────── DETAILS COLUMN ────────────────────────────── -->
+            <div class="col-details">
+
+                <!-- Gender Breakdown Card -->
+                <div class="detail-card accent-left-blue">
+                    <div class="detail-card-header">
+                        <span class="detail-card-icon accent-blue">
+                            <i class="pi pi-chart-bar"></i>
+                        </span>
+                        <h3 class="detail-card-title">توزيع المستفيدين حسب النوع</h3>
+                    </div>
+                    <div class="gender-breakdown">
+                        <!-- Male bar -->
+                        <div class="gender-row">
+                            <div class="gender-label">
+                                <span class="gender-dot dot-male"></span>
+                                <span>ذكور</span>
+                            </div>
+                            <div class="gender-bar-track">
+                                <div
+                                    class="gender-bar-fill fill-male"
+                                    [style.width.%]="beneficiary.totalBeneficiaryNumber > 0
+                                        ? (beneficiary.beneficiaryMaleNumber / beneficiary.totalBeneficiaryNumber) * 100
+                                        : 0">
+                                </div>
+                            </div>
+                            <span class="gender-count">{{ beneficiary.beneficiaryMaleNumber | number }}</span>
+                            <span class="gender-pct">
+                                ({{ beneficiary.totalBeneficiaryNumber > 0
+                                    ? ((beneficiary.beneficiaryMaleNumber / beneficiary.totalBeneficiaryNumber) * 100 | number: '1.0-1')
+                                    : 0 }}%)
+                            </span>
+                        </div>
+                        <!-- Female bar -->
+                        <div class="gender-row">
+                            <div class="gender-label">
+                                <span class="gender-dot dot-female"></span>
+                                <span>إناث</span>
+                            </div>
+                            <div class="gender-bar-track">
+                                <div
+                                    class="gender-bar-fill fill-female"
+                                    [style.width.%]="beneficiary.totalBeneficiaryNumber > 0
+                                        ? (beneficiary.beneficiaryFemaleNumber / beneficiary.totalBeneficiaryNumber) * 100
+                                        : 0">
+                                </div>
+                            </div>
+                            <span class="gender-count">{{ beneficiary.beneficiaryFemaleNumber | number }}</span>
+                            <span class="gender-pct">
+                                ({{ beneficiary.totalBeneficiaryNumber > 0
+                                    ? ((beneficiary.beneficiaryFemaleNumber / beneficiary.totalBeneficiaryNumber) * 100 | number: '1.0-1')
+                                    : 0 }}%)
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Location Card -->
+                <div class="detail-card accent-left-teal">
+                    <div class="detail-card-header">
+                        <span class="detail-card-icon accent-teal">
+                            <i class="pi pi-map"></i>
+                        </span>
+                        <h3 class="detail-card-title">بيانات الموقع</h3>
+                    </div>
+                    <div class="location-grid">
+                        <div class="location-item">
+                            <span class="location-icon"><i class="pi pi-map-marker"></i></span>
+                            <div class="location-text">
+                                <span class="location-label">المدينة</span>
+                                <span class="location-value">{{ beneficiary.cityName || '—' }}</span>
+                            </div>
+                        </div>
+                        <div class="location-item">
+                            <span class="location-icon"><i class="pi pi-home"></i></span>
+                            <div class="location-text">
+                                <span class="location-label">الحي</span>
+                                <span class="location-value">{{ beneficiary.townName || '—' }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ─────────────────────── SIDE PANEL ────────────────────────────────── -->
+            <div class="col-side">
+
+                <!-- Key Info Card -->
+                <div class="info-panel">
+                    <div class="info-panel-header">
+                        <i class="pi pi-info-circle"></i>
+                        <span>البيانات الأساسية</span>
+                    </div>
+                    <div class="info-panel-body">
+                        <div class="info-row">
+                            <span class="info-label"><i class="pi pi-flag"></i> المبادرة الرئاسية</span>
+                            <span class="info-value">{{ beneficiary.nationalInitiativeName || '—' }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label"><i class="pi pi-map-marker"></i> المدينة</span>
+                            <span class="info-value">{{ beneficiary.cityName || '—' }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label"><i class="pi pi-home"></i> الحي</span>
+                            <span class="info-value">{{ beneficiary.townName || '—' }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label"><i class="pi pi-user"></i> عدد الذكور</span>
+                            <span class="info-value">{{ beneficiary.beneficiaryMaleNumber | number }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label"><i class="pi pi-user"></i> عدد الإناث</span>
+                            <span class="info-value">{{ beneficiary.beneficiaryFemaleNumber | number }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label"><i class="pi pi-users"></i> الإجمالي</span>
+                            <span class="info-value total-pill">{{ beneficiary.totalBeneficiaryNumber | number }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary totals card -->
+                <div class="summary-panel">
+                    <div class="summary-panel-header">
+                        <i class="pi pi-chart-pie"></i>
+                        <span>ملخص الأعداد</span>
+                    </div>
+                    <div class="summary-body">
+                        <div class="summary-ring">
+                            <div class="ring-value">{{ beneficiary.totalBeneficiaryNumber | number }}</div>
+                            <div class="ring-label">إجمالي</div>
+                        </div>
+                        <div class="summary-breakdown">
+                            <div class="breakdown-item">
+                                <span class="breakdown-dot dot-male"></span>
+                                <span class="breakdown-count">{{ beneficiary.beneficiaryMaleNumber | number }}</span>
+                                <span class="breakdown-label">ذكر</span>
+                            </div>
+                            <div class="breakdown-sep"></div>
+                            <div class="breakdown-item">
+                                <span class="breakdown-dot dot-female"></span>
+                                <span class="breakdown-count">{{ beneficiary.beneficiaryFemaleNumber | number }}</span>
+                                <span class="breakdown-label">أنثى</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+} @else if (isLoading) {
+    <div class="loading-screen" dir="rtl">
+        <div class="loading-ring">
+            <i class="pi pi-spin pi-spinner"></i>
+        </div>
+        <span>جارٍ تحميل بيانات المستفيد…</span>
+    </div>
+
+} @else {
+    <div class="empty-screen" dir="rtl">
+        <i class="pi pi-inbox"></i>
+        <p>لم يتم العثور على بيانات المستفيد</p>
+        <button class="action-btn btn-back" type="button" (click)="navigateBack()">
+            <i class="pi pi-arrow-right"></i>
+            <span>عودة للقائمة</span>
+        </button>
+    </div>
+}

@@ -1,11 +1,92 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { BaseListComponent } from '../../../../../base/components/base-list-component';
+import { PrimeDataTableComponent, TableOptions, NationalInitiativesService } from '../../../../../shared';
+import { AddEditNationalEntityComponent } from '../add-edit-national-entity/add-edit-national-entity.component';
+import { AuthHelper } from '../../../../../core';
+import { RoleCodes } from '../../../../../core/enums/role';
 
 @Component({
-  selector: 'app-national-entities',
-  imports: [],
-  templateUrl: './national-entities.component.html',
+    selector: 'app-national-entities',
+    standalone: true,
+    imports: [PrimeDataTableComponent],
+    templateUrl: './national-entities.component.html',
   styleUrl: './national-entities.component.scss'
 })
-export class NationalEntitiesComponent {
+export class NationalEntitiesComponent extends BaseListComponent implements OnInit {
+    @Input() nationalInitiativeDetailId: string = '';
+    @Output() totalCountChange = new EventEmitter<number>();
 
+    authHelper = inject(AuthHelper);
+    service = inject(NationalInitiativesService);
+
+    get rolesEnum() {
+        return RoleCodes;
+    }
+
+    tableOptions!: TableOptions;
+
+    constructor(activatedRoute: ActivatedRoute) {
+        super(activatedRoute);
+    }
+
+    override ngOnInit(): void {
+        super.ngOnInit();
+        this.initializeTableOptions();
+    }
+
+    initializeTableOptions() {
+        this.tableOptions = {
+            inputUrl: {
+                getAll: 'v1/nationalentities/getpaged',
+                getAllMethod: 'POST',
+                delete: 'v1/nationalentities/delete'
+            },
+            inputCols: [
+                { field: 'entityName', header: 'الجهة', filter: true, filterMode: 'text', renderFn: (row: any) => row.entityName || row.vw_OrganizationName },
+                { field: 'entityTypeNameAr', header: 'نوع الجهة', filter: true, filterMode: 'text' },
+                { field: 'description', header: 'الوصف', filter: true, filterMode: 'text' }
+            ],
+            inputActions: [
+                {
+                    name: 'EDIT',
+                    icon: 'pi pi-file-edit',
+                    color: 'text-middle',
+                    isCallBack: true,
+                    call: (row: any) => this.openAddEditDialog(row),
+                    allowAll: true
+                },
+                this.authHelper.isAdmin
+                    ? {
+                          name: 'DELETE',
+                          icon: 'pi pi-trash',
+                          color: 'text-error',
+                          allowAll: true,
+                          isDelete: true
+                      }
+                    : {}
+            ],
+            permissions: {
+                componentName: 'COMMUNITY-INITIATIVES-NATIONAL-INITIATIVES',
+                allowAll: true,
+                listOfPermissions: []
+            },
+            bodyOptions: {
+                filter: { nationalInitiativeDetailId: this.nationalInitiativeDetailId }
+            }
+        };
+    }
+
+    openAddEditDialog(row?: any) {
+        this.openDialog(
+            AddEditNationalEntityComponent,
+            row ? 'تعديل جهة منفذة' : 'إضافة جهة منفذة',
+            { id: row?.id ?? null, nationalInitiativeDetailId: this.nationalInitiativeDetailId, rowData: row }
+        );
+    }
+
+    override ngOnDestroy() {
+        this.destroy$.next(true);
+        this.destroy$.unsubscribe();
+    }
 }

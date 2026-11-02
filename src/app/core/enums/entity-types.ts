@@ -1,7 +1,7 @@
 export enum EntityTypes {
-    Department = 'Department',
-    Organization = 'Organization',
-    Other = 'Other',
-    LocalUnit = 'LocalUnit',
-    YouthCenter = 'YouthCenter'
+    Department = 0,
+    Organization = 1,
+    Other = 2,
+    LocalUnit = 3,
+    YouthCenter = 4
 }
