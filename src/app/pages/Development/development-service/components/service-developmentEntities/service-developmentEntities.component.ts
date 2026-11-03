@@ -78,7 +78,7 @@ export class ServiceDevelopmentEntitiesComponent extends BaseListComponent imple
                   listOfPermissions: []
               },
               bodyOptions: {
-                  filter: this.authHelper.hasRole(this.rolesEnum.Employee)
+                  filter: this.authHelper.hasRole(this.rolesEnum.User)
                       ? { createdById: this.authHelper.getUserId(), developmentServiceId: this.developmentServiceId }
                       : { developmentServiceId: this.developmentServiceId }
               }

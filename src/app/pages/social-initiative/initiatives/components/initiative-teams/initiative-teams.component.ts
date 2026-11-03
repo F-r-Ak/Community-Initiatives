@@ -70,7 +70,7 @@ export class InitiativeTeamsComponent extends BaseListComponent implements OnIni
             },
             bodyOptions: {
 
-                filter: this.authHelper.hasRole(this.rolesEnum.Employee)
+                filter: this.authHelper.hasRole(this.rolesEnum.User)
                     ? { createdById: this.authHelper.getUserId(), initiativeId: this.initiativeId }
                     : { initiativeId: this.initiativeId }
             }
