@@ -174,7 +174,7 @@ export class AddEditNationalInitiativeComponent extends BaseEditComponent implem
     getDevelopmentInitiatives = (body: any) =>
         this.develpmentInitiativesService.getPaged({
             ...body,
-            filter: { ...body.filter, createdById: this.authHelper.getUserId(), "initiativeCategory": 2 }
+            filter: { ...body.filter, "initiativeCategory": 2 }
         });
 
     getBeneficiaryGroups = (body: any) => this.beneficiaryGroupsService.getPaged(body);
