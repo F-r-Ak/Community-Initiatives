@@ -78,7 +78,7 @@ export class ServiceBeneficiariesComponent extends BaseListComponent implements 
                 listOfPermissions: []
             },
             bodyOptions: {
-                filter: this.authHelper.hasRole(this.rolesEnum.Employee) ? { createdById: this.authHelper.getUserId(), developmentServiceId: this.developmentServiceId } : { developmentServiceId: this.developmentServiceId }
+                filter: this.authHelper.hasRole(this.rolesEnum.User) ? { createdById: this.authHelper.getUserId(), developmentServiceId: this.developmentServiceId } : { developmentServiceId: this.developmentServiceId }
             }
         };
     }

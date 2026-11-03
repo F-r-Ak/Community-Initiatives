@@ -89,7 +89,7 @@ export class ActivityBeneficiaryGroupsComponent extends BaseListComponent implem
             },
 
             bodyOptions: {
-                filter: this.authHelper.hasRole(this.rolesEnum.Employee)
+                filter: this.authHelper.hasRole(this.rolesEnum.User)
                     ? { createdById: this.authHelper.getUserId(), activityId: this.activityId }
                     : { activityId: this.activityId }
             }

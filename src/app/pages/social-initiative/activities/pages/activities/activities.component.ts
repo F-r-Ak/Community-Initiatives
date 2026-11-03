@@ -78,7 +78,7 @@ export class ActivitiesComponent extends BaseListComponent implements OnInit {
                 listOfPermissions: []
             },
             bodyOptions: {
-                filter: this.authHelper.hasRole(this.rolesEnum.Employee) ? { createdById: this.authHelper.getUserId() } : {}
+                filter: this.authHelper.hasRole(this.rolesEnum.User) ? { createdById: this.authHelper.getUserId() } : {}
             }
         };
     }

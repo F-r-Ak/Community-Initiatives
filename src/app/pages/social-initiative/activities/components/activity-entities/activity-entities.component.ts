@@ -76,7 +76,7 @@ export class ActivityEntitiesComponent extends BaseListComponent implements OnIn
                 listOfPermissions: []
             },
             bodyOptions: {
-                filter: this.authHelper.hasRole(this.rolesEnum.Employee)
+                filter: this.authHelper.hasRole(this.rolesEnum.User)
                     ? { createdById: this.authHelper.getUserId(), activityId: this.activityId }
                     : { activityId: this.activityId }
             }

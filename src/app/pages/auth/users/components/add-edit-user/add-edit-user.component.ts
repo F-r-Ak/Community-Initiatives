@@ -4,7 +4,7 @@ import { AbstractControl, FormsModule, ReactiveFormsModule, ValidationErrors, Va
 import { ActivatedRoute } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { DialogService } from 'primeng/dynamicdialog';
-import { SubmitButtonsComponent, PrimeInputTextComponent, AccountService, PrimeAutoCompleteComponent, EmployeeService, RolesService, PrimeCheckBoxComponent } from '../../../../../shared';
+import { SubmitButtonsComponent, PrimeInputTextComponent, AccountService, PrimeAutoCompleteComponent, EmployeeService, RolesService, PrimeCheckBoxComponent, EntitiesService, EntityTypesService } from '../../../../../shared';
 import { BaseEditComponent } from '../../../../../base/components/base-edit-component';
 import { TabsModule } from 'primeng/tabs';
 import { UserTabs } from '../../../../../core/enums/user-tabs';
@@ -12,22 +12,25 @@ import { UserTabs } from '../../../../../core/enums/user-tabs';
 @Component({
     selector: 'app-add-edit-user',
     standalone: true,
-    imports: [CardModule, CommonModule, FormsModule, ReactiveFormsModule, SubmitButtonsComponent, PrimeAutoCompleteComponent, TabsModule, PrimeInputTextComponent,PrimeCheckBoxComponent],
+    imports: [CardModule, CommonModule, FormsModule, ReactiveFormsModule, SubmitButtonsComponent, PrimeAutoCompleteComponent, TabsModule, PrimeInputTextComponent, PrimeCheckBoxComponent],
     templateUrl: './add-edit-user.component.html',
     styleUrl: './add-edit-user.component.scss'
 })
 export class AddEditUserComponent extends BaseEditComponent implements OnInit {
     accountService: AccountService = inject(AccountService);
     employeeService = inject(EmployeeService);
+    entitiesService = inject(EntitiesService);
+    entityTypesService = inject(EntityTypesService);
     dialogService: DialogService = inject(DialogService);
     selectedEmployee: any;
     filteredEmployees: any[] = [];
     selectedOrganization: any;
     filteredOrganizations: any[] = [];
-    organizationId: any;
     userId: any;
     selectedRole: any;
     filteredRoles: any[] = [];
+    selectedEntity: any;
+    filteredEntities: any[] = []
     rolesService = inject(RolesService);
 
     private passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
@@ -78,8 +81,10 @@ export class AddEditUserComponent extends BaseEditComponent implements OnInit {
                 oldPassword: [''],
                 newPassword: [''],
                 confirmPassword: [''],
-                roleId:[null],
-                isAdmin:[false]
+                roleId: [null],
+                isAdmin: [false],
+                organizationId: [null]
+
             },
             { validators: this.passwordMatchValidator }
         );
@@ -111,39 +116,40 @@ export class AddEditUserComponent extends BaseEditComponent implements OnInit {
 
     }
 
- fetchRoleDetails(user: any) {
-    const selecuser=user.roles.id
-        this.rolesService.roles.subscribe((response: any) => {
-            this.filteredRoles = Array.isArray(response) ? response : response.data || [];
-            console.log("ddddddd",  this.filteredRoles)
-            this.selectedRole = this.filteredRoles.find((item: any) => item.id === selecuser);
+
+    getEntities(event: any) {
+        const query = event.query.toLowerCase();
+        this.entitiesService.entities.subscribe({
+            next: (res) => {
+                this.filteredEntities = res.filter((entityType: any) => entityType.nameAr.toLowerCase().includes(query) && entityType.entityType === 0);
+            },
+            error: (err) => {
+                this.alert.error('خطأ فى جلب الادارات');
+            }
         });
     }
-//    fetchRoleDetails(roleId: any) {
-//     this.rolesService.roles.subscribe((response: any) => {
-//         this.filteredRoles = Array.isArray(response) ? response : response.data || [];
-//         this.selectedRole = this.filteredRoles.find((role: any) => role.id === roleId);
-//         // Set the selected role in the form
-//         if (this.selectedRole) {
-//             this.form.get('roleId')?.setValue(this.selectedRole.id);
-//         }
-//     });
-// }
+    onEntitySelect(event: any) {
+        this.selectedEntity = event.value;
+        this.form.get('organizationId')?.setValue(this.selectedEntity?.id);
+    }
+
+    onEntityTypeClear() {
+        this.selectedEntity = null;
+        this.form.get('organizationId')?.setValue(null);
+    }
+
 
     getEditUser = () => {
         this.accountService.getEditUser(this.id).subscribe((user: any) => {
             this.initFormGroup();
             this.form.patchValue(user);
-           
-    
-            this.fetchRoleDetails(user);
-        }
-
-        );}
-   
+            this.selectedRole = user?.roleId? { id: user.roleId, nameAr: user.role }  : null; 
+            this.selectedEntity = user?.organizationId? { id: user.organizationId, nameAr: user.organization }  : null; });   
+    }
 
 
-   
+
+
     get userEnum() {
         return UserTabs;
     }

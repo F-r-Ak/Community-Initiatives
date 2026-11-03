@@ -44,7 +44,7 @@ export class InitiativesComponent extends BaseListComponent {
                 listOfPermissions: []
             },
             bodyOptions: {
-                filter: this.authHelper.hasRole(this.rolesEnum.Employee)
+                filter: this.authHelper.hasRole(this.rolesEnum.User)
                     ? { createdById: this.authHelper.getUserId() }
                     : {}
             },

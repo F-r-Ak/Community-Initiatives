@@ -44,7 +44,7 @@ export class NationalInitiativeDetailsComponent extends BaseListComponent {
                 listOfPermissions: []
             },
             bodyOptions: {
-                filter: this.authHelper.hasRole(this.rolesEnum.Employee) ? { createdById: this.authHelper.getUserId() } : {}
+                filter: this.authHelper.hasRole(this.rolesEnum.OrgUser) ? { entityId: this.authHelper.getUserId() } : {}
             },
             responsiveDisplayedProperties: ['developmentInitiativeName', 'beneficiaryGroupName', 'ExecuteTypeName', 'ExecutionStatusName']
         };

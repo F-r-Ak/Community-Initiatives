@@ -78,7 +78,7 @@ export class MediaInitiativesComponent extends BaseListComponent implements OnIn
                 listOfPermissions: []
             },
             bodyOptions: {
-                filter: this.authHelper.hasRole(this.rolesEnum.Employee) ? { createdById: this.authHelper.getUserId(), initiativeId: this.initiativeId } : { initiativeId: this.initiativeId }
+                filter: this.authHelper.hasRole(this.rolesEnum.User) ? { createdById: this.authHelper.getUserId(), initiativeId: this.initiativeId } : { initiativeId: this.initiativeId }
             }
         };
     }
