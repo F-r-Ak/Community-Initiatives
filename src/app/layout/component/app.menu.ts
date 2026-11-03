@@ -185,7 +185,7 @@ export class AppMenu {
                       ]
                   }
                 : { styleClass: 'v' },
-            this.authHelper.hasRole(this.rolesEnum.Administrator)
+            this.authHelper.hasRole(this.rolesEnum.Administrator)|| this.authHelper.hasRole(this.rolesEnum.OrgUser)
                 ? {
                       label: 'المبادرات الرئاسية',
                       icon: 'pi pi-fw pi-briefcase',
