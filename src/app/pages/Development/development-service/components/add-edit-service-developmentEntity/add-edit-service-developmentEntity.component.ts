@@ -175,15 +175,15 @@ onAgencySelect(selected: any) {
         const entry : DevelopmentEntityType = { entityType: this.selectedEntityType! };
 
         if (this.isAgency) {
-            entry.entityId = this.selectedAgency.id;
-            entry.entityName = this.selectedAgency.nameAr;
+              
+            entry.otherEntityName = this.selectedAgency.nameAr;
             console.log("entry:", entry);
         } else if (this.isOrganization) {
             entry.organizationId = this.selectedOrganization.id;
             entry.organizationName = this.selectedOrganization.name;
         } else if (this.isPerson) {
-            entry.entityId = this.selectedEntityPerson.id;
-            entry.entityName = this.selectedEntityPerson.nameAr;
+          
+            entry.otherEntityName = this.selectedEntityPerson.nameAr;
         } else if (this.isOther) {
             entry.otherEntityName = this.selectedEntityType!.nameAr;
         }
