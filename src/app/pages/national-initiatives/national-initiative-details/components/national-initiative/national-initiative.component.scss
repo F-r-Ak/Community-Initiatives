@@ -29,8 +29,8 @@ $accent-teal:       $primary;
 $accent-teal-bg:    $primary-light;
 
 // Stat icon colours
-$s-group:       #6a1b9a;
-$s-group-bg:    #f3e5f5;
+$s-beneficiaries:    #6a1b9a;
+$s-beneficiaries-bg: #f3e5f5;
 $s-entities:    #1565c0;
 $s-entities-bg: #e3f0ff;
 $s-supports:    #2e7d32;
@@ -116,7 +116,6 @@ $s-attach-bg:   #fff3e0;
     letter-spacing: 0.01em;
     i { font-size: 0.8rem; }
 
-    &.chip-field  { background: rgba(#fff, 0.15); color: #fff; border: 1px solid rgba(#fff, 0.25); backdrop-filter: blur(4px); }
     &.chip-entity { background: rgba($gold, 0.2); color: #f8e4a0; border: 1px solid rgba($gold, 0.35); }
     &.chip-scope  { background: rgba(#fff, 0.1); color: rgba(#fff, 0.85); border: 1px solid rgba(#fff, 0.18); }
 }
@@ -148,6 +147,13 @@ $s-attach-bg:   #fff3e0;
     padding: 0.32rem 1rem;
     font-weight: 600;
     i { font-size: 0.8rem; color: rgba(#fff, 0.6); }
+
+    &.status-group {
+        background: rgba($gold, 0.18);
+        border-color: rgba($gold, 0.35);
+        color: #f8e4a0;
+        i { color: rgba($gold, 0.7); }
+    }
 }
 
 .hero-actions {
@@ -219,7 +225,7 @@ $s-attach-bg:   #fff3e0;
         top: 0; right: 0; left: 0;
         height: 3px;
     }
-    &:nth-child(1)::before { background: $s-group; }
+    &:nth-child(1)::before { background: $s-beneficiaries; }
     &:nth-child(3)::before { background: $s-entities; }
     &:nth-child(5)::before { background: $s-supports; }
     &:nth-child(7)::before { background: $s-attach; }
@@ -235,10 +241,10 @@ $s-attach-bg:   #fff3e0;
     flex-shrink: 0;
     i { font-size: 1.2rem; }
 
-    &.s-group      { background: $s-group-bg;    color: $s-group;    }
-    &.s-entities   { background: $s-entities-bg; color: $s-entities; }
-    &.s-supports   { background: $s-supports-bg; color: $s-supports; }
-    &.s-attachments { background: $s-attach-bg;  color: $s-attach;   }
+    &.s-beneficiaries { background: $s-beneficiaries-bg; color: $s-beneficiaries; }
+    &.s-entities      { background: $s-entities-bg;     color: $s-entities;      }
+    &.s-supports      { background: $s-supports-bg;     color: $s-supports;      }
+    &.s-attachments   { background: $s-attach-bg;       color: $s-attach;        }
 }
 
 .stat-body { display: flex; flex-direction: column; min-width: 0; }
@@ -251,9 +257,6 @@ $s-attach-bg:   #fff3e0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-
-    // Beneficiary group text is long — shrink font
-    &.text-sm { font-size: 0.95rem; font-weight: 700; }
 }
 
 .stat-label {

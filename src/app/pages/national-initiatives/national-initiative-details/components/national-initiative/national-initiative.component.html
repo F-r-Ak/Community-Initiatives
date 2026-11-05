@@ -5,11 +5,9 @@
         <div class="hero-header">
             <div class="hero-backdrop"></div>
             <div class="hero-content">
+
+                <!-- Context chips: entity + scope only (no title duplication) -->
                 <div class="hero-meta">
-                    <span class="badge-chip chip-field">
-                        <i class="pi pi-flag"></i>
-                        {{ nationalInitiative.developmentInitiativeName }}
-                    </span>
                     <span class="badge-chip chip-entity">
                         <i class="pi pi-building"></i>
                         {{ nationalInitiative.entityName }}
@@ -24,11 +22,15 @@
                     {{ nationalInitiative.developmentInitiativeName }}
                 </h1>
 
-                <!-- Execution status badge -->
+                <!-- Status + beneficiary group as sub-line -->
                 <div class="hero-status">
-                    <span class="status-badge">
+                    <span class="status-badge status-exec">
                         <i class="pi pi-chart-line"></i>
-                        {{ nationalInitiative.executionStatusNameAr || nationalInitiative.executionStatusName }}
+                        {{ nationalInitiative.executionStatusNameAr || nationalInitiative.executionStatusName?.nameAr || '—' }}
+                    </span>
+                    <span class="status-badge status-group">
+                        <i class="pi pi-users"></i>
+                        {{ nationalInitiative.beneficiaryGroupName || '—' }}
                     </span>
                 </div>
             </div>
@@ -46,12 +48,13 @@
         </div>
 
         <!-- ═══════════════════════════════ STATS RIBBON ══════════════════════════════ -->
+        <!-- Four numeric counters — no long text values repeated from above -->
         <div class="stats-ribbon">
             <div class="stat-item">
-                <span class="stat-icon s-group"><i class="pi pi-users"></i></span>
+                <span class="stat-icon s-beneficiaries"><i class="pi pi-users"></i></span>
                 <div class="stat-body">
-                    <span class="stat-value">{{ nationalInitiative.beneficiaryGroupName || '—' }}</span>
-                    <span class="stat-label">الفئة المستهدفة</span>
+                    <span class="stat-value">{{ beneficiariesCount }}</span>
+                    <span class="stat-label">المستفيدون</span>
                 </div>
             </div>
             <div class="stat-divider"></div>
@@ -108,7 +111,7 @@
                     <p class="detail-card-body">{{ nationalInitiative.workPlan || '—' }}</p>
                 </div>
 
-                <!-- Steps Execution + Results (two columns) -->
+                <!-- Steps + Results (side by side) -->
                 <div class="two-col-grid">
                     <div class="detail-card accent-left-teal">
                         <div class="detail-card-header">
@@ -136,85 +139,35 @@
             <!-- ─────────────────────── SIDE PANEL ────────────────────────────────── -->
             <div class="col-side">
 
-                <!-- Key Info Card -->
+                <!-- Initiative metadata — only fields NOT already shown in the hero or ribbon -->
                 <div class="info-panel">
                     <div class="info-panel-header">
                         <i class="pi pi-info-circle"></i>
-                        <span>البيانات الأساسية</span>
+                        <span>بيانات الجهة</span>
                     </div>
                     <div class="info-panel-body">
                         <div class="info-row">
-                            <span class="info-label"><i class="pi pi-flag"></i> المبادرة التنموية</span>
-                            <span class="info-value">{{ nationalInitiative.developmentInitiativeName || '—' }}</span>
+                            <span class="info-label"><i class="pi pi-building"></i> اسم الجهة</span>
+                            <span class="info-value">{{ nationalInitiative.entityName || '—' }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label"><i class="pi pi-tag"></i> نوع الجهة المرتبطة</span>
+                            <span class="info-value">{{ nationalInitiative.executeTypeName || '—' }}</span>
                         </div>
                         <div class="info-row">
                             <span class="info-label"><i class="pi pi-users"></i> الفئة المستهدفة</span>
                             <span class="info-value">{{ nationalInitiative.beneficiaryGroupName || '—' }}</span>
                         </div>
                         <div class="info-row">
-                            <span class="info-label"><i class="pi pi-building"></i> الجهة</span>
-                            <span class="info-value">{{ nationalInitiative.entityName || '—' }}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label"><i class="pi pi-map"></i> نطاق التنفيذ</span>
-                            <span class="info-value">{{ nationalInitiative.executeTypeName || '—' }}</span>
-                        </div>
-                        <div class="info-row">
                             <span class="info-label"><i class="pi pi-chart-line"></i> الموقف التنفيذي</span>
-                            <span class="info-value status-pill">
-                                {{ nationalInitiative.executionStatusNameAr || nationalInitiative.executionStatusName || '—' }}
+                            <span class="info-value">
+                                <span class="status-pill">
+                                    {{ nationalInitiative.executionStatusNameAr || nationalInitiative.executionStatusName?.nameAr || '—' }}
+                                </span>
                             </span>
                         </div>
                     </div>
                 </div>
-
-                <!-- Entities panel -->
-                @if (entities.length > 0) {
-                    <div class="sub-panel">
-                        <div class="sub-panel-header">
-                            <i class="pi pi-building"></i>
-                            <span>الجهات المنفذة</span>
-                            <span class="sub-count-badge">{{ entitiesCount }}</span>
-                        </div>
-                        <div class="sub-panel-body">
-                            @for (entity of entities; track entity.id; let i = $index) {
-                                <div class="sub-row">
-                                    <span class="sub-index">{{ i + 1 }}</span>
-                                    <div class="sub-text">
-                                        <span class="sub-name">{{ entity.entityName }}</span>
-                                        @if (entity.description) {
-                                            <span class="sub-detail">{{ entity.description }}</span>
-                                        }
-                                    </div>
-                                </div>
-                            }
-                        </div>
-                    </div>
-                }
-
-                <!-- Supports panel -->
-                @if (supports.length > 0) {
-                    <div class="sub-panel">
-                        <div class="sub-panel-header">
-                            <i class="pi pi-dollar"></i>
-                            <span>الدعم المقدم</span>
-                            <span class="sub-count-badge">{{ supportsCount }}</span>
-                        </div>
-                        <div class="sub-panel-body">
-                            @for (support of supports; track support.id; let i = $index) {
-                                <div class="sub-row">
-                                    <span class="sub-index">{{ i + 1 }}</span>
-                                    <div class="sub-text">
-                                        <span class="sub-name">{{ support.supportDetailName }}</span>
-                                        @if (support.value) {
-                                            <span class="sub-detail">{{ support.value }}</span>
-                                        }
-                                    </div>
-                                </div>
-                            }
-                        </div>
-                    </div>
-                }
 
             </div>
         </div>

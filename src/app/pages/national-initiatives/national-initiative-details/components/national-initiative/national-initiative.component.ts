@@ -2,8 +2,8 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { BaseComponent } from '../../../../../base/components/base-component';
-import { NationalInitiativesService, NationalEntitiesService, NationalSupportsService } from '../../../../../shared';
-import { NationalInitiativeDto, NationalEntityDto, NationalSupportDto } from '../../../../../shared';
+import { NationalInitiativesService, NationalEntitiesService, NationalSupportsService, CentralBeneficiariesService } from '../../../../../shared';
+import { NationalInitiativeDto } from '../../../../../shared';
 
 @Component({
     selector: 'app-national-initiative',
@@ -15,8 +15,6 @@ import { NationalInitiativeDto, NationalEntityDto, NationalSupportDto } from '..
 export class NationalInitiativeComponent extends BaseComponent implements OnInit {
     id: string = '';
     nationalInitiative: NationalInitiativeDto | null = null;
-    entities: NationalEntityDto[] = [];
-    supports: NationalSupportDto[] = [];
 
     /** counts fetched from paged endpoints */
     beneficiariesCount: number = 0;
@@ -28,6 +26,7 @@ export class NationalInitiativeComponent extends BaseComponent implements OnInit
     nationalInitiativesService = inject(NationalInitiativesService);
     nationalEntitiesService = inject(NationalEntitiesService);
     nationalSupportsService = inject(NationalSupportsService);
+    centralBeneficiariesService = inject(CentralBeneficiariesService);
 
     constructor(protected override activatedRoute: ActivatedRoute) {
         super(activatedRoute);
@@ -62,8 +61,7 @@ export class NationalInitiativeComponent extends BaseComponent implements OnInit
             filter: { nationalInitiativeDetailId: this.id }
         }).subscribe({
             next: (res: any) => {
-                this.entities = res?.data ?? res ?? [];
-                this.entitiesCount = res?.totalCount ?? this.entities.length;
+                this.entitiesCount = res?.totalCount ?? (res?.data ?? res ?? []).length;
             }
         });
 
@@ -74,8 +72,18 @@ export class NationalInitiativeComponent extends BaseComponent implements OnInit
             filter: { nationalInitiativeDetailId: this.id }
         }).subscribe({
             next: (res: any) => {
-                this.supports = res?.data ?? res ?? [];
-                this.supportsCount = res?.totalCount ?? this.supports.length;
+                this.supportsCount = res?.totalCount ?? (res?.data ?? res ?? []).length;
+            }
+        });
+
+        // Load related beneficiaries count
+        this.centralBeneficiariesService.getPaged({
+            pageNumber: 1,
+            pageSize: 100,
+            filter: { nationalInitiativeDetailId: this.id }
+        }).subscribe({
+            next: (res: any) => {
+                this.beneficiariesCount = res?.totalCount ?? (res?.data ?? res ?? []).length;
             }
         });
     }

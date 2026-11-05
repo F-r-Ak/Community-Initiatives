@@ -4,6 +4,7 @@ import { Lookup, SharedProperties } from '../shared/shared';
 export interface NationalSupportDto extends Lookup, Partial<SharedProperties> {
     id: string;
     nationalInitiativeDetailId: string;
+    nationalInitiativeName: string;
     support: number;
     supportName: EnumDto;
     supportNameAr: string;

@@ -1,1 +1,92 @@
-<p>national-entity works!</p>
+@if (!isLoading && entity) {
+    <div class="ne-page" dir="rtl">
+        <!-- ══════════════════════════════ HERO HEADER ════════════════════════════════ -->
+        <div class="hero-header">
+            <div class="hero-backdrop"></div>
+            <div class="hero-content">
+                <div class="hero-meta">
+                    <span class="badge-chip chip-entity">
+                        <i class="pi pi-tag"></i>
+                        {{ entity.entityTypeNameAr || entity.entityTypeName?.nameAr || '—' }}
+                    </span>
+                </div>
+
+                <h2 class="hero-title">{{ displayName }}</h2>
+
+                <div class="hero-status">
+                    @if (entity.vw_OrganizationName) {
+                        <span class="status-badge">
+                            <i class="pi pi-building"></i>
+                            {{ entity.vw_OrganizationName }}
+                        </span>
+                    }
+                    @if (entity.entityName && entity.entityName !== entity.vw_OrganizationName) {
+                        <span class="status-badge status-group">
+                            <i class="pi pi-id-card"></i>
+                            {{ entity.entityName }}
+                        </span>
+                    }
+                </div>
+            </div>
+
+            <div class="hero-actions">
+                <button class="action-btn btn-back" type="button" (click)="navigateBack()">
+                    <i class="pi pi-arrow-right"></i>
+                    <span>عودة</span>
+                </button>
+                <button class="action-btn btn-edit" type="button" (click)="openEditDialog()">
+                    <i class="pi pi-file-edit"></i>
+                    <span>تعديل</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════ STATS RIBBON ══════════════════════════════ -->
+        <div class="stats-ribbon">
+            <div class="stat-item">
+                <span class="stat-icon s-type"><i class="pi pi-tag"></i></span>
+                <div class="stat-body">
+                    <span class="stat-value">{{ entity.entityTypeNameAr || entity.entityTypeName?.nameAr || '—' }}</span>
+                    <span class="stat-label">نوع الجهة</span>
+                </div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-icon s-name"><i class="pi pi-building"></i></span>
+                <div class="stat-body">
+                    <span class="stat-value">{{ entity.entityName || entity.vw_OrganizationName || '—' }}</span>
+                    <span class="stat-label">اسم الجهة</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ════════════════════════════════ DESCRIPTION ════════════════════════════ -->
+        <div class="description-row">
+            <div class="detail-card accent-left-teal">
+                <div class="detail-card-header">
+                    <span class="detail-card-icon accent-teal">
+                        <i class="pi pi-align-right"></i>
+                    </span>
+                    <h3 class="detail-card-title">الوصف</h3>
+                </div>
+                <p class="detail-card-body">{{ entity.description || '—' }}</p>
+            </div>
+        </div>
+    </div>
+} @else if (isLoading) {
+    <div class="loading-screen" dir="rtl">
+        <div class="loading-ring">
+            <i class="pi pi-spin pi-spinner"></i>
+        </div>
+        <span>جارٍ تحميل بيانات الجهة المنفذة…</span>
+    </div>
+} @else {
+    <div class="empty-screen" dir="rtl">
+        <i class="pi pi-inbox"></i>
+        <p>لم يتم العثور على بيانات الجهة</p>
+        <button class="action-btn btn-back" type="button" (click)="navigateBack()">
+            <i class="pi pi-arrow-right"></i>
+            <span>عودة للقائمة</span>
+        </button>
+    </div>
+}

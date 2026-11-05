@@ -49,13 +49,21 @@ export class NationalEntitiesComponent extends BaseListComponent implements OnIn
             ],
             inputActions: [
                 {
-                    name: 'EDIT',
-                    icon: 'pi pi-file-edit',
-                    color: 'text-middle',
+                    name: 'VIEW',
+                    icon: 'pi pi-eye',
+                    color: 'text-info',
                     isCallBack: true,
-                    call: (row: any) => this.openAddEditDialog(row),
+                    call: (row: any) => this.navigateToView(row),
                     allowAll: true
                 },
+                // {
+                //     name: 'EDIT',
+                //     icon: 'pi pi-file-edit',
+                //     color: 'text-middle',
+                //     isCallBack: true,
+                //     call: (row: any) => this.openAddEditDialog(row),
+                //     allowAll: true
+                // },
                 this.authHelper.isAdmin
                     ? {
                           name: 'DELETE',
@@ -83,6 +91,10 @@ export class NationalEntitiesComponent extends BaseListComponent implements OnIn
             row ? 'تعديل جهة منفذة' : 'إضافة جهة منفذة',
             { id: row?.id ?? null, nationalInitiativeDetailId: this.nationalInitiativeDetailId, rowData: row }
         );
+    }
+
+    navigateToView(row: any): void {
+        this.route.navigate([`/pages/national-initiatives/initiative-details/view-entity/${row.id}`]);
     }
 
     override ngOnDestroy() {

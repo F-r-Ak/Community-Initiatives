@@ -49,6 +49,11 @@ export class NationalSupportComponent extends BaseComponent implements OnInit {
         });
     }
 
+     get displayName(): string {
+        return this.support?.nationalInitiativeName || '—';
+    }
+
+
     openEditDialog(): void {
         this.dialogRef = this.dialogService.open(AddEditNationalSupportComponent, {
             header: 'تعديل دعم',

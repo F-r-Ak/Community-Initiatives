@@ -1,4 +1,3 @@
-<p>add-edit-national-entity works!</p>
 <div class="card">
     @if (form) {
         <form [formGroup]="form" class="row g-4">
@@ -24,11 +23,11 @@
 
             @if (isDepartment) {
                 <div class="col-12 col-md-4">
-                    <label class="form-label">المديرية</label>
+                    <label class="form-label">الجهة</label>
                     <app-prime-autocomplete
                         [formGroup]="form"
                         controlName="entityId"
-                        [getMethod]="entitiesService.getDropDown.bind(entitiesService)"
+                        [getMethod]="getEntitiesByType"
                         [selectedOption]="selectedEntity"
                         [field]="'nameAr'"
                         [language]="language"
