@@ -81,6 +81,37 @@
             <!-- ─────────────────────── DETAILS COLUMN ────────────────────────────── -->
             <div class="col-details">
 
+                <!-- Location Card -->
+                <div class="detail-card accent-left-teal">
+                    <div class="detail-card-header">
+                        <span class="detail-card-icon accent-teal">
+                            <i class="pi pi-map"></i>
+                        </span>
+                        <h3 class="detail-card-title">بيانات الموقع</h3>
+                    </div>
+                    <div class="location-grid">
+                        <div class="location-item">
+                            <span class="location-icon"><i class="pi pi-map-marker"></i></span>
+                            <div class="location-text">
+                                <span class="location-label">المركز</span>
+                                <span class="location-value">{{ beneficiary.cityName || '—' }}</span>
+                            </div>
+                        </div>
+                        <div class="location-item">
+                            <span class="location-icon"><i class="pi pi-home"></i></span>
+                            <div class="location-text">
+                                <span class="location-label">المدينة</span>
+                                <span class="location-value">{{ beneficiary.townName || '—' }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ─────────────────────── SIDE PANEL ────────────────────────────────── -->
+            <div class="col-side">
+
                 <!-- Gender Breakdown Card -->
                 <div class="detail-card accent-left-blue">
                     <div class="detail-card-header">
@@ -131,98 +162,6 @@
                                     ? ((beneficiary.beneficiaryFemaleNumber / beneficiary.totalBeneficiaryNumber) * 100 | number: '1.0-1')
                                     : 0 }}%)
                             </span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Location Card -->
-                <div class="detail-card accent-left-teal">
-                    <div class="detail-card-header">
-                        <span class="detail-card-icon accent-teal">
-                            <i class="pi pi-map"></i>
-                        </span>
-                        <h3 class="detail-card-title">بيانات الموقع</h3>
-                    </div>
-                    <div class="location-grid">
-                        <div class="location-item">
-                            <span class="location-icon"><i class="pi pi-map-marker"></i></span>
-                            <div class="location-text">
-                                <span class="location-label">المدينة</span>
-                                <span class="location-value">{{ beneficiary.cityName || '—' }}</span>
-                            </div>
-                        </div>
-                        <div class="location-item">
-                            <span class="location-icon"><i class="pi pi-home"></i></span>
-                            <div class="location-text">
-                                <span class="location-label">الحي</span>
-                                <span class="location-value">{{ beneficiary.townName || '—' }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- ─────────────────────── SIDE PANEL ────────────────────────────────── -->
-            <div class="col-side">
-
-                <!-- Key Info Card -->
-                <div class="info-panel">
-                    <div class="info-panel-header">
-                        <i class="pi pi-info-circle"></i>
-                        <span>البيانات الأساسية</span>
-                    </div>
-                    <div class="info-panel-body">
-                        <div class="info-row">
-                            <span class="info-label"><i class="pi pi-flag"></i> المبادرة الرئاسية</span>
-                            <span class="info-value">{{ beneficiary.nationalInitiativeName || '—' }}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label"><i class="pi pi-map-marker"></i> المدينة</span>
-                            <span class="info-value">{{ beneficiary.cityName || '—' }}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label"><i class="pi pi-home"></i> الحي</span>
-                            <span class="info-value">{{ beneficiary.townName || '—' }}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label"><i class="pi pi-user"></i> عدد الذكور</span>
-                            <span class="info-value">{{ beneficiary.beneficiaryMaleNumber | number }}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label"><i class="pi pi-user"></i> عدد الإناث</span>
-                            <span class="info-value">{{ beneficiary.beneficiaryFemaleNumber | number }}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label"><i class="pi pi-users"></i> الإجمالي</span>
-                            <span class="info-value total-pill">{{ beneficiary.totalBeneficiaryNumber | number }}</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Summary totals card -->
-                <div class="summary-panel">
-                    <div class="summary-panel-header">
-                        <i class="pi pi-chart-pie"></i>
-                        <span>ملخص الأعداد</span>
-                    </div>
-                    <div class="summary-body">
-                        <div class="summary-ring">
-                            <div class="ring-value">{{ beneficiary.totalBeneficiaryNumber | number }}</div>
-                            <div class="ring-label">إجمالي</div>
-                        </div>
-                        <div class="summary-breakdown">
-                            <div class="breakdown-item">
-                                <span class="breakdown-dot dot-male"></span>
-                                <span class="breakdown-count">{{ beneficiary.beneficiaryMaleNumber | number }}</span>
-                                <span class="breakdown-label">ذكر</span>
-                            </div>
-                            <div class="breakdown-sep"></div>
-                            <div class="breakdown-item">
-                                <span class="breakdown-dot dot-female"></span>
-                                <span class="breakdown-count">{{ beneficiary.beneficiaryFemaleNumber | number }}</span>
-                                <span class="breakdown-label">أنثى</span>
-                            </div>
                         </div>
                     </div>
                 </div>

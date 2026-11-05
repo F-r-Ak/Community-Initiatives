@@ -43,8 +43,8 @@ export class NationalBeneficiariesComponent extends BaseListComponent implements
                 delete: 'v1/centralbeneficiaries/deletesoft'
             },
             inputCols: [
-                { field: 'cityName', header: 'المدينة', filter: true, filterMode: 'text' },
-                { field: 'townName', header: 'الحي', filter: true, filterMode: 'text' },
+                { field: 'cityName', header: 'المركز', filter: true, filterMode: 'text' },
+                { field: 'townName', header: 'المدينة', filter: true, filterMode: 'text' },
                 { field: 'beneficiaryMaleNumber', header: 'عدد الذكور', filter: true, filterMode: 'number' },
                 { field: 'beneficiaryFemaleNumber', header: 'عدد الإناث', filter: true, filterMode: 'number' },
                 { field: 'totalBeneficiaryNumber', header: 'إجمالي المستفيدين', filter: true, filterMode: 'number' }

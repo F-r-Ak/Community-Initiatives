@@ -4,6 +4,7 @@ import { Lookup, SharedProperties } from '../shared/shared';
 export interface NationalEntityDto extends Lookup, Partial<SharedProperties> {
     id: string;
     nationalInitiativeDetailId: string;
+    nationalInitiativeName: string;
     entityType: number;
     entityTypeName: EnumDto;
     entityTypeNameAr: string;
@@ -21,6 +22,7 @@ export interface AddNationalEntityDto extends Lookup, Partial<SharedProperties> 
     entities: [
         {
             entityId: string;
+            entityType: number;
         }
     ];
     organizations: [
@@ -28,6 +30,7 @@ export interface AddNationalEntityDto extends Lookup, Partial<SharedProperties> 
             organizationId: number;
             organizationName: string;
             otherEntityName: string;
+            entityType: number;
         }
     ];
     description: string;
@@ -40,6 +43,7 @@ export interface UpdateNationalEntityDto extends Lookup, Partial<SharedPropertie
     entities: [
         {
             entityId: string;
+            entityType: number;
         }
     ];
     organizations: [
@@ -47,6 +51,7 @@ export interface UpdateNationalEntityDto extends Lookup, Partial<SharedPropertie
             organizationId: number;
             organizationName: string;
             otherEntityName: string;
+            entityType: number;
         }
     ];
     description: string;

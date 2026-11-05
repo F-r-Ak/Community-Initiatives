@@ -31,5 +31,10 @@ export const nationalInitiativeRoutes: Routes = [
         loadComponent: () => import('./components/national-support/national-support.component').then((c) => c.NationalSupportComponent),
         data: { pageTitle: 'عرض دعم رئاسي', pageType: 'view' }
     },
+    {
+        path: 'view-entity/:id',
+        loadComponent: () => import('./components/national-entity/national-entity.component').then((c) => c.NationalEntityComponent),
+        data: { pageTitle: 'عرض جهة منفذة', pageType: 'view' }
+    },
 
 ];

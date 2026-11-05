@@ -1,0 +1,127 @@
+// ─── Host layout ──────────────────────────────────────────────────────────────
+:host {
+    display: block;
+    width: 100%;
+}
+
+// ─── Tabs wrapper ─────────────────────────────────────────────────────────────
+.tabs-wrapper {
+    width: 100%;
+    padding: 1.5rem;
+
+    @media (max-width: 959px) {
+        padding: 1rem;
+    }
+
+    @media (max-width: 539px) {
+        padding: 0.75rem 0.5rem;
+    }
+}
+
+// ─── PrimeNG p-tabs overrides ─────────────────────────────────────────────────
+::ng-deep {
+
+    // ── Tab list ──────────────────────────────────────────────────────────────
+    p-tabs {
+        display: block;
+        width: 100%;
+    }
+
+    .p-tabs {
+        width: 100%;
+
+        .p-tablist {
+            background: transparent;
+            border-bottom: 1px solid var(--p-content-border-color, #e2e8f0);
+            overflow-x: auto;
+            overflow-y: hidden;
+            // smooth horizontal scroll on touch devices
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;          // Firefox
+            &::-webkit-scrollbar { display: none; } // Chrome / Safari
+
+            // keep tabs in a single row that can scroll
+            .p-tablist-tab-list {
+                display: flex;
+                flex-wrap: nowrap;
+                min-width: max-content;
+                width: 100%;
+                gap: 0;
+            }
+        }
+
+        // ── Individual tab ────────────────────────────────────────────────────
+        .p-tab {
+            white-space: nowrap;
+            padding: 0.75rem 1.25rem;
+            font-size: 0.9375rem;
+            border-bottom: 2px solid transparent;
+            transition: color 0.2s, border-color 0.2s;
+            flex-shrink: 0;
+
+            &.p-tab-active {
+                border-bottom-color: var(--p-primary-color, #0ea5e9);
+                font-weight: 600;
+            }
+
+            &.p-disabled {
+                opacity: 0.45;
+                cursor: not-allowed;
+                pointer-events: none;
+            }
+
+            // Tablet: slightly smaller labels
+            @media (max-width: 719px) {
+                padding: 0.625rem 1rem;
+                font-size: 0.875rem;
+            }
+
+            // Mobile: compact tabs
+            @media (max-width: 539px) {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.8125rem;
+            }
+        }
+
+        // ── Tab panels ────────────────────────────────────────────────────────
+        .p-tabpanels {
+            padding: 1.5rem 0 0;
+            background: transparent;
+
+            @media (max-width: 959px) {
+                padding: 1rem 0 0;
+            }
+
+            @media (max-width: 539px) {
+                padding: 0.75rem 0 0;
+            }
+        }
+
+        .p-tabpanel {
+            padding: 0;
+        }
+    }
+}
+
+// ─── Scroll-indicator shadow ── shows when tabs overflow ──────────────────────
+// Adds a fade-out shadow on the start/end of the tab strip so users know
+// there are more tabs to scroll to (RTL-aware).
+::ng-deep .p-tablist {
+    position: relative;
+
+    &::after {
+        content: '';
+        position: absolute;
+        inset-block: 0;
+        inset-inline-end: 0;
+        width: 2rem;
+        background: linear-gradient(to inline-end, transparent, var(--p-surface-0, #fff));
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.2s;
+
+        @media (max-width: 719px) {
+            opacity: 1;
+        }
+    }
+}

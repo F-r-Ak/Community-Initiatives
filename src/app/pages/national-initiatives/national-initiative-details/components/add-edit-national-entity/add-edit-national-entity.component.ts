@@ -162,6 +162,18 @@ export class AddEditNationalEntityComponent extends BaseEditComponent implements
         this.otherEntityName = '';
     }
 
+    /** Wrapper passed to p-autocomplete so getPaged is called with the current entityType filter. */
+    getEntitiesByType = (body: any) => {
+        const entityTypeId = this.getEntityTypeId(this.selectedEntityType!);
+        return this.entitiesService.getPaged({
+            ...body,
+            filter: {
+                ...body.filter,
+                entityType: entityTypeId
+            }
+        });
+    };
+
     onEntitySelect(selected: any): void {
         this.selectedEntity = selected?.value ?? null;
     }
@@ -208,19 +220,27 @@ export class AddEditNationalEntityComponent extends BaseEditComponent implements
             id: null,
             nationalInitiativeDetailId: this.nationalInitiativeDetailId,
             entityType: entry.entityTypeId,
-            entities: [] as { entityId: string }[],
-            organizations: [] as { organizationId: number; organizationName: string; otherEntityName: string }[],
+            entities: [] as { entityId: string; entityType: number }[],
+            organizations: [] as {
+                organizationId: number;
+                organizationName: string;
+                otherEntityName: string;
+                entityType: number;
+            }[],
             description: this.form.get('description')?.value ?? ''
         };
 
         if (entry.entityId) {
-            payload.entities = [{ entityId: entry.entityId }];
+            payload.entities = [
+                { entityId: entry.entityId, entityType: entry.entityTypeId }
+            ];
         } else if (entry.organizationId || entry.otherEntityName) {
             payload.organizations = [
                 {
                     organizationId: entry.organizationId ?? 0,
                     organizationName: entry.organizationName ?? '',
-                    otherEntityName: entry.otherEntityName ?? ''
+                    otherEntityName: entry.otherEntityName ?? '',
+                    entityType: entry.entityTypeId
                 }
             ];
         }
