@@ -32,7 +32,7 @@ export class ExecuteTypesComponent extends BaseListComponent {
             inputUrl: {
                 getAll: 'v1/executetypes/getpaged',
                 getAllMethod: 'POST',
-                delete: 'v1/executetypes/deletesoft'
+                delete: 'v1/executetypes/delete'
             },
             inputCols: this.initializeTableColumns(),
             inputActions: this.initializeTableActions(),

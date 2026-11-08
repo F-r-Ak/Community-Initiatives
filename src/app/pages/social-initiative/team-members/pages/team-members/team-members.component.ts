@@ -32,7 +32,7 @@ export class TeamMembersComponent extends BaseListComponent {
             inputUrl: {
                 getAll: 'v1/teammembers/getpaged',
                 getAllMethod: 'POST',
-                delete: 'v1/teammembers/deletesoft'
+                delete: 'v1/teammembers/delete'
             },
             inputCols: this.initializeTableColumns(),
             inputActions: this.initializeTableActions(),

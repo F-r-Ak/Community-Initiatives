@@ -32,7 +32,7 @@ export class AgeGroupsComponent extends BaseListComponent {
             inputUrl: {
                 getAll: 'v1/agegroups/getpaged',
                 getAllMethod: 'POST',
-                delete: 'v1/agegroups/deletesoft'
+                delete: 'v1/agegroups/delete'
             },
             inputCols: this.initializeTableColumns(),
             inputActions: this.initializeTableActions(),

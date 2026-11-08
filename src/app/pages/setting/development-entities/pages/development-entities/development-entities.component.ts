@@ -33,7 +33,7 @@ export class DevelopmentEntitiesComponent extends BaseListComponent {
             inputUrl: {
                 getAll: 'v1/developmententity/getpaged',
                 getAllMethod: 'POST',
-                delete: 'v1/developmententity/deletesoft'
+                delete: 'v1/developmententity/delete'
             },
             inputCols: this.initializeTableColumns(),
             inputActions: this.initializeTableActions(),

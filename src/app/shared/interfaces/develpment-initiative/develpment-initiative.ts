@@ -5,9 +5,12 @@ export interface DevelpmentInitiativeDto extends Lookup, Partial<SharedPropertie
     id: string;
     name: string;
     fieldId: string;
+    fieldName: string;
     initiativeStartDate: string;
     initiativeEndDate: string;
     initiativeCategory: string;
+    initiativeCategoryName: EnumDto;
+
 }
 
 export interface AddDevelpmentInitiativeDto extends Lookup, Partial<SharedProperties> {

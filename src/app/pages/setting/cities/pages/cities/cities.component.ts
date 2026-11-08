@@ -32,7 +32,7 @@ export class CitiesComponent extends BaseListComponent {
             inputUrl: {
                 getAll: 'v1/city/getpaged',
                 getAllMethod: 'POST',
-                delete: 'v1/city/deletesoft'
+                delete: 'v1/city/delete'
             },
             inputCols: this.initializeTableColumns(),
             inputActions: this.initializeTableActions(),

@@ -32,7 +32,7 @@ export class ActivityTypesComponent extends BaseListComponent {
             inputUrl: {
                 getAll: 'v1/activitytypes/getpaged',
                 getAllMethod: 'POST',
-                delete: 'v1/activitytypes/deletesoft'
+                delete: 'v1/activitytypes/delete'
             },
             inputCols: this.initializeTableColumns(),
             inputActions: this.initializeTableActions(),

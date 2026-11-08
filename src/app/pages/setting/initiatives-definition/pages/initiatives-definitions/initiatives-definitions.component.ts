@@ -33,7 +33,7 @@ export class InitiativesDefinitionsComponent extends BaseListComponent {
             inputUrl: {
                 getAll: 'v1/developmentinitiative/getpaged',
                 getAllMethod: 'POST',
-                delete: 'v1/developmentinitiative/deletesoft'
+                delete: 'v1/developmentinitiative/delete'
             },
             inputCols: this.initializeTableColumns(),
             inputActions: this.initializeTableActions(),

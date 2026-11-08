@@ -40,7 +40,7 @@ export class NationalBeneficiariesComponent extends BaseListComponent implements
             inputUrl: {
                 getAll: 'v1/centralbeneficiaries/getpaged',
                 getAllMethod: 'POST',
-                delete: 'v1/centralbeneficiaries/deletesoft'
+                delete: 'v1/centralbeneficiaries/delete'
             },
             inputCols: [
                 { field: 'cityName', header: 'المركز', filter: true, filterMode: 'text' },

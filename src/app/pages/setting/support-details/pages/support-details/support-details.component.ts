@@ -32,7 +32,7 @@ export class SupportDetailsComponent extends BaseListComponent {
             inputUrl: {
                 getAll: 'v1/supportdetails/getpaged',
                 getAllMethod: 'POST',
-                delete: 'v1/supportdetails/deletesoft'
+                delete: 'v1/supportdetails/delete'
             },
             inputCols: this.initializeTableColumns(),
             inputActions: this.initializeTableActions(),
