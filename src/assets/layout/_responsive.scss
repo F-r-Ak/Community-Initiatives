@@ -1,5 +1,5 @@
+// ─── Extra-wide screens ────────────────────────────────────────
 @media screen and (min-width: 1960px) {
-
     .layout-main,
     .landing-wrapper {
         width: 1504px;
@@ -8,48 +8,46 @@
     }
 }
 
+// ─── Desktop (≥ 992px) ─────────────────────────────────────────
 @media (min-width: 992px) {
     .layout-wrapper {
+
+        // ── Overlay mode ──
         &.layout-overlay {
             .layout-main-container {
-                margin-left: 0;
-                padding-left: 2rem;
+                margin-right: 0;
+                padding-right: 2rem;
             }
 
+            // Sidebar hidden by default — slides in from the right (RTL side)
             .layout-sidebar {
-                transform: translateX(-100%);
-                left: 0;
+                transform: translateX(100%);
+                right: 0;
                 top: 0;
                 height: 100vh;
-                border-top-left-radius: 0;
-                border-bottom-left-radius: 0;
-                border-right: 1px solid var(--surface-border);
-                transition:
-                    transform 0.4s cubic-bezier(0.05, 0.74, 0.2, 0.99),
-                    left 0.4s cubic-bezier(0.05, 0.74, 0.2, 0.99);
+                border-radius: 0;
+                border-left: 1px solid var(--surface-border);
+                transition: transform 0.4s cubic-bezier(0.05, 0.74, 0.2, 0.99);
                 box-shadow:
                     0px 3px 5px rgba(0, 0, 0, 0.02),
                     0px 0px 2px rgba(0, 0, 0, 0.05),
                     0px 1px 4px rgba(0, 0, 0, 0.08);
             }
 
-            &.layout-overlay-active {
-                .layout-sidebar {
-                    transform: translateX(0);
-                }
+            &.layout-overlay-active .layout-sidebar {
+                transform: translateX(0);
             }
         }
 
+        // ── Static mode ──
         &.layout-static {
             .layout-main-container {
-                margin-right: 22rem;
+                margin-right: 22rem;  // reserves space for the visible sidebar
             }
 
             &.layout-static-inactive {
                 .layout-sidebar {
-                    transform: translateX(-100%);
-                    // left: 0;
-                    right: -30%;
+                    transform: translateX(110%); // slide fully off right edge
                 }
 
                 .layout-main-container {
@@ -65,33 +63,33 @@
     }
 }
 
+// ─── Mobile / Tablet (≤ 991px) ─────────────────────────────────
 @media (max-width: 991px) {
     .blocked-scroll {
         overflow: hidden;
     }
 
     .layout-wrapper {
+        // Main content: full width, no sidebar margin
         .layout-main-container {
-            margin-left: 0;
-            padding-left: 2rem;
+            margin-right: 0 !important;
+            padding-right: 1rem;
+            padding-left: 1rem;
         }
 
+        // Sidebar: hidden off the RIGHT edge by default (RTL — sidebar is on the right)
         .layout-sidebar {
-            transform: translateX(-100%);
-            // left: 0;
-            // top: 0;
-            top: 11%;
-            // height: 100vh;
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
-            transition:
-                transform 0.4s cubic-bezier(0.05, 0.74, 0.2, 0.99),
-                left 0.4s cubic-bezier(0.05, 0.74, 0.2, 0.99);
-
-            // display: none;
-
+            transform: translateX(110%);   // push completely off-screen to the right
+            right: 0;                      // anchored to the right edge
+            top: var(--topbar-height, 4rem);
+            height: calc(100vh - var(--topbar-height, 4rem));
+            width: min(20rem, 85vw);       // never wider than viewport on small phones
+            border-radius: 0;
+            transition: transform 0.35s cubic-bezier(0.05, 0.74, 0.2, 0.99);
+            z-index: 999;
         }
 
+        // Overlay mask — hidden until menu opens
         .layout-mask {
             display: none;
             position: fixed;
@@ -103,6 +101,7 @@
             background-color: var(--maskbg);
         }
 
+        // Active state: slide sidebar in, show mask
         &.layout-mobile-active {
             .layout-sidebar {
                 transform: translateX(0);
@@ -111,65 +110,21 @@
             .layout-mask {
                 display: block;
             }
-
-
         }
-
     }
-
 }
 
-
-@media (max-width: 990px) {
-    .blocked-scroll {
-        overflow: hidden;
-    }
-
+// ─── Small mobile (≤ 575px) ────────────────────────────────────
+@media (max-width: 575px) {
     .layout-wrapper {
         .layout-main-container {
-            margin-left: 0;
-            padding-left: 2rem;
+            padding-right: 0.75rem;
+            padding-left: 0.75rem;
         }
 
         .layout-sidebar {
-            transform: translateX(-100%);
-            // left: 0;
-            // top: 0;
-            top: 11%;
-            // height: 100vh;
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
-            transition:
-                transform 0.4s cubic-bezier(0.05, 0.74, 0.2, 0.99),
-                left 0.4s cubic-bezier(0.05, 0.74, 0.2, 0.99);
-
-            display: none;
-
+            top: var(--topbar-height-mobile, 3.75rem);
+            height: calc(100vh - var(--topbar-height-mobile, 3.75rem));
         }
-
-        .layout-mask {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 998;
-            width: 100%;
-            height: 100%;
-            background-color: var(--maskbg);
-        }
-
-        &.layout-mobile-active {
-            .layout-sidebar {
-                display: block;
-            }
-
-            .layout-mask {
-                display: block;
-            }
-
-
-        }
-
     }
-
 }
