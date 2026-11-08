@@ -14,6 +14,7 @@ export interface DevelopmentServiceDto extends Lookup, Partial<SharedProperties>
     entityType: string;
     initiativeCategory: string;
     developmentInitiativeId: string;
+    developmentInitiativeName: string;
     serviceStartDate: string;
     serviceEndDate: string;
     cityName: string;

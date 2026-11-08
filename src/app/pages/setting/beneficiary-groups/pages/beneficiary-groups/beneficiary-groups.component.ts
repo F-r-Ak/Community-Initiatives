@@ -32,7 +32,7 @@ export class BeneficiaryGroupsComponent extends BaseListComponent {
             inputUrl: {
                 getAll: 'v1/beneficiarygroups/getpaged',
                 getAllMethod: 'POST',
-                delete: 'v1/beneficiarygroups/deletesoft'
+                delete: 'v1/beneficiarygroups/delete'
             },
             inputCols: this.initializeTableColumns(),
             inputActions: this.initializeTableActions(),

@@ -33,7 +33,7 @@ export class SectionsComponent extends BaseListComponent {
             inputUrl: {
                 getAll: 'v1/sections/getpaged',
                 getAllMethod: 'POST',
-                delete: 'v1/sections/deletesoft'
+                delete: 'v1/sections/delete'
             },
             inputCols: this.initializeTableColumns(),
             inputActions: this.initializeTableActions(),

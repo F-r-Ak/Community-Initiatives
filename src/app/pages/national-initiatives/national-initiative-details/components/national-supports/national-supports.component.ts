@@ -40,7 +40,7 @@ export class NationalSupportsComponent extends BaseListComponent implements OnIn
             inputUrl: {
                 getAll: 'v1/nationalsupports/getpaged',
                 getAllMethod: 'POST',
-                delete: 'v1/nationalsupports/deletesoft'
+                delete: 'v1/nationalsupports/delete'
             },
             inputCols: [
                 { field: 'supportNameAr', header: 'نوع الدعم', filter: true, filterMode: 'text' },

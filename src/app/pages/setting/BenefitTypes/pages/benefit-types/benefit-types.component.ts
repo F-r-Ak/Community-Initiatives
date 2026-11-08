@@ -5,6 +5,7 @@ import { BaseListComponent } from '../../../../../base/components/base-list-comp
 import { CardModule } from 'primeng/card';
 import { PrimeDataTableComponent, PrimeTitleToolBarComponent, AgeGroupsService, TableOptions, BenefitTypesService } from '../../../../../shared';
 import { AddEditBenefitTypeComponent } from '../../components/add-edit-benefit-type/add-edit-benefit-type.component';
+import { BenefitTypeComponent } from '../../components/benefit-type/benefit-type.component';
 
 import { AuthHelper } from '../../../../../core';
 @Component({
@@ -32,7 +33,7 @@ export class BenefitTypesComponent extends BaseListComponent {
             inputUrl: {
                 getAll: 'benefittypes/getpaged',
                 getAllMethod: 'POST',
-                delete: 'benefittypes/deletesoft'
+                delete: 'benefittypes/delete'
             },
             inputCols: this.initializeTableColumns(),
             inputActions: this.initializeTableActions(),
@@ -100,7 +101,7 @@ export class BenefitTypesComponent extends BaseListComponent {
     }
 
     openView(rowData: any) {
-        this.openDialog(AddEditBenefitTypeComponent, 'عرض    الاستفادة', {
+        this.openDialog(BenefitTypeComponent, 'عرض    الاستفادة', {
             pageType: 'view',
             row: { rowData }
         });
