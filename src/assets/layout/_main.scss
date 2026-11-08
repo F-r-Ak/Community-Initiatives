@@ -3,8 +3,15 @@
     flex-direction: column;
     min-height: 100vh;
     justify-content: space-between;
-    padding: 6rem 2rem 0 2rem;
+    // Use the topbar height token so the content never hides behind the bar
+    padding: calc(var(--topbar-height, 4rem) + 2rem) 2rem 0 2rem;
     transition: margin-left var(--layout-section-transition-duration);
+
+    @media (max-width: 575px) {
+        padding-top: calc(var(--topbar-height-mobile, 3.75rem) + 1.5rem);
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
 }
 
 .layout-main {

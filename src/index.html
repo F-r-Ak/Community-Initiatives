@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="ar" dir="rtl">
     <head>
         <meta charset="utf-8" />
         <title>المبادرات التنموية والمجتمعية</title>
@@ -11,6 +11,24 @@
         <link rel="preconnect" href="https://primefaces.org" />
         <link rel="icon" type="image/x-icon" href="./assets/img/favicon.png" />
         <link href="https://fonts.cdnfonts.com/css/lato" rel="stylesheet" />
+        <!-- Apply language direction before Angular bootstraps to prevent LTR flash on reload -->
+        <script>
+            (function () {
+                var lang = localStorage.getItem('currentLang') || 'ar';
+                var html = document.documentElement;
+                if (lang === 'ar') {
+                    html.setAttribute('lang', 'ar');
+                    html.setAttribute('dir', 'rtl');
+                    document.body && document.body.setAttribute('dir', 'rtl');
+                    document.body && document.body.classList.add('rtl');
+                } else {
+                    html.setAttribute('lang', 'en');
+                    html.setAttribute('dir', 'ltr');
+                    document.body && document.body.setAttribute('dir', 'ltr');
+                    document.body && document.body.classList.remove('rtl');
+                }
+            })();
+        </script>
     </head>
 
     <body>

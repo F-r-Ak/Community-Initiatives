@@ -25,20 +25,15 @@
     z-index: 999;
     overflow-y: auto;
     user-select: none;
-    // top: 6rem;
-    top: 4.5rem;
+    top: var(--topbar-height, 4rem);
     right: 2rem;
     transition:
-        transform var(--layout-section-transition-duration),
-        left var(--layout-section-transition-duration);
-    // background-color: var(--surface-overlay);
+        transform var(--layout-section-transition-duration);
     background-image: url(../img/sideBar.png);
     background-repeat: no-repeat;
     background-size: cover;
-
     border-radius: var(--content-border-radius);
     padding: 0.5rem 1.5rem;
-    animation: slideInRight 0.5s forwards;
 
     &.hide {
         animation: slideOutRight 0.5s forwards;
@@ -52,11 +47,34 @@
 
     .layout-root-menuitem {
         > .layout-menuitem-root-text {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             font-size: 1rem;
             text-transform: uppercase;
             font-weight: 700;
             color: var(--white-color);
             margin: 0.75rem 0;
+            padding: 0.25rem 0;
+            border-radius: var(--content-border-radius);
+            transition: background-color var(--element-transition-duration);
+
+            &:hover {
+                background-color: var(--light-color);
+                color: var(--primary-color);
+                padding: 0.25rem 0.5rem;
+            }
+
+            .layout-submenu-toggler {
+                font-size: 0.75rem;
+                float: none !important;
+                margin-left: auto;
+                transition: transform var(--element-transition-duration);
+            }
+        }
+
+        > ul {
+            overflow: hidden;
         }
 
         > a {

@@ -63,12 +63,14 @@ export class TranslationService {
     if (this.language === 'ar') {
       this.renderer.addClass(document.body, 'rtl');
       this.renderer.setAttribute(document.body, 'dir', 'rtl');
-      this.renderer.setAttribute(document.querySelector("html"), "lang", "ar");
+      this.renderer.setAttribute(document.documentElement, 'dir', 'rtl');
+      this.renderer.setAttribute(document.documentElement, 'lang', 'ar');
       this.currentLanguage.next(this.language);
     } else {
       this.renderer.removeClass(document.body, 'rtl');
       this.renderer.setAttribute(document.body, 'dir', 'ltr');
-      this.renderer.setAttribute(document.querySelector("html"), "lang", "en");
+      this.renderer.setAttribute(document.documentElement, 'dir', 'ltr');
+      this.renderer.setAttribute(document.documentElement, 'lang', 'en');
       this.currentLanguage.next(this.language);
     }
   }

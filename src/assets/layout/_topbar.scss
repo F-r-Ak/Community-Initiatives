@@ -1,177 +1,131 @@
 @use 'mixins' as *;
 
+// ═══════════════════════════════════════════════════════════
+//  GLOBAL TOPBAR LAYOUT
+//  Height token — change here and everywhere updates.
+//  Mobile gets a taller bar so the two-line title fits.
+// ═══════════════════════════════════════════════════════════
+:root {
+    --topbar-height: 4rem;           // desktop / tablet
+    --topbar-height-mobile: 3.75rem; // ≤ 575px
+}
+
 .layout-topbar {
     position: fixed;
-    height: 4rem;
-    z-index: 997;
-    left: 0;
     top: 0;
+    left: 0;
+    right: 0;
     width: 100%;
-    padding: 0 2rem;
+    height: var(--topbar-height);
+    z-index: 997;
+
+    padding: 0 1.75rem;
+
     background-image: url(../img/Header.png);
     background-repeat: no-repeat;
     background-size: cover;
+    background-position: center;
 
-    transition: left var(--layout-section-transition-duration);
     display: flex;
     align-items: center;
-
     justify-content: space-between;
+    gap: 0.75rem;
 
-    .layout-topbar-logo-container {
-        // width: 20rem;
+    transition: box-shadow 0.2s;
+
+    // ── Right zone (logo + sidebar toggle) — visual right in RTL
+    .layout-topbar-start {
         display: flex;
         align-items: center;
-    }
-    h4,
-    i {
-        color: var(--white-color);
+        gap: 0.5rem;
+        min-width: 0;
+        flex: 1 1 auto;
     }
 
-    .layout-topbar-logo {
-        display: inline-flex;
+    // ── Left zone (notifications + user) — visual left in RTL
+    .layout-topbar-end {
+        display: flex;
         align-items: center;
-        font-size: 1.5rem;
-        border-radius: var(--content-border-radius);
-        color: var(--light-color);
-        font-weight: 500;
         gap: 0.5rem;
+        flex-shrink: 0;
+        position: relative; // anchor for absolutely-positioned dropdowns
+    }
+
+    // ── Logo link ──────────────────────────────────────────
+    .layout-topbar-logo {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        flex: 1 1 0;      // grows to fill available space in layout-topbar-start
+        min-width: 0;     // allows flex children (title) to truncate
+        border-radius: var(--content-border-radius);
+        color: var(--white-color);
+        text-decoration: none;
 
         svg {
-            // width: 3rem;
-            margin: 0 0 0 0;
+            flex-shrink: 0;
+            width: 2.75rem;
+            height: 2.75rem;
         }
 
-        &:focus-visible {
-            @include focused();
-        }
+        &:focus-visible { @include focused(); }
     }
 
-    .layout-topbar-action {
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        color: var(--light-color-secondary);
-        border-radius: 50%;
-        width: 2.5rem;
-        height: 2.5rem;
-        color: var(--light-color);
-        transition: background-color var(--element-transition-duration);
-        cursor: pointer;
-
-        &:hover {
-            background-color: var(--light-color);
-        }
-
-        &:focus-visible {
-            @include focused();
-        }
-
-        i {
-            font-size: 1.25rem;
-            &:hover {
-                color: var(--primary-color);
-            }
-        }
-
-        span {
-            font-size: 1rem;
-            display: none;
-            color: var(--primary-color) !important;
-        }
-
-        &.layout-topbar-action-highlight {
-            background-color: var(--primary-color);
-            color: var(--primary-color);
-        }
-    }
-
+    // ── Sidebar-toggle / icon buttons ─────────────────────
     .layout-menu-button {
-        margin-right: 0.5rem;
+        flex-shrink: 0;
     }
 
-    .layout-topbar-menu-button {
-        display: none;
-    }
-
-    .layout-topbar-actions {
-        display: flex;
-        align-items: start;
-        justify-content: left;
-
-        gap: 1rem;
-    }
-
-    .layout-topbar-menu-content {
-        display: flex;
-        gap: 1rem;
-    }
-
-    .layout-config-menu {
-        display: flex;
-        gap: 1rem;
+    // ── h4 / i colour passthrough ─────────────────────────
+    h4, i {
+        color: var(--white-color);
     }
 }
 
+// ═══════════════════════════════════════════════════════════
+//  TABLET  (576px – 991px)
+// ═══════════════════════════════════════════════════════════
 @media (max-width: 991px) {
     .layout-topbar {
-        padding: 0 2rem;
+        padding: 0 1.25rem;
+        gap: 0.5rem;
 
-        .layout-topbar-logo-container {
-            width: auto;
+        .layout-topbar-logo svg {
+            width: 2.25rem;
+            height: 2.25rem;
         }
+    }
+}
 
-        .layout-menu-button {
-            margin-left: 0;
-            margin-right: 0.5rem;
+// ═══════════════════════════════════════════════════════════
+//  MOBILE  (≤ 575px)
+// ═══════════════════════════════════════════════════════════
+@media (max-width: 575px) {
+    :root {
+        --topbar-height: var(--topbar-height-mobile);
+    }
+
+    .layout-topbar {
+        padding: 0 0.875rem;
+        height: var(--topbar-height-mobile);
+        gap: 0.4rem;
+
+        .layout-topbar-logo svg {
+            width: 2rem;
+            height: 2rem;
         }
+    }
+}
 
-        .layout-topbar-menu-button {
-            display: inline-flex;
-        }
+// ═══════════════════════════════════════════════════════════
+//  VERY SMALL  (≤ 360px)  — hide SVG, keep title
+// ═══════════════════════════════════════════════════════════
+@media (max-width: 360px) {
+    .layout-topbar {
+        padding: 0 0.625rem;
 
-        .layout-topbar-menu {
-            position: absolute;
-            background-color: var(--surface-overlay);
-            transform-origin: top;
-            box-shadow:
-                0px 3px 5px rgba(0, 0, 0, 0.02),
-                0px 0px 2px rgba(0, 0, 0, 0.05),
-                0px 1px 4px rgba(0, 0, 0, 0.08);
-            border-radius: var(--content-border-radius);
-            padding: 1rem;
-            // right: 2rem;
-            top: 4rem;
-            min-width: 15rem;
-            border: 1px solid var(--surface-border);
-
-            .layout-topbar-menu-content {
-                gap: 0.5rem;
-            }
-
-            .layout-topbar-action {
-                display: flex;
-                width: 100%;
-                height: auto;
-                justify-content: flex-start;
-                border-radius: var(--content-border-radius);
-                padding: 0.5rem 1rem;
-
-                i {
-                    font-size: 1rem;
-                    // margin-right: 0.5rem;
-                }
-
-                span {
-                    font-weight: medium;
-                    display: block;
-                    margin: 0 0.5rem;
-                }
-            }
-        }
-
-        .layout-topbar-menu-content {
-            flex-direction: column;
+        .layout-topbar-logo svg {
+            display: none;
         }
     }
 }

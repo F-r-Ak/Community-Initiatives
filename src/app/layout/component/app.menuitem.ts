@@ -14,8 +14,11 @@ import { LayoutService } from '../service/layout.service';
     imports: [CommonModule, RouterModule, RippleModule],
     template: `
         <ng-container>
-            <div *ngIf="root && item.visible !== false" class="layout-menuitem-root-text">{{ item.label }}</div>
-            <a *ngIf="(!item.routerLink || item.items) && item.visible !== false" [attr.href]="item.url" (click)="itemClick($event)" [ngClass]="item.styleClass" [attr.target]="item.target" tabindex="0" pRipple>
+            <div *ngIf="root && item.visible !== false" class="layout-menuitem-root-text" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;" (click)="rootToggle($event)">
+                <span>{{ item.label }}</span>
+                <i *ngIf="item.items" class="pi pi-fw" [ngClass]="active ? 'pi-angle-up' : 'pi-angle-down'" style="font-size:0.85rem;margin-inline-start:0.5rem;transition:transform 0.3s;"></i>
+            </div>
+            <a *ngIf="(!item.routerLink || item.items) && item.visible !== false && !root" [attr.href]="item.url" (click)="itemClick($event)" [ngClass]="item.styleClass" [attr.target]="item.target" tabindex="0" pRipple>
                 <i [ngClass]="item.icon" class="layout-menuitem-icon"></i>
                 <span class="layout-menuitem-text">{{ item.label }}</span>
                 <i class="pi pi-fw pi-angle-down layout-submenu-toggler" *ngIf="item.items"></i>
@@ -55,13 +58,15 @@ import { LayoutService } from '../service/layout.service';
             state(
                 'collapsed',
                 style({
-                    height: '0'
+                    height: '0',
+                    overflow: 'hidden'
                 })
             ),
             state(
                 'expanded',
                 style({
-                    height: '*'
+                    height: '*',
+                    overflow: 'hidden'
                 })
             ),
             transition('collapsed <=> expanded', animate('400ms cubic-bezier(0.86, 0, 0.07, 1)'))
@@ -116,6 +121,11 @@ export class AppMenuitem {
     ngOnInit() {
         this.key = this.parentKey ? this.parentKey + '-' + this.index : String(this.index);
 
+        // Root sections start collapsed; the active route will expand the correct one
+        if (this.root && this.item.items) {
+            this.active = false;
+        }
+
         if (this.item.routerLink) {
             this.updateActiveStateFromRoute();
         }
@@ -149,8 +159,19 @@ export class AppMenuitem {
         this.layoutService.onMenuStateChange({ key: this.key });
     }
 
+    rootToggle(event: Event) {
+        event.preventDefault();
+        if (this.item.items) {
+            this.active = !this.active;
+            if (this.active) {
+                // notify other root sections to collapse
+                this.layoutService.onMenuStateChange({ key: this.key });
+            }
+        }
+    }
+
     get submenuAnimation() {
-        return this.root ? 'expanded' : this.active ? 'expanded' : 'collapsed';
+        return this.active ? 'expanded' : 'collapsed';
     }
 
     @HostBinding('class.active-menuitem')

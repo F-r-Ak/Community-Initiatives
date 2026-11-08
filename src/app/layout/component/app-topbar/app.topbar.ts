@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, HostListener } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -29,13 +29,56 @@ clientRole: 'Adder' | 'Updater' | 'Both' = 'Both';
 
   notifications: any[] = [];
   userName: string = '';
+  notifPanelOpen = false;
+  userMenuOpen   = false;
+
+  // ── Close notification panel on outside click ──────────
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    const target = event.target as Node;
+
+    if (this.notifPanelOpen) {
+      const wrapper = this.el.nativeElement.querySelector('.topbar-notification-wrapper');
+      if (wrapper && !wrapper.contains(target)) {
+        this.closeNotifPanel();
+      }
+    }
+
+    if (this.userMenuOpen) {
+      const wrapper = this.el.nativeElement.querySelector('.topbar-user-menu-wrapper');
+      if (wrapper && !wrapper.contains(target)) {
+        this.closeUserMenu();
+      }
+    }
+  }
+
+  toggleNotifPanel(event: MouseEvent): void {
+    event.stopPropagation();
+    this.notifPanelOpen = !this.notifPanelOpen;
+    if (this.notifPanelOpen) this.userMenuOpen = false; // close the other
+  }
+
+  closeNotifPanel(): void {
+    this.notifPanelOpen = false;
+  }
+
+  toggleUserMenu(event: MouseEvent): void {
+    event.stopPropagation();
+    this.userMenuOpen = !this.userMenuOpen;
+    if (this.userMenuOpen) this.notifPanelOpen = false; // close the other
+  }
+
+  closeUserMenu(): void {
+    this.userMenuOpen = false;
+  }
  
 
   constructor(
     public layoutService: LayoutService,
     public visitorNot: VisitorsNotervice,
     private authHelper: AuthHelper,
-    private router: Router
+    private router: Router,
+    private el: ElementRef
   ) {}
 
   async ngOnInit(): Promise<void> {
