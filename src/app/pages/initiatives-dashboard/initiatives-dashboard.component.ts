@@ -9,10 +9,17 @@ import { BaseComponent } from '../../base/components/base-component';
 import { forkJoin } from 'rxjs';
 import { ActivitiesService } from '../../shared';
 import { DevelopmentServiceService } from '../../shared/services/development-service/development-service.service';
+import { DevelpmentInitiativesService } from '../../shared/services/develpment-initiatives/develpment-initiatives.service';
 
 interface DashboardCount {
     id: string;
     name: string;
+    count: number;
+}
+
+interface CategoryCount {
+    categoryId: string;
+    categoryName: string;
     count: number;
 }
 
@@ -27,6 +34,7 @@ export class InitiativesDashboardComponent extends BaseComponent implements OnIn
     initiativesService = inject(InitiativesService);
     activitiesService = inject(ActivitiesService);
     developmentServiceService = inject(DevelopmentServiceService);
+    develpmentInitiativesService = inject(DevelpmentInitiativesService);
 
     executionStatusChartData: any;
     citiesChartData: any;
@@ -48,6 +56,9 @@ export class InitiativesDashboardComponent extends BaseComponent implements OnIn
     beneficiariesStatistics: any = null;
     totalBeneficiaries: any = null;
 
+    nationalInitiativesByCategory: CategoryCount[] = [];
+    nationalInitiativesTotalCount = 0;
+
     readonly cardColors = ['#42A5F5', '#66BB6A', '#FFA726', '#26C6DA', '#EC407A', '#AB47BC'];
 
     constructor(protected override activatedRoute: ActivatedRoute) {
@@ -59,6 +70,7 @@ export class InitiativesDashboardComponent extends BaseComponent implements OnIn
         this.loadDashboardData();
         this.initChartOptions();
         this.loadDashboardDatas();
+        this.loadNationalInitiativesByCategory();
     }
 
     initChartOptions() {
@@ -232,7 +244,7 @@ private buildChartData(data: DashboardCount[], label: string) {
         };
          console.log('beneficiariesStatistics:', this.citiesChartData);
     }
-   private buildCitiesActivitiesChart(data: { id: string; name: string; count: number }[]) {
+    private buildCitiesActivitiesChart(data: { id: string; name: string; count: number }[]) {
         this.citiesActivitiesChartData = {
             labels: data.map((d) => d.name),
             datasets: [
@@ -244,6 +256,19 @@ private buildChartData(data: DashboardCount[], label: string) {
                 }
             ]
         };
-         console.log('beneficiariesStatistics:', this.citiesChartData);
+        console.log('beneficiariesStatistics:', this.citiesChartData);
+    }
+
+    private loadNationalInitiativesByCategory(): void {
+        this.develpmentInitiativesService.getNationalInitiativesCountByCategory().subscribe({
+            next: (data: CategoryCount[]) => {
+                this.nationalInitiativesByCategory = data ?? [];
+                this.nationalInitiativesTotalCount = this.nationalInitiativesByCategory.reduce(
+                    (sum, item) => sum + Number(item.count),
+                    0
+                );
+            },
+            error: () => this.alert.error('حدث خطأ أثناء تحميل إحصائيات المبادرات الوطنية')
+        });
     }
 }

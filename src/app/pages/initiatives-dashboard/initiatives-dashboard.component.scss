@@ -452,3 +452,141 @@ $sh-3 : 0 12px 40px rgba(0,0,0,.15);
 
     .db-section__head-text h2 { font-size: 1.1rem; }
 }
+
+// ─── National Initiatives by Category ────────────────────────────────────────
+
+// Alternate section icon colour (national — deep indigo/violet)
+$c-nat : #5c6bc0;
+
+.db-section__head-icon--nat {
+    background: linear-gradient(135deg, $c-nat, lighten($c-nat, 16%));
+    box-shadow: 0 6px 18px rgba($c-nat, .38);
+    color: #fff;
+}
+
+// Outer layout: category grid is now full width
+.db-nat-row {
+    display: block;
+}
+
+// ─── Category cards grid ──────────────────────────────────────────────────────
+.db-nat-cats {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1rem;
+}
+
+// ─── Single category card ─────────────────────────────────────────────────────
+.db-nat-cat {
+    --cc: #{$c-1};
+
+    position: relative;
+    overflow: hidden;
+    border-radius: $r-card;
+    padding: 1.25rem 1.1rem 1rem;
+    background: $c-white;
+    border: 1px solid $c-border;
+    box-shadow: $sh-1;
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+    transition: transform .2s ease, box-shadow .2s ease;
+
+    // left accent strip using the card colour variable
+    &::before {
+        content: '';
+        position: absolute;
+        inset-inline-start: 0;
+        top: 0;
+        bottom: 0;
+        width: 5px;
+        background: var(--cc);
+        border-radius: $r-card 0 0 $r-card;
+    }
+
+    &:hover {
+        transform: translateY(-3px);
+        box-shadow: $sh-2;
+    }
+}
+
+.db-nat-cat__icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: var(--cc);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .9rem;
+    margin-bottom: .2rem;
+    flex-shrink: 0;
+    opacity: .92;
+}
+
+.db-nat-cat__num {
+    font-size: 2rem;
+    font-weight: 900;
+    color: $c-txt;
+    line-height: 1;
+    letter-spacing: -0.5px;
+}
+
+.db-nat-cat__name {
+    font-size: 0.78rem;
+    color: $c-muted;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.db-nat-cat__pct {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--cc);
+    margin-top: .15rem;
+}
+
+// thin progress bar at the bottom of the card
+.db-nat-cat__bar {
+    height: 4px;
+    background: rgba(0,0,0,.07);
+    border-radius: 99px;
+    overflow: hidden;
+    margin-top: .5rem;
+}
+
+.db-nat-cat__bar-fill {
+    height: 100%;
+    background: var(--cc);
+    border-radius: 99px;
+    transition: width .6s ease;
+    min-width: 2px;
+}
+
+.db-nat-cat__bubble {
+    position: absolute;
+    inset-inline-end: -14px;
+    bottom: -16px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(0,0,0,.04);
+    pointer-events: none;
+}
+
+// ─── Empty state ──────────────────────────────────────────────────────────────
+.db-nat-empty {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .6rem;
+    padding: 2.5rem 1rem;
+    color: $c-muted;
+    font-size: .9rem;
+    font-weight: 500;
+
+    i { font-size: 2rem; opacity: .5; }
+}
