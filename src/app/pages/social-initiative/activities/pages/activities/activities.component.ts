@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BaseListComponent } from '../../../../../base/components/base-list-component';
 import { PrimeDataTableComponent, TableOptions, PrimeTitleToolBarComponent } from '../../../../../shared';
 import { ActivitiesService } from '../../../../../shared/services/activities/activities.service';
+import { EnumsGenService } from '../../../../../shared';
 import { RoleCodes } from '../../../../../core/enums/role';
 import { AuthHelper } from '../../../../../core';
 
@@ -15,9 +16,10 @@ import { AuthHelper } from '../../../../../core';
     styleUrl: './activities.component.scss'
 })
 export class ActivitiesComponent extends BaseListComponent implements OnInit {
-    authHelper = inject(AuthHelper);
     tableOptions!: TableOptions;
+    authHelper = inject(AuthHelper);
     service = inject(ActivitiesService);
+    enumsGenService = inject(EnumsGenService);
     get rolesEnum() {
         return RoleCodes;
     }
@@ -43,7 +45,15 @@ export class ActivitiesComponent extends BaseListComponent implements OnInit {
                 { field: 'cityName', header: 'المدينة', filter: true, filterMode: 'text' },
                 { field: 'activityTypeName', header: 'نوع النشاط', filter: true, filterMode: 'text' },
                 { field: 'startDate', header: 'تاريخ البدء', filter: true, filterMode: 'date' },
-                { field: 'endDate', header: 'تاريخ الانتهاء', filter: true, filterMode: 'date' }
+                { field: 'endDate', header: 'تاريخ الانتهاء', filter: true, filterMode: 'date' },
+                {
+                    field: 'executionStatusNameAr',
+                    header: 'الموقف التنفيذي',
+                    filter: true,
+                    filterMode: 'enum',
+                    filterColumnName: 'executionStatus',
+                    filterOptions$: this.enumsGenService.ExecutionStatuses$
+                }
             ],
             inputActions: [
                 {

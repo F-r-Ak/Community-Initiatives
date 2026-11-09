@@ -76,7 +76,9 @@ export class TeamMembersComponent extends BaseListComponent {
                 field: 'jobStatusName.nameAr',
                 header: 'الحالة الوظيفية',
                 filter: true,
-                filterMode: 'text'
+                filterMode: 'enum',
+                filterColumnName: 'jobStatus',
+                filterOptions$: this.enumsGenService.JobStatuses$
             },
             {
                 field: 'teamCategoryName.nameAr',

@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { BaseListComponent } from '../../../../../base/components/base-list-component';
 import { PrimeDataTableComponent, PrimeTitleToolBarComponent, TableOptions } from '../../../../../shared';
-import { NationalInitiativesService } from '../../../../../shared';
+import { NationalInitiativesService, EnumsGenService } from '../../../../../shared';
 import { AuthHelper } from '../../../../../core';
 import { RoleCodes } from '../../../../../core/enums/role';
 
@@ -17,6 +17,7 @@ export class NationalInitiativeDetailsComponent extends BaseListComponent {
     tableOptions!: TableOptions;
     authHelper = inject(AuthHelper);
     service = inject(NationalInitiativesService);
+    enumsGenService = inject(EnumsGenService);
     get rolesEnum() {
         return RoleCodes;
     }
@@ -55,7 +56,14 @@ export class NationalInitiativeDetailsComponent extends BaseListComponent {
             { field: 'developmentInitiativeName', header: 'اسم المبادرة', filter: true, filterMode: 'text' },
             { field: 'beneficiaryGroupName', header: 'الفئة المستهدفة', filter: true, filterMode: 'text' },
             { field: 'executeTypeName', header: 'نطاق التنفيذ', filter: true, filterMode: 'text' },
-            { field: 'executionStatusNameAr', header: 'الموقف التنفيذي', filter: true, filterMode: 'text' }
+            {
+                field: 'executionStatusNameAr',
+                header: 'الموقف التنفيذي',
+                filter: true,
+                filterMode: 'enum',
+                filterColumnName: 'executionStatus',
+                filterOptions$: this.enumsGenService.ExecutionStatuses$
+            }
         ];
     }
 

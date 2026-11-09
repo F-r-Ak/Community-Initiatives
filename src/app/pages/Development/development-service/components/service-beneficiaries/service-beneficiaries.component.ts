@@ -42,8 +42,8 @@ export class ServiceBeneficiariesComponent extends BaseListComponent implements 
                 delete: 'v1/service_beneficiary/delete'
             },
             inputCols: [
-                { field: 'beneficiaryName', header: 'اسم المستفيد', filter: true, filterMode: 'text' },
-                
+                { field: 'developmentInitiativeName', header: 'اسم المبادرة', filter: true, filterMode: 'text' },
+                { field: 'beneficiaryName', header: 'اسم المستفيد', filter: true, filterMode: 'text' }
             ],
             inputActions: [
                 {
@@ -96,7 +96,7 @@ export class ServiceBeneficiariesComponent extends BaseListComponent implements 
         );
     }
 
-   
+
     override ngOnDestroy() {
         this.destroy$.next(true);
         this.destroy$.unsubscribe();

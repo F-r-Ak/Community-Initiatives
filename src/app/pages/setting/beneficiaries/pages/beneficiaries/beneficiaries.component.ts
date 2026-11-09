@@ -3,7 +3,7 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { BaseListComponent } from '../../../../../base/components/base-list-component';
 import { CardModule } from 'primeng/card';
-import { PrimeDataTableComponent, PrimeTitleToolBarComponent, BeneficiariesService, TableOptions } from '../../../../../shared';
+import { PrimeDataTableComponent, PrimeTitleToolBarComponent, BeneficiariesService, EnumsGenService, TableOptions } from '../../../../../shared';
 import { AddEditBeneficiaryComponent } from '../../components/add-edit-beneficiary/add-edit-beneficiary.component';
 import { BeneficiaryComponent } from '../../components/beneficiary/beneficiary.component';
 import { AuthHelper } from '../../../../../core';
@@ -16,6 +16,7 @@ import { AuthHelper } from '../../../../../core';
 export class BeneficiariesComponent extends BaseListComponent {
     tableOptions!: TableOptions;
     service = inject(BeneficiariesService);
+    enumsGenService = inject(EnumsGenService);
     authHelper = inject(AuthHelper);
     formBuilder: FormBuilder = inject(FormBuilder);
     constructor(activatedRoute: ActivatedRoute) {
@@ -68,7 +69,14 @@ export class BeneficiariesComponent extends BaseListComponent {
                 filter: true,
                 filterMode: 'text'
             },
-                
+            {
+                field: 'genderName',
+                header: 'الجنس',
+                filter: true,
+                filterMode: 'enum',
+                filterColumnName: 'gender',
+                filterOptions$: this.enumsGenService.Genders$
+            }
         ];
     }
 

@@ -3,7 +3,7 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { BaseListComponent } from '../../../../../base/components/base-list-component';
 import { CardModule } from 'primeng/card';
-import { PrimeDataTableComponent, PrimeTitleToolBarComponent, DevelopmentEntitiesService, TableOptions } from '../../../../../shared';
+import { PrimeDataTableComponent, PrimeTitleToolBarComponent, DevelopmentEntitiesService, EnumsGenService, TableOptions } from '../../../../../shared';
 import { AddEditDevelopmentEntityComponent } from '../../components/add-edit-development-entity/add-edit-development-entity.component';
     
 import { DevelopmentEntityComponent } from '../../components/development-entity/development-entity.component';
@@ -17,6 +17,7 @@ import { AuthHelper } from '../../../../../core';
 export class DevelopmentEntitiesComponent extends BaseListComponent {
     tableOptions!: TableOptions;
     service = inject(DevelopmentEntitiesService);
+    enumsGenService = inject(EnumsGenService);
     authHelper = inject(AuthHelper);
     formBuilder: FormBuilder = inject(FormBuilder);
     constructor(activatedRoute: ActivatedRoute) {
@@ -61,7 +62,9 @@ export class DevelopmentEntitiesComponent extends BaseListComponent {
                 field: 'developmentEntityTypeName.nameAr',
                 header: 'نوع الجهه',
                 filter: true,
-                filterMode: 'text'
+                filterMode: 'enum',
+                filterColumnName: 'developmentEntityType',
+                filterOptions$: this.enumsGenService.DevelopmentEntityTypes$
             }
         ];
     }

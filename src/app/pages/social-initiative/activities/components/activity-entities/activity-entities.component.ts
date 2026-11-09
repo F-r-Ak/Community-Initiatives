@@ -1,7 +1,7 @@
 import { Component, OnInit, inject, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BaseListComponent } from '../../../../../base/components/base-list-component';
-import { PrimeDataTableComponent, TableOptions, ActivityEntitiesService, PrimeTitleToolBarComponent } from '../../../../../shared';
+import { PrimeDataTableComponent, TableOptions, ActivityEntitiesService, PrimeTitleToolBarComponent, EnumsGenService } from '../../../../../shared';
 import { AddEditActivityEntityComponent } from '../add-edit-activity-entity/add-edit-activity-entity.component';
 import { ActivityEntityComponent } from '../activity-entity/activity-entity.component';
 import { AuthHelper } from '../../../../../core';
@@ -17,6 +17,7 @@ import { RoleCodes } from '../../../../../core/enums/role';
 export class ActivityEntitiesComponent extends BaseListComponent implements OnInit, OnChanges {
     tableOptions!: TableOptions;
     service = inject(ActivityEntitiesService);
+    enumsGenService = inject(EnumsGenService);
     authHelper = inject(AuthHelper);
 
     get rolesEnum() {
@@ -32,7 +33,7 @@ export class ActivityEntitiesComponent extends BaseListComponent implements OnIn
     }
 
     override ngOnInit(): void {
-      this.activityId = this.activityIdInput ?? this.activatedRoute.snapshot.params['activityId'] ?? '';
+        this.activityId = this.activityIdInput ?? this.activatedRoute.snapshot.params['activityId'] ?? '';
         super.ngOnInit();
         this.pageTitle = 'جهات التنسيق';
         this.initializeTableOptions();
@@ -54,7 +55,14 @@ export class ActivityEntitiesComponent extends BaseListComponent implements OnIn
             },
             inputCols: [
                 { field: 'name', header: 'الجهة', filter: true, filterMode: 'text' },
-                { field: 'entityTypeName.nameAr', header: 'نوع الجهة', filter: true, filterMode: 'text' },
+                {
+                    field: 'entityTypeName.nameAr',
+                    header: 'نوع الجهة',
+                    filter: true,
+                    filterMode: 'enum',
+                    filterColumnName: 'entityType',
+                    filterOptions$: this.enumsGenService.EntityTypes$
+                },
                 { field: 'activityName', header: 'النشاط', filter: true, filterMode: 'text' }
             ],
             inputActions: [
@@ -66,9 +74,7 @@ export class ActivityEntitiesComponent extends BaseListComponent implements OnIn
                     call: (row: any) => this.openViewDialog(row),
                     allowAll: true
                 },
-                this.authHelper.isAdmin
-                    ? { name: 'DELETE', icon: 'pi pi-trash', color: 'text-error', allowAll: true, isDelete: true }
-                    : {}
+                this.authHelper.isAdmin ? { name: 'DELETE', icon: 'pi pi-trash', color: 'text-error', allowAll: true, isDelete: true } : {}
             ],
             permissions: {
                 componentName: 'COMMUNITY-INITIATIVES-ACTIVITY-ENTITIES',
@@ -76,28 +82,17 @@ export class ActivityEntitiesComponent extends BaseListComponent implements OnIn
                 listOfPermissions: []
             },
             bodyOptions: {
-                filter: this.authHelper.hasRole(this.rolesEnum.User)
-                    ? { createdById: this.authHelper.getUserId(), activityId: this.activityId }
-                    : { activityId: this.activityId }
+                filter: this.authHelper.hasRole(this.rolesEnum.User) ? { createdById: this.authHelper.getUserId(), activityId: this.activityId } : { activityId: this.activityId }
             }
         };
     }
 
     openAddEditDialog(row?: any) {
-        this.openDialog(
-            AddEditActivityEntityComponent,
-            row ? 'تعديل جهة التنسيق' : 'اضافة جهة التنسيق',
-            { id: row?.id ?? null, activityId: this.activityId }
-        );
+        this.openDialog(AddEditActivityEntityComponent, row ? 'تعديل جهة التنسيق' : 'اضافة جهة التنسيق', { id: row?.id ?? null, activityId: this.activityId });
     }
 
     openViewDialog(rowData: any) {
-        this.openDialog(
-            ActivityEntityComponent,
-            'عرض جهة التنسيق',
-            { pageType: 'view', row: { rowData } },
-            { closable: true }
-        );
+        this.openDialog(ActivityEntityComponent, 'عرض جهة التنسيق', { pageType: 'view', row: { rowData } }, { closable: true });
     }
 
     override ngOnDestroy() {
@@ -105,4 +100,3 @@ export class ActivityEntitiesComponent extends BaseListComponent implements OnIn
         this.destroy$.unsubscribe();
     }
 }
-

@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class ActivityEntitiesService extends HttpService {
     protected get baseUrl(): string {
-        return 'v1/activityentities/';
+        return 'v1/activity_entities/';
     }
 
     getActivityEntity(id: string) {
