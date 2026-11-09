@@ -238,4 +238,89 @@
         </div>
 
     </div>
-</div>
+
+        <!-- ══════════════════════════════════════════
+             Section divider
+        ══════════════════════════════════════════ -->
+        <div class="db-divider"></div>
+
+        <!-- ══════════════════════════════════════════
+             SECTION 4 — Beneficiaries by City
+        ══════════════════════════════════════════ -->
+        <div class="db-section">
+
+            <div class="db-section__head">
+                <div class="db-section__head-icon db-section__head-icon--bene">
+                    <i class="pi pi-users"></i>
+                </div>
+                <div class="db-section__head-text">
+                    <h2>المستفيدون من المبادارات الرئاسية والقومية حسب المركز</h2>
+                    <p>إجمالي المستفيدين: {{ cityBeneficiariesTotalCount | number }}</p>
+                </div>
+            </div>
+
+            <div class="db-bene-grid">
+                @for (city of cityBeneficiaries; track city.cityId; let i = $index) {
+                    <div class="db-bene-card" [style.--bc]="cardColors[i % cardColors.length]">
+
+                        <!-- Card header: city name + initiatives badge -->
+                        <div class="db-bene-card__head">
+                            <div class="db-bene-card__icon">
+                                <i class="pi pi-map-marker"></i>
+                            </div>
+                            <div class="db-bene-card__title">{{ city.cityName }}</div>
+                            <div class="db-bene-card__badge">
+                                <i class="pi pi-flag"></i>
+                                {{ city.initiativesCount }}
+                            </div>
+                        </div>
+
+                        <!-- Stats row -->
+                        <div class="db-bene-card__stats">
+
+                            <div class="db-bene-stat">
+                                <div class="db-bene-stat__val">{{ city.totalBeneficiaries | number }}</div>
+                                <div class="db-bene-stat__lbl">إجمالي المستفيدين</div>
+                            </div>
+
+                            <div class="db-bene-stat db-bene-stat--male">
+                                <div class="db-bene-stat__val">{{ city.totalMale | number }}</div>
+                                <div class="db-bene-stat__lbl">ذكور</div>
+                            </div>
+
+                            <div class="db-bene-stat db-bene-stat--female">
+                                <div class="db-bene-stat__val">{{ city.totalFemale | number }}</div>
+                                <div class="db-bene-stat__lbl">إناث</div>
+                            </div>
+
+                        </div>
+
+                        <!-- Progress bar: male / female ratio -->
+                        @if (city.totalBeneficiaries > 0) {
+                            <div class="db-bene-card__ratio">
+                                <div class="db-bene-card__ratio-bar">
+                                    <div class="db-bene-card__ratio-male"
+                                         [style.width.%]="(city.totalMale / city.totalBeneficiaries) * 100">
+                                    </div>
+                                </div>
+                                <div class="db-bene-card__ratio-labels">
+                                    <span>{{ (city.totalMale / city.totalBeneficiaries) * 100 | number:'1.0-0' }}% ذكور</span>
+                                    <span>إناث {{ (city.totalFemale / city.totalBeneficiaries) * 100 | number:'1.0-0' }}%</span>
+                                </div>
+                            </div>
+                        }
+
+                        <div class="db-bene-card__bubble"></div>
+                    </div>
+                }
+                @if (cityBeneficiaries.length === 0) {
+                    <div class="db-nat-empty">
+                        <i class="pi pi-inbox"></i>
+                        <span>لا توجد بيانات</span>
+                    </div>
+                }
+            </div>
+
+        </div>
+
+    </div>

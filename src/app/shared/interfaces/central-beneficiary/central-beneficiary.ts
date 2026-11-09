@@ -32,3 +32,12 @@ export interface UpdateCentralBeneficiaryDto extends Lookup, Partial<SharedPrope
     beneficiaryFemaleNumber: number;
     totalBeneficiaryNumber: number;
 }
+
+export interface CityBeneficiaryDto {
+    cityId: string;
+    cityName: string;
+    initiativesCount: number;
+    totalMale: number;
+    totalFemale: number;
+    totalBeneficiaries: number;
+}

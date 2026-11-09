@@ -10,6 +10,8 @@ import { forkJoin } from 'rxjs';
 import { ActivitiesService } from '../../shared';
 import { DevelopmentServiceService } from '../../shared/services/development-service/development-service.service';
 import { DevelpmentInitiativesService } from '../../shared/services/develpment-initiatives/develpment-initiatives.service';
+import { CentralBeneficiariesService } from '../../shared/services/central-beneficiaries/central-beneficiaries.service';
+import { CityBeneficiaryDto } from '../../shared/interfaces';
 
 interface DashboardCount {
     id: string;
@@ -35,6 +37,7 @@ export class InitiativesDashboardComponent extends BaseComponent implements OnIn
     activitiesService = inject(ActivitiesService);
     developmentServiceService = inject(DevelopmentServiceService);
     develpmentInitiativesService = inject(DevelpmentInitiativesService);
+    centralBeneficiariesService = inject(CentralBeneficiariesService);
 
     executionStatusChartData: any;
     citiesChartData: any;
@@ -59,6 +62,9 @@ export class InitiativesDashboardComponent extends BaseComponent implements OnIn
     nationalInitiativesByCategory: CategoryCount[] = [];
     nationalInitiativesTotalCount = 0;
 
+    cityBeneficiaries: CityBeneficiaryDto[] = [];
+    cityBeneficiariesTotalCount = 0;
+
     readonly cardColors = ['#42A5F5', '#66BB6A', '#FFA726', '#26C6DA', '#EC407A', '#AB47BC'];
 
     constructor(protected override activatedRoute: ActivatedRoute) {
@@ -71,6 +77,7 @@ export class InitiativesDashboardComponent extends BaseComponent implements OnIn
         this.initChartOptions();
         this.loadDashboardDatas();
         this.loadNationalInitiativesByCategory();
+        this.loadCityBeneficiaries();
     }
 
     initChartOptions() {
@@ -269,6 +276,19 @@ private buildChartData(data: DashboardCount[], label: string) {
                 );
             },
             error: () => this.alert.error('حدث خطأ أثناء تحميل إحصائيات المبادرات الوطنية')
+        });
+    }
+
+    private loadCityBeneficiaries(): void {
+        this.centralBeneficiariesService.getBeneficiariesByCity().subscribe({
+            next: (data) => {
+                this.cityBeneficiaries = data ?? [];
+                this.cityBeneficiariesTotalCount = this.cityBeneficiaries.reduce(
+                    (sum, item) => sum + Number(item.totalBeneficiaries),
+                    0
+                );
+            },
+            error: () => this.alert.error('حدث خطأ أثناء تحميل بيانات المستفيدين حسب المركز')
         });
     }
 }

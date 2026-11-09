@@ -590,3 +590,202 @@ $c-nat : #5c6bc0;
 
     i { font-size: 2rem; opacity: .5; }
 }
+
+// ─── Section 4 — Beneficiaries by City ───────────────────────────────────────
+
+$c-bene : #5e35b1; // deep-purple accent for section icon
+
+.db-section__head-icon--bene {
+    background: linear-gradient(135deg, $c-bene, lighten($c-bene, 18%));
+    box-shadow: 0 6px 18px rgba($c-bene, .38);
+    color: #fff;
+}
+
+// ─── Responsive grid of city beneficiary cards ────────────────────────────────
+.db-bene-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+
+    @media (max-width: 1024px) { grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: 640px)  { grid-template-columns: repeat(2, 1fr); }
+    @media (max-width: 400px)  { grid-template-columns: 1fr; }
+}
+
+// ─── Individual city beneficiary card ─────────────────────────────────────────
+.db-bene-card {
+    --bc: #{$c-1};
+
+    position: relative;
+    overflow: hidden;
+    border-radius: $r-card;
+    background: $c-white;
+    border: 1px solid $c-border;
+    box-shadow: $sh-1;
+    display: flex;
+    flex-direction: column;
+    transition: transform .2s ease, box-shadow .2s ease;
+
+    // top colour bar driven by --bc
+    &::before {
+        content: '';
+        display: block;
+        height: 5px;
+        background: var(--bc);
+        border-radius: $r-card $r-card 0 0;
+    }
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: $sh-2;
+    }
+}
+
+// ─── Card header ──────────────────────────────────────────────────────────────
+.db-bene-card__head {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .75rem .85rem .65rem;
+    border-bottom: 1px solid $c-border;
+}
+
+.db-bene-card__icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--bc);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .9rem;
+    flex-shrink: 0;
+}
+
+.db-bene-card__title {
+    flex: 1;
+    font-size: .8rem;
+    font-weight: 700;
+    color: $c-txt;
+    line-height: 1.3;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+// initiatives count pill (top-right)
+.db-bene-card__badge {
+    display: flex;
+    align-items: center;
+    gap: .3rem;
+    background: var(--bc);
+    color: #fff;
+    font-size: .72rem;
+    font-weight: 700;
+    padding: .2rem .55rem;
+    border-radius: 99px;
+    white-space: nowrap;
+    flex-shrink: 0;
+
+    i { font-size: .68rem; }
+}
+
+// ─── Stats row ────────────────────────────────────────────────────────────────
+.db-bene-card__stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: .7rem .75rem .6rem;
+    gap: .4rem;
+}
+
+.db-bene-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .2rem;
+    padding: .5rem .25rem;
+    border-radius: 10px;
+    background: rgba(0,0,0,.025);
+}
+
+.db-bene-stat__val {
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: $c-txt;
+    line-height: 1;
+}
+
+.db-bene-stat__lbl {
+    font-size: .67rem;
+    font-weight: 600;
+    color: $c-muted;
+    text-align: center;
+    line-height: 1.3;
+}
+
+// male stat: blue tint
+.db-bene-stat--male {
+    background: rgba(66, 165, 245, .1);
+    .db-bene-stat__val { color: #1565c0; }
+    .db-bene-stat__lbl { color: #1565c0; }
+}
+
+// female stat: pink tint
+.db-bene-stat--female {
+    background: rgba(236, 64, 122, .1);
+    .db-bene-stat__val { color: #ad1457; }
+    .db-bene-stat__lbl { color: #ad1457; }
+}
+
+// ─── Male / Female ratio bar ──────────────────────────────────────────────────
+.db-bene-card__ratio {
+    padding: 0 .75rem .8rem;
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+}
+
+.db-bene-card__ratio-bar {
+    height: 8px;
+    border-radius: 99px;
+    background: rgba(236, 64, 122, .28); // female base
+    overflow: hidden;
+}
+
+.db-bene-card__ratio-male {
+    height: 100%;
+    background: #42a5f5; // male fill
+    border-radius: 99px;
+    transition: width .6s ease;
+    min-width: 4px;
+}
+
+.db-bene-card__ratio-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: .67rem;
+    font-weight: 600;
+    color: $c-muted;
+}
+
+// ─── Decorative bubble ────────────────────────────────────────────────────────
+.db-bene-card__bubble {
+    position: absolute;
+    inset-inline-end: -18px;
+    bottom: -20px;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(0,0,0,.035);
+    pointer-events: none;
+
+    &::after {
+        content: '';
+        position: absolute;
+        inset: 16px;
+        border-radius: 50%;
+        background: rgba(0,0,0,.03);
+    }
+}
