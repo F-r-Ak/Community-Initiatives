@@ -3,7 +3,7 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { BaseListComponent } from '../../../../../base/components/base-list-component';
 import { CardModule } from 'primeng/card';
-import { PrimeDataTableComponent, PrimeTitleToolBarComponent, EntitiesService, TableOptions } from '../../../../../shared';
+import { PrimeDataTableComponent, PrimeTitleToolBarComponent, EntitiesService, EnumsGenService, TableOptions } from '../../../../../shared';
 import { AddEditEntityComponent } from '../../components/add-edit-entity/add-edit-entity.component';
 import { EntityComponent } from '../../components/entity/entity.component';
 import { AuthHelper } from '../../../../../core';
@@ -16,6 +16,7 @@ import { AuthHelper } from '../../../../../core';
 export class EntitiesComponent extends BaseListComponent {
     tableOptions!: TableOptions;
     service = inject(EntitiesService);
+    enumsGenService = inject(EnumsGenService);
     authHelper = inject(AuthHelper);
     formBuilder: FormBuilder = inject(FormBuilder);
     constructor(activatedRoute: ActivatedRoute) {
@@ -54,7 +55,9 @@ export class EntitiesComponent extends BaseListComponent {
                 field: 'entityTypeNameAr',
                 header: 'نوع الجهة',
                 filter: true,
-                filterMode: 'text'
+                filterMode: 'enum',
+                filterColumnName: 'entityType',
+                filterOptions$: this.enumsGenService.EntityTypes$
             },
             {
                 field: 'nameAr',

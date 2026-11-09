@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BaseListComponent } from '../../../../../base/components/base-list-component';
-import { PrimeDataTableComponent, TableOptions, NationalInitiativesService } from '../../../../../shared';
+import { PrimeDataTableComponent, TableOptions, NationalInitiativesService, EnumsGenService } from '../../../../../shared';
 import { AddEditNationalEntityComponent } from '../add-edit-national-entity/add-edit-national-entity.component';
 import { AuthHelper } from '../../../../../core';
 import { RoleCodes } from '../../../../../core/enums/role';
@@ -19,6 +19,7 @@ export class NationalEntitiesComponent extends BaseListComponent implements OnIn
 
     authHelper = inject(AuthHelper);
     service = inject(NationalInitiativesService);
+    enumsGenService = inject(EnumsGenService);
 
     get rolesEnum() {
         return RoleCodes;
@@ -44,7 +45,14 @@ export class NationalEntitiesComponent extends BaseListComponent implements OnIn
             },
             inputCols: [
                 { field: 'entityName', header: 'الجهة', filter: true, filterMode: 'text', renderFn: (row: any) => row.entityName || row.vw_OrganizationName },
-                { field: 'entityTypeNameAr', header: 'نوع الجهة', filter: true, filterMode: 'text' },
+                {
+                    field: 'entityTypeNameAr',
+                    header: 'نوع الجهة',
+                    filter: true,
+                    filterMode: 'enum',
+                    filterColumnName: 'entityType',
+                    filterOptions$: this.enumsGenService.EntityTypes$
+                },
                 { field: 'description', header: 'الوصف', filter: true, filterMode: 'text' }
             ],
             inputActions: [

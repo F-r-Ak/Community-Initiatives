@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BaseListComponent } from '../../../../../base/components/base-list-component';
-import { PrimeDataTableComponent, TableOptions, NationalSupportsService } from '../../../../../shared';
+import { PrimeDataTableComponent, TableOptions, NationalSupportsService, EnumsGenService } from '../../../../../shared';
 import { AddEditNationalSupportComponent } from '../add-edit-national-support/add-edit-national-support.component';
 import { AuthHelper } from '../../../../../core';
 import { RoleCodes } from '../../../../../core/enums/role';
@@ -19,6 +19,7 @@ export class NationalSupportsComponent extends BaseListComponent implements OnIn
 
     authHelper = inject(AuthHelper);
     service = inject(NationalSupportsService);
+    enumsGenService = inject(EnumsGenService);
 
     get rolesEnum() {
         return RoleCodes;
@@ -43,7 +44,14 @@ export class NationalSupportsComponent extends BaseListComponent implements OnIn
                 delete: 'v1/nationalsupports/delete'
             },
             inputCols: [
-                { field: 'supportNameAr', header: 'نوع الدعم', filter: true, filterMode: 'text' },
+                {
+                    field: 'supportNameAr',
+                    header: 'نوع الدعم',
+                    filter: true,
+                    filterMode: 'enum',
+                    filterColumnName: 'support',
+                    filterOptions$: this.enumsGenService.Supports$
+                },
                 { field: 'supportDetailName', header: 'تفاصيل الدعم', filter: true, filterMode: 'text' },
                 { field: 'value', header: 'قيمة الدعم', filter: true, filterMode: 'text' }
             ],
