@@ -38,4 +38,8 @@ export class DevelpmentInitiativesService extends HttpService {
     remove(id: string) {
         return this.delete({ apiName: `delete/`, showAlert: true }, id);
     }
+
+    getNationalInitiativesCountByCategory(): Observable<any[]> {
+        return this.getAll<any>({ apiName: 'getnationalinitiativescountbycategory' });
+    }
 }
