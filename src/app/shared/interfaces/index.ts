@@ -24,3 +24,4 @@ export * from "./national-initiative/national-initiative";
 export * from "./central-beneficiary/central-beneficiary";
 export * from "./national-support/national-support";
 export * from "./national-entity/national-entity";
+export * from "./enums-gen/enums-gen";

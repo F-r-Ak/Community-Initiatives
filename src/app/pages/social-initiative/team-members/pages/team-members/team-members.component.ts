@@ -3,7 +3,7 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { BaseListComponent } from '../../../../../base/components/base-list-component';
 import { CardModule } from 'primeng/card';
-import { PrimeDataTableComponent, PrimeTitleToolBarComponent, TeamMembersService, TableOptions } from '../../../../../shared';
+import { PrimeDataTableComponent, PrimeTitleToolBarComponent, TeamMembersService, TableOptions, EnumsGenService } from '../../../../../shared';
 import { AddEditTeamMemberComponent } from '../../components/add-edit-team-member/add-edit-team-member.component';
 import { TeamMemberComponent } from '../../components/team-member/team-member.component';
 import { AuthHelper } from '../../../../../core';
@@ -16,6 +16,7 @@ import { AuthHelper } from '../../../../../core';
 export class TeamMembersComponent extends BaseListComponent {
     tableOptions!: TableOptions;
     service = inject(TeamMembersService);
+    enumsGenService = inject(EnumsGenService);
     authHelper = inject(AuthHelper);
     formBuilder: FormBuilder = inject(FormBuilder);
     constructor(activatedRoute: ActivatedRoute) {
@@ -70,7 +71,7 @@ export class TeamMembersComponent extends BaseListComponent {
                 filter: true,
                 filterMode: 'text'
             },
-          
+
             {
                 field: 'jobStatusName.nameAr',
                 header: 'الحالة الوظيفية',
@@ -81,7 +82,9 @@ export class TeamMembersComponent extends BaseListComponent {
                 field: 'teamCategoryName.nameAr',
                 header: 'نوع العضوية',
                 filter: true,
-                filterMode: 'text'
+                filterMode: 'enum',
+                filterColumnName: 'teamCategory',
+                filterOptions$: this.enumsGenService.TeamCategories$
             }
         ];
     }
