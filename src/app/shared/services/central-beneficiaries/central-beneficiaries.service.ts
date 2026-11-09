@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AddCentralBeneficiaryDto, CentralBeneficiaryDto, UpdateCentralBeneficiaryDto, GetPagedBody } from '../../interfaces';
+import { AddCentralBeneficiaryDto, CentralBeneficiaryDto, CityBeneficiaryDto, UpdateCentralBeneficiaryDto, GetPagedBody } from '../../interfaces';
 import { Observable } from 'rxjs';
 import { HttpService } from '../../../core/services/http/http.service';
 
@@ -41,5 +41,9 @@ export class CentralBeneficiariesService extends HttpService {
     
     remove(id: string) {
         return this.delete({ apiName: `delete/`, showAlert: true }, id);
+    }
+
+    getBeneficiariesByCity() {
+        return this.get<CityBeneficiaryDto[]>({ apiName: 'getbeneficiariesbycity' });
     }
 }
