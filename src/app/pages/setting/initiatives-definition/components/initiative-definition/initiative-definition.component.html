@@ -1,29 +1,38 @@
 <div class="card">
     <div class="title-container">
         @if (develpmentInitiative) {
-            <div class="p-formgrid grid">
-                <div class="field col-6 col-md-6">
-                    <label class="font-bold text-secondary">{{ 'الاسم بالعربية' }}</label>
+              <div class="ae-hero">
+         
+              
+                <div class="field col-6">
+                    <label class="font-bold text-secondary">{{ ' اسم المبادرة' }}</label>
                     <p class="mt-1 font-16">{{ develpmentInitiative.name || '---' }}</p>
                 </div>
-                <div class="field col-6 col-md-6">
-                    <label class="font-bold text-secondary">{{ 'فئة المبادرة ' }}</label>
+                
+            </div>
+                <div class="it-grid">
+                     <div class="it-item">
+                    <label class="font-bold text-secondary">{{ 'فئة المبادرة ::' }}</label>
                     <p class="mt-1 font-16">{{ develpmentInitiative.initiativeCategoryName?.nameAr || '---' }}</p>
+               
                 </div>
-                <div class="field col-6 col-md-6">
-                    <label class="font-bold text-secondary">{{ ' المجال ' }}</label>
+                 <div class="it-item">  
+                    <label class="font-bold text-secondary">{{ ' المجال ::' }}</label>
                     <p class="mt-1 font-16">{{ develpmentInitiative.fieldName || '---' }}</p>
+               
                 </div>
-                 <div class="field col-6 col-md-6">
-                    <label class="font-bold text-secondary">{{ ' تاريخ بداية المبادرة ' }}</label>
+                 <div class="it-item">
+                 
+                    <label class="font-bold text-secondary">{{ ' تاريخ بداية المبادرة ::' }}</label>
                     <p class="mt-1 font-16">{{ develpmentInitiative.initiativeStartDate || '---' }}</p>
-                </div>
-              
-                <div class="field col-6 col-md-6">
-                    <label class="font-bold text-secondary">{{ ' تاريخ نهاية المبادرة ' }}</label>
+                
+               </div>
+             <div class="it-item">
+                    <label class="font-bold text-secondary">{{ ' تاريخ نهاية المبادرة ::' }}</label>
                     <p class="mt-1 font-16">{{ develpmentInitiative.initiativeEndDate || '---' }}</p>
                 </div>
-            </div>
+                 </div>
+           
         } @else {
             <div class="d-flex justify-content-center p-4">
                 <i class="pi pi-spin pi-spinner" style="font-size: 2rem;"></i>
