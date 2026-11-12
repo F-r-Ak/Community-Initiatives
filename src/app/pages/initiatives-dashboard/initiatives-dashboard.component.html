@@ -3,6 +3,61 @@
 
     <div class="db-page">
 
+
+        <!-- ══════════════════════════════════════════
+             SECTION 2 — National Initiatives by Category
+        ══════════════════════════════════════════ -->
+        <div class="db-section">
+
+            <div class="db-section__head">
+                <div class="db-section__head-icon db-section__head-icon--nat">
+                    <i class="pi pi-th-large"></i>
+                </div>
+                <div class="db-section__head-text">
+                    <h2>إجمالي المبادرات حسب الفئة</h2>
+                    <p>إجمالي المبادرات التنموية والرئاسية: {{ nationalInitiativesTotalCount }}</p>
+                </div>
+            </div>
+
+            <!-- Per-category cards -->
+            <div class="db-nat-cats">
+                <!-- Static مجتمعية card — count comes from initiativesTotalCount -->
+                <div class="db-nat-cat" [style.--cc]="cardColors[0]">
+                    <div class="db-nat-cat__icon">
+                        <i class="pi pi-tag"></i>
+                    </div>
+                    <div class="db-nat-cat__num">{{ initiativesTotalCount }}</div>
+                    <div class="db-nat-cat__name">مجتمعية</div>
+                    <div class="db-nat-cat__bubble"></div>
+                </div>
+
+                @for (cat of nationalInitiativesByCategory; track cat.categoryId; let i = $index) {
+                    @if (cat.categoryName?.toLowerCase() !== 'مجتمعية') {
+                        <div class="db-nat-cat" [style.--cc]="cardColors[i % cardColors.length]">
+                            <div class="db-nat-cat__icon">
+                                <i class="pi pi-tag"></i>
+                            </div>
+                            <div class="db-nat-cat__num">{{ cat.count }}</div>
+                            <div class="db-nat-cat__name">{{ cat.categoryName }}</div>
+                            <div class="db-nat-cat__bubble"></div>
+                        </div>
+                    }
+                }
+                @if (nationalInitiativesByCategory.length === 0) {
+                    <div class="db-nat-empty">
+                        <i class="pi pi-inbox"></i>
+                        <span>لا توجد بيانات</span>
+                    </div>
+                }
+            </div>
+
+        </div>
+
+        <!-- ══════════════════════════════════════════
+             Section divider
+        ══════════════════════════════════════════ -->
+        <div class="db-divider"></div>
+
         <!-- ══════════════════════════════════════════
              SECTION 1 — Initiatives
         ══════════════════════════════════════════ -->
@@ -64,7 +119,7 @@
                 <div class="db-chart-card">
                     <div class="db-chart-card__head">
                         <span class="db-chart-card__dot db-chart-card__dot--primary"></span>
-                        الأنشطة حسب حالة التنفيذ
+                        الأنشطة المجتمعية حسب حالة التنفيذ
                     </div>
                     <div class="db-chart-card__body">
                         <p-chart type="doughnut"
@@ -78,7 +133,7 @@
                 <div class="db-chart-card">
                     <div class="db-chart-card__head">
                         <span class="db-chart-card__dot db-chart-card__dot--secondary"></span>
-                        الأنشطة حسب المراكز
+                        الأنشطة المجتمعية حسب المراكز
                     </div>
                     <div class="db-chart-card__body">
                         <p-chart type="bar"
@@ -95,7 +150,7 @@
             <div class="db-breakdown">
                 <div class="db-breakdown__head">
                     <span class="db-breakdown__dot"></span>
-                    المبادرات حسب المراكز
+                    المبادرات المجتمعية حسب المراكز
                 </div>
                 <div class="db-breakdown__grid">
                     @for (item of citiesChartData?.labels; track item; let i = $index) {
@@ -118,61 +173,6 @@
         ══════════════════════════════════════════ -->
         <div class="db-divider"></div>
 
-        <!-- ══════════════════════════════════════════
-             SECTION 2 — National Initiatives by Category
-        ══════════════════════════════════════════ -->
-        <div class="db-section">
-
-            <div class="db-section__head">
-                <div class="db-section__head-icon db-section__head-icon--nat">
-                    <i class="pi pi-th-large"></i>
-                </div>
-                <div class="db-section__head-text">
-                    <h2>إجمالي المبادرات حسب الفئة</h2>
-                    <p>إجمالي المبادرات التنموية والرئاسية: {{ nationalInitiativesTotalCount }}</p>
-                </div>
-            </div>
-
-            <!-- Per-category cards -->
-            <div class="db-nat-cats">
-                @for (cat of nationalInitiativesByCategory; track cat.categoryId; let i = $index) {
-                    @if (cat.categoryName?.toLowerCase() !== 'community') {
-                        <div class="db-nat-cat" [style.--cc]="cardColors[i % cardColors.length]">
-                            <div class="db-nat-cat__icon">
-                                <i class="pi pi-tag"></i>
-                            </div>
-                            <div class="db-nat-cat__num">{{ cat.count }}</div>
-                            <div class="db-nat-cat__name">{{ cat.categoryName }}</div>
-                            <div class="db-nat-cat__pct">
-                                {{ nationalInitiativesTotalCount > 0
-                                    ? ((cat.count / nationalInitiativesTotalCount) * 100 | number:'1.0-1') + '%'
-                                    : '0%' }}
-                            </div>
-                            <div class="db-nat-cat__bar">
-                                <div class="db-nat-cat__bar-fill"
-                                     [style.width.%]="nationalInitiativesTotalCount > 0
-                                        ? (cat.count / nationalInitiativesTotalCount) * 100
-                                        : 0">
-                                </div>
-                            </div>
-                            <div class="db-nat-cat__bubble"></div>
-                        </div>
-                    }
-                }
-                @if (nationalInitiativesByCategory.length === 0) {
-                    <div class="db-nat-empty">
-                        <i class="pi pi-inbox"></i>
-                        <span>لا توجد بيانات</span>
-                    </div>
-                }
-            </div>
-
-        </div>
-
-        <!-- ══════════════════════════════════════════
-             Section divider
-        ══════════════════════════════════════════ -->
-        <div class="db-divider"></div>
 
         <!-- ══════════════════════════════════════════
              SECTION 3 — Development Services
@@ -254,7 +254,7 @@
                     <i class="pi pi-users"></i>
                 </div>
                 <div class="db-section__head-text">
-                    <h2>المستفيدون من المبادارات الرئاسية والقومية حسب المركز</h2>
+                    <h2>المستفيدون من المبادارات الرئاسية/القومية حسب المركز</h2>
                     <p>إجمالي المستفيدين: {{ cityBeneficiariesTotalCount | number }}</p>
                 </div>
             </div>

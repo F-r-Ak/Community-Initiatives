@@ -11,6 +11,7 @@ export interface NationalSupportDto extends Lookup, Partial<SharedProperties> {
     supportDetailId: string;
     supportDetailName: string;
     value: string;
+    details: string;
 }
 
 export interface AddNationalSupportDto extends Lookup, Partial<SharedProperties> {
@@ -19,6 +20,7 @@ export interface AddNationalSupportDto extends Lookup, Partial<SharedProperties>
     support: number;
     supportDetailId: string;
     value: string;
+    details: string;
 }
 
 export interface UpdateNationalSupportDto extends Lookup, Partial<SharedProperties> {
@@ -27,4 +29,5 @@ export interface UpdateNationalSupportDto extends Lookup, Partial<SharedProperti
     support: number;
     supportDetailId: string;
     value: string;
+    details: string;
 }
