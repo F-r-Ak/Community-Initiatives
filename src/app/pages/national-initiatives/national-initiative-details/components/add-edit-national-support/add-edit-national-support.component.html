@@ -18,20 +18,33 @@
                 </app-prime-autocomplete>
             </div>
 
-            <!-- Support Detail (lazy, cascaded by support type) -->
-            <div class="col-12 col-md-6">
-                <label class="form-label">تفاصيل الدعم</label>
-                <app-prime-autocomplete
-                    [formGroup]="form"
-                    controlName="supportDetailId"
-                    [getMethod]="getSupportDetails"
-                    [selectedOption]="selectedSupportDetail"
-                    [field]="'nameAr'"
-                    [disabled]="!form.get('support')?.value"
-                    (onSelect)="onSupportDetailSelect($event)"
-                    (onClear)="onSupportDetailClear()">
-                </app-prime-autocomplete>
-            </div>
+            <!-- Support Detail (lazy, cascaded by support type) — hidden when أخرى is selected -->
+            @if (selectedSupport?.id !== 2) {
+                <div class="col-12 col-md-6">
+                    <label class="form-label">تفاصيل الدعم</label>
+                    <app-prime-autocomplete
+                        [formGroup]="form"
+                        controlName="supportDetailId"
+                        [getMethod]="getSupportDetails"
+                        [selectedOption]="selectedSupportDetail"
+                        [field]="'nameAr'"
+                        [disabled]="!form.get('support')?.value"
+                        (onSelect)="onSupportDetailSelect($event)"
+                        (onClear)="onSupportDetailClear()">
+                    </app-prime-autocomplete>
+                </div>
+            }
+
+            <!-- Details (shown only when support type is أخرى, id = 2) -->
+            @if (selectedSupport?.id === 2) {
+                <div class="col-12 col-md-6">
+                    <app-prime-input-text
+                        [formGroup]="form"
+                        controlName="details"
+                        [label]="'تفاصيل أخرى'">
+                    </app-prime-input-text>
+                </div>
+            }
 
             <!-- Value -->
             <div class="col-12 col-md-6">

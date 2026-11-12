@@ -11,6 +11,7 @@ import { TimeFormatPipe } from '../../../pipes';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { FormsModule } from '@angular/forms';
 import { EnumDto } from '../../../interfaces/enum/enum';
+import { TranslationService } from '../../../services/translation/translation.service';
 
 @Component({
     selector: 'app-prime-data-table',
@@ -49,6 +50,7 @@ export class PrimeDataTableComponent implements OnInit, OnDestroy {
     rowRoute!: string;
     selected: any = '';
     Array = Array; // Expose Array for template use
+    paginationTemplate: string = '';
 
     // Enum filter state: keyed by filterColumnName
     enumSuggestions: { [key: string]: EnumDto[] } = {};
@@ -61,6 +63,7 @@ export class PrimeDataTableComponent implements OnInit, OnDestroy {
 
     router = inject(Router);
     excel = inject(ExportExcelService);
+    translationService = inject(TranslationService);
 
     constructor() {
         this.currentRoute = this.router.url.substring(0, this.router.url.length - 3);
@@ -68,6 +71,8 @@ export class PrimeDataTableComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.permissions = this.tableOptions.permissions;
+        this.language = this.translationService.translate.currentLang ?? 'ar';
+        this.paginationTemplate = this.translationService.translate.instant('PAGINATION');
         this._data.subscribe((x) => {
             this.finalData = this.data;
             console.log('DataTable data:', this.finalData); // Debug log

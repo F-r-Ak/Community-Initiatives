@@ -470,15 +470,19 @@ $c-nat : #5c6bc0;
 }
 
 // ─── Category cards grid ──────────────────────────────────────────────────────
+// flex-wrap lets cards wrap when there are many; flex-grow fills the row
+// evenly when there are only a few (e.g. 3 cards share the full width).
 .db-nat-cats {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
 }
 
 // ─── Single category card ─────────────────────────────────────────────────────
 .db-nat-cat {
     --cc: #{$c-1};
+
+    flex: 1 1 160px;   // grow to fill the row; wraps when there are many cards
 
     position: relative;
     overflow: hidden;
@@ -577,7 +581,7 @@ $c-nat : #5c6bc0;
 
 // ─── Empty state ──────────────────────────────────────────────────────────────
 .db-nat-empty {
-    grid-column: 1 / -1;
+    flex: 1;          // takes the full row in flex context
     display: flex;
     flex-direction: column;
     align-items: center;

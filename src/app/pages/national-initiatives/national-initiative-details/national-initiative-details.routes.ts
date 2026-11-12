@@ -4,7 +4,7 @@ export const nationalInitiativeRoutes: Routes = [
     {
         path: '',
         loadComponent: () => import('./pages/national-initiative-details/national-initiative-details.component').then((c) => c.NationalInitiativeDetailsComponent),
-        data: { pageTitle: 'المبادرات الرئاسية', pageType: 'list' }
+        data: { pageTitle: 'المبادرات الرئاسية/القومية', pageType: 'list' }
     },
     {
         path: 'add',

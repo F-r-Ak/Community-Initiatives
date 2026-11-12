@@ -4,7 +4,7 @@ export const executeTypesRoutes: Routes = [
     {
         path: '',
         loadComponent: () => import('./pages/execute-types/execute-types.component').then((c) => c.ExecuteTypesComponent),
-        data: { pageTitle: 'موقع التنفيذ', pageType: 'list' }
+        data: { pageTitle: 'مواقع التنفيذ', pageType: 'list' }
     },
     {
         path: 'add',

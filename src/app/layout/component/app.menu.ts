@@ -65,7 +65,7 @@ export class AppMenu {
                               routerLink: ['/pages/settings/activity-types']
                           },
                           {
-                              label: 'موقع التنفيذ',
+                              label: 'مواقع التنفيذ',
                               icon: 'pi pi-fw pi-cog',
                               routerLink: ['/pages/settings/execute-types']
                           },
@@ -187,11 +187,11 @@ export class AppMenu {
                 : { styleClass: 'v' },
             this.authHelper.hasRole(this.rolesEnum.Administrator)|| this.authHelper.hasRole(this.rolesEnum.OrgUser)
                 ? {
-                      label: 'المبادرات الرئاسية',
+                      label: 'المبادرات الرئاسية/القومية',
                       icon: 'pi pi-fw pi-briefcase',
                       items: [
                           {
-                              label: 'المبادرات الرئاسية',
+                              label: 'المبادرات الرئاسية/القومية',
                               icon: 'pi pi-fw pi-cog',
                               routerLink: ['/pages/national-initiatives/initiative-details']
                           }

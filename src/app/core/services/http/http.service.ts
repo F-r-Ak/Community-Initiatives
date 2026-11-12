@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, catchError, map, throwError } from 'rxjs';
 import { TranslationService } from '../../../shared';
 import { NamedHttpStatus } from '../../enums/named-http-status';
 import { ConfigService } from '../config/config.service';
@@ -45,7 +45,8 @@ export abstract class HttpService extends HttpServiceBaseService {
         map(event => {
           URL_Config.showAlert ? this.alertHandling(event) : '';
           return event.data;
-        })
+        }),
+        catchError((error: HttpErrorResponse) => this.handleHttpError(error))
       );
   }
 
@@ -56,7 +57,8 @@ export abstract class HttpService extends HttpServiceBaseService {
         map(event => {
           URL_Config.showAlert ? this.alertHandling(event) : '';
           return event.data;
-        })
+        }),
+        catchError((error: HttpErrorResponse) => this.handleHttpError(error))
       );
   }
 
@@ -67,7 +69,8 @@ export abstract class HttpService extends HttpServiceBaseService {
         map(event => {
           URL_Config.showAlert ? this.alertHandling(event) : '';
           return event.data;
-        })
+        }),
+        catchError((error: HttpErrorResponse) => this.handleHttpError(error))
       );
   }
 
@@ -76,7 +79,8 @@ export abstract class HttpService extends HttpServiceBaseService {
       map((event: any) => {
         this.alertHandling(event);
         return event.data;
-      })
+      }),
+      catchError((error: HttpErrorResponse) => this.handleHttpError(error))
     );
   }
 
@@ -111,47 +115,77 @@ export abstract class HttpService extends HttpServiceBaseService {
     );
   }
 
+  /**
+   * Handles true HTTP error responses (non-2xx status codes thrown by HttpClient).
+   * For 400 Bad Request, shows the Arabic ADD_ERROR translation instead of
+   * raw ASP.NET validation messages.
+   */
+  private handleHttpError(error: HttpErrorResponse): Observable<never> {
+    if (error.status === 400) {
+      this.alertService.error(
+        this.localize.translate.instant('VALIDATION.ADD_ERROR')
+      );
+    }
+    return throwError(() => error);
+  }
+
+  /**
+   * Resolves a translation key returned from the server.
+   * If the key contains no namespace (no dot), it tries VALIDATION.<key> first,
+   * falling back to the bare key so existing dotted keys still work.
+   */
+  private resolveMessage(key: string): string {
+    if (!key) return '';
+    if (key.includes('.')) {
+      return this.localize.translate.instant(key);
+    }
+    const namespaced = `VALIDATION.${key}`;
+    const result = this.localize.translate.instant(namespaced);
+    // ngx-translate returns the key itself when not found
+    return result !== namespaced ? result : this.localize.translate.instant(key);
+  }
+
   private alertHandling(event: ApResponse<any>) {
     if (event.status) {
       if (!Number.isNaN(Number(event.status))) {
         if (event.status.toString().startsWith('2')) {
           this.alertService.success(
-            event.message ? this.localize.translate.instant(event.message) : 'Successfully Done...'
+            event.message ? this.resolveMessage(event.message) : 'Successfully Done...'
           );
         } else {
-          this.alertService.error(event.message ? this.localize.translate.instant(event.message) : '!NOT HANDLED ERROR!');
+          this.alertService.error(event.message ? this.resolveMessage(event.message) : '!NOT HANDLED ERROR!');
         }
       } else {
         const status = event.status.toString();
         switch (status) {
           case NamedHttpStatus.Created: {
             this.alertService.success(
-              event.message ? this.localize.translate.instant(event.message) : 'Successfully Done...'
+              event.message ? this.resolveMessage(event.message) : 'Successfully Done...'
             );
             break;
           }
           case NamedHttpStatus.Accepted: {
             this.alertService.success(
-              event.message ? this.localize.translate.instant(event.message) : 'Successfully Done...'
+              event.message ? this.resolveMessage(event.message) : 'Successfully Done...'
             );
             break;
           }
           case NamedHttpStatus.NoContent: {
             this.alertService.success(
-              event.message ? this.localize.translate.instant(event.message) : 'Successfully Done...'
+              event.message ? this.resolveMessage(event.message) : 'Successfully Done...'
             );
             break;
           }
           case NamedHttpStatus.BadRequest: {
             if (event.message === 'VALIDATION_ERROR' && event.data && Array.isArray(event.data)) {
-              const errorMessages = event.data.map(error =>
-                this.localize.translate.instant(error)
+              const errorMessages = event.data.map((error: string) =>
+                this.resolveMessage(error)
               ).join(', ');
 
               this.alertService.error(errorMessages);
             } else {
               this.alertService.error(
-                event.message ? this.localize.translate.instant(event.message) : '!NOT HANDLED ERROR!'
+                event.message ? this.resolveMessage(event.message) : '!NOT HANDLED ERROR!'
               );
             }
             break;
@@ -159,7 +193,7 @@ export abstract class HttpService extends HttpServiceBaseService {
           case NamedHttpStatus.InternalServerError: {
             this.alertService.error(
               event.message
-                ? this.localize.translate.instant(event.message)
+                ? this.resolveMessage(event.message)
                 : this.localize.translate.instant('VALIDATION.INTERNAL_SERVER_ERROR')
             );
             break;
@@ -168,7 +202,7 @@ export abstract class HttpService extends HttpServiceBaseService {
             break;
           }
           default: {
-            this.alertService.error(event.message ? this.localize.translate.instant(event.message) : '!NOT HANDLED ERROR!');
+            this.alertService.error(event.message ? this.resolveMessage(event.message) : '!NOT HANDLED ERROR!');
           }
         }
       }

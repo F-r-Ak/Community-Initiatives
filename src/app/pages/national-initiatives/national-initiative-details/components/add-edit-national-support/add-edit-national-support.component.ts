@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, Validators, AbstractControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { BaseEditComponent } from '../../../../../base/components/base-edit-component';
@@ -62,7 +62,8 @@ export class AddEditNationalSupportComponent extends BaseEditComponent implement
             id: [this.id || null],
             nationalInitiativeDetailId: [this.nationalInitiativeDetailId, Validators.required],
             support: [null, Validators.required],
-            supportDetailId: [null, Validators.required],
+            supportDetailId: [''],
+            details: [''],
             value: ['', Validators.required]
         });
     }
@@ -75,6 +76,7 @@ export class AddEditNationalSupportComponent extends BaseEditComponent implement
             if (data.support != null) {
                 this.supportsService.supports.subscribe((supports: any[]) => {
                     this.selectedSupport = supports.find((s: any) => s.id === data.support) ?? null;
+                    this.updateDetailsValidator();
                 });
             }
 
@@ -105,6 +107,8 @@ export class AddEditNationalSupportComponent extends BaseEditComponent implement
         // Cascade: clear the dependent support detail
         this.selectedSupportDetail = null;
         this.form.get('supportDetailId')?.setValue(null);
+        // Toggle details field requirement
+        this.updateDetailsValidator();
     }
 
     onSupportClear(): void {
@@ -112,6 +116,23 @@ export class AddEditNationalSupportComponent extends BaseEditComponent implement
         this.form.get('support')?.setValue(null);
         this.selectedSupportDetail = null;
         this.form.get('supportDetailId')?.setValue(null);
+        // Clear details when support is cleared
+        this.updateDetailsValidator();
+    }
+
+    private updateDetailsValidator(): void {
+        const detailsCtrl: AbstractControl | null = this.form.get('details');
+        if (!detailsCtrl) return;
+        if (this.selectedSupport?.id === 2) {
+            detailsCtrl.setValidators(Validators.required);
+            // Clear support detail since it's hidden
+            this.selectedSupportDetail = null;
+            this.form.get('supportDetailId')?.setValue(null);
+        } else {
+            detailsCtrl.clearValidators();
+            detailsCtrl.setValue('');
+        }
+        detailsCtrl.updateValueAndValidity();
     }
 
     // Lazy (server-side) for support details, filtered by selected support type
@@ -145,6 +166,7 @@ export class AddEditNationalSupportComponent extends BaseEditComponent implement
             nationalInitiativeDetailId: raw.nationalInitiativeDetailId,
             support: raw.support,
             supportDetailId: raw.supportDetailId,
+            details: raw.details ?? null,
             value: raw.value
         };
 
