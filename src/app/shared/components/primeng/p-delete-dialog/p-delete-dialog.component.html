@@ -1,27 +1,37 @@
 <p-dialog
   [(visible)]="deleteMainDialog"
   (onHide)="closeDeleteConfirmationDialog()"
-  header="Header"
-  [breakpoints]="{ '1199px': '90vw', '575px': '90vw' }"
+  [breakpoints]="{ '1199px': '90vw', '575px': '92vw' }"
   [modal]="true"
+  [closable]="true"
+  [draggable]="false"
+  [resizable]="false"
+  styleClass="delete-dialog"
   class="p-fluid">
+
   <ng-template pTemplate="header">
-    <div class="inline-flex align-items-center justify-content-center gap-2">
-      <h1 class="m-0 font-24 regular text-primary text-white" dialog-title>{{ "تأكيد الحذف" }}</h1>
+    <div class="delete-dialog__header">
+      <div class="delete-dialog__icon-wrap">
+        <i class="pi pi-trash delete-dialog__icon"></i>
+      </div>
+      <span class="delete-dialog__title">تأكيد الحذف</span>
     </div>
   </ng-template>
-  <div class="flex flex-column align-items-center justify-content-center mt-3">
-    <p>{{ "هل أنت متأكد أنك تريد حذفه؟" }}</p>
+
+  <div class="delete-dialog__body">
+    <p class="delete-dialog__message">هل أنت متأكد أنك تريد حذف هذا العنصر؟</p>
+    <p class="delete-dialog__hint">لا يمكن التراجع عن هذا الإجراء بعد تنفيذه.</p>
   </div>
 
   <ng-template pTemplate="footer">
-    <div class="dialogAction">
-      <button class="main-btn cancel font-14 text-white px-4" (click)="confirmDelete()">
-        <label>{{ "تأكيد" }}</label>
+    <div class="delete-dialog__footer">
+      <button class="delete-dialog__btn delete-dialog__btn--cancel" (click)="closeDeleteConfirmationDialog()">
+        <i class="pi pi-times"></i>
+        <span>إلغاء</span>
       </button>
-
-      <button class="main-btn main font-14 text-white px-4 m-inline-start-3" (click)="closeDeleteConfirmationDialog()">
-        <label>{{ "إلغاء" }}</label>
+      <button class="delete-dialog__btn delete-dialog__btn--confirm" (click)="confirmDelete()">
+        <i class="pi pi-check"></i>
+        <span>تأكيد الحذف</span>
       </button>
     </div>
   </ng-template>

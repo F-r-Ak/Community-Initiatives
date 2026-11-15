@@ -1,103 +1,120 @@
+// ─── Host-level non-deep styles ──────────────────────────────────────────────
 .actions {
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 0.25rem;
 }
+
 .deleteSelected {
-    margin-top: -4.8%;
-    margin-bottom: 20px;
-    margin-right: 80%;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.75rem;
 }
+
 .icon {
-    font-size: 25px !important;
-    margin: 5px;
-    transition: all 0.3s ease-in-out;
+    font-size: 1.25rem !important;
+    margin: 4px;
+    transition: transform 0.2s, opacity 0.2s;
+
+    &:hover {
+        transform: scale(1.2);
+        opacity: 0.85;
+    }
 }
+
+// ─── Table card wrapper ───────────────────────────────────────────────────────
+// Every page wraps the table in a .dataBox > .mt-4; we style the table itself
+// as a self-contained card so no page-level wrapper changes are needed.
+
 :host ::ng-deep {
     .p-component {
         font-size: unset !important;
     }
-    /**Setting Table Container Border */
-    .p-datatable > .p-datatable-table-container {
-        border-top-left-radius: 11.48px;
-        border-top-right-radius: 11.48px;
-        // border: 2px solid rgba(6, 3, 75, 0.5);
-    }
-    .p-datatable {
-        box-shadow: 1px 2px 10px var(--primary-color);
-        border-radius: 11.48px;
 
-        // border-top-left-radius: 11.48px;
-        // border-top-right-radius: 11.48px;
-        /**Setting Table Header Row Styles */
-        .p-datatable-thead {
-            .table-header {
-                background-color: white;
+    // ── Outer card shape ──────────────────────────────────────────────────────
+    .p-datatable {
+        border-radius: 14px !important;
+        overflow: hidden;
+        box-shadow: 0 4px 24px rgba(53, 121, 136, 0.12) !important;
+
+        > .p-datatable-table-container {
+            border-radius: 14px 14px 0 0 !important;
+            border: 1.5px solid rgba(53, 121, 136, 0.15) !important;
+            border-bottom: none !important;
+        }
+    }
+
+    // ── Header row (column labels) ────────────────────────────────────────────
+    .p-datatable .p-datatable-thead .table-header {
+        background: transparent !important;
+
+        > th {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #245f6b 100%) !important;
+            color: #fff !important;
+            font-weight: 700 !important;
+            font-size: 1rem !important;
+            padding: 0.85rem 0.75rem !important;
+            text-align: center !important;
+            border: none !important;
+            white-space: nowrap;
+
+            // sort icon
+            .p-sortable-column-icon,
+            .p-icon {
+                color: rgba(255, 255, 255, 0.65) !important;
+                vertical-align: middle;
             }
-            .table-header > th {
-                text-align: center;
-                font-size: 14px !important;
-                // border-bottom: 2px solid #0884ed;
-                // background-color: var(--secondary-color);
-                &:hover,
-                 &:focus,
-                &:active {
-                    background-color: #0000000a;
-                    // color:  #0884ed;
-                    color:  black;
+
+            &:hover,
+            &:focus,
+            &[aria-sort='ascending'],
+            &[aria-sort='descending'] {
+                background: linear-gradient(135deg, #2d6a77 0%, #1e5260 100%) !important;
+                color: var(--secondary-color) !important;
+
+                .p-sortable-column-icon,
+                .p-icon {
+                    color: var(--secondary-color) !important;
                 }
             }
-            .table-search-controls > th {
-                text-align: center;
-            }
-        }
-
-        td {
-            font-size: 14px !important;
-        }
-        /** Table Body Styles */
-
-        tbody > tr {
-            a {
-                color: #028bff;
-            }
-            a:hover,
-            a:focus,
-            a:active {
-                color: #222;
-                outline: 0;
-            }
-        }
-
-        tbody > tr:nth-child(odd) {
-            background-color: #f2f3f8;
-        }
-
-        tbody > tr > td {
-            padding: 5px;
-            text-align: center;
-            border: none !important;
-            // border-top: 1px solid #0884ed !important;
-        }
-
-        .pi-sort-alt {
-            color: #fff;
         }
     }
 
+    // ── Filter row ────────────────────────────────────────────────────────────
+    .p-datatable .p-datatable-thead .table-search-controls > th {
+        background: #f4fafb !important;
+        padding: 0.5rem 0.6rem !important;
+        border-top: none !important;
+        border-bottom: 2px solid rgba(53, 121, 136, 0.12) !important;
+    }
+
+    // ── Search input ──────────────────────────────────────────────────────────
     .search-box {
-        border: 1px solid  var(--primary-color) !important;
+        border: 1.5px solid rgba(53, 121, 136, 0.3) !important;
+        border-radius: 8px !important;
+        background: #fff !important;
+        font-size: 0.82rem !important;
+        padding: 0.38rem 0.65rem !important;
         text-align: center;
-    }
-    .search-box::placeholder {
-        font-size: 70%; /* adjust this value as needed */
-        text-align: center;
+        transition: border-color 0.2s, box-shadow 0.2s;
+
+        &::placeholder {
+            color: #9bb8be !important;
+            font-size: 0.8rem !important;
+        }
+
+        &:focus {
+            border-color: var(--primary-color) !important;
+            box-shadow: 0 0 0 3px rgba(53, 121, 136, 0.14) !important;
+            outline: none !important;
+        }
     }
 
     .has-search {
-        .form-control {
-            padding-left: 2.375rem;
-        }
+        .form-control { padding-inline-start: 2.375rem; }
+
         .form-control-feedback {
             position: absolute;
             z-index: 2;
@@ -111,53 +128,123 @@
         }
     }
 
-    .rtl {
-        .p-paginator {
-            .p-paginator-element {
-                transform: rotate(180deg);
-            }
+    // ── Body rows ─────────────────────────────────────────────────────────────
+    .p-datatable tbody > tr {
+        transition: background 0.15s;
 
-            .p-paginator-pages {
-                .p-paginator-element {
-                    transform: none;
-                }
-            }
+        a {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        a:hover,
+        a:focus {
+            color: #1a3a42;
+            outline: 0;
         }
     }
 
+    .p-datatable tbody > tr:nth-child(odd) {
+        background-color: #f4fafb !important;
+    }
+
+    .p-datatable tbody > tr:nth-child(even) {
+        background-color: #ffffff !important;
+    }
+
+    .p-datatable tbody > tr:hover {
+        background-color: rgba(53, 121, 136, 0.07) !important;
+    }
+
+    // ── Body cells ────────────────────────────────────────────────────────────
+    .p-datatable tbody > tr > td {
+        padding: 0.7rem 0.75rem !important;
+        font-size: 1rem !important;
+        color: #374151 !important;
+        text-align: center !important;
+        border: none !important;
+        border-bottom: 1px solid rgba(53, 121, 136, 0.06) !important;
+        vertical-align: middle;
+    }
+
+    // ── Boolean badges ────────────────────────────────────────────────────────
     .trueValue,
     .falseValue {
-        color: white;
-        width: 35px;
-        height: 35px;
-        padding: 7px;
+        color: #fff;
+        width: 32px;
+        height: 32px;
+        padding: 6px;
         border-radius: 50%;
         margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .trueValue i,
     .falseValue i {
-        font-size: 20px;
-        font-weight: 600;
+        font-size: 1rem;
+        font-weight: 700;
     }
 
-    .trueValue {
-        background-color: rgba(56, 199, 20, 1);
-    }
+    .trueValue  { background-color: #10b981; }
+    .falseValue { background-color: #ef4444; }
 
-    .falseValue {
-        background-color: rgba(235, 0, 0, 1);
-    }
+    // ── Paginator ─────────────────────────────────────────────────────────────
+    .p-datatable .p-paginator,
+    .p-paginator {
+        background: #f4fafb !important;
+        border: 1.5px solid rgba(53, 121, 136, 0.15) !important;
+        border-top: none !important;
+        border-radius: 0 0 14px 14px !important;
+        padding: 0.55rem 1rem !important;
 
-    .search-box {
-        &::placeholder {
-            height: 100%;
-            line-height: 1.5;
+        .p-paginator-element {
+            border-radius: 8px !important;
+            font-size: 0.82rem !important;
+            min-width: 2rem !important;
+            height: 2rem !important;
+            transition: background 0.15s, color 0.15s;
+
+            &.p-highlight {
+                background: var(--primary-color) !important;
+                color: #fff !important;
+                border-color: var(--primary-color) !important;
+            }
+
+            &:not(.p-disabled):not(.p-highlight):hover {
+                background: rgba(53, 121, 136, 0.1) !important;
+                color: var(--primary-color) !important;
+            }
+        }
+
+        // rows-per-page dropdown
+        .p-paginator-rpp-dropdown {
+            border-radius: 8px !important;
+            border-color: rgba(53, 121, 136, 0.28) !important;
+            font-size: 0.82rem !important;
+        }
+
+        // "Showing X to Y of Z" text
+        .p-paginator-current {
+            font-size: 0.8rem !important;
+            color: #6b7280 !important;
         }
     }
+
+    // ── RTL paginator arrow flip ──────────────────────────────────────────────
+    .rtl .p-paginator {
+        .p-paginator-element {
+            transform: rotate(180deg);
+        }
+        .p-paginator-pages .p-paginator-element {
+            transform: none;
+        }
+    }
+
+    // ── Responsive ────────────────────────────────────────────────────────────
     @media screen and (max-width: 767px) {
         .p-datatable > .p-datatable-table-container {
-            overflow: auto !important;
+            overflow-x: auto !important;
         }
     }
 }

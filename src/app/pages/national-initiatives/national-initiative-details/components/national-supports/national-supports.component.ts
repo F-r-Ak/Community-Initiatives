@@ -52,7 +52,7 @@ export class NationalSupportsComponent extends BaseListComponent implements OnIn
                     filterColumnName: 'support',
                     filterOptions$: this.enumsGenService.Supports$
                 },
-                { field: 'supportDetailName', header: 'تفاصيل الدعم', filter: true, filterMode: 'text' },
+                { field: 'supportDetailName', header: 'تفاصيل الدعم', filter: true, filterMode: 'text', renderFn: (row: any) => row.supportDetailName || row.details },
                 { field: 'value', header: 'قيمة الدعم', filter: true, filterMode: 'text' }
             ],
             inputActions: [
