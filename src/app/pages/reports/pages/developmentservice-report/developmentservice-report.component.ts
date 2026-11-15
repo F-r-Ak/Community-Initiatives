@@ -154,7 +154,7 @@ onReportNameSelect(event: any) {
  searchReportNames(event: any) {
         const query = event.query.toLowerCase();
         this.reportNames = [
-            { label: 'خدمات التنموية', value: 'DevelopServiceReport' }
+            { label: 'خدمات التنمويةال', value: 'DevelopServiceReport' }
 
         ].filter(item => item.label.toLowerCase().includes(query));
     }

@@ -64,34 +64,8 @@ p-tag-label.pi {
     }
 }
 
-.p-datatable {
-    .p-datatable-header {
-        background: var(--secondary-color);
-        border-top-right-radius: 8px;
-        border-top-left-radius: 8px;
-    }
-
-    h5 {
-        color: var(--p-datatable-header-color);
-    }
-
-    tbody.p-datatable-tbody {
-        tr td {
-            text-align: start;
-            border-color: var(--secondary-color);
-            border-style: solid;
-            border-width: 1px 0 0 0;
-            padding: var(--p-datatable-body-cell-padding);
-        }
-    }
-}
-
-.p-paginator {
-    .p-paginator-page.p-paginator-page-selected {
-        background: var(--secondary-color);
-        color: var(--p-datatable-header-color);
-    }
-}
+// .p-datatable and .p-paginator global overrides removed —
+// all table/paginator styling is now owned by p-data-table.component.scss.
 
 .p-select-option {
     &.p-select-option-selected {

@@ -18,7 +18,6 @@ export interface NationalEntityDto extends Lookup, Partial<SharedProperties> {
 export interface AddNationalEntityDto extends Lookup, Partial<SharedProperties> {
     id: string;
     nationalInitiativeDetailId: string;
-    entityType: number;
     entities: [
         {
             entityId: string;
@@ -39,7 +38,6 @@ export interface AddNationalEntityDto extends Lookup, Partial<SharedProperties> 
 export interface UpdateNationalEntityDto extends Lookup, Partial<SharedProperties> {
     id: string;
     nationalInitiativeDetailId: string;
-    entityType: number;
     entities: [
         {
             entityId: string;

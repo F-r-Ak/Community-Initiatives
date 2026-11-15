@@ -6,15 +6,7 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { forkJoin } from 'rxjs';
 import { BaseEditComponent } from '../../../../../base/components/base-edit-component';
-import {
-    PrimeAutoCompleteComponent,
-    PrimeInputTextComponent,
-    SubmitButtonsComponent,
-    NationalEntitiesService,
-    EntitiesService,
-    OrganizationsService,
-    EntityTypesService
-} from '../../../../../shared';
+import { PrimeAutoCompleteComponent, PrimeInputTextComponent, SubmitButtonsComponent, NationalEntitiesService, EntitiesService, OrganizationsService, EntityTypesService } from '../../../../../shared';
 import { EnumDto } from '../../../../../shared/interfaces';
 import { AddNationalEntityDto, UpdateNationalEntityDto } from '../../../../../shared/interfaces/national-entity/national-entity';
 import { EntityTypes } from '../../../../../core/enums/entity-types';
@@ -38,15 +30,7 @@ interface NationalEntityEntry {
 @Component({
     selector: 'app-add-edit-national-entity',
     standalone: true,
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        InputTextModule,
-        PrimeAutoCompleteComponent,
-        PrimeInputTextComponent,
-        SubmitButtonsComponent
-    ],
+    imports: [CommonModule, FormsModule, ReactiveFormsModule, InputTextModule, PrimeAutoCompleteComponent, PrimeInputTextComponent, SubmitButtonsComponent],
     templateUrl: './add-edit-national-entity.component.html',
     styleUrl: './add-edit-national-entity.component.scss'
 })
@@ -130,7 +114,6 @@ export class AddEditNationalEntityComponent extends BaseEditComponent implements
     initFormGroup(): void {
         this.form = this.fb.group({
             nationalInitiativeDetailId: [this.nationalInitiativeDetailId, Validators.required],
-            entityType: [null],
             entityId: [null],
             organizationId: [null],
             description: ['']
@@ -149,9 +132,7 @@ export class AddEditNationalEntityComponent extends BaseEditComponent implements
     /** Non-lazy (client-side) filter for the entity-type dropdown. */
     getEntityTypes(event: any): void {
         const query = (event?.query ?? '').toLowerCase();
-        this.filteredEntityTypes = this.entityTypesList.filter((t) =>
-            t.nameAr.toLowerCase().includes(query)
-        );
+        this.filteredEntityTypes = this.entityTypesList.filter((t) => t.nameAr.toLowerCase().includes(query));
     }
 
     onEntityTypeSelect(selected: any): void {
@@ -219,7 +200,6 @@ export class AddEditNationalEntityComponent extends BaseEditComponent implements
         const payload: any = {
             id: null,
             nationalInitiativeDetailId: this.nationalInitiativeDetailId,
-            entityType: entry.entityTypeId,
             entities: [] as { entityId: string; entityType: number }[],
             organizations: [] as {
                 organizationId: number;
@@ -231,15 +211,19 @@ export class AddEditNationalEntityComponent extends BaseEditComponent implements
         };
 
         if (entry.entityId) {
-            payload.entities = [
-                { entityId: entry.entityId, entityType: entry.entityTypeId }
-            ];
-        } else if (entry.organizationId || entry.otherEntityName) {
+            payload.entities = [{ entityId: entry.entityId, entityType: entry.entityTypeId }];
+        } else if (entry.organizationId) {
             payload.organizations = [
                 {
-                    organizationId: entry.organizationId ?? 0,
-                    organizationName: entry.organizationName ?? '',
-                    otherEntityName: entry.otherEntityName ?? '',
+                    organizationId: entry.organizationId,
+                    organizationName: entry.organizationName,
+                    entityType: entry.entityTypeId
+                }
+            ];
+        } else if (entry.otherEntityName) {
+            payload.organizations = [
+                {
+                    otherEntityName: entry.otherEntityName,
                     entityType: entry.entityTypeId
                 }
             ];
@@ -262,9 +246,7 @@ export class AddEditNationalEntityComponent extends BaseEditComponent implements
         } else {
             // Add: one request per pending entity (the DTO carries a single entityType,
             // so mixed-type rows are submitted as independent calls).
-            const requests = this.pendingEntities.map((row) =>
-                this.nationalEntitiesService.add(this.buildSinglePayload(row))
-            );
+            const requests = this.pendingEntities.map((row) => this.nationalEntitiesService.add(this.buildSinglePayload(row)));
             forkJoin(requests).subscribe(() => {
                 this.dialogRef.close(true);
             });
@@ -293,9 +275,7 @@ export class AddEditNationalEntityComponent extends BaseEditComponent implements
         if (!this.editData || !this.entityTypesList.length || this.pendingEntities.length) return;
 
         const typeValue: number = this.editData.entityType;
-        const match = this.entityTypesList.find(
-            (t) => this.entityTypeMap[t.nameEn] === typeValue
-        );
+        const match = this.entityTypesList.find((t) => this.entityTypeMap[t.nameEn] === typeValue);
         if (!match) return;
 
         const entry: NationalEntityEntry = {

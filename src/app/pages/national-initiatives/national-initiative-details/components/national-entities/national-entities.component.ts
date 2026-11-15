@@ -44,7 +44,7 @@ export class NationalEntitiesComponent extends BaseListComponent implements OnIn
                 delete: 'v1/nationalentities/delete'
             },
             inputCols: [
-                { field: 'entityName', header: 'الجهة', filter: true, filterMode: 'text', renderFn: (row: any) => row.entityName || row.vw_OrganizationName },
+                { field: 'entityName', header: 'الجهة', filter: true, filterMode: 'text', renderFn: (row: any) => row.entityName || row.vw_OrganizationName || row.otherEntityName },
                 {
                     field: 'entityTypeNameAr',
                     header: 'نوع الجهة',

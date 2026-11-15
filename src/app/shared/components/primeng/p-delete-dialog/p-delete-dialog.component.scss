@@ -1,37 +1,156 @@
-:host ::ng-deep .p-dialog {
-  width: 450px;
-}
-.dialogAction {
-  display: flex;
-  justify-content: center;
+/* =============================================
+   Delete Confirmation Dialog
+   ============================================= */
+
+:host ::ng-deep .delete-dialog {
+    width: 420px !important;
+    border-radius: 16px !important;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25) !important;
+
+    .p-dialog-header {
+        background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%) !important;
+        padding: 1.25rem 1.5rem !important;
+        border-bottom: none !important;
+
+        .p-dialog-header-icons {
+            background: rgba(255, 255, 255, 0.2) !important;
+            border: 1.5px solid rgba(255, 255, 255, 0.4) !important;
+            border-radius: 8px !important;
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.35) !important;
+            }
+
+            button {
+                color: #fff !important;
+            }
+        }
+    }
+
+    .p-dialog-content {
+        background-color: #fff !important;
+        padding: 1.75rem 1.5rem !important;
+        color: #374151 !important;
+    }
+
+    .p-dialog-footer {
+        background-color: #f9fafb !important;
+        padding: 1rem 1.5rem !important;
+        border-top: 1px solid #e5e7eb !important;
+    }
 }
 
-.previousStepFormBtn {
-  background-color: rgba(217, 217, 217, 1);
-  text-align: center;
-  font-size: 15px;
-  font-weight: 500;
-  font-family: 'Cairo';
-  font-style: normal;
-  color: black;
-  padding: 1% 5% 1% 5%;
-  border: none;
-  border-radius: 11.48px;
-  cursor: pointer;
+/* Header */
+.delete-dialog__header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    direction: rtl;
 }
 
-.submitBtn {
-  background-color: rgba(170, 125, 67, 1);
-  text-align: center;
-  font-size: 15px;
-  font-weight: 500;
-  font-family: 'Cairo';
-  font-style: normal;
-  color: white;
-  padding: 1% 7% 1% 7%;
-  border: none;
-  border-radius: 11.48px;
-  cursor: pointer;
+.delete-dialog__icon-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    flex-shrink: 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////
+.delete-dialog__icon {
+    font-size: 1.1rem;
+    color: #fff;
+}
+
+.delete-dialog__title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    font-family: 'Cairo', sans-serif;
+    letter-spacing: 0.01em;
+}
+
+/* Body */
+.delete-dialog__body {
+    text-align: center;
+    direction: rtl;
+    padding: 0.5rem 0;
+}
+
+.delete-dialog__message {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1f2937;
+    font-family: 'Cairo', sans-serif;
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+}
+
+.delete-dialog__hint {
+    font-size: 0.82rem;
+    color: #9ca3af;
+    font-family: 'Cairo', sans-serif;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Footer */
+.delete-dialog__footer {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    direction: rtl;
+}
+
+/* Buttons */
+.delete-dialog__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1.4rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    font-family: 'Cairo', sans-serif;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 110px;
+    justify-content: center;
+
+    i {
+        font-size: 0.8rem;
+    }
+}
+
+.delete-dialog__btn--cancel {
+    background-color: #fff;
+    border-color: #d1d5db;
+    color: #374151;
+
+    &:hover {
+        background-color: #f3f4f6;
+        border-color: #9ca3af;
+    }
+}
+
+.delete-dialog__btn--confirm {
+    background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);
+    border-color: #c0392b;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.35);
+
+    &:hover {
+        background: linear-gradient(135deg, #a93226 0%, #c0392b 100%);
+        box-shadow: 0 6px 18px rgba(231, 76, 60, 0.5);
+        transform: translateY(-1px);
+    }
+
+    &:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
+    }
+}
