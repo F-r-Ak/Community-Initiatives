@@ -42,7 +42,7 @@
         // ── Static mode ──
         &.layout-static {
             .layout-main-container {
-                margin-right: 22rem;  // reserves space for the visible sidebar
+                margin-right: 21rem;  // sidebar width (20rem) + right offset (1rem)
             }
 
             &.layout-static-inactive {

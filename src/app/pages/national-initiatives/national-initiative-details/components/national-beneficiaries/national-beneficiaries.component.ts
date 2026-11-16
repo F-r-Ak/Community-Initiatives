@@ -45,6 +45,7 @@ export class NationalBeneficiariesComponent extends BaseListComponent implements
             inputCols: [
                 { field: 'cityName', header: 'المركز', filter: true, filterMode: 'text' },
                 { field: 'townName', header: 'المدينة', filter: true, filterMode: 'text' },
+                { field: 'entityName', header: 'الجهة', filter: true, filterMode: 'text' },
                 { field: 'beneficiaryMaleNumber', header: 'عدد الذكور', filter: true, filterMode: 'number' },
                 { field: 'beneficiaryFemaleNumber', header: 'عدد الإناث', filter: true, filterMode: 'number' },
                 { field: 'totalBeneficiaryNumber', header: 'إجمالي المستفيدين', filter: true, filterMode: 'number' }
@@ -88,11 +89,7 @@ export class NationalBeneficiariesComponent extends BaseListComponent implements
     }
 
     openAddEditDialog(row?: any) {
-        this.openDialog(
-            AddEditNationalBeneficiaryComponent,
-            row ? 'تعديل مستفيد' : 'إضافة مستفيد',
-            { id: row?.id ?? null, nationalInitiativeDetailId: this.nationalInitiativeDetailId, rowData: row }
-        );
+        this.openDialog(AddEditNationalBeneficiaryComponent, row ? 'تعديل مستفيد' : 'إضافة مستفيد', { id: row?.id ?? null, nationalInitiativeDetailId: this.nationalInitiativeDetailId, rowData: row });
     }
 
     navigateToView(row: any): void {

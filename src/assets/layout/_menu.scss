@@ -21,12 +21,12 @@
 .layout-sidebar {
     position: fixed;
     width: 20rem;
-    height: calc(100vh - 8rem);
+    height: calc(100vh - var(--topbar-height, 4rem) - 2rem);
     z-index: 999;
     overflow-y: auto;
     user-select: none;
-    top: var(--topbar-height, 4rem);
-    right: 2rem;
+    top: calc(var(--topbar-height, 4rem) + 1rem);
+    right: 1rem;
     transition:
         transform var(--layout-section-transition-duration);
     background-image: url(../img/sideBar.png);
