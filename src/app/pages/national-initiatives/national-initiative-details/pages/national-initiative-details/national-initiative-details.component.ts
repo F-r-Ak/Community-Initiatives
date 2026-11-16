@@ -47,7 +47,7 @@ export class NationalInitiativeDetailsComponent extends BaseListComponent {
             bodyOptions: {
                 filter: this.authHelper.hasRole(this.rolesEnum.OrgUser) ? { entityId: this.authHelper.getUserId() } : {}
             },
-            responsiveDisplayedProperties: ['developmentInitiativeName', 'beneficiaryGroupName', 'ExecuteTypeName', 'ExecutionStatusName']
+            responsiveDisplayedProperties: ['developmentInitiativeName', 'beneficiaryGroupName', 'entityName', 'executeTypeName', 'executionStatusName']
         };
     }
 
@@ -55,7 +55,8 @@ export class NationalInitiativeDetailsComponent extends BaseListComponent {
         return [
             { field: 'developmentInitiativeName', header: 'اسم المبادرة', filter: true, filterMode: 'text' },
             { field: 'beneficiaryGroupName', header: 'الفئة المستهدفة', filter: true, filterMode: 'text' },
-            { field: 'executeTypeName', header: 'نطاق التنفيذ', filter: true, filterMode: 'text' },
+            { field: 'entityName', header: 'الجهة', filter: true, filterMode: 'text' },
+            { field: 'executeTypeName', header: 'موقع التنفيذ', filter: true, filterMode: 'text' },
             {
                 field: 'executionStatusNameAr',
                 header: 'الموقف التنفيذي',

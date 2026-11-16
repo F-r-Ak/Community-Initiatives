@@ -9,6 +9,8 @@ import { AddEditNationalInitiativeComponent } from '../add-edit-national-initiat
 import { NationalBeneficiariesComponent } from '../national-beneficiaries/national-beneficiaries.component';
 import { NationalEntitiesComponent } from '../national-entities/national-entities.component';
 import { NationalSupportsComponent } from '../national-supports/national-supports.component';
+import { AuthHelper } from '../../../../../core/helpers/helper';
+import { RoleCodes } from '../../../../../core/enums/role';
 @Component({
     selector: 'app-national-initiative-tabs',
     standalone: true,
@@ -29,6 +31,12 @@ export class NationalInitiativeTabsComponent extends BaseComponent implements On
     activeTab: string = NationalInitiativeTabs.Main;
     initiativeId: string = '';
     hasActivities: boolean = false;
+
+    private authHelper = inject(AuthHelper);
+
+    get isOrgUser(): boolean {
+        return this.authHelper.hasRole(RoleCodes.OrgUser);
+    }
 
     constructor(protected override activatedRoute: ActivatedRoute) {
         super(activatedRoute);

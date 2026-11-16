@@ -70,7 +70,7 @@ export class BeneficiariesComponent extends BaseListComponent {
                 filterMode: 'text'
             },
             {
-                field: 'genderName',
+                field: 'genderNameAr',
                 header: 'الجنس',
                 filter: true,
                 filterMode: 'enum',

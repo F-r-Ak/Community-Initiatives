@@ -1,10 +1,26 @@
 <div class="page-hero">
+  <!-- Decorative side accent -->
+  <span class="page-hero__accent"></span>
+
   <div class="page-hero__content">
+    <!-- Icon -->
     <div class="page-hero__icon-wrap">
       <i class="pi pi-table"></i>
     </div>
+
+    <!-- Title + sub-label -->
     <div class="page-hero__text">
       <h1 class="page-hero__title">{{ pageTitle }}</h1>
     </div>
   </div>
+
+  <!-- Count badge (shown only when totalCount is provided) -->
+  @if (totalCount !== null) {
+    <div class="page-hero__stats">
+      <div class="page-hero__stat-card">
+        <span class="page-hero__stat-value">{{ totalCount }}</span>
+        <span class="page-hero__stat-label">إجمالي السجلات</span>
+      </div>
+    </div>
+  }
 </div>

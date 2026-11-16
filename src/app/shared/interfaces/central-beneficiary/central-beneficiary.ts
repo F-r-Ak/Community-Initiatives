@@ -2,6 +2,8 @@ import { Lookup, SharedProperties } from '../shared/shared';
 
 export interface CentralBeneficiaryDto extends Lookup, Partial<SharedProperties> {
     id: string;
+    entityId: string;
+    entityName: string;
     cityId: string;
     cityName: string;
     townId: string;
